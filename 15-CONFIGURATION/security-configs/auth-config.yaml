@@ -1,0 +1,66 @@
+# Authentication Configuration
+# تكوين المصادقة
+
+# JWT Configuration
+jwt:
+  secret: ${JWT_SECRET:your-secret-key-change-in-production}
+  algorithm: "HS256"
+  expires_in: 3600  # seconds (1 hour)
+  refresh_expires_in: 2592000  # seconds (30 days)
+  issuer: "oman-education-ai-system"
+  audience: "oman-education-ai-users"
+
+# Session Configuration
+session:
+  enabled: true
+  timeout: 1800  # seconds (30 minutes)
+  cookie_name: "session_id"
+  cookie_secure: false  # set to true in production with HTTPS
+  cookie_http_only: true
+  cookie_same_site: "lax"
+
+# Password Configuration
+password:
+  min_length: 8
+  require_uppercase: true
+  require_lowercase: true
+  require_numbers: true
+  require_special_chars: true
+  hash_algorithm: "bcrypt"
+  salt_rounds: 12
+
+# OAuth Configuration (see oauth-config.yaml for details)
+oauth:
+  enabled: true
+  providers:
+    - google
+    - github
+  config_file: "15-CONFIGURATION/security-configs/oauth-config.yaml"
+
+# Multi-Factor Authentication (MFA)
+mfa:
+  enabled: false
+  required: false
+  methods:
+    - totp
+    - sms
+    - email
+  backup_codes:
+    enabled: true
+    count: 10
+
+# Account Security
+account_security:
+  max_login_attempts: 5
+  lockout_duration: 900  # seconds (15 minutes)
+  require_email_verification: true
+  require_phone_verification: false
+  password_reset_expires_in: 3600  # seconds (1 hour)
+
+# API Authentication
+api_auth:
+  enabled: true
+  api_key_header: "X-API-Key"
+  rate_limiting:
+    enabled: true
+    requests_per_minute: 60

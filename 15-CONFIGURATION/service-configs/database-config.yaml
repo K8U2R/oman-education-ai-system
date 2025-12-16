@@ -1,0 +1,90 @@
+# Database Configuration
+# تكوين قاعدة البيانات
+
+# PostgreSQL Configuration
+postgresql:
+  host: ${DB_HOST:localhost}
+  port: ${DB_PORT:5432}
+  database: ${DB_NAME:oman_education_db}
+  user: ${DB_USER:postgres}
+  password: ${DB_PASSWORD:password}
+  pool_size: 10
+  max_overflow: 20
+  pool_timeout: 30
+  pool_recycle: 3600
+  echo: false  # set to true for SQL query logging
+
+# MySQL Configuration (optional)
+mysql:
+  host: ${MYSQL_HOST:localhost}
+  port: ${MYSQL_PORT:3306}
+  database: ${MYSQL_DB:oman_education_db}
+  user: ${MYSQL_USER:root}
+  password: ${MYSQL_PASSWORD:password}
+  pool_size: 10
+  charset: "utf8mb4"
+
+# SQLite Configuration (for development)
+sqlite:
+  database: "./data/oman_education.db"
+  check_same_thread: false
+  timeout: 20
+
+# MongoDB Configuration (optional)
+mongodb:
+  host: ${MONGODB_HOST:localhost}
+  port: ${MONGODB_PORT:27017}
+  database: ${MONGODB_DB:oman_education_db}
+  user: ${MONGODB_USER:}
+  password: ${MONGODB_PASSWORD:}
+  auth_source: "admin"
+
+# Redis Configuration (for caching)
+redis:
+  host: ${REDIS_HOST:localhost}
+  port: ${REDIS_PORT:6379}
+  database: 0
+  password: ${REDIS_PASSWORD:}
+  max_connections: 50
+  socket_timeout: 5
+  socket_connect_timeout: 5
+
+# Database Features
+features:
+  # User Personalization Tables
+  user_personalization:
+    enabled: true
+    tables:
+      - user_preferences
+      - user_settings
+      - user_profiles
+    migrations:
+      enabled: true
+      auto_migrate: false
+      migration_path: "06-DATABASE-SYSTEM/database-operations/migrations"
+  
+  # Connection Pooling
+  connection_pooling:
+    enabled: true
+    min_connections: 2
+    max_connections: 20
+  
+  # Query Optimization
+  query_optimization:
+    enabled: true
+    slow_query_threshold: 1000  # milliseconds
+    log_slow_queries: true
+  
+  # Backup
+  backup:
+    enabled: true
+    schedule: "daily"
+    retention_days: 30
+    backup_path: "./backups/database"
+
+# Migration Settings
+migrations:
+  enabled: true
+  auto_migrate: false  # set to false in production
+  migration_path: "06-DATABASE-SYSTEM/database-operations/migrations"
+  rollback_enabled: true

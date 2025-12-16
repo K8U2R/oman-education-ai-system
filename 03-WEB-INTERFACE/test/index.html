@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مساعد AI الذكي - تصميم متجاوب</title>
+    <style>
+        /* محاكاة سريعة لبعض كلاسات الخلفية غير المتوفرة في HTML الخام */
+        .bg-ide-bg { background-color: #1e1e2d; } /* خلفية داكنة */
+        .text-ide-text { color: #f8f8f2; } /* نص فاتح */
+        .text-ide-text-secondary { color: #a0a0b8; } /* نص ثانوي */
+        .bg-ide-surface { background-color: #282a36; } /* سطح المكون */
+        .border-ide-border { border-color: #44475a; } /* حدود */
+        .ide-accent { color: #50fa7b; } /* لون مميز */
+    </style>
+</head>
+<body class="bg-ide-bg text-ide-text">
+
+    <div class="min-h-screen bg-ide-bg w-full overflow-y-auto">
+
+        <div class="w-full max-w-full px-4 sm:px-6 lg:px-8 py-6 space-y-4 sm:space-y-6">
+
+            <div class="h-full flex flex-col">
+
+                <header class="flex-shrink-0 py-5 border-b border-ide-border/50 backdrop-blur-md">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-4">
+                            <span class="text-3xl font-bold">مساعد AI الذكي</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            </div>
+                    </div>
+                </header>
+
+                <div class="flex-1 flex items-center justify-center p-6 sm:p-8 lg:p-12">
+                    <div class="w-full max-w-full space-y-8 text-center">
+                        <div class="space-y-4">
+                            <div class="w-20 h-20 bg-blue-500 rounded-3xl flex items-center justify-center mx-auto shadow-lg">
+                                <span class="text-white text-4xl">✨</span>
+                            </div>
+                            <h2 class="text-3xl font-bold">مرحباً بك</h2>
+                            <p class="text-lg text-ide-text-secondary">اكتب رسالتك أدناه للبدء</p>
+                        </div>
+                        
+                        <div class="flex justify-center">
+                            <div class="flex gap-4 items-end w-full max-w-3xl">
+                                <button class="h-16 w-16 bg-ide-surface/80 border border-ide-border/50 rounded-xl flex items-center justify-center text-ide-accent">
+                                    📁
+                                </button>
+                                <textarea placeholder="اكتب رسالتك هنا..." class="flex-1 px-6 py-5 text-lg rounded-2xl bg-ide-surface/90 border-2 border-ide-border/50 text-ide-text resize-none min-h-[64px]" rows="3"></textarea>
+                                <button class="h-16 w-16 bg-blue-600 rounded-xl flex items-center justify-center text-white">
+                                    ✈️
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+</body>
+</html>

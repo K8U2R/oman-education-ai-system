@@ -1,0 +1,41 @@
+{
+  "name": "نظام التعليم الذكي العُماني",
+  "short_name": "OmanEduAI",
+  "description": "منصة تعليمية ذكية متكاملة مع مساعد ذكاء اصطناعي متقدم",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "theme_color": "#1a73e8",
+  "background_color": "#ffffff",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "/vite.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "categories": ["education", "productivity", "developer"],
+  "shortcuts": [
+    {
+      "name": "المحادثة الذكية",
+      "short_name": "محادثة",
+      "description": "فتح مساعد الذكاء الاصطناعي",
+      "url": "/chat",
+      "icons": [{ "src": "/vite.svg", "sizes": "any" }]
+    },
+    {
+      "name": "لوحة التحكم",
+      "short_name": "لوحة",
+      "description": "فتح لوحة التحكم",
+      "url": "/dashboard",
+      "icons": [{ "src": "/vite.svg", "sizes": "any" }]
+    }
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false
+}
+

@@ -1,0 +1,79 @@
+/**
+ * Layout Styles
+ * تطبيق التخطيط من التفضيلات الشخصية
+ */
+
+/* Compact Layout */
+.layout-compact {
+  --layout-spacing: 0.5rem;
+  --layout-padding: 0.75rem;
+  --layout-gap: 0.5rem;
+  --font-size-base: 0.875rem;
+  --line-height-base: 1.4;
+}
+
+.layout-compact * {
+  font-size: calc(var(--font-size-base) * 1);
+}
+
+/* Comfortable Layout (Default) */
+.layout-comfortable {
+  --layout-spacing: 1rem;
+  --layout-padding: 1rem;
+  --layout-gap: 1rem;
+  --font-size-base: 1rem;
+  --line-height-base: 1.5;
+}
+
+/* Spacious Layout */
+.layout-spacious {
+  --layout-spacing: 1.5rem;
+  --layout-padding: 1.5rem;
+  --layout-gap: 1.5rem;
+  --font-size-base: 1.125rem;
+  --line-height-base: 1.6;
+}
+
+.layout-spacious * {
+  font-size: calc(var(--font-size-base) * 1);
+}
+
+/* تطبيق التباعد */
+.layout-compact .space-y-4 > * + * {
+  margin-top: var(--layout-spacing);
+}
+
+.layout-comfortable .space-y-4 > * + * {
+  margin-top: var(--layout-spacing);
+}
+
+.layout-spacious .space-y-4 > * + * {
+  margin-top: var(--layout-spacing);
+}
+
+/* تطبيق Padding */
+.layout-compact .p-4 {
+  padding: var(--layout-padding);
+}
+
+.layout-comfortable .p-4 {
+  padding: var(--layout-padding);
+}
+
+.layout-spacious .p-4 {
+  padding: var(--layout-padding);
+}
+
+/* تطبيق Gap */
+.layout-compact .gap-4 {
+  gap: var(--layout-gap);
+}
+
+.layout-comfortable .gap-4 {
+  gap: var(--layout-gap);
+}
+
+.layout-spacious .gap-4 {
+  gap: var(--layout-gap);
+}
+
