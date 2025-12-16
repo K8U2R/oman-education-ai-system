@@ -7,11 +7,13 @@ import os
 from pathlib import Path
 
 # Gemini API Key
-GEMINI_API_KEY = "AIzaSyBfRGmWHSoZDp2s-nVjgzj9wIWapSocpzg"
+# ⚠️ SECURITY: Replace with your actual API key from https://aistudio.google.com/app/apikey
+GEMINI_API_KEY = "your_gemini_api_key_here"
 
 # Google OAuth
-GOOGLE_CLIENT_ID = "353597592173-a4ckuh3l0cfsvvs67c7e81lnpeeiktl5.apps.googleusercontent.com"
-GOOGLE_CLIENT_SECRET = "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"  # يجب إضافته من Google Cloud Console
+# ⚠️ SECURITY: Replace with your actual credentials from Google Cloud Console
+GOOGLE_CLIENT_ID = "your_google_client_id_here"
+GOOGLE_CLIENT_SECRET = "your_google_client_secret_here"
 GOOGLE_REDIRECT_URI = "http://localhost:3000/auth/oauth/google/callback"
 
 # GitHub OAuth (optional)
@@ -49,7 +51,8 @@ GITHUB_REDIRECT_URI={GITHUB_REDIRECT_URI}
 
 # OpenAI API Key (optional)
 # مفتاح API لـ OpenAI (اختياري)
-OPENAI_API_KEY=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
+# ⚠️ SECURITY: Replace with your actual API key from https://platform.openai.com/api-keys
+OPENAI_API_KEY=your_openai_api_key_here
 
 # Anthropic API Key (optional)
 # مفتاح API لـ Anthropic (اختياري)
@@ -174,7 +177,7 @@ def main():
     
     print("بدء إنشاء ملفات .env...")
     print(f"المجلد الرئيسي: {PROJECT_ROOT}")
-    print(f"Gemini API Key: {GEMINI_API_KEY[:20]}...")
+    print("⚠️  ملاحظة: تأكد من تحديث المفاتيح الحساسة في هذا الملف قبل الاستخدام!")
     print()
     
     # Create backend .env
