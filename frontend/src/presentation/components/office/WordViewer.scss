@@ -1,0 +1,91 @@
+/**
+ * Word Viewer Styles
+ */
+
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+.word-viewer {
+  width: 100%;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: $spacing-4;
+    border-bottom: 1px solid $border-color;
+  }
+
+  &__title {
+    display: flex;
+    align-items: center;
+    gap: $spacing-3;
+
+    h3 {
+      margin: 0;
+      font-size: $font-size-lg;
+      font-weight: $font-weight-semibold;
+      color: $text-primary;
+    }
+  }
+
+  &__icon {
+    width: 32px;
+    height: 32px;
+    color: $primary-600;
+  }
+
+  &__type {
+    font-size: $font-size-xs;
+    color: $text-secondary;
+    display: block;
+    margin-top: $spacing-1;
+  }
+
+  &__content {
+    padding: $spacing-4;
+    min-height: 400px;
+  }
+
+  &__preview {
+    line-height: 1.8;
+    color: $text-primary;
+    font-size: $font-size-base;
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      margin: $spacing-4 0 $spacing-2 0;
+      color: $text-primary;
+    }
+
+    p {
+      margin: $spacing-2 0;
+    }
+
+    ul,
+    ol {
+      margin: $spacing-2 0;
+      padding-right: $spacing-6;
+    }
+  }
+
+  &__empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: $spacing-8;
+    gap: $spacing-3;
+    color: $text-tertiary;
+  }
+
+  &__empty-icon {
+    width: 64px;
+    height: 64px;
+    opacity: 0.3;
+  }
+}

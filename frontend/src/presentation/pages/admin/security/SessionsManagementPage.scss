@@ -1,0 +1,120 @@
+@use '../../../../styles/variables' as *;
+@use '../../../../styles/mixins' as *;
+
+.sessions-management-page {
+  padding: $spacing-6;
+
+  &__header-icon {
+    width: 24px;
+    height: 24px;
+    color: $primary-600;
+  }
+
+  &__header-actions {
+    display: flex;
+    gap: $spacing-2;
+  }
+
+  &__error {
+    padding: $spacing-4;
+    margin-bottom: $spacing-6;
+    background: $error-50;
+    border: 1px solid $error-200;
+    border-radius: $border-radius-md;
+    color: $error-700;
+  }
+
+  &__filters {
+    display: flex;
+    gap: $spacing-4;
+    margin-bottom: $spacing-6;
+
+    @include respond-to(md) {
+      flex-direction: column;
+    }
+  }
+
+  &__search {
+    flex: 1;
+  }
+
+  &__filter-select {
+    min-width: 200px;
+  }
+
+  &__select {
+    width: 100%;
+    padding: $spacing-3;
+    border: 1px solid $border-color;
+    border-radius: $border-radius-md;
+    background: $background-primary;
+    color: $text-primary;
+    font-size: $font-size-sm;
+
+    &:focus {
+      outline: none;
+      border-color: $primary-500;
+      box-shadow: 0 0 0 3px $primary-100;
+    }
+  }
+
+  &__stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: $spacing-4;
+    margin-bottom: $spacing-6;
+  }
+
+  &__stat-item {
+    padding: $spacing-4;
+    background: $background-secondary;
+    border-radius: $border-radius-md;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-2;
+  }
+
+  &__stat-label {
+    font-size: $font-size-sm;
+    color: $text-secondary;
+  }
+
+  &__stat-value {
+    font-size: $font-size-2xl;
+    font-weight: $font-weight-bold;
+    color: $text-primary;
+
+    &--success {
+      color: $success-600;
+    }
+
+    &--danger {
+      color: $error-600;
+    }
+  }
+
+  &__modal-content {
+    padding: $spacing-4;
+  }
+
+  &__modal-warning {
+    color: $warning-600;
+    font-size: $font-size-sm;
+    margin-top: $spacing-2;
+  }
+
+  &__modal-actions {
+    display: flex;
+    gap: $spacing-3;
+    margin-top: $spacing-6;
+    justify-content: flex-end;
+  }
+
+  @include respond-to(md) {
+    padding: $spacing-4;
+
+    &__stats {
+      grid-template-columns: 1fr;
+    }
+  }
+}

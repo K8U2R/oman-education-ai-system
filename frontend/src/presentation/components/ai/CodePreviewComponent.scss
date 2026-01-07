@@ -1,0 +1,74 @@
+/**
+ * Code Preview Component Styles
+ */
+
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+.code-preview {
+  width: 100%;
+  border: 1px solid $border-color;
+  border-radius: $border-radius-md;
+  overflow: hidden;
+  background: $background-secondary;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: $spacing-2 $spacing-4;
+    background: $background-tertiary;
+    border-bottom: 1px solid $border-color;
+  }
+
+  &__language {
+    font-size: $font-size-xs;
+    font-weight: $font-weight-medium;
+    color: $text-secondary;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  &__container {
+    display: flex;
+    overflow-x: auto;
+    max-height: 600px;
+    overflow-y: auto;
+  }
+
+  &__line-numbers {
+    padding: $spacing-4;
+    background: $background-tertiary;
+    border-right: 1px solid $border-color;
+    text-align: right;
+    user-select: none;
+    min-width: 50px;
+  }
+
+  &__line-number {
+    display: block;
+    font-size: $font-size-sm;
+    color: $text-tertiary;
+    line-height: 1.6;
+    font-family: $font-family-mono;
+  }
+
+  &__code {
+    flex: 1;
+    margin: 0;
+    padding: $spacing-4;
+    overflow-x: auto;
+    background: $background-primary;
+    font-family: $font-family-mono;
+    font-size: $font-size-sm;
+    line-height: 1.6;
+    color: $text-primary;
+
+    code {
+      display: block;
+      white-space: pre;
+      word-wrap: normal;
+      overflow-wrap: normal;
+    }
+  }
+}

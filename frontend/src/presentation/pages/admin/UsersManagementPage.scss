@@ -1,0 +1,184 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+.users-management-page {
+  &__toolbar {
+    display: flex;
+    gap: $spacing-4;
+    margin-bottom: $spacing-6;
+    align-items: center;
+  }
+
+  &__search {
+    flex: 1;
+    max-width: 400px;
+  }
+
+  &__table-card {
+    margin-top: $spacing-6;
+  }
+
+  &__actions {
+    display: flex;
+    gap: $spacing-2;
+  }
+
+  &__status {
+    display: flex;
+    gap: $spacing-2;
+    flex-wrap: wrap;
+  }
+
+  &__status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: $spacing-1;
+    padding: $spacing-1 $spacing-2;
+    border-radius: $border-radius-sm;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+
+    &--active {
+      background: $success-50;
+      color: $success-700;
+    }
+
+    &--inactive {
+      background: $error-50;
+      color: $error-700;
+    }
+
+    &--unverified {
+      background: $warning-50;
+      color: $warning-700;
+    }
+  }
+
+  &__edit-modal {
+    padding: $spacing-4;
+  }
+
+  &__modal-title {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-semibold;
+    margin-bottom: $spacing-6;
+    color: $text-primary;
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-4;
+  }
+
+  &__form-group {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-2;
+
+    label {
+      font-weight: $font-weight-medium;
+      color: $text-primary;
+    }
+  }
+
+  &__select {
+    padding: $spacing-2;
+    border: 1px solid $border-color;
+    border-radius: $border-radius-md;
+    font-size: $font-size-base;
+    background: $background-primary;
+    color: $text-primary;
+  }
+
+  &__permissions-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: $spacing-2;
+  }
+
+  &__permissions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: $spacing-2;
+    max-height: 400px;
+    overflow-y: auto;
+    padding: $spacing-2;
+    border: 1px solid $border-color;
+    border-radius: $border-radius-md;
+    background: $background-secondary;
+  }
+
+  &__permission-item {
+    display: flex;
+    align-items: center;
+    gap: $spacing-2;
+    padding: $spacing-2;
+    border-radius: $border-radius-sm;
+    cursor: pointer;
+    transition: background-color 0.2s;
+
+    &:hover {
+      background: $background-hover;
+    }
+
+    &--from-role {
+      background: $primary-50;
+    }
+
+    input[type='checkbox'] {
+      cursor: pointer;
+    }
+
+    span:first-of-type {
+      flex: 1;
+      font-size: $font-size-sm;
+    }
+  }
+
+  &__permission-badge {
+    font-size: $font-size-xs;
+    padding: $spacing-1 $spacing-2;
+    background: $primary-100;
+    color: $primary-700;
+    border-radius: $border-radius-sm;
+  }
+
+  &__modal-actions {
+    display: flex;
+    gap: $spacing-3;
+    justify-content: flex-end;
+    margin-top: $spacing-6;
+    padding-top: $spacing-4;
+    border-top: 1px solid $border-color;
+  }
+
+  &__delete-modal {
+    padding: $spacing-4;
+
+    h3 {
+      font-size: $font-size-lg;
+      font-weight: $font-weight-semibold;
+      margin-bottom: $spacing-4;
+      color: $text-primary;
+    }
+
+    p {
+      margin-bottom: $spacing-4;
+      color: $text-secondary;
+    }
+  }
+
+  &__delete-warning {
+    color: $error-600;
+    font-weight: $font-weight-medium;
+  }
+
+  &__delete-actions {
+    display: flex;
+    gap: $spacing-3;
+    justify-content: flex-end;
+    margin-top: $spacing-6;
+  }
+}

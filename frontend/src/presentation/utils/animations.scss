@@ -1,0 +1,202 @@
+/**
+ * Animation Styles - أنماط الرسوم المتحركة
+ */
+
+// Fade animations
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+// Slide animations
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-left {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-right {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+// Scale animations
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes scale-out {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+}
+
+// Rotate animations
+@keyframes rotate-in {
+  from {
+    opacity: 0;
+    transform: rotate(-180deg) scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: rotate(0deg) scale(1);
+  }
+}
+
+// Bounce animations
+@keyframes bounce-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+// Animation classes
+.animate-fade {
+  animation: fade-in 0.3s ease-in-out;
+}
+
+.animate-fade-out {
+  animation: fade-out 0.3s ease-in-out;
+}
+
+.animate-slide-up {
+  animation: slide-up 0.3s ease-out;
+}
+
+.animate-slide-down {
+  animation: slide-down 0.3s ease-out;
+}
+
+.animate-slide-left {
+  animation: slide-left 0.3s ease-out;
+}
+
+.animate-slide-right {
+  animation: slide-right 0.3s ease-out;
+}
+
+.animate-scale {
+  animation: scale-in 0.2s ease-out;
+}
+
+.animate-rotate {
+  animation: rotate-in 0.5s ease-out;
+}
+
+.animate-bounce {
+  animation: bounce-in 0.5s ease-out;
+}
+
+// Transition utilities
+.transition-fade {
+  transition: opacity 0.3s ease-in-out;
+}
+
+.transition-slide {
+  transition:
+    transform 0.3s ease-out,
+    opacity 0.3s ease-out;
+}
+
+.transition-scale {
+  transition:
+    transform 0.2s ease-out,
+    opacity 0.2s ease-out;
+}
+
+// Micro-interactions
+.hover-lift {
+  transition:
+    transform 0.2s ease-out,
+    box-shadow 0.2s ease-out;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+  }
+}
+
+.hover-scale {
+  transition: transform 0.2s ease-out;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+.hover-glow {
+  transition: box-shadow 0.3s ease-out;
+
+  &:hover {
+    box-shadow: 0 0 20px rgba(var(--primary-500-rgb), 0.3);
+  }
+}

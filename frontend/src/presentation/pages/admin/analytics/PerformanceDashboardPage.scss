@@ -1,0 +1,345 @@
+/**
+ * Performance Dashboard Page Styles
+ */
+
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+.performance-dashboard-page {
+  padding: $spacing-6;
+  max-width: 1400px;
+  margin: 0 auto;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: $spacing-6;
+    flex-wrap: wrap;
+    gap: $spacing-4;
+  }
+
+  &__title {
+    display: flex;
+    align-items: center;
+    gap: $spacing-3;
+    font-size: $font-size-2xl;
+    font-weight: $font-weight-bold;
+    color: $text-primary;
+
+    &-icon {
+      width: 32px;
+      height: 32px;
+      color: $primary-600;
+    }
+  }
+
+  &__controls {
+    display: flex;
+    align-items: center;
+    gap: $spacing-3;
+  }
+
+  &__refresh-toggle {
+    display: flex;
+    align-items: center;
+    gap: $spacing-2;
+    font-size: $font-size-sm;
+    color: $text-secondary;
+    cursor: pointer;
+
+    input[type='checkbox'] {
+      cursor: pointer;
+    }
+  }
+
+  &__refresh-btn {
+    padding: $spacing-2 $spacing-4;
+    border-radius: $border-radius-md;
+    background: $primary-500;
+    color: $text-white;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s ease;
+
+    &:hover:not(:disabled) {
+      background: $primary-600;
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  }
+
+  &__section-title {
+    font-size: $font-size-xl;
+    font-weight: $font-weight-semibold;
+    margin-bottom: $spacing-4;
+    color: $text-primary;
+  }
+
+  &__web-vitals {
+    margin-bottom: $spacing-6;
+  }
+
+  &__vitals-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: $spacing-4;
+  }
+
+  &__vital-card {
+    padding: $spacing-4;
+    text-align: center;
+  }
+
+  &__vital-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: $spacing-2;
+    margin-bottom: $spacing-2;
+  }
+
+  &__vital-icon {
+    width: 24px;
+    height: 24px;
+    color: $primary-600;
+  }
+
+  &__vital-label {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-semibold;
+    color: $text-primary;
+  }
+
+  &__vital-value {
+    font-size: $font-size-2xl;
+    font-weight: $font-weight-bold;
+    margin-bottom: $spacing-1;
+
+    &--good {
+      color: $success-600;
+    }
+
+    &--warning {
+      color: $warning-600;
+    }
+
+    &--poor {
+      color: $error-600;
+    }
+  }
+
+  &__vital-desc {
+    font-size: $font-size-xs;
+    color: $text-secondary;
+  }
+
+  &__stats {
+    margin-bottom: $spacing-6;
+  }
+
+  &__stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: $spacing-4;
+  }
+
+  &__stat-card {
+    padding: $spacing-4;
+  }
+
+  &__stat-content {
+    display: flex;
+    align-items: center;
+    gap: $spacing-4;
+  }
+
+  &__stat-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: $border-radius-lg;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &--total {
+      background: $primary-100;
+      color: $primary-600;
+    }
+
+    &--avg {
+      background: $info-100;
+      color: $info-600;
+    }
+
+    &--p95 {
+      background: $warning-100;
+      color: $warning-600;
+    }
+
+    &--cache {
+      background: $success-100;
+      color: $success-600;
+    }
+  }
+
+  &__stat-info {
+    flex: 1;
+  }
+
+  &__stat-label {
+    font-size: $font-size-sm;
+    color: $text-secondary;
+    margin-bottom: $spacing-1;
+  }
+
+  &__stat-value {
+    font-size: $font-size-xl;
+    font-weight: $font-weight-bold;
+    color: $text-primary;
+  }
+
+  &__metrics {
+    margin-bottom: $spacing-6;
+  }
+
+  &__metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: $spacing-4;
+  }
+
+  &__metric-card {
+    padding: $spacing-4;
+  }
+
+  &__metric-title {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-semibold;
+    margin-bottom: $spacing-3;
+    color: $text-primary;
+  }
+
+  &__metric-content {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-2;
+  }
+
+  &__metric-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: $spacing-2;
+    background: $background-secondary;
+    border-radius: $border-radius-md;
+  }
+
+  &__metric-label {
+    font-size: $font-size-sm;
+    color: $text-secondary;
+  }
+
+  &__metric-value {
+    font-size: $font-size-sm;
+    font-weight: $font-weight-semibold;
+    color: $text-primary;
+  }
+
+  &__slow-endpoints {
+    padding: $spacing-4;
+    margin-bottom: $spacing-6;
+  }
+
+  &__endpoints-list {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-3;
+  }
+
+  &__endpoint-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: $spacing-4;
+    background: $background-secondary;
+    border-radius: $border-radius-md;
+    border-left: 4px solid $error-500;
+  }
+
+  &__endpoint-info {
+    flex: 1;
+  }
+
+  &__endpoint-method {
+    display: inline-block;
+    padding: $spacing-1 $spacing-2;
+    background: $error-100;
+    color: $error-700;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-semibold;
+    border-radius: $border-radius-sm;
+    margin-bottom: $spacing-1;
+  }
+
+  &__endpoint-path {
+    font-size: $font-size-sm;
+    color: $text-primary;
+    margin-bottom: $spacing-1;
+  }
+
+  &__endpoint-count {
+    font-size: $font-size-xs;
+    color: $text-secondary;
+  }
+
+  &__endpoint-performance {
+    text-align: right;
+  }
+
+  &__endpoint-duration {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-bold;
+    color: $error-600;
+    margin-bottom: $spacing-1;
+  }
+
+  &__endpoint-label {
+    font-size: $font-size-xs;
+    color: $text-secondary;
+  }
+
+  &__trends {
+    padding: $spacing-4;
+  }
+
+  &__trends-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: $spacing-4;
+  }
+
+  &__trend-item {
+    text-align: center;
+    padding: $spacing-4;
+    background: $background-secondary;
+    border-radius: $border-radius-md;
+  }
+
+  &__trend-label {
+    font-size: $font-size-sm;
+    color: $text-secondary;
+    margin-bottom: $spacing-2;
+  }
+
+  &__trend-value {
+    font-size: $font-size-2xl;
+    font-weight: $font-weight-bold;
+    color: $text-primary;
+  }
+}

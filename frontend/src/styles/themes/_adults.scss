@@ -1,0 +1,57 @@
+/**
+ * Adults Theme - ثيم البالغين
+ * 
+ * ألوان احترافية وكلاسيكية مناسبة للبالغين والمعلمين
+ */
+
+.theme-adults {
+  // Professional, classic colors
+  --color-accent-1: #3b82f6; // Blue
+  --color-accent-2: #10b981; // Green
+  --color-accent-3: #f59e0b; // Amber
+  --color-accent-4: #6366f1; // Indigo
+  --color-accent-5: #8b5cf6; // Purple
+
+  // Primary (professional blue)
+  --color-primary-500: #3b82f6;
+  --color-primary-600: #2563eb;
+  --color-primary-700: #1d4ed8;
+
+  // Success (professional green)
+  --color-success-500: #22c55e;
+  --color-success-600: #16a34a;
+
+  // Warning (professional amber)
+  --color-warning-500: #f59e0b;
+  --color-warning-600: #d97706;
+
+  // Error (professional red)
+  --color-error-500: #ef4444;
+  --color-error-600: #dc2626;
+
+  // Subtle rounded corners
+  --border-radius-card: 0.75rem;
+  --border-radius-button: 0.5rem;
+
+  // Standard fonts
+  --font-size-base: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+
+  // Compact spacing
+  --spacing-card: 1rem;
+  --spacing-button: 0.625rem 1rem;
+}
+
+.theme-light.theme-adults {
+  // خلفيات أكثر هدوءاً
+  --color-bg-primary: #fcfcfc;
+  --color-bg-secondary: #f8f9fa;
+  --color-bg-tertiary: #f1f3f5;
+}
+
+.theme-dark.theme-adults {
+  --color-bg-primary: #111827;
+  --color-bg-secondary: #1f2937;
+  --color-bg-tertiary: #374151;
+}

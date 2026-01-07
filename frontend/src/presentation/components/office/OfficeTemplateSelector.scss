@@ -1,0 +1,100 @@
+/**
+ * Office Template Selector Styles
+ */
+
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+.office-template-selector {
+  width: 100%;
+
+  &--loading,
+  &--error,
+  &--empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: $spacing-8;
+    gap: $spacing-4;
+    color: $text-secondary;
+  }
+
+  &__loader {
+    width: 32px;
+    height: 32px;
+    animation: spin 1s linear infinite;
+    color: $primary-600;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: $spacing-4;
+
+    @include respond-to(md) {
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    }
+  }
+
+  &__template {
+    cursor: pointer;
+    transition: all 0.2s;
+
+    &--selected {
+      border: 2px solid $primary-500;
+      background: $primary-50;
+    }
+  }
+
+  &__template-icon {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: $spacing-3;
+    color: $primary-600;
+
+    svg {
+      width: 32px;
+      height: 32px;
+    }
+  }
+
+  &__template-info {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-1;
+  }
+
+  &__template-name {
+    margin: 0;
+    font-size: $font-size-base;
+    font-weight: $font-weight-semibold;
+    color: $text-primary;
+  }
+
+  &__template-type {
+    font-size: $font-size-xs;
+    color: $text-secondary;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  &__template-description {
+    margin: $spacing-2 0 0 0;
+    font-size: $font-size-sm;
+    color: $text-secondary;
+    line-height: 1.4;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

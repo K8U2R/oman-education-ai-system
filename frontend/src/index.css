@@ -1,0 +1,38 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&family=Almarai:wght@300;400;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Arabic-first font stack for better Arabic text rendering */
+  font-family: 'Cairo', 'Almarai', 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+  font-weight: 400;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Better Arabic text rendering */
+  font-feature-settings:
+    'kern' 1,
+    'liga' 1;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+}
+
+[dir='rtl'] {
+  direction: rtl;
+  text-align: right;
+}
+
+[dir='ltr'] {
+  direction: ltr;
+  text-align: left;
+}

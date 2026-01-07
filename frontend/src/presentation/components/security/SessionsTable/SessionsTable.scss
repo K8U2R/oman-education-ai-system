@@ -1,0 +1,144 @@
+@use '../../../../styles/variables' as *;
+@use '../../../../styles/mixins' as *;
+
+.sessions-table {
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: $spacing-4;
+    border-bottom: 1px solid $border-color;
+  }
+
+  &__header-content {
+    display: flex;
+    align-items: center;
+    gap: $spacing-2;
+  }
+
+  &__header-icon {
+    width: 20px;
+    height: 20px;
+    color: $primary-600;
+  }
+
+  &__header-title {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-semibold;
+    color: $text-primary;
+    margin: 0;
+  }
+
+  &__data-table {
+    margin-top: $spacing-2;
+  }
+
+  &__user {
+    display: flex;
+    align-items: center;
+    gap: $spacing-3;
+  }
+
+  &__user-info {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-1;
+  }
+
+  &__user-name {
+    display: flex;
+    align-items: center;
+    gap: $spacing-2;
+    font-weight: $font-weight-medium;
+    color: $text-primary;
+  }
+
+  &__current-badge {
+    font-size: $font-size-xs;
+  }
+
+  &__user-email {
+    font-size: $font-size-sm;
+    color: $text-secondary;
+  }
+
+  &__device {
+    display: flex;
+    align-items: center;
+    gap: $spacing-2;
+  }
+
+  &__device-icon {
+    width: 16px;
+    height: 16px;
+    color: $text-secondary;
+    flex-shrink: 0;
+  }
+
+  &__device-browser {
+    font-size: $font-size-sm;
+    color: $text-primary;
+  }
+
+  &__device-os {
+    font-size: $font-size-xs;
+    color: $text-secondary;
+  }
+
+  &__location {
+    font-size: $font-size-sm;
+    color: $text-primary;
+  }
+
+  &__ip {
+    font-size: $font-size-xs;
+    color: $text-tertiary;
+    font-family: monospace;
+    margin-top: $spacing-1;
+  }
+
+  &__status {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-1;
+  }
+
+  &__risk-badge {
+    font-size: $font-size-xs;
+  }
+
+  &__activity {
+    font-size: $font-size-sm;
+    color: $text-primary;
+  }
+
+  &__activity-date {
+    font-size: $font-size-xs;
+    color: $text-tertiary;
+    margin-top: $spacing-1;
+  }
+
+  &__actions {
+    display: flex;
+    gap: $spacing-2;
+  }
+
+  &__terminate-btn {
+    color: $error-600;
+
+    &:hover {
+      background: $error-50;
+      color: $error-700;
+    }
+  }
+
+  @include respond-to(md) {
+    &__header {
+      padding: $spacing-3;
+    }
+
+    &__actions {
+      flex-direction: column;
+    }
+  }
+}

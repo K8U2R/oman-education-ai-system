@@ -1,0 +1,303 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+.assessment-results {
+  padding: $spacing-6;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-6;
+    margin-top: $spacing-6;
+  }
+
+  &__summary-card {
+    padding: $spacing-6;
+  }
+
+  &__summary-header {
+    display: flex;
+    align-items: center;
+    gap: $spacing-4;
+    margin-bottom: $spacing-6;
+    padding-bottom: $spacing-6;
+    border-bottom: 1px solid $border-color;
+  }
+
+  &__summary-icon {
+    width: 64px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  &__trophy-icon {
+    width: 48px;
+    height: 48px;
+    color: $success-600;
+  }
+
+  &__fail-icon {
+    width: 48px;
+    height: 48px;
+    color: $error-600;
+  }
+
+  &__summary-content {
+    flex: 1;
+  }
+
+  &__summary-title {
+    font-size: $font-size-2xl;
+    font-weight: $font-weight-bold;
+    color: $text-primary;
+    margin: 0 0 $spacing-2 0;
+  }
+
+  &__summary-subtitle {
+    font-size: $font-size-base;
+    color: $text-secondary;
+    margin: 0;
+  }
+
+  &__stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: $spacing-4;
+    margin-bottom: $spacing-6;
+  }
+
+  &__stat {
+    display: flex;
+    align-items: center;
+    gap: $spacing-3;
+    padding: $spacing-4;
+    background: $background-secondary;
+    border-radius: $border-radius-md;
+  }
+
+  &__stat-icon {
+    width: 32px;
+    height: 32px;
+    color: $primary-600;
+    flex-shrink: 0;
+  }
+
+  &__stat-content {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-1;
+  }
+
+  &__stat-label {
+    font-size: $font-size-xs;
+    color: $text-secondary;
+  }
+
+  &__stat-value {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-semibold;
+    color: $text-primary;
+  }
+
+  &__progress {
+    margin-top: $spacing-4;
+  }
+
+  &__progress-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: $spacing-2;
+    font-size: $font-size-sm;
+    color: $text-secondary;
+  }
+
+  &__progress-bar {
+    width: 100%;
+    height: 12px;
+    background: $background-tertiary;
+    border-radius: $border-radius-full;
+    overflow: hidden;
+  }
+
+  &__progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, $error-500, $error-600);
+    border-radius: $border-radius-full;
+    transition: width 0.3s ease;
+
+    &--passed {
+      background: linear-gradient(90deg, $success-500, $success-600);
+    }
+  }
+
+  &__questions-card {
+    padding: $spacing-6;
+  }
+
+  &__questions-title {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-semibold;
+    color: $text-primary;
+    margin-bottom: $spacing-4;
+  }
+
+  &__questions-list {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-4;
+  }
+
+  &__question-item {
+    padding: $spacing-4;
+    border-radius: $border-radius-md;
+    border-left: 4px solid $border-color;
+
+    &--correct {
+      background: $success-50;
+      border-left-color: $success-500;
+    }
+
+    &--incorrect {
+      background: $error-50;
+      border-left-color: $error-500;
+    }
+  }
+
+  &__question-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: $spacing-2;
+  }
+
+  &__question-info {
+    display: flex;
+    align-items: center;
+    gap: $spacing-2;
+  }
+
+  &__question-number {
+    font-size: $font-size-sm;
+    font-weight: $font-weight-semibold;
+    color: $text-primary;
+  }
+
+  &__question-icon {
+    width: 20px;
+    height: 20px;
+
+    &--correct {
+      color: $success-600;
+    }
+
+    &--incorrect {
+      color: $error-600;
+    }
+  }
+
+  &__question-points {
+    font-size: $font-size-sm;
+    color: $text-secondary;
+  }
+
+  &__question-text {
+    font-size: $font-size-base;
+    color: $text-primary;
+    line-height: 1.6;
+    margin-bottom: $spacing-3;
+  }
+
+  &__answer-section {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-2;
+    margin-top: $spacing-3;
+    padding: $spacing-3;
+    background: $background-primary;
+    border-radius: $border-radius-sm;
+  }
+
+  &__answer-item {
+    display: flex;
+    gap: $spacing-2;
+    font-size: $font-size-sm;
+  }
+
+  &__answer-label {
+    font-weight: $font-weight-medium;
+    color: $text-secondary;
+    min-width: 100px;
+  }
+
+  &__answer-value {
+    color: $text-primary;
+    flex: 1;
+  }
+
+  &__explanation {
+    display: flex;
+    gap: $spacing-2;
+    margin-top: $spacing-3;
+    padding: $spacing-3;
+    background: $primary-50;
+    border-radius: $border-radius-sm;
+  }
+
+  &__explanation-icon {
+    width: 20px;
+    height: 20px;
+    color: $primary-600;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  &__explanation-text {
+    font-size: $font-size-sm;
+    color: $primary-900;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  &__feedback-card {
+    padding: $spacing-6;
+  }
+
+  &__feedback-title {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-semibold;
+    color: $text-primary;
+    margin-bottom: $spacing-3;
+  }
+
+  &__feedback-text {
+    font-size: $font-size-base;
+    color: $text-primary;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  @include respond-to(md) {
+    padding: $spacing-4;
+
+    &__content {
+      gap: $spacing-4;
+      margin-top: $spacing-4;
+    }
+
+    &__summary-header {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    &__stats {
+      grid-template-columns: 1fr;
+    }
+  }
+}

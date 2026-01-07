@@ -1,0 +1,171 @@
+/**
+ * Storage Browser Page Styles
+ */
+
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+.storage-browser {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: $spacing-12 $spacing-4;
+
+  @include respond-to(sm) {
+    padding: $spacing-12 $spacing-6;
+  }
+
+  @include respond-to(lg) {
+    padding: $spacing-12 $spacing-8;
+  }
+
+  &__loading {
+    @include flex-center;
+    flex-direction: column;
+    min-height: 50vh;
+  }
+
+  &__spinner {
+    width: 3rem;
+    height: 3rem;
+    color: $primary-600;
+    @include spin;
+    margin-bottom: $spacing-4;
+  }
+
+  &__loading-text {
+    color: $gray-600;
+  }
+
+  &__header {
+    margin-bottom: $spacing-8;
+  }
+
+  &__back-button {
+    margin-bottom: $spacing-4;
+  }
+
+  &__title {
+    font-size: $font-size-3xl;
+    font-weight: $font-weight-bold;
+    color: $gray-900;
+    margin: 0;
+  }
+
+  &__error {
+    padding: $spacing-4;
+    background-color: $error-50;
+    border: 1px solid $error-200;
+    border-radius: $border-radius-lg;
+    margin-bottom: $spacing-6;
+
+    p {
+      color: $error-800;
+      margin: 0;
+    }
+  }
+
+  &__actions {
+    @include flex-start;
+    gap: $spacing-4;
+    margin-bottom: $spacing-8;
+  }
+
+  &__upload-wrapper {
+    position: relative;
+  }
+
+  &__file-input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  &__section {
+    margin-bottom: $spacing-8;
+
+    &-title {
+      font-size: $font-size-xl;
+      font-weight: $font-weight-semibold;
+      color: $gray-900;
+      margin-bottom: $spacing-4;
+    }
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: $spacing-4;
+
+    @include respond-to(md) {
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    }
+  }
+
+  &__item {
+    @include flex-center;
+    flex-direction: column;
+    padding: $spacing-6;
+    text-align: center;
+    transition: all $transition-base;
+
+    &--folder {
+      cursor: pointer;
+
+      &:hover {
+        transform: translateY(-4px);
+        box-shadow: $shadow-xl;
+      }
+    }
+
+    &--file {
+      position: relative;
+    }
+
+    &-icon {
+      width: 3rem;
+      height: 3rem;
+      color: $primary-600;
+      margin-bottom: $spacing-2;
+    }
+
+    &-name {
+      font-size: $font-size-sm;
+      font-weight: $font-weight-medium;
+      color: $gray-900;
+      margin: 0;
+      word-break: break-word;
+    }
+
+    &-size {
+      font-size: $font-size-xs;
+      color: $gray-500;
+      margin: $spacing-1 0 0 0;
+    }
+
+    &-actions {
+      @include flex-center;
+      gap: $spacing-2;
+      margin-top: $spacing-4;
+    }
+  }
+
+  &__empty {
+    @include flex-center;
+    flex-direction: column;
+    padding: $spacing-12;
+    text-align: center;
+
+    &-icon {
+      width: 4rem;
+      height: 4rem;
+      color: $gray-400;
+      margin-bottom: $spacing-4;
+    }
+
+    &-text {
+      color: $gray-600;
+      font-size: $font-size-lg;
+    }
+  }
+}

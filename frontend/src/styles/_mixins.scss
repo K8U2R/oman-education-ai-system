@@ -1,0 +1,349 @@
+/**
+ * SCSS Mixins - خلطات التصميم
+ * 
+ * هذا الملف يحتوي على Mixins قابلة لإعادة الاستخدام
+ * 
+ * يستخدم @forward لإعادة تصدير variables لتجنب التضارب
+ */
+
+@forward './variables';
+@use './variables' as *;
+
+// ============================================================================
+// Flexbox Mixins
+// ============================================================================
+
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@mixin flex-start {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+// ============================================================================
+// Button Mixins
+// ============================================================================
+
+@mixin button-base {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: $font-weight-medium;
+  border-radius: $border-radius-lg;
+  transition: all $transition-base;
+  cursor: pointer;
+  border: none;
+  outline: none;
+
+  &:focus {
+    outline: 2px solid $primary-500;
+    outline-offset: 2px;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+@mixin button-variant-primary {
+  background-color: var(--color-primary-600, $primary-600);
+  color: var(--color-text-inverse, white);
+
+  &:hover:not(:disabled) {
+    background-color: var(--color-primary-700, $primary-700);
+  }
+
+  &:focus {
+    outline-color: var(--color-primary-500, $primary-500);
+  }
+}
+
+@mixin button-variant-secondary {
+  background-color: $gray-600;
+  color: white;
+
+  &:hover:not(:disabled) {
+    background-color: $gray-700;
+  }
+
+  &:focus {
+    outline-color: $gray-500;
+  }
+}
+
+@mixin button-variant-outline {
+  border: 2px solid var(--color-primary-600, $primary-600);
+  background-color: transparent;
+  color: var(--color-primary-600, $primary-600);
+
+  &:hover:not(:disabled) {
+    background-color: var(--color-primary-50, $primary-50);
+  }
+
+  &:focus {
+    outline-color: var(--color-primary-500, $primary-500);
+  }
+}
+
+@mixin button-variant-ghost {
+  background-color: transparent;
+  color: $primary-600;
+
+  &:hover:not(:disabled) {
+    background-color: $primary-50;
+  }
+
+  &:focus {
+    outline-color: $primary-500;
+  }
+}
+
+@mixin button-variant-danger {
+  background-color: $error-600;
+  color: white;
+
+  &:hover:not(:disabled) {
+    background-color: $error-700;
+  }
+
+  &:focus {
+    outline-color: $error-500;
+  }
+}
+
+@mixin button-size-sm {
+  padding: $spacing-2 $spacing-3;
+  font-size: $font-size-sm;
+}
+
+@mixin button-size-md {
+  padding: $spacing-2 $spacing-4;
+  font-size: $font-size-base;
+}
+
+@mixin button-size-lg {
+  padding: $spacing-3 $spacing-6;
+  font-size: $font-size-lg;
+}
+
+// ============================================================================
+// Card Mixins
+// ============================================================================
+
+@mixin card-base {
+  background-color: var(--color-bg-primary, #ffffff) !important;
+  border-radius: var(--border-radius-card, $border-radius-xl);
+  box-shadow: var(--shadow-lg, $shadow-lg);
+  border: 1px solid var(--color-border-primary, $gray-200);
+  color: var(--color-text-primary, $gray-900) !important;
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    color 0.3s ease;
+}
+
+@mixin card-padding-none {
+  padding: 0;
+}
+
+@mixin card-padding-sm {
+  padding: $spacing-4;
+}
+
+@mixin card-padding-md {
+  padding: $spacing-6;
+}
+
+@mixin card-padding-lg {
+  padding: $spacing-8;
+}
+
+// ============================================================================
+// Input Mixins
+// ============================================================================
+
+@mixin input-base {
+  width: 100%;
+  padding: ($spacing-2 + $spacing-1) $spacing-4;
+  border: 1px solid $gray-300;
+  border-radius: $border-radius-lg;
+  font-size: $font-size-base;
+  transition: all $transition-base;
+
+  &:focus {
+    outline: none;
+    border-color: $primary-500;
+    box-shadow: 0 0 0 3px rgba($primary-500, 0.1);
+  }
+
+  &::placeholder {
+    color: $gray-400;
+  }
+}
+
+@mixin input-error {
+  border-color: $error-500;
+
+  &:focus {
+    border-color: $error-500;
+    box-shadow: 0 0 0 3px rgba($error-500, 0.1);
+  }
+}
+
+// ============================================================================
+// Responsive Mixins
+// ============================================================================
+
+@mixin respond-to($breakpoint, $direction: min) {
+  $breakpoint-value: null;
+
+  @if $breakpoint == sm {
+    $breakpoint-value: $breakpoint-sm;
+  } @else if $breakpoint == md {
+    $breakpoint-value: $breakpoint-md;
+  } @else if $breakpoint == lg {
+    $breakpoint-value: $breakpoint-lg;
+  } @else if $breakpoint == xl {
+    $breakpoint-value: $breakpoint-xl;
+  } @else if $breakpoint == 2xl {
+    $breakpoint-value: $breakpoint-2xl;
+  }
+
+  @if $breakpoint-value {
+    @if $direction == max {
+      @media (max-width: calc(#{$breakpoint-value} - 1px)) {
+        @content;
+      }
+    } @else {
+      @media (min-width: $breakpoint-value) {
+        @content;
+      }
+    }
+  }
+}
+
+// ============================================================================
+// Animation Mixins
+// ============================================================================
+
+@mixin spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@mixin fade-in {
+  animation: fadeIn $transition-slow;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+// ============================================================================
+// Comfort Mixins - ميكسينز الراحة
+// ============================================================================
+
+/**
+ * Comfortable Card - بطاقة مريحة
+ * 
+ * بطاقة مع مسافات وزوايا مريحة
+ */
+@mixin comfortable-card {
+  padding: $comfort-spacing;
+  border-radius: $comfort-radius;
+  background: var(--color-bg-primary);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--color-border-primary);
+  transition: all 150ms ease;
+
+  &:hover {
+    box-shadow: var(--shadow-md);
+  }
+}
+
+/**
+ * Readable Text - نص قابل للقراءة بسهولة
+ * 
+ * نص مع مسافات وحروف مريحة
+ */
+@mixin readable-text {
+  line-height: $comfort-line-height;
+  letter-spacing: $comfort-letter-spacing;
+  font-size: $comfort-font-size;
+}
+
+/**
+ * Comfortable Spacing - مسافات مريحة
+ * 
+ * مسافات أكبر للراحة
+ */
+@mixin comfortable-spacing {
+  padding: $comfort-spacing;
+
+  @media (min-width: $breakpoint-md) {
+    padding: $comfort-spacing-lg;
+  }
+}
+
+/**
+ * Smooth Transition - انتقال سلس
+ * 
+ * انتقال سريع ومريح
+ */
+@mixin smooth-transition($properties: all) {
+  transition: #{$properties} 150ms ease-in-out;
+}
+
+// ============================================================================
+// Skeleton Loader Mixins
+// ============================================================================
+
+/**
+ * Skeleton Shimmer - تأثير اللمعان للـ Skeleton
+ * 
+ * تأثير shimmer للـ skeleton loaders
+ */
+@mixin skeleton-shimmer {
+  background: linear-gradient(
+    90deg,
+    $background-secondary 25%,
+    $background-tertiary 50%,
+    $background-secondary 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}

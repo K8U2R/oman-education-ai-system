@@ -1,0 +1,184 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+.projects-page {
+  padding: $spacing-6;
+
+  &__filters {
+    display: flex;
+    gap: $spacing-4;
+    margin-bottom: $spacing-6;
+    flex-wrap: wrap;
+
+    .search-box {
+      flex: 1;
+      min-width: 250px;
+      display: flex;
+      align-items: center;
+      gap: $spacing-2;
+      padding: $spacing-3;
+      background: $background-secondary;
+      border-radius: $border-radius-md;
+      border: 1px solid $border-color;
+
+      svg {
+        color: $text-secondary;
+      }
+
+      input {
+        flex: 1;
+        border: none;
+        background: transparent;
+        outline: none;
+        color: $text-primary;
+      }
+    }
+
+    .filter-group {
+      display: flex;
+      align-items: center;
+      gap: $spacing-2;
+
+      svg {
+        color: $text-secondary;
+      }
+
+      select {
+        padding: $spacing-3;
+        border: 1px solid $border-color;
+        border-radius: $border-radius-md;
+        background: $background-secondary;
+        color: $text-primary;
+        outline: none;
+        cursor: pointer;
+
+        &:hover {
+          border-color: $primary-500;
+        }
+      }
+    }
+  }
+
+  &__list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: $spacing-4;
+    margin-bottom: $spacing-6;
+  }
+
+  &__pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: $spacing-4;
+    margin-top: $spacing-6;
+  }
+}
+
+.project-card {
+  padding: $spacing-4;
+  background: $background-secondary;
+  border-radius: $border-radius-lg;
+  border: 1px solid $border-color;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    border-color: $primary-500;
+    box-shadow: $shadow-md;
+    transform: translateY(-2px);
+  }
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    margin-bottom: $spacing-3;
+  }
+
+  &__title {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-semibold;
+    color: $text-primary;
+    margin: 0;
+    flex: 1;
+  }
+
+  &__badges {
+    display: flex;
+    gap: $spacing-2;
+    flex-shrink: 0;
+  }
+
+  &__description {
+    color: $text-secondary;
+    font-size: $font-size-sm;
+    margin-bottom: $spacing-3;
+    line-height: 1.5;
+  }
+
+  &__footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__meta {
+    display: flex;
+    gap: $spacing-4;
+    font-size: $font-size-sm;
+    color: $text-secondary;
+  }
+}
+
+.badge {
+  padding: $spacing-1 $spacing-2;
+  border-radius: $border-radius-sm;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+
+  &--educational {
+    background: $blue-100;
+    color: $blue-700;
+  }
+
+  &--research {
+    background: $purple-100;
+    color: $purple-700;
+  }
+
+  &--assignment {
+    background: $green-100;
+    color: $green-700;
+  }
+
+  &--presentation {
+    background: $orange-100;
+    color: $orange-700;
+  }
+
+  &--draft {
+    background: $gray-100;
+    color: $gray-700;
+  }
+
+  &--in_progress {
+    background: $blue-100;
+    color: $blue-700;
+  }
+
+  &--completed {
+    background: $green-100;
+    color: $green-700;
+  }
+
+  &--archived {
+    background: $gray-200;
+    color: $gray-600;
+  }
+}
+
+.pagination-info {
+  color: $text-secondary;
+  font-size: $font-size-sm;
+}

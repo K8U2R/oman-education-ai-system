@@ -1,0 +1,602 @@
+/**
+ * Header Styles - أنماط رأس الصفحة
+ */
+
+@use '../../../../styles/variables' as *;
+@use '../../../../styles/mixins' as *;
+
+.header {
+  // Glassmorphism Effect - Unified with Sidebar
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.08),
+    0 1px 2px rgba(0, 0, 0, 0.06);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  position: sticky;
+  top: 0;
+  z-index: $z-index-sticky;
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    backdrop-filter 0.3s ease,
+    box-shadow 0.3s ease;
+
+  // Dark mode glassmorphism - Improved contrast
+  .theme-dark & {
+    background: rgba(17, 24, 39, 0.85);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow:
+      0 1px 3px rgba(0, 0, 0, 0.3),
+      0 1px 2px rgba(0, 0, 0, 0.2);
+  }
+
+  &__container {
+    max-width: 100%;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 clamp(0.75rem, 2vw, $spacing-4);
+    overflow-x: visible; // Allow overflow to be handled by content
+
+    @include respond-to(sm) {
+      padding: 0 clamp(1rem, 3vw, $spacing-6);
+      max-width: 100%;
+    }
+
+    @include respond-to(md) {
+      padding: 0 clamp(1.5rem, 4vw, $spacing-8);
+      max-width: 100%;
+    }
+
+    @include respond-to(lg) {
+      padding: 0 clamp(2rem, 5vw, $spacing-10);
+      max-width: min(1600px, 100%);
+    }
+
+    @include respond-to(xl) {
+      padding: 0 clamp(2.5rem, 6vw, $spacing-12);
+      max-width: min(1600px, 100%);
+    }
+  }
+
+  &__content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: clamp(4rem, 8vh, 5rem);
+    height: auto;
+    padding: clamp($spacing-1, 1vh, $spacing-2) 0;
+    gap: clamp($spacing-1, 1.5vw, $spacing-2);
+    width: 100%;
+    flex-wrap: wrap;
+    overflow: visible; // Allow content to be visible, handle overflow in children
+
+    @include respond-to(sm) {
+      min-height: clamp(4.5rem, 9vh, 5.5rem);
+      gap: clamp($spacing-2, 2vw, $spacing-3);
+      flex-wrap: nowrap;
+    }
+  }
+
+  &__mobile-menu-button {
+    display: none;
+    padding: $spacing-2;
+    background: transparent;
+    border: none;
+    color: var(--color-text-primary);
+    cursor: pointer;
+    border-radius: var(--radius-sm);
+    transition: background 0.2s;
+
+    @include respond-to(md, max) {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    &:hover {
+      background: var(--color-bg-secondary);
+    }
+  }
+
+  &__sidebar-toggle {
+    display: none;
+    padding: $spacing-2;
+    background: transparent;
+    border: 1px solid var(--color-border-primary, rgba(0, 0, 0, 0.1));
+    border-radius: $border-radius-md;
+    color: var(--color-text-secondary, $gray-600);
+    cursor: pointer;
+    transition: all $transition-base;
+    flex-shrink: 0;
+    position: relative;
+
+    @include respond-to(lg) {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    &:hover {
+      // Oman flag colors gradient on hover
+      background: linear-gradient(
+        135deg,
+        rgba(214, 40, 40, 0.1) 0%,
+        rgba(255, 255, 255, 0.1) 50%,
+        rgba(46, 125, 50, 0.1) 100%
+      );
+      border-color: #d62828;
+      color: #d62828;
+    }
+
+    &-icon {
+      width: 20px;
+      height: 20px;
+      position: relative;
+      z-index: 1;
+    }
+  }
+
+  &__logo {
+    @include flex-start;
+    text-decoration: none;
+    gap: clamp($spacing-2, 2vw, $spacing-3);
+    transition: all $transition-base;
+    flex-shrink: 0;
+    flex-grow: 0;
+    min-width: 0;
+    max-width: fit-content;
+
+    &:hover {
+      opacity: 0.85;
+      transform: translateY(-1px);
+    }
+  }
+
+  &__logo-icon {
+    width: clamp(3.5rem, 7vw, 4.5rem);
+    height: clamp(3.5rem, 7vw, 4.5rem);
+    min-width: clamp(3.5rem, 7vw, 4.5rem);
+    min-height: clamp(3.5rem, 7vw, 4.5rem);
+    background: transparent;
+    border-radius: $border-radius-lg;
+    @include flex-center;
+    box-shadow: var(--shadow-md, $shadow-md);
+    transition: all $transition-base;
+    padding: clamp(0.125rem, 0.5vw, 0.25rem);
+    overflow: hidden;
+    flex-shrink: 0;
+
+    @include respond-to(sm) {
+      width: clamp(4rem, 8vw, 5rem);
+      height: clamp(4rem, 8vw, 5rem);
+      min-width: clamp(4rem, 8vw, 5rem);
+      min-height: clamp(4rem, 8vw, 5rem);
+    }
+
+    .header__logo:hover & {
+      box-shadow: var(--shadow-lg, $shadow-lg);
+      transform: scale(1.05);
+    }
+  }
+
+  &__logo-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+    transition: all $transition-base;
+
+    .header__logo:hover & {
+      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.15));
+      transform: scale(1.02);
+    }
+  }
+
+  &__logo-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  &__logo-title {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-bold;
+    color: var(--color-text-primary, $gray-900);
+    margin: 0;
+    line-height: $line-height-tight;
+    transition: color 0.3s ease;
+  }
+
+  &__logo-subtitle {
+    font-size: $font-size-xs;
+    color: var(--color-text-secondary, $gray-600);
+    margin: 0;
+    line-height: $line-height-tight;
+    transition: color 0.3s ease;
+  }
+
+  &__flag-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-inline-end: $spacing-2;
+    padding: $spacing-1;
+    border-radius: $border-radius-sm;
+    transition: all $transition-base;
+    flex-shrink: 0;
+    opacity: 0.9;
+
+    @include respond-to(sm, max) {
+      display: none; // Hide on very small screens
+    }
+
+    .header__logo:hover & {
+      opacity: 1;
+      transform: scale(1.1);
+    }
+  }
+
+  &__flag-image {
+    width: clamp(24px, 2.5vw, 32px);
+    height: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+    transition: all $transition-base;
+    border-radius: $border-radius-sm;
+
+    .header__logo:hover & {
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
+      transform: scale(1.05);
+    }
+  }
+
+  &__flag-svg {
+    width: clamp(20px, 2vw, 24px);
+    height: clamp(13px, 1.5vw, 16px);
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+    transition: all $transition-base;
+
+    .header__logo:hover & {
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
+    }
+  }
+
+  &__nav {
+    display: flex;
+    align-items: center;
+    gap: clamp($spacing-1, 1.5vw, $spacing-2);
+    flex: 1 1 auto;
+    justify-content: flex-end;
+    min-width: 0;
+    width: 100%;
+    overflow: visible;
+    flex-wrap: nowrap;
+
+    @include respond-to(md) {
+      gap: clamp($spacing-2, 2vw, $spacing-3);
+      justify-content: space-between;
+      flex-wrap: nowrap;
+    }
+  }
+
+  &__nav-links {
+    display: none; // Hidden on mobile, shown on desktop
+    align-items: center;
+    gap: clamp($spacing-1, 1vw, $spacing-2);
+    flex-shrink: 1;
+    flex-grow: 0;
+    min-width: 0;
+    overflow: hidden;
+
+    @include respond-to(lg) {
+      display: flex;
+      gap: clamp($spacing-2, 1.5vw, $spacing-3);
+    }
+  }
+
+  &__search-wrapper {
+    flex: 1 1 auto;
+    max-width: min(600px, 100%);
+    width: 100%;
+    margin: 0 clamp($spacing-1, 1.5vw, $spacing-2);
+    min-width: min(150px, 100%); // Minimum width for search bar
+    overflow: visible; // Allow search results to overflow
+    flex-shrink: 1; // Allow search bar to shrink if needed
+    flex-grow: 1; // Allow search bar to grow
+
+    @include respond-to(md) {
+      margin: 0 auto;
+      flex-grow: 1;
+      flex-shrink: 1;
+      flex-basis: auto;
+      min-width: min(200px, 100%);
+    }
+
+    @include respond-to(md, max) {
+      max-width: 100%;
+      margin: 0 clamp($spacing-1, 2vw, $spacing-2);
+      flex-basis: auto; // Changed from 100% to allow icon-only mode
+      order: 2; // Changed from 3
+      min-width: 0;
+      flex: 0 0 auto; // Don't grow on mobile, use icon trigger instead
+    }
+  }
+
+  &__nav-link {
+    display: flex;
+    align-items: center;
+    gap: clamp($spacing-1, 1vw, $spacing-2);
+    color: var(--color-text-secondary, $gray-700);
+    text-decoration: none;
+    padding: clamp($spacing-2, 1.5vw, $spacing-3) clamp($spacing-2, 2vw, $spacing-4);
+    border-radius: $border-radius-md;
+    font-size: clamp($font-size-xs, 1.5vw, $font-size-sm);
+    font-weight: $font-weight-medium;
+    transition: all $transition-base;
+    position: relative;
+    white-space: nowrap;
+    flex-shrink: 0;
+    min-width: 0;
+    overflow: hidden;
+
+    // Hide text on very small screens, show only icon
+    @include respond-to(md, max) {
+      span {
+        display: none;
+      }
+      padding: clamp($spacing-1, 1.5vw, $spacing-2);
+    }
+
+    &:hover {
+      // Oman flag colors gradient on hover
+      background: linear-gradient(
+        135deg,
+        rgba(214, 40, 40, 0.08) 0%,
+        rgba(255, 255, 255, 0.08) 50%,
+        rgba(46, 125, 50, 0.08) 100%
+      );
+      color: #d62828;
+      border-inline-end: 2px solid transparent;
+      border-image: linear-gradient(
+          to bottom,
+          #d62828 0%,
+          #d62828 33%,
+          #ffffff 33%,
+          #ffffff 66%,
+          #2e7d32 66%,
+          #2e7d32 100%
+        )
+        1;
+    }
+
+    &--active {
+      // Oman flag colors for active state
+      background: linear-gradient(
+        135deg,
+        rgba(214, 40, 40, 0.12) 0%,
+        rgba(255, 255, 255, 0.12) 50%,
+        rgba(46, 125, 50, 0.12) 100%
+      );
+      color: #d62828;
+      font-weight: $font-weight-semibold;
+
+      // Oman flag vertical bar on the right
+      border-inline-end: 3px solid transparent;
+      border-image: linear-gradient(
+          to bottom,
+          #d62828 0%,
+          #d62828 33%,
+          #ffffff 33%,
+          #ffffff 66%,
+          #2e7d32 66%,
+          #2e7d32 100%
+        )
+        1;
+
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        inset-inline-start: 50%;
+        transform: translateX(-50%);
+        width: 60%;
+        height: 2px;
+        // Oman flag colors gradient
+        background: linear-gradient(to right, #d62828 0%, #ffffff 50%, #2e7d32 100%);
+        border-radius: $border-radius-full;
+      }
+    }
+  }
+
+  &__nav-icon {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: clamp(0.25rem, 1vw, $spacing-1);
+    flex-shrink: 0;
+    flex-grow: 0;
+    min-width: 0;
+    overflow: visible;
+    margin-left: clamp($spacing-1, 1.5vw, $spacing-2);
+    position: relative;
+
+    @include respond-to(sm) {
+      gap: clamp(0.375rem, 1.5vw, $spacing-2);
+    }
+
+    @include respond-to(md) {
+      gap: clamp($spacing-1, 1.5vw, $spacing-2);
+      margin-inline-start: clamp($spacing-2, 2vw, $spacing-3);
+    }
+
+    // Ensure all child elements don't overflow
+    > * {
+      flex-shrink: 0;
+      min-width: 0;
+      max-width: 100%;
+    }
+
+    // Subtle Oman flag accent on actions container
+    &::before {
+      content: '';
+      position: absolute;
+      inset-inline-start: -$spacing-2;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 2px;
+      height: 60%;
+      background: linear-gradient(
+        to bottom,
+        #d62828 0%,
+        #d62828 33%,
+        #ffffff 33%,
+        #ffffff 66%,
+        #2e7d32 66%,
+        #2e7d32 100%
+      );
+      border-radius: $border-radius-full;
+      opacity: 0.3;
+      transition: opacity $transition-base;
+    }
+
+    &:hover::before {
+      opacity: 0.6;
+    }
+  }
+}
+
+// Responsive adjustments with improved breakpoints
+@include respond-to(lg, max) {
+  .header {
+    &__content {
+      gap: clamp($spacing-1, 2vw, $spacing-2);
+    }
+
+    &__logo {
+      flex-shrink: 1; // Allow logo to shrink on medium screens
+    }
+
+    &__search-wrapper {
+      order: 3;
+      width: 100%;
+      margin: clamp($spacing-1, 2vh, $spacing-2) 0 0 0;
+      max-width: 100%;
+      flex-basis: 100%;
+      flex-shrink: 1;
+    }
+
+    &__nav {
+      flex-wrap: wrap;
+      gap: clamp($spacing-1, 2vw, $spacing-2);
+      width: 100%;
+      overflow: visible;
+      justify-content: flex-end;
+    }
+
+    &__nav-links {
+      display: none; // Hide nav links on medium screens
+    }
+
+    &__actions {
+      order: 2;
+      gap: clamp(0.25rem, 1vw, $spacing-1);
+      margin-inline-start: auto;
+      flex-wrap: nowrap;
+      overflow: visible;
+    }
+  }
+}
+
+@include respond-to(md, max) {
+  .header {
+    &__logo-text {
+      display: none; // Hide logo text on small screens
+    }
+
+    &__logo {
+      gap: clamp($spacing-1, 1.5vw, $spacing-2);
+    }
+
+    &__logo-icon {
+      width: clamp(3rem, 6vw, 3.5rem);
+      height: clamp(3rem, 6vw, 3.5rem);
+      min-width: clamp(3rem, 6vw, 3.5rem);
+      min-height: clamp(3rem, 6vw, 3.5rem);
+    }
+
+    &__nav {
+      justify-content: space-between;
+      gap: clamp(0.5rem, 1.5vw, $spacing-1);
+    }
+
+    &__actions {
+      gap: clamp(0.25rem, 1vw, $spacing-1);
+      margin-inline-start: clamp($spacing-1, 1.5vw, $spacing-2);
+
+      // Hide some actions on very small screens
+      > *:nth-child(n + 4) {
+        display: none;
+      }
+    }
+
+    &__nav-links {
+      display: none; // Hide nav links on mobile
+    }
+
+    &__search-wrapper {
+      margin: 0 clamp($spacing-1, 2vw, $spacing-2);
+    }
+  }
+}
+
+@include respond-to(sm, max) {
+  .header {
+    &__container {
+      padding: 0 clamp(0.75rem, 3vw, 1rem);
+      overflow-x: visible; // Allow overflow on very small screens
+    }
+
+    &__content {
+      min-height: clamp(3.5rem, 7vh, 4rem);
+      padding: clamp(0.5rem, 1vh, $spacing-1) 0;
+      gap: clamp(0.5rem, 1.5vw, $spacing-1);
+    }
+
+    &__logo {
+      flex-shrink: 1;
+      max-width: calc(100% - 4rem); // Reserve space for actions
+    }
+
+    &__nav {
+      gap: clamp(0.25rem, 1vw, 0.5rem);
+    }
+
+    &__actions {
+      gap: clamp(0.125rem, 0.75vw, 0.25rem);
+      margin-inline-start: clamp(0.25rem, 1vw, $spacing-1);
+      flex-shrink: 0;
+
+      // Show only essential actions (Profile + Notifications)
+      > *:nth-child(1),
+      > *:nth-child(2) {
+        display: flex;
+      }
+
+      > *:nth-child(n + 3) {
+        display: none;
+      }
+    }
+
+    &__search-wrapper {
+      margin: 0 clamp(0.5rem, 1.5vw, $spacing-1);
+    }
+  }
+}

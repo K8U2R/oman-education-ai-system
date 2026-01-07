@@ -1,0 +1,148 @@
+@use '../../../../styles/variables' as *;
+@use '../../../../styles/mixins' as *;
+
+.route-protection-page {
+  padding: $spacing-6;
+
+  &__header-icon {
+    width: 24px;
+    height: 24px;
+    color: $primary-600;
+  }
+
+  &__header-actions {
+    display: flex;
+    gap: $spacing-2;
+  }
+
+  &__error {
+    display: flex;
+    align-items: center;
+    gap: $spacing-2;
+    padding: $spacing-4;
+    margin-bottom: $spacing-6;
+    background: $error-50;
+    border: 1px solid $error-200;
+    border-radius: $border-radius-md;
+    color: $error-700;
+  }
+
+  &__error-icon {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+  }
+
+  &__table {
+    margin-top: $spacing-4;
+  }
+
+  &__route {
+    display: flex;
+    align-items: center;
+    gap: $spacing-2;
+  }
+
+  &__route-path {
+    font-family: monospace;
+    font-size: $font-size-sm;
+    color: $text-primary;
+    background: $background-secondary;
+    padding: $spacing-1 $spacing-2;
+    border-radius: $border-radius-sm;
+  }
+
+  &__route-method {
+    font-size: $font-size-xs;
+  }
+
+  &__auth {
+    display: flex;
+    align-items: center;
+  }
+
+  &__icon {
+    width: 14px;
+    height: 14px;
+    margin-left: $spacing-1;
+  }
+
+  &__roles {
+    display: flex;
+    align-items: center;
+  }
+
+  &__roles-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $spacing-1;
+  }
+
+  &__empty {
+    color: $text-tertiary;
+    font-size: $font-size-sm;
+  }
+
+  &__date {
+    font-size: $font-size-sm;
+    color: $text-secondary;
+  }
+
+  &__actions {
+    display: flex;
+    gap: $spacing-2;
+  }
+
+  &__delete-btn {
+    color: $error-600;
+
+    &:hover {
+      background: $error-50;
+      color: $error-700;
+    }
+  }
+
+  &__modal-content {
+    padding: $spacing-4;
+  }
+
+  &__modal-rule {
+    margin: $spacing-4 0;
+    padding: $spacing-3;
+    background: $background-secondary;
+    border-radius: $border-radius-md;
+
+    code {
+      font-family: monospace;
+      font-size: $font-size-sm;
+      color: $primary-600;
+    }
+  }
+
+  &__modal-warning {
+    color: $warning-600;
+    font-size: $font-size-sm;
+    margin-top: $spacing-2;
+  }
+
+  &__modal-note {
+    color: $text-secondary;
+    font-size: $font-size-sm;
+    margin-bottom: $spacing-4;
+  }
+
+  &__modal-actions {
+    display: flex;
+    gap: $spacing-3;
+    margin-top: $spacing-6;
+    justify-content: flex-end;
+  }
+
+  @include respond-to(md) {
+    padding: $spacing-4;
+
+    &__actions {
+      flex-direction: column;
+    }
+  }
+}

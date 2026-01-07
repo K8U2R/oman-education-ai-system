@@ -1,0 +1,48 @@
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  &__label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  &__required {
+    color: var(--error-500);
+  }
+
+  &__input {
+    &--error {
+      border-color: var(--error-500);
+    }
+  }
+
+  &__error {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    color: var(--error-500);
+  }
+
+  &__error-icon {
+    width: 1rem;
+    height: 1rem;
+    flex-shrink: 0;
+  }
+
+  &__error-text {
+    flex: 1;
+  }
+
+  &__hint {
+    font-size: 0.75rem;
+    color: var(--text-tertiary);
+    margin: 0;
+  }
+}

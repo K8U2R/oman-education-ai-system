@@ -1,0 +1,152 @@
+/**
+ * Skeleton Loader Styles
+ */
+
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+.skeletonContainer {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-4;
+  width: 100%;
+}
+
+// Skeleton Card
+.skeletonCard {
+  background: $background-primary;
+  border: 1px solid $border-light;
+  border-radius: $border-radius-lg;
+  padding: $spacing-6;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-4;
+}
+
+.skeletonCardHeader {
+  width: 100%;
+  height: 24px;
+  @include skeleton-shimmer;
+}
+
+.skeletonCardContent {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-3;
+}
+
+.skeletonCardFooter {
+  display: flex;
+  gap: $spacing-3;
+  margin-top: $spacing-2;
+}
+
+// Skeleton List Item
+.skeletonListItem {
+  display: flex;
+  align-items: center;
+  gap: $spacing-4;
+  padding: $spacing-4;
+  background: $background-primary;
+  border-radius: $border-radius-md;
+  border: 1px solid $border-light;
+}
+
+.skeletonAvatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  @include skeleton-shimmer;
+  flex-shrink: 0;
+}
+
+.skeletonListItemContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-2;
+}
+
+// Skeleton Table
+.skeletonTable {
+  width: 100%;
+  border-collapse: collapse;
+
+  th,
+  td {
+    padding: $spacing-4;
+    text-align: right;
+    border-bottom: 1px solid $border-light;
+  }
+
+  th {
+    background: $background-secondary;
+    font-weight: 600;
+  }
+}
+
+.skeletonTableRow {
+  &:hover {
+    background: $background-secondary;
+  }
+}
+
+// Skeleton Form
+.skeletonForm {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-6;
+  padding: $spacing-6;
+  background: $background-primary;
+  border-radius: $border-radius-lg;
+  border: 1px solid $border-light;
+}
+
+.skeletonFormGroup {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-2;
+}
+
+.skeletonLabel {
+  width: 120px;
+  height: 16px;
+  @include skeleton-shimmer;
+}
+
+.skeletonInput {
+  width: 100%;
+  height: 40px;
+  border-radius: $border-radius-md;
+  @include skeleton-shimmer;
+}
+
+.skeletonTextarea {
+  width: 100%;
+  height: 120px;
+  border-radius: $border-radius-md;
+  @include skeleton-shimmer;
+}
+
+.skeletonFormActions {
+  display: flex;
+  gap: $spacing-3;
+  margin-top: $spacing-4;
+}
+
+// Common Skeleton Elements
+.skeletonLine {
+  width: 100%;
+  height: 16px;
+  border-radius: $border-radius-sm;
+  @include skeleton-shimmer;
+}
+
+.skeletonButton {
+  width: 100px;
+  height: 36px;
+  border-radius: $border-radius-md;
+  @include skeleton-shimmer;
+}
+
+// Skeleton Shimmer Mixin موجود في _mixins.scss

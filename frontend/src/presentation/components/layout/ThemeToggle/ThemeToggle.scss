@@ -1,0 +1,28 @@
+@use '../../../../styles/variables' as *;
+@use '../../../../styles/mixins' as *;
+
+.theme-toggle {
+  width: clamp(32px, 3vw, 40px);
+  height: clamp(32px, 3vw, 40px);
+  min-width: clamp(32px, 3vw, 40px);
+  min-height: clamp(32px, 3vw, 40px);
+  flex-shrink: 0;
+  @include flex-center;
+  background: var(--color-bg-secondary, $gray-100);
+  border: 1px solid var(--color-border-primary, $gray-200);
+  border-radius: $border-radius-md;
+  cursor: pointer;
+  transition: all $transition-base;
+  color: var(--color-text-primary, $gray-900);
+
+  &:hover {
+    background: var(--color-bg-hover, $gray-200);
+    border-color: var(--color-primary-500, $primary-500);
+    color: var(--color-primary-600, $primary-600);
+    transform: scale(1.05);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+}

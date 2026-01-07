@@ -1,0 +1,136 @@
+/**
+ * Base Theme Variables
+ * متغيرات الثيم الأساسية
+ */
+
+:root {
+  // Base colors that work for all themes
+  --color-transparent: transparent;
+  --color-white: #ffffff;
+  --color-black: #000000;
+}
+
+// Light Theme Base
+.theme-light {
+  // Primary Colors
+  --color-primary-50: #eff6ff;
+  --color-primary-100: #dbeafe;
+  --color-primary-200: #bfdbfe;
+  --color-primary-300: #93c5fd;
+  --color-primary-400: #60a5fa;
+  --color-primary-500: #3b82f6;
+  --color-primary-600: #2563eb;
+  --color-primary-700: #1d4ed8;
+  --color-primary-800: #1e40af;
+  --color-primary-900: #1e3a8a;
+
+  // Background Colors (ناعمة ومريحة للعين - تقليل الوهج)
+  --color-bg-primary: #fdfdfd;
+  --color-bg-secondary: #f9fafb;
+  --color-bg-tertiary: #f3f4f6;
+  --color-bg-hover: #f3f4f6;
+  --color-bg-active: #e5e7eb;
+
+  // Text Colors (تباين عالي WCAG AA/AAA)
+  --color-text-primary: #111827;
+  --color-text-secondary: #4b5563;
+  --color-text-tertiary: #6b7280;
+  --color-text-inverse: #ffffff;
+
+  // Border Colors
+  --color-border-primary: #e5e7eb;
+  --color-border-secondary: #d1d5db;
+  --color-border-focus: #3b82f6;
+
+  // Status Colors (for consistency)
+  --color-success-500: #22c55e;
+  --color-success-600: #16a34a;
+  --color-warning-500: #f59e0b;
+  --color-warning-600: #d97706;
+  --color-error-500: #ef4444;
+  --color-error-600: #dc2626;
+
+  // Card Colors
+  --color-card-bg: #ffffff;
+  --color-card-border: #e5e7eb;
+
+  // Shadow
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+// Dark Theme Base
+.theme-dark {
+  // Primary Colors (lighter for dark mode)
+  --color-primary-50: #1e3a8a;
+  --color-primary-100: #1e40af;
+  --color-primary-200: #1d4ed8;
+  --color-primary-300: #2563eb;
+  --color-primary-400: #3b82f6;
+  --color-primary-500: #60a5fa;
+  --color-primary-600: #93c5fd;
+  --color-primary-700: #bfdbfe;
+  --color-primary-800: #dbeafe;
+  --color-primary-900: #eff6ff;
+
+  // Background Colors (داكن عميق مريح للعين ليلاً)
+  --color-bg-primary: #0f172a;
+  --color-bg-secondary: #1e293b;
+  --color-bg-tertiary: #334155;
+  --color-bg-hover: #334155;
+  --color-bg-active: #475569;
+
+  // Text Colors (تباين عالي محسّن - WCAG AAA)
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #f3f4f6;
+  --color-text-tertiary: #e5e7eb;
+  --color-text-inverse: #111827;
+
+  // Border Colors
+  --color-border-primary: #374151;
+  --color-border-secondary: #4b5563;
+  --color-border-focus: #60a5fa;
+
+  // Status Colors (for consistency)
+  --color-success-500: #22c55e;
+  --color-success-600: #16a34a;
+  --color-warning-500: #f59e0b;
+  --color-warning-600: #d97706;
+  --color-error-500: #ef4444;
+  --color-error-600: #dc2626;
+
+  // Card Colors
+  --color-card-bg: #1f2937;
+  --color-card-border: #374151;
+
+  // Shadow (أغمق للوضع الليلي)
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.4);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.6), 0 10px 10px -5px rgba(0, 0, 0, 0.5);
+}
+
+// ============================================================================
+// System Preferences Support - دعم تفضيلات النظام
+// ============================================================================
+
+// دعم prefers-color-scheme للتبديل التلقائي
+// يتم التعامل معه في JavaScript (theme.service.ts)
+// يمكن إضافة CSS هنا إذا لزم الأمر
+
+// دعم prefers-contrast للتباين العالي
+@media (prefers-contrast: high) {
+  .theme-light {
+    --color-text-primary: #000000;
+    --color-text-secondary: #1f2937;
+    --color-border-primary: #000000;
+  }
+
+  .theme-dark {
+    --color-text-primary: #ffffff;
+    --color-text-secondary: #f9fafb;
+    --color-border-primary: #ffffff;
+  }
+}

@@ -1,0 +1,65 @@
+/**
+ * Route Transition Styles - أنماط انتقالات المسارات
+ */
+
+@use '../../../styles/variables' as *;
+
+.route-transition {
+  width: 100%;
+  min-height: 100%;
+  display: block;
+  opacity: 1 !important;
+  visibility: visible !important;
+
+  // Fade transition
+  &--fade {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transition: opacity var(--transition-duration, 300ms) ease-in-out;
+    min-height: 100%;
+
+    &.route-transition--entering {
+      opacity: 1 !important; // Always visible
+      visibility: visible !important;
+    }
+
+    &.route-transition--entered {
+      opacity: 1 !important;
+      visibility: visible !important;
+    }
+  }
+
+  // Slide transition
+  &--slide {
+    transform: translateX(0);
+    transition: transform var(--transition-duration, 300ms) ease-in-out;
+
+    &.route-transition--entering {
+      transform: translateX(20px);
+      opacity: 0;
+    }
+
+    &.route-transition--entered {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  // Scale transition
+  &--scale {
+    transform: scale(1);
+    transition:
+      transform var(--transition-duration, 300ms) ease-in-out,
+      opacity var(--transition-duration, 300ms) ease-in-out;
+
+    &.route-transition--entering {
+      transform: scale(0.95);
+      opacity: 0;
+    }
+
+    &.route-transition--entered {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+}

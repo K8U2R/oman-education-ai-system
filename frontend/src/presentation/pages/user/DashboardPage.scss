@@ -1,0 +1,304 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+.dashboard-page {
+  width: 100%;
+  max-width: 100%; // Remove max-width to prevent centering
+  margin: 0; // Remove auto margin that causes centering
+  padding: clamp($spacing-4, 3vw, $spacing-8) clamp($spacing-4, 2vw, $spacing-6);
+
+  &__welcome {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: clamp($spacing-6, 4vw, $spacing-10);
+    background: linear-gradient(
+      135deg,
+      var(--color-primary-50, $primary-50),
+      var(--color-primary-100, $primary-100)
+    );
+    border-radius: $border-radius-2xl;
+    margin-bottom: clamp($spacing-6, 4vw, $spacing-10);
+    flex-wrap: wrap;
+    gap: clamp($spacing-3, 2vw, $spacing-6);
+    box-shadow: var(--shadow-md, $shadow-md);
+  }
+
+  &__welcome-content {
+    flex: 1;
+    min-width: 300px;
+  }
+
+  &__title {
+    font-size: clamp($font-size-2xl, 3vw, $font-size-3xl);
+    font-weight: $font-weight-bold;
+    color: var(--color-text-primary, $gray-900);
+    margin: 0 0 $spacing-3 0;
+    line-height: 1.3;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  }
+
+  &__subtitle {
+    font-size: clamp($font-size-base, 1.5vw, $font-size-lg);
+    color: var(--color-text-secondary, $gray-700);
+    margin: 0;
+    line-height: 1.6;
+    font-weight: $font-weight-medium;
+  }
+
+  &__welcome-icon {
+    width: 120px;
+    height: 120px;
+    @include flex-center;
+    background: white;
+    border-radius: $border-radius-2xl;
+    box-shadow: $shadow-lg;
+    color: $primary-600;
+    flex-shrink: 0;
+  }
+
+  &__main-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: clamp($spacing-4, 3vw, $spacing-6);
+    margin-bottom: clamp($spacing-6, 4vw, $spacing-10);
+
+    @include respond-to(md) {
+      grid-template-columns: repeat(2, 1fr);
+      gap: clamp($spacing-5, 3vw, $spacing-8);
+    }
+
+    @include respond-to(lg) {
+      gap: clamp($spacing-6, 4vw, $spacing-10);
+    }
+  }
+
+  &__main-card {
+    @include card-padding-lg;
+    cursor: pointer;
+    transition: all $transition-base;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    min-height: 320px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: var(--shadow-md, $shadow-md);
+    border: 1px solid var(--color-border-primary, rgba(0, 0, 0, 0.1));
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      inset-inline-start: 0;
+      inset-inline-end: 0;
+      height: 4px;
+      // Oman flag colors gradient
+      background: linear-gradient(90deg, #d62828 0%, #ffffff 50%, #2e7d32 100%);
+      transform: scaleX(0);
+      transition: transform $transition-base;
+    }
+
+    &:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-xl, $shadow-xl);
+      border-color: var(--color-primary-300, $primary-300);
+
+      &::before {
+        transform: scaleX(1);
+      }
+    }
+  }
+
+  &__main-card-icon {
+    width: 100px;
+    height: 100px;
+    border-radius: $border-radius-2xl;
+    @include flex-center;
+    margin: 0 auto $spacing-4;
+    transition: transform $transition-base;
+
+    .dashboard-page__main-card:hover & {
+      transform: scale(1.1);
+    }
+
+    &--lessons {
+      background: linear-gradient(135deg, $primary-100, $primary-200);
+      color: $primary-600;
+    }
+
+    &--storage {
+      background: linear-gradient(135deg, $success-100, $success-200);
+      color: $success-600;
+    }
+  }
+
+  &__main-card-title {
+    font-size: clamp($font-size-xl, 2.5vw, $font-size-2xl);
+    font-weight: $font-weight-bold;
+    color: var(--color-text-primary, $gray-900);
+    margin: 0 0 $spacing-3 0;
+    line-height: 1.3;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  }
+
+  &__main-card-description {
+    font-size: clamp($font-size-sm, 1.5vw, $font-size-base);
+    color: var(--color-text-secondary, $gray-600);
+    margin: 0 0 $spacing-6 0;
+    line-height: 1.7;
+    font-weight: $font-weight-normal;
+  }
+
+  &__main-card-button {
+    margin-top: auto;
+  }
+
+  &__section {
+    margin-bottom: clamp($spacing-6, 4vw, $spacing-10);
+  }
+
+  &__section-title {
+    font-size: clamp($font-size-xl, 2.5vw, $font-size-2xl);
+    font-weight: $font-weight-bold;
+    color: var(--color-text-primary, $gray-900);
+    margin: 0 0 clamp($spacing-4, 3vw, $spacing-6) 0;
+    text-align: center;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    letter-spacing: -0.02em;
+  }
+
+  &__quick-access {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: clamp($spacing-3, 2vw, $spacing-4);
+
+    @include respond-to(sm) {
+      grid-template-columns: repeat(2, 1fr);
+      gap: clamp($spacing-4, 2.5vw, $spacing-5);
+    }
+
+    @include respond-to(md) {
+      grid-template-columns: repeat(3, 1fr);
+      gap: clamp($spacing-4, 3vw, $spacing-6);
+    }
+  }
+
+  &__quick-card {
+    @include card-padding-md;
+    cursor: pointer;
+    transition: all $transition-base;
+    text-align: center;
+    position: relative;
+    min-height: 180px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-shadow: var(--shadow-sm, $shadow-sm);
+    border: 1px solid var(--color-border-primary, rgba(0, 0, 0, 0.1));
+
+    &:hover:not(&--coming-soon) {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg, $shadow-lg);
+      border-color: var(--color-primary-300, $primary-300);
+    }
+
+    &--coming-soon {
+      opacity: 0.6;
+      cursor: not-allowed;
+      filter: grayscale(0.3);
+    }
+  }
+
+  &__quick-icon {
+    width: 48px;
+    height: 48px;
+    color: $primary-600;
+    margin: 0 auto $spacing-3;
+  }
+
+  &__quick-title {
+    font-size: clamp($font-size-base, 1.5vw, $font-size-lg);
+    font-weight: $font-weight-semibold;
+    color: var(--color-text-primary, $gray-900);
+    margin: 0 0 $spacing-2 0;
+    line-height: 1.4;
+  }
+
+  &__quick-description {
+    font-size: clamp($font-size-xs, 1.2vw, $font-size-sm);
+    color: var(--color-text-secondary, $gray-600);
+    margin: 0;
+    line-height: 1.6;
+    font-weight: $font-weight-normal;
+  }
+
+  &__coming-soon {
+    display: inline-block;
+    margin-top: $spacing-2;
+    padding: $spacing-1 $spacing-3;
+    background-color: $gray-100;
+    color: $gray-600;
+    border-radius: $border-radius-full;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-medium;
+  }
+
+  &__user-types {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: clamp($spacing-4, 3vw, $spacing-6);
+
+    @include respond-to(sm) {
+      grid-template-columns: repeat(2, 1fr);
+      gap: clamp($spacing-5, 3vw, $spacing-6);
+    }
+
+    @include respond-to(md) {
+      grid-template-columns: repeat(3, 1fr);
+      gap: clamp($spacing-5, 3vw, $spacing-8);
+    }
+  }
+
+  &__user-type-card {
+    @include card-padding-lg;
+    text-align: center;
+    transition: all $transition-base;
+    min-height: 240px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-shadow: var(--shadow-sm, $shadow-sm);
+    border: 1px solid var(--color-border-primary, rgba(0, 0, 0, 0.1));
+
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg, $shadow-lg);
+      border-color: var(--color-primary-300, $primary-300);
+    }
+  }
+
+  &__user-type-icon {
+    width: 64px;
+    height: 64px;
+    color: $primary-600;
+    margin: 0 auto $spacing-4;
+  }
+
+  &__user-type-title {
+    font-size: clamp($font-size-lg, 2vw, $font-size-xl);
+    font-weight: $font-weight-semibold;
+    color: var(--color-text-primary, $gray-900);
+    margin: 0 0 $spacing-2 0;
+    line-height: 1.4;
+  }
+
+  &__user-type-description {
+    font-size: clamp($font-size-xs, 1.2vw, $font-size-sm);
+    color: var(--color-text-secondary, $gray-600);
+    margin: 0;
+    line-height: 1.7;
+    font-weight: $font-weight-normal;
+  }
+}

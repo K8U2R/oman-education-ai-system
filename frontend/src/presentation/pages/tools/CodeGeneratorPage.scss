@@ -1,0 +1,17 @@
+/**
+ * Code Generator Page Styles
+ */
+
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+.code-generator-page {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: $spacing-6;
+
+  &__content {
+    margin-top: $spacing-6;
+  }
+}
