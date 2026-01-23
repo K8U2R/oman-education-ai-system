@@ -61,7 +61,7 @@ cd ..
 
 # 7. Final Orchestration
 echo -e "${YELLOW}🐳 Rebuilding and Restarting all services...${NC}"
-docker compose up -d --build
+docker compose up -d --build --remove-orphans
 
 # 7. Post-Deployment Clean (Optional)
 echo -e "${YELLOW}🧹 Cleaning up dangling images...${NC}"
