@@ -22,7 +22,7 @@ WORKDIR /app
 
 # Copy production dependencies only (optimization)
 COPY package*.json ./
-RUN npm install --omit=dev
+RUN npm install --omit=dev --ignore-scripts
 
 # Copy the build output from the builder stage
 COPY --from=builder /app/dist ./dist
