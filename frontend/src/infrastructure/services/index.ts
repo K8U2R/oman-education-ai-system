@@ -24,6 +24,7 @@ export * from './api'
 
 // Storage Services - خدمات التخزين
 export * from './storage'
+export { indexedDBService } from './storage/indexeddb.service'
 
 // HTTP Services - خدمات HTTP
 export * from './http'
