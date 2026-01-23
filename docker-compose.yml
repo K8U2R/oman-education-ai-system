@@ -1,4 +1,32 @@
-services:
+  # ⚙️ خدمة الـ Backend
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: oman_edu_backend
+    restart: always
+    ports:
+      - "30000:30000"
+    depends_on:
+      - postgres
+      - redis
+      - database-core
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=postgresql://postgres:SecurePassword123!@postgres:5432/oman_education_db
+
+  # 🗄️ خدمة الـ Database Core
+  database-core:
+    build:
+      context: ./database-core
+      dockerfile: Dockerfile
+    container_name: oman_edu_db_core
+    restart: always
+    ports:
+      - "3001:3001"
+    depends_on:
+      - postgres
+
   # 🐘 خدمة قاعدة البيانات (PostgreSQL)
   postgres:
     image: postgres:15-alpine
