@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Code Preview Component - مكون معاينة الكود
  *
  * مكون لعرض الكود المولد مع تمييز الصيغة
@@ -7,7 +7,6 @@
 import React, { useState } from 'react'
 import { Copy, Check } from 'lucide-react'
 import { Button } from '../common'
-import './CodePreviewComponent.scss'
 
 interface CodePreviewComponentProps {
   code: string

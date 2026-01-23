@@ -110,7 +110,7 @@ class OfflineService {
         // Request failed, retry if possible
         this.handleRequestFailure(request)
       }
-    } catch (error) {
+    } catch (_error) {
       // Network error, retry if possible
       this.handleRequestFailure(request)
     }

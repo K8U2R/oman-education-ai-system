@@ -19,7 +19,7 @@ const routeBreadcrumbMap: Record<string, string> = {
   [ROUTES.PROFILE]: 'الملف الشخصي',
   [ROUTES.SETTINGS]: 'الإعدادات',
   [ROUTES.SUBSCRIPTION]: 'الاشتراك',
-  [ROUTES.LOGIN]: 'تسجيل الدخول',
+
   [ROUTES.REGISTER]: 'إنشاء حساب',
 }
 

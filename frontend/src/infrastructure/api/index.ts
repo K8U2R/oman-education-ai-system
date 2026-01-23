@@ -1,18 +1,9 @@
 /**
- * API Module - وحدة API
- *
- * Export جميع مكونات API
- *
- * ✅ RECOMMENDED: استخدم apiClientRefactored
- * ⚠️ DEPRECATED: api-client.ts القديم سيتم إزالته قريباً
+ * API Infrastructure Cluster
  */
 
-// Export Refactored API Client (✅ RECOMMENDED)
-export { apiClient as apiClientRefactored, createApiClient } from './api-client.refactored'
+export * from './api-client';
+export * from './types';
 
-// Export Old API Client (⚠️ DEPRECATED - للتوافق فقط)
-// ملاحظة: سيتم إزالته في المستقبل، استخدم apiClientRefactored
-export { apiClient } from './api-client'
-
-// Export Request Queue
-export * from './request-queue'
+// Alias for migration/tests if needed
+export { apiClient as apiClientRefactored } from './api-client';

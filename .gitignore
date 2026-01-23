@@ -20,33 +20,47 @@ wheels/
 .installed.cfg
 *.egg
 MANIFEST
-
-# Virtual Environment
 venv/
-ENV/
 env/
+ENV/
 .venv
 
-# IDE
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+.npm
+.eslintcache
+.node_repl_history
+*.tgz
+.yarn-integrity
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDEs
 .vscode/
 .idea/
+.cursor/
 *.swp
 *.swo
 *~
 .DS_Store
 
-# Environment Variables
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment
 .env
 .env.local
 .env.*.local
-# Frontend .env
-03-WEB-INTERFACE/frontend/.env
-03-WEB-INTERFACE/frontend/.env.local
-
-# Logs
-*.log
-logs/
-*.log.*
 
 # Database
 *.db
@@ -56,46 +70,43 @@ logs/
 # Cache
 .cache/
 *.cache
-.pytest_cache/
-.mypy_cache/
+.parcel-cache/
 
-# Node.js (for frontend)
-node_modules/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# Build files
+# Build
 dist/
 build/
-*.pyc
+out/
+.next/
 
-# Backup files
-*.bak
-*.backup
-*~
+# Testing
+.coverage
+.nyc_output
+.pytest_cache/
+.coverage.*
+
+# Temporary
+tmp/
+temp/
+*.tmp
 
 # OS
 Thumbs.db
 .DS_Store
 
-# Project specific
-18-BACKUP-ARCHIVE/*
-!18-BACKUP-ARCHIVE/.gitkeep
-*.tmp
-temp/
+# Backup
+*.bak
+*.backup
+backups/
+
+# Storage
+storage/
+uploads/
 
 # Secrets
 secrets/
-*.key
 *.pem
+*.key
 *.cert
 
-# Coverage
-.coverage
-htmlcov/
-.coverage.*
-
-# Jupyter
-.ipynb_checkpoints/
-
+*storybook.log
+storybook-static

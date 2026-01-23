@@ -10,9 +10,21 @@
  * 4. Global - الأنماط العامة (تعتمد على كل ما سبق)
  */
 
-@use './variables' as *;
-@use './mixins' as *;
-@use './themes' as *;
-@use './global' as *;
+@use 'base/reset';
+@use 'base/typography';
+@use 'abstracts/mixins' as *;
+@use 'abstracts/tokens' as *;
+@use 'components/container';
+@use 'components/button';
+@use 'layouts/header';
+@use 'layouts/footer';
+@use 'layouts/app-shell';
+@use 'components/home-page';
+@use 'components/auth';
+@use 'components/toast';
+@use 'components/loading-overlay';
+@use 'components/modal';
+@use 'components/error-panel';
 
-// يمكن إضافة أنماط عامة هنا إذا لزم الأمر
+// Init Themes
+@include generate-themes;

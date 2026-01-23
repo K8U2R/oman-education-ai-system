@@ -1,4 +1,4 @@
-/**
+﻿/**
  * DataTable Component - مكون جدول البيانات
  *
  * مكون جدول بيانات متقدم مع البحث والترتيب والفلترة
@@ -8,7 +8,6 @@ import React, { useState, useMemo } from 'react'
 import { ChevronUp, ChevronDown, Search, Download, Filter } from 'lucide-react'
 import { Input, Button } from '../../common'
 import { cn } from '../../common/utils/classNames'
-import './DataTable.scss'
 
 export interface DataTableColumn<T = unknown> {
   key: string
@@ -31,9 +30,10 @@ export interface DataTableProps<T = unknown> {
   onRowClick?: (row: T) => void
   className?: string
   emptyMessage?: string
+  actions?: (row: T) => React.ReactNode
 }
 
-export const DataTable = <T extends Record<string, unknown>>({
+export const DataTable = <T,>({
   data,
   columns,
   searchable = true,
@@ -45,31 +45,53 @@ export const DataTable = <T extends Record<string, unknown>>({
   onRowClick,
   className = '',
   emptyMessage = 'لا توجد بيانات',
+  actions,
 }: DataTableProps<T>) => {
   const [searchQuery, setSearchQuery] = useState('')
   const [sortColumn, setSortColumn] = useState<string | null>(null)
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc')
   const [currentPage, setCurrentPage] = useState(1)
 
+  // Compute effective columns including actions if provided
+  const effectiveColumns = useMemo(() => {
+    if (!actions) return columns
+    return [
+      ...columns,
+      {
+        key: '__actions',
+        label: 'إجراءات',
+        render: (_: unknown, row: T) => actions(row),
+        sortable: false,
+        align: 'left',
+      } as DataTableColumn<T>,
+    ]
+  }, [columns, actions])
+
   // Filter data
   const filteredData = useMemo(() => {
-    let filtered = [...data]
+    // Ensure data is always an array (moved inside useMemo)
+    const safeData = Array.isArray(data) ? data : []
+    let filtered = [...safeData]
 
     // Apply search
     if (searchQuery) {
-      filtered = filtered.filter(row =>
-        columns.some(col => {
-          const value = row[col.key]
+      filtered = filtered.filter(row => {
+        const rowRecord = row as Record<string, unknown>
+        return effectiveColumns.some(col => {
+          if (col.key === '__actions') return false
+          const value = rowRecord[col.key]
           return value?.toString().toLowerCase().includes(searchQuery.toLowerCase())
         })
-      )
+      })
     }
 
     // Apply sorting
     if (sortColumn && sortable) {
       filtered.sort((a, b) => {
-        const aValue = a[sortColumn] as unknown
-        const bValue = b[sortColumn] as unknown
+        const aRecord = a as Record<string, unknown>
+        const bRecord = b as Record<string, unknown>
+        const aValue = aRecord[sortColumn] as unknown
+        const bValue = bRecord[sortColumn] as unknown
 
         if (aValue === bValue) return 0
 
@@ -88,7 +110,7 @@ export const DataTable = <T extends Record<string, unknown>>({
     }
 
     return filtered
-  }, [data, searchQuery, sortColumn, sortDirection, columns, sortable])
+  }, [data, searchQuery, sortColumn, sortDirection, effectiveColumns, sortable])
 
   // Paginate data
   const paginatedData = useMemo(() => {
@@ -114,8 +136,12 @@ export const DataTable = <T extends Record<string, unknown>>({
 
   const handleExport = () => {
     // Export to CSV
-    const headers = columns.map(col => col.label).join(',')
-    const rows = filteredData.map(row => columns.map(col => row[col.key] || '').join(','))
+    const exportColumns = effectiveColumns.filter(col => col.key !== '__actions')
+    const headers = exportColumns.map(col => col.label).join(',')
+    const rows = filteredData.map(row => {
+      const rowRecord = row as Record<string, unknown>
+      return exportColumns.map(col => String(rowRecord[col.key] || '')).join(',')
+    })
     const csv = [headers, ...rows].join('\n')
 
     const blob = new Blob([csv], { type: 'text/csv' })
@@ -137,7 +163,7 @@ export const DataTable = <T extends Record<string, unknown>>({
           <div className="data-table__search">
             <Input
               value={searchQuery}
-              onChange={e => setSearchQuery(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchQuery(e.target.value)}
               placeholder={searchPlaceholder}
               leftIcon={<Search className="w-4 h-4" />}
               fullWidth
@@ -167,7 +193,7 @@ export const DataTable = <T extends Record<string, unknown>>({
         <table className="data-table">
           <thead>
             <tr>
-              {columns.map(column => (
+              {effectiveColumns.map(column => (
                 <th
                   key={column.key}
                   className={cn(
@@ -208,7 +234,7 @@ export const DataTable = <T extends Record<string, unknown>>({
           <tbody>
             {paginatedData.length === 0 ? (
               <tr>
-                <td colSpan={columns.length} className="data-table__empty">
+                <td colSpan={effectiveColumns.length} className="data-table__empty">
                   {emptyMessage}
                 </td>
               </tr>
@@ -219,15 +245,18 @@ export const DataTable = <T extends Record<string, unknown>>({
                   className={cn('data-table__row', onRowClick && 'data-table__row--clickable')}
                   onClick={() => onRowClick?.(row)}
                 >
-                  {columns.map(column => (
+                  {effectiveColumns.map(column => (
                     <td
                       key={column.key}
                       className="data-table__cell"
                       style={{ textAlign: column.align || 'right' }}
                     >
                       {column.render
-                        ? (column.render(row[column.key], row) as React.ReactNode) || '-'
-                        : (row[column.key] as React.ReactNode) || '-'}
+                        ? (column.render(
+                            (row as Record<string, unknown>)[column.key],
+                            row
+                          ) as React.ReactNode) || '-'
+                        : String((row as Record<string, unknown>)[column.key] || '') || '-'}
                     </td>
                   ))}
                 </tr>

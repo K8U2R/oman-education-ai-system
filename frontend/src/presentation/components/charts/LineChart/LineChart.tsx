@@ -1,4 +1,4 @@
-/**
+﻿/**
  * LineChart Component - مكون الرسم البياني الخطي
  *
  * مكون رسم بياني خطي بسيط
@@ -6,7 +6,6 @@
 
 import React, { useRef, useEffect } from 'react'
 import { cn } from '../../common/utils/classNames'
-import './LineChart.scss'
 
 export interface LineChartDataPoint {
   x: string | number

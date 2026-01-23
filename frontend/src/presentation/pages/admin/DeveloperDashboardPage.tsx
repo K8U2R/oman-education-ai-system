@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
 import {
   Code,
   Terminal,
@@ -12,13 +11,13 @@ import {
   Package,
 } from 'lucide-react'
 
-import { useAuth, useRole } from '@/application'
-import { ROUTES } from '@/domain/constants/routes.constants'
+import { usePageAuth, usePageLoading } from '@/application/shared/hooks'
+import { LoadingState } from '@/presentation/pages/components'
+import { loggingService } from '@/infrastructure/services'
 import { Card, Button } from '../../components/common'
-import { PageHeader, LoadingState } from '../components'
+import { PageHeader } from '../components'
 import { developerService } from '@/application'
 import { DeveloperStats } from '@/domain/types/developer.types'
-import './DeveloperDashboardPage.scss'
 
 /**
  * DeveloperDashboardPage - لوحة تحكم المطور
@@ -29,36 +28,27 @@ import './DeveloperDashboardPage.scss'
  * الوصول مقيد بدور "Developer" فقط.
  */
 const DeveloperDashboardPage: React.FC = () => {
-  const navigate = useNavigate()
-  const { user, isLoading, isAuthenticated } = useAuth()
-  const { isDeveloper } = useRole()
+  const { user, canAccess } = usePageAuth({
+    requireAuth: true,
+    requiredRole: 'developer',
+    redirectTo: '/forbidden',
+  })
 
   // إحصائيات المطور
   const [devStats, setDevStats] = useState<DeveloperStats | null>(null)
   const [isLoadingStats, setIsLoadingStats] = useState(true)
 
-  // التحقق من الصلاحيات والمصادقة
-  useEffect(() => {
-    if (!isLoading) {
-      if (!isAuthenticated) {
-        navigate(ROUTES.LOGIN, { replace: true })
-      } else if (!isDeveloper) {
-        navigate(ROUTES.FORBIDDEN, { replace: true })
-      }
-    }
-  }, [isLoading, isAuthenticated, isDeveloper, navigate])
-
   // جلب إحصائيات المطور
   useEffect(() => {
     const fetchDeveloperStats = async () => {
-      if (!isDeveloper) return
+      if (!canAccess) return
 
       try {
         setIsLoadingStats(true)
         const stats = await developerService.getDeveloperStats()
         setDevStats(stats)
       } catch (error) {
-        console.error('Failed to fetch developer stats:', error)
+        loggingService.error('Failed to fetch developer stats', error as Error)
         // في حالة الخطأ، نستخدم قيم افتراضية
         setDevStats({
           total_commits: 0,
@@ -74,16 +64,25 @@ const DeveloperDashboardPage: React.FC = () => {
       }
     }
 
-    if (isDeveloper) {
+    if (canAccess) {
       fetchDeveloperStats()
     }
-  }, [isDeveloper])
+  }, [canAccess])
 
-  if (isLoading || isLoadingStats || !devStats) {
-    return <LoadingState fullScreen message="جاري تحميل لوحة تحكم المطور..." />
+  const { isLoading, shouldShowLoading, loadingMessage } = usePageLoading({
+    isLoading: !canAccess || isLoadingStats || !devStats,
+    message: 'جاري تحميل لوحة تحكم المطور...',
+  })
+
+  if (isLoading || !canAccess || shouldShowLoading) {
+    return <LoadingState fullScreen message={loadingMessage} />
   }
 
-  if (!user || !isDeveloper) {
+  if (!user) {
+    return null
+  }
+
+  if (!devStats) {
     return null
   }
 
@@ -117,7 +116,7 @@ const DeveloperDashboardPage: React.FC = () => {
           <div className="developer-dashboard-page__stat-content">
             <h3 className="developer-dashboard-page__stat-label">الفروع النشطة</h3>
             <p className="developer-dashboard-page__stat-value">
-              {devStats.active_branches.toLocaleString('ar-EG')}
+              {devStats?.active_branches.toLocaleString('ar-EG') ?? 0}
             </p>
           </div>
         </Card>
@@ -128,13 +127,13 @@ const DeveloperDashboardPage: React.FC = () => {
           </div>
           <div className="developer-dashboard-page__stat-content">
             <h3 className="developer-dashboard-page__stat-label">تغطية الاختبارات</h3>
-            <p className="developer-dashboard-page__stat-value">{devStats.test_coverage}%</p>
+            <p className="developer-dashboard-page__stat-value">{devStats?.test_coverage ?? 0}%</p>
           </div>
         </Card>
 
         <Card className="developer-dashboard-page__stat-card">
           <div
-            className={`developer-dashboard-page__stat-icon developer-dashboard-page__stat-icon--build ${devStats.build_status === 'success' ? 'success' : 'failed'}`}
+            className={`developer-dashboard-page__stat-icon developer-dashboard-page__stat-icon--build ${devStats?.build_status === 'success' ? 'success' : 'failed'}`}
           >
             <Package size={32} />
           </div>

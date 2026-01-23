@@ -1,4 +1,4 @@
-/**
+﻿/**
  * FormWizard Component - مكون معالج النماذج
  *
  * مكون لبناء نماذج متعددة الخطوات
@@ -9,7 +9,6 @@ import { ChevronRight, ChevronLeft, Check } from 'lucide-react'
 import { Button } from '../../common'
 import type { FormFieldConfig } from '../FormBuilder/FormBuilder.types'
 import { cn } from '../../common/utils/classNames'
-import './FormWizard.scss'
 
 export interface FormWizardStep {
   id: string

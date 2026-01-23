@@ -5,33 +5,31 @@ import path from 'path'
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
   const isProduction = mode === 'production'
-  
+
   return {
     plugins: [
-      react({
-        // Enable Fast Refresh
-        fastRefresh: true,
-      }),
+      react(),
     ],
-  resolve: {
-    alias: {
-      '@': path.resolve(__dirname, './src'),
-      '@/application': path.resolve(__dirname, './src/application'),
-      '@/infrastructure': path.resolve(__dirname, './src/infrastructure'),
-      '@/presentation': path.resolve(__dirname, './src/presentation'),
-    },
-  },
-  css: {
-    preprocessorOptions: {
-      scss: {
-        api: 'modern-compiler', // استخدام Modern Sass API بدلاً من Legacy API
-        includePaths: [path.resolve(__dirname, './src')],
-        // إضافة المتغيرات والميكسينات تلقائياً لكل ملف SCSS (حل احتياطي)
-        // يمكن إزالة هذا إذا كان @import يعمل بشكل صحيح
-        // additionalData: `@import "@/styles/variables"; @import "@/styles/mixins";`,
+    resolve: {
+      alias: {
+        '@/features': path.resolve(__dirname, './src/presentation/features'),
+        '@/application': path.resolve(__dirname, './src/application'),
+        '@/infrastructure': path.resolve(__dirname, './src/infrastructure'),
+        '@/presentation': path.resolve(__dirname, './src/presentation'),
+        '@': path.resolve(__dirname, './src'),
       },
     },
-  },
+    css: {
+      preprocessorOptions: {
+        scss: {
+          api: 'modern-compiler', // استخدام Modern Sass API بدلاً من Legacy API
+          includePaths: [path.resolve(__dirname, './src')],
+          // إضافة المتغيرات والميكسينات تلقائياً لكل ملف SCSS (حل احتياطي)
+          // يمكن إزالة هذا إذا كان @import يعمل بشكل صحيح
+          // additionalData: `@import "@/styles/variables"; @import "@/styles/mixins";`,
+        },
+      },
+    },
     build: {
       // Source maps for production debugging (only in production)
       sourcemap: isProduction,
@@ -140,10 +138,10 @@ export default defineConfig(({ mode }) => {
       // Target modern browsers for smaller bundle
       target: ['es2020', 'edge88', 'firefox78', 'chrome87', 'safari14'],
     },
-    
+
     server: {
-      port: 5173, // Development server port
-      strictPort: true, // Fail if port is already in use
+      port: 30174, // Development server port
+      strictPort: false, // Fail if port is already in use
       open: true, // Auto-open browser in development
       hmr: {
         overlay: true, // Show error overlay
@@ -153,11 +151,11 @@ export default defineConfig(({ mode }) => {
         // WARNING: This should NOT be used in production
         'Content-Security-Policy': [
           "default-src 'self'",
-          "script-src 'self' 'unsafe-eval' 'unsafe-inline' http://localhost:3000",
-          "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-          "font-src 'self' data: https://fonts.gstatic.com",
-          "img-src 'self' data: blob:",
-          "connect-src 'self' http://localhost:3000 http://localhost:8000 http://localhost:9681 ws://localhost:3000 ws://localhost:8000 ws://localhost:9681 https://fonts.googleapis.com",
+          "script-src 'self' 'unsafe-eval' 'unsafe-inline' http://localhost:30000",
+          "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://api.fontshare.com",
+          "font-src 'self' data: https://fonts.gstatic.com https://cdn.fontshare.com",
+          "img-src 'self' data: blob: https://lh3.googleusercontent.com https://*.googleusercontent.com",
+          "connect-src 'self' http://localhost:30000 http://localhost:8000 http://localhost:9681 ws://localhost:30000 ws://localhost:8000 ws://localhost:9681 https://fonts.googleapis.com https://api.fontshare.com",
           "frame-src 'none'",
           "object-src 'none'",
           "base-uri 'self'",
@@ -165,19 +163,19 @@ export default defineConfig(({ mode }) => {
       },
       proxy: {
         '/api/v1': {
-          target: 'http://localhost:3000', // Backend runs on port 3000
+          target: "http://localhost:30000", // Backend runs on port 3000
           changeOrigin: true,
           secure: false,
         },
       },
     },
-    
+
     preview: {
       port: 4173, // Preview server port (for production builds)
       strictPort: true, // Fail if port is already in use
       open: true, // Auto-open browser in preview mode
     },
-    
+
     // Optimize dependencies
     optimizeDeps: {
       include: ['react', 'react-dom', 'react-router-dom'],

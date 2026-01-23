@@ -5,36 +5,41 @@
  */
 
 import { RouteConfig } from '../../types'
-import { publicRoutes } from './public.routes'
-import { authRoutes } from './auth.routes'
-import { studentRoutes } from './student.routes'
-import { teacherRoutes } from './teacher.routes'
-import { moderatorRoutes } from './moderator.routes'
-import { adminRoutes } from './admin.routes'
-import { sharedRoutes } from './shared.routes'
-import { errorRoutes } from './error.routes'
+import { publicRoutes } from '../../definitions/public/public.routes'
+import { authRoutes } from '../../definitions/auth/auth.routes'
+import { studentRoutes } from '../../definitions/student/student.routes'
+import { teacherRoutes } from '../../definitions/teacher/teacher.routes'
+import { adminRoutes } from '../../definitions/admin/admin.routes'
+import { moderatorRoutes } from '../../definitions/moderator/moderator.routes'
+import { sharedRoutes } from '../../definitions/shared/shared.routes'
+import { errorRoutes } from '../../definitions/error/error.routes'
+import { mastermindRoutes } from '../../definitions/mastermind/mastermind.routes'
+import { sentinelRoutes } from '../../definitions/sentinel/sentinel.routes'
 
-import { publicMetadata } from './metadata/public.metadata'
-import { authMetadata } from './metadata/auth.metadata'
-import { studentMetadata } from './metadata/student.metadata'
-import { teacherMetadata } from './metadata/teacher.metadata'
-import { moderatorMetadata } from './metadata/moderator.metadata'
-import { adminMetadata } from './metadata/admin.metadata'
-import { sharedMetadata } from './metadata/shared.metadata'
-import { errorMetadata } from './metadata/error.metadata'
+// Metadata
+import { publicMetadata } from '../../definitions/public/public.metadata'
+import { authMetadata } from '../../definitions/auth/auth.metadata'
+import { studentMetadata } from '../../definitions/student/student.metadata'
+import { teacherMetadata } from '../../definitions/teacher/teacher.metadata'
+import { adminMetadata } from '../../definitions/admin/admin.metadata'
+import { moderatorMetadata } from '../../definitions/moderator/moderator.metadata'
+import { sharedMetadata } from '../../definitions/shared/shared.metadata'
+import { errorMetadata } from '../../definitions/error/error.metadata'
 
 /**
  * All Routes - جميع المسارات
  */
 export const allRoutes: RouteConfig[] = [
+  ...sentinelRoutes, // Dev-only route (first priority)
   ...publicRoutes,
   ...authRoutes,
   ...studentRoutes,
   ...teacherRoutes,
-  ...moderatorRoutes,
   ...adminRoutes,
+  ...moderatorRoutes,
   ...sharedRoutes,
   ...errorRoutes,
+  ...mastermindRoutes,
 ]
 
 /**
@@ -45,8 +50,8 @@ export const routeMetadata = {
   ...authMetadata,
   ...studentMetadata,
   ...teacherMetadata,
-  ...moderatorMetadata,
   ...adminMetadata,
+  ...moderatorMetadata,
   ...sharedMetadata,
   ...errorMetadata,
 }

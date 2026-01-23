@@ -9,11 +9,8 @@ import { useNavigate } from 'react-router-dom'
 import { FolderKanban, Plus, Search, Filter } from 'lucide-react'
 import { useProjects } from '@/application'
 import { PageHeader, LoadingState, ErrorState, EmptyState } from '../components'
-import type {
-  ProjectType,
-  ProjectStatus,
-} from '@/application/features/projects/services/project.service'
-import './ProjectsPage.scss'
+import type { ProjectType, ProjectStatus } from '@/features/project-management-dashboard'
+
 
 const ProjectsPage: React.FC = () => {
   const navigate = useNavigate()

@@ -22,15 +22,23 @@ export class RegisterPage {
 
   constructor(page: Page) {
     this.page = page
-    this.firstNameInput = page.locator('input[placeholder*="أحمد"], input[label*="الاسم الأول"]').first()
-    this.lastNameInput = page.locator('input[placeholder*="محمد"], input[label*="اسم العائلة"]').first()
+    this.firstNameInput = page
+      .locator('input[placeholder*="أحمد"], input[label*="الاسم الأول"]')
+      .first()
+    this.lastNameInput = page
+      .locator('input[placeholder*="محمد"], input[label*="اسم العائلة"]')
+      .first()
     this.emailInput = page.locator('input[type="email"]')
     this.passwordInput = page.locator('input[type="password"]').first()
     this.confirmPasswordInput = page.locator('input[type="password"]').nth(1)
-    this.usernameInput = page.locator('input[placeholder*="username"], input[label*="اسم المستخدم"]').first()
+    this.usernameInput = page
+      .locator('input[placeholder*="username"], input[label*="اسم المستخدم"]')
+      .first()
     this.acceptTermsCheckbox = page.locator('input[type="checkbox"]').first()
     this.acceptPrivacyCheckbox = page.locator('input[type="checkbox"]').nth(1)
-    this.submitButton = page.locator('button[type="submit"]:has-text("تسجيل"), button:has-text("إنشاء حساب")')
+    this.submitButton = page.locator(
+      'button[type="submit"]:has-text("تسجيل"), button:has-text("إنشاء حساب")'
+    )
     this.errorMessage = page.locator('.error, [role="alert"]').first()
     this.successMessage = page.locator('.success, [data-testid="success"]').first()
   }
@@ -58,13 +66,13 @@ export class RegisterPage {
     await this.lastNameInput.fill(data.lastName)
     await this.emailInput.fill(data.email)
     await this.passwordInput.fill(data.password)
-    
+
     if (data.confirmPassword) {
       await this.confirmPasswordInput.fill(data.confirmPassword)
     } else {
       await this.confirmPasswordInput.fill(data.password)
     }
-    
+
     if (data.username) {
       await this.usernameInput.fill(data.username)
     }
@@ -120,4 +128,3 @@ export class RegisterPage {
     }
   }
 }
-

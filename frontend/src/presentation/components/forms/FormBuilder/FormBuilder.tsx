@@ -1,4 +1,4 @@
-/**
+﻿/**
  * FormBuilder Component - مكون بناء النماذج
  *
  * مكون لبناء نماذج ديناميكية
@@ -10,7 +10,6 @@ import { Button } from '../../common'
 import { ValidationService } from '@/application'
 import { cn } from '../../common/utils/classNames'
 import type { FormBuilderProps } from './FormBuilder.types'
-import './FormBuilder.scss'
 
 export const FormBuilder: React.FC<FormBuilderProps> = ({
   fields,

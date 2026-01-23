@@ -7,7 +7,6 @@
 import React, { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import { analyticsService } from '@/application'
-import './RouteTransition.scss'
 
 interface RouteTransitionProps {
   children: React.ReactNode

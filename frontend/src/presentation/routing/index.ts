@@ -1,44 +1,48 @@
 /**
- * Routing System - نظام التوجيه
+ * Routing System - نظام التوجيه المركزي
  *
- * تصدير جميع مكونات نظام التوجيه
+ * تصدير جميع مكونات نظام التوجيه بهيكل خوارزمي منظم
  */
 
-// Guards
+// Guards - حراس المسارات
 export * from './guards'
 
-// Middleware
+// Middleware - طبقة البرمجيات الوسيطة
 export * from './middleware/RouteMiddleware'
 
-// Hooks
+// Hooks - خطافات التوجيه
 export * from './hooks'
 
-// Components
+// Components - مكونات التوجيه
 export * from './components'
 
-// Utils
+// Core Components - المكونات الأساسية
+// (OAuthCallback has been evicted to presentation/pages/auth/callback)
+
+// Utils - أدوات مساعدة
 export * from './utils'
 
-// Types
+// Types - أنواع البيانات
 export * from './types'
 
-// Routes - Export directly from core/routes
+// Routes - تصدير المسارات من core
 export { allRoutes, routeMetadata } from './core/routes'
 
-// Provider
-export { RouteProvider } from './RouteProvider'
+// Provider - موفر السياق (من providers/)
+export { RouteProvider } from './providers/RouteProvider'
+export { useRouteContext } from './providers/RouteContext'
 
-// Analytics
+// Analytics - تحليلات المسارات
 export { routeAnalytics } from './analytics/RouteAnalytics'
 
-// History
+// History - سجل المسارات
 export { routeHistory } from './history/RouteHistory'
 
-// Preloader
+// Preloader - التحميل المسبق
 export { routePreloader } from './preloading/RoutePreloader'
 
-// Errors
-export { RouteErrorBoundary } from './errors/RouteErrorBoundary'
+// Errors - معالجة الأخطاء
+// (Evicted to presentation/components/ui/feedback)
 
-// Transitions
+// Transitions - تحولات المسارات
 export { RouteTransition } from './transitions/RouteTransition'

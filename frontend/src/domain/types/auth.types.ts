@@ -1,13 +1,20 @@
 /**
  * Auth Types - أنواع المصادقة
  *
- * هذا الملف يحتوي على جميع Types المتعلقة بالمصادقة والأدوار والصلاحيات
+ * هذا الملف يحتوي على جميع Types المتعلقة بالمصادقة والأدوار و
  */
 
 /**
  * User Role - دور المستخدم
  */
-export type UserRole = 'student' | 'teacher' | 'admin' | 'parent' | 'moderator' | 'developer'
+export type UserRole =
+  | 'student'
+  | 'admin'
+  | 'parent'
+  | 'developer'
+  | 'guest'
+  | 'moderator'
+  | 'teacher'
 
 /**
  * Permission - صلاحية
@@ -43,36 +50,34 @@ export type Permission =
   | 'admin.users'
   | 'admin.settings'
   | 'admin.reports'
+  // Database Core
+  | 'database-core.view'
+  | 'database-core.metrics.view'
+  | 'database-core.connections.manage'
+  | 'database-core.cache.manage'
+  | 'database-core.explore'
+  | 'database-core.query.execute'
+  | 'database-core.transactions.view'
+  | 'database-core.audit.view'
+  | 'database-core.backups.manage'
+  | 'database-core.migrations.manage'
+  // Whitelist
+  | 'whitelist.view'
+  | 'whitelist.create'
+  | 'whitelist.update'
+  | 'whitelist.delete'
+  | 'whitelist.manage'
+  // Role Simulation
+  | 'role-simulation.enable'
+  | 'role-simulation.manage'
 
 /**
  * Role Permissions - صلاحيات الأدوار
  */
 export const ROLE_PERMISSIONS: Record<UserRole, Permission[]> = {
+  guest: [],
   student: ['lessons.view', 'storage.view', 'storage.upload', 'notifications.view'],
-  teacher: [
-    'lessons.view',
-    'lessons.create',
-    'lessons.update',
-    'storage.view',
-    'storage.upload',
-    'storage.delete',
-    'notifications.view',
-    'notifications.create',
-  ],
   parent: ['lessons.view', 'storage.view', 'notifications.view'],
-  moderator: [
-    'lessons.view',
-    'lessons.create',
-    'lessons.update',
-    'lessons.delete',
-    'storage.view',
-    'storage.upload',
-    'storage.delete',
-    'notifications.view',
-    'notifications.create',
-    'notifications.manage',
-    'users.view',
-  ],
   admin: [
     // All permissions
     'users.view',
@@ -101,8 +106,12 @@ export const ROLE_PERMISSIONS: Record<UserRole, Permission[]> = {
     'admin.reports',
   ],
   developer: [
-    // Developer permissions - similar to admin but focused on development
+    // Developer permissions - All admin permissions + additional dev permissions
     'users.view',
+    'users.create',
+    'users.update',
+    'users.delete',
+    'users.manage',
     'lessons.view',
     'lessons.create',
     'lessons.update',
@@ -114,10 +123,45 @@ export const ROLE_PERMISSIONS: Record<UserRole, Permission[]> = {
     'storage.manage',
     'notifications.view',
     'notifications.create',
+    'notifications.manage',
     'system.view',
     'system.manage',
     'system.settings',
     'admin.dashboard',
+    'admin.users',
+    'admin.settings',
+    'admin.reports',
+    'database-core.view',
+    'database-core.metrics.view',
+    'whitelist.manage',
+    'role-simulation.enable',
+    'role-simulation.manage',
+  ],
+  moderator: [
+    'users.view',
+    'users.update',
+    'lessons.view',
+    'lessons.manage',
+    'storage.view',
+    'storage.manage',
+    'notifications.view',
+    'notifications.create',
+    'notifications.manage',
+    'admin.dashboard',
+    'admin.users',
+    'admin.reports',
+  ],
+  teacher: [
+    'users.view',
+    'lessons.view',
+    'lessons.create',
+    'lessons.update',
+    'lessons.delete',
+    'lessons.manage',
+    'storage.view',
+    'storage.upload',
+    'notifications.view',
+    'notifications.create',
   ],
 }
 
@@ -211,7 +255,7 @@ export interface LoginResponse {
 /**
  * OAuthProvider - مزود OAuth
  */
-export type OAuthProvider = 'google' | 'github' | 'microsoft'
+export type OAuthProvider = 'google' | 'microsoft'
 
 /**
  * OAuthCallbackResult - نتيجة OAuth Callback

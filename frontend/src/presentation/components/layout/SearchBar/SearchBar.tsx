@@ -1,8 +1,7 @@
-import React, { useRef, useEffect, useState } from 'react'
+﻿import React, { useRef, useEffect, useState } from 'react'
 import { Search, X, Loader2, Clock, Trash2 } from 'lucide-react'
 import { useSearch } from '../hooks/useSearch'
 import { SearchResult } from '../types'
-import './SearchBar.scss'
 
 const SearchBar: React.FC = () => {
   const searchRef = useRef<HTMLDivElement>(null)
@@ -41,6 +40,30 @@ const SearchBar: React.FC = () => {
       document.removeEventListener('mousedown', handleClickOutside)
     }
   }, [isOpen, isExpanded, setIsOpen])
+
+  // Keyboard Shortcut: Ctrl+K / Cmd+K to open search
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if ((event.ctrlKey || event.metaKey) && event.key === 'k') {
+        event.preventDefault()
+        setIsExpanded(true)
+        setIsOpen(true)
+        inputRef.current?.focus()
+      }
+
+      // Escape to close
+      if (event.key === 'Escape' && (isOpen || isExpanded)) {
+        setIsExpanded(false)
+        setIsOpen(false)
+        clearSearch()
+      }
+    }
+
+    document.addEventListener('keydown', handleKeyDown)
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [isOpen, isExpanded, setIsOpen, clearSearch])
 
   useEffect(() => {
     if (query.trim().length > 0) {

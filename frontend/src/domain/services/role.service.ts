@@ -1,7 +1,7 @@
 /**
- * Role Service - خدمة الأدوار والصلاحيات
+ * Role Service - خدمة الأدوار و
  *
- * Domain Service للتحقق من الأدوار والصلاحيات
+ * Domain Service للتحقق من الأدوار و
  */
 
 import {
@@ -17,7 +17,16 @@ export class RoleService {
    * التحقق من أن المستخدم لديه دور معين
    */
   static hasRole(userRole: UserRole, requiredRole: UserRole): boolean {
+    // إذا لم يكن userRole موجوداً، إرجاع false
+    if (!userRole || !requiredRole) {
+      if (import.meta.env.DEV) {
+        console.warn('[RoleService.hasRole] Missing roles', { userRole, requiredRole })
+      }
+      return false
+    }
+
     const roleHierarchy: Record<UserRole, number> = {
+      guest: 0,
       student: 1,
       parent: 1,
       teacher: 2,
@@ -26,7 +35,56 @@ export class RoleService {
       developer: 5,
     }
 
-    return roleHierarchy[userRole] >= roleHierarchy[requiredRole]
+    // التحقق من أن كلا الدورين موجودان في الـ hierarchy
+    if (!(userRole in roleHierarchy)) {
+      if (import.meta.env.DEV) {
+        console.warn('[RoleService.hasRole] User role not in hierarchy', {
+          userRole,
+          availableRoles: Object.keys(roleHierarchy),
+        })
+      }
+      return false
+    }
+
+    if (!(requiredRole in roleHierarchy)) {
+      if (import.meta.env.DEV) {
+        console.warn('[RoleService.hasRole] Required role not in hierarchy', {
+          requiredRole,
+          availableRoles: Object.keys(roleHierarchy),
+        })
+      }
+      return false
+    }
+
+    // developer (5) أعلى من admin (4)، لذلك developer يمكنه الوصول لصفحات admin
+    const userLevel = roleHierarchy[userRole]
+    const requiredLevel = roleHierarchy[requiredRole]
+    const hasAccess = userLevel >= requiredLevel
+
+    // Log for debugging (only in development) - use console.error to ensure visibility
+    /* if (import.meta.env.DEV) {
+      if (!hasAccess) {
+        console.error('[RoleService.hasRole] ❌ Access DENIED', {
+          userRole,
+          requiredRole,
+          userLevel,
+          requiredLevel,
+          comparison: `${userLevel} >= ${requiredLevel} = ${hasAccess}`,
+          hierarchy: roleHierarchy,
+        })
+      } else {
+        // eslint-disable-next-line no-console
+        console.log('[RoleService.hasRole] ✅ Access GRANTED', {
+          userRole,
+          requiredRole,
+          userLevel,
+          requiredLevel,
+          comparison: `${userLevel} >= ${requiredLevel} = ${hasAccess}`,
+        })
+      }
+    } */
+
+    return hasAccess
   }
 
   /**
@@ -63,7 +121,7 @@ export class RoleService {
   }
 
   /**
-   * التحقق من أن المستخدم لديه إحدى الصلاحيات المطلوبة
+   * التحقق من أن المستخدم لديه إحدى  المطلوبة
    */
   static hasAnyPermission(
     userPermissions: Permission[],
@@ -73,7 +131,7 @@ export class RoleService {
   }
 
   /**
-   * التحقق من أن المستخدم لديه جميع الصلاحيات المطلوبة
+   * التحقق من أن المستخدم لديه جميع  المطلوبة
    */
   static hasAllPermissions(
     userPermissions: Permission[],
@@ -98,7 +156,7 @@ export class RoleService {
   }
 
   /**
-   * التحقق من الصلاحيات بناءً على الدور
+   * التحقق من  بناءً على الدور
    */
   static hasPermissionsByRole(
     userRole: UserRole,

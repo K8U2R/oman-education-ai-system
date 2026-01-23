@@ -1,4 +1,4 @@
-/**
+﻿/**
  * AI Assistant Panel - لوحة المساعد الذكي
  *
  * لوحة جانبية للمساعد الذكي مع خيارات سريعة
@@ -8,17 +8,21 @@ import React, { useState } from 'react'
 import { Bot, X, Lightbulb, BookOpen, Code2, HelpCircle } from 'lucide-react'
 import { Button } from '../common'
 import { AIChatComponent, ChatMessage } from './AIChatComponent'
-import './AIAssistantPanel.scss'
 
 interface AIAssistantPanelProps {
   isOpen: boolean
   onClose: () => void
   onSendMessage?: (message: string) => Promise<string>
+  onStreamMessage?: (message: string, onToken: (token: string) => void) => Promise<void>
   context?: {
     type: 'lesson' | 'code' | 'general'
     data?: Record<string, unknown>
   }
 }
+
+// ... (Quick Actions Logic)
+
+
 
 const QUICK_ACTIONS = [
   {
@@ -51,6 +55,7 @@ export const AIAssistantPanel: React.FC<AIAssistantPanelProps> = ({
   isOpen,
   onClose,
   onSendMessage,
+  onStreamMessage,
   context: _context,
 }) => {
   const [messages, setMessages] = useState<ChatMessage[]>([])
@@ -76,17 +81,12 @@ export const AIAssistantPanel: React.FC<AIAssistantPanelProps> = ({
         timestamp: new Date(),
       }
       setMessages(prev => [...prev, assistantMessage])
-    } catch (error) {
+    } catch (_error) {
       // Error logging is handled by the error interceptor
     }
   }
 
-  const handleChatSend = async (message: string): Promise<string> => {
-    if (onSendMessage) {
-      return await onSendMessage(message)
-    }
-    return 'شكراً لرسالتك. أنا هنا لمساعدتك!'
-  }
+
 
   if (!isOpen) return null
 
@@ -127,7 +127,8 @@ export const AIAssistantPanel: React.FC<AIAssistantPanelProps> = ({
 
         <div className="ai-assistant-panel__chat">
           <AIChatComponent
-            onSendMessage={handleChatSend}
+            onSendMessage={onSendMessage}
+            onStreamMessage={onStreamMessage}
             initialMessages={messages}
             title=""
             placeholder="اسأل المساعد الذكي..."

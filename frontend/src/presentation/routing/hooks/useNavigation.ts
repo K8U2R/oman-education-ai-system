@@ -14,7 +14,7 @@ import {
   navigateToLogin,
   canNavigate,
 } from '../utils/navigation'
-import { useAuth } from '@/application'
+import { useAuth } from '@/features/user-authentication-management'
 
 export const useNavigation = () => {
   const navigate = useNavigate()

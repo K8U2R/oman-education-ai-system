@@ -9,35 +9,37 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { User, XCircle, RefreshCw, ArrowRight } from 'lucide-react'
 import { Card, Button, Badge, Avatar } from '../../../components/common'
 import { SessionsTable } from '../../../components/security'
-import { useSessions } from '@/application/features/security'
-import { useAuth, useRole } from '@/application'
+import { useSessions } from '@/features/system-administration-portal'
+import { usePageAuth, usePageLoading } from '@/application/shared/hooks'
+import { LoadingState } from '@/presentation/pages/components'
+import { loggingService } from '@/infrastructure/services'
 import { ROUTES } from '@/domain/constants/routes.constants'
-import { PageHeader, LoadingState } from '../../components'
-import type { Session } from '@/application/features/security/types'
-import './UserSupportPage.scss'
+import { PageHeader } from '../../components'
+import type { Session } from '@/features/system-administration-portal'
+
 
 const UserSupportPage: React.FC = () => {
   const navigate = useNavigate()
   const { userId } = useParams<{ userId: string }>()
-  const { user, isLoading: authLoading, isAuthenticated } = useAuth()
-  const { isAdmin, hasRole } = useRole()
-  const isModerator = hasRole('moderator')
+  const { user, canAccess, getShouldRedirect, loadingState } = usePageAuth({
+    requireAuth: true,
+    requiredPermissions: ['admin.users', 'users.manage'],
+    redirectTo: ROUTES.FORBIDDEN,
+  })
+  const { shouldShowLoading: pageShouldShowLoading, loadingMessage: pageLoadingMessage } =
+    usePageLoading({
+      isLoading: !canAccess,
+      message: 'جاري تحميل صفحة دعم المستخدم...',
+    })
+
   const { sessions, loading, loadSessions, terminateSession, terminateAllSessions } = useSessions()
   const [userSessions, setUserSessions] = useState<Session[]>([])
 
   useEffect(() => {
-    if (!authLoading && !isAuthenticated) {
-      navigate(ROUTES.LOGIN)
-    } else if (!authLoading && !isAdmin && !isModerator) {
-      navigate(ROUTES.FORBIDDEN)
-    }
-  }, [authLoading, isAuthenticated, isAdmin, isModerator, navigate])
-
-  useEffect(() => {
-    if ((isAdmin || isModerator) && userId) {
+    if (canAccess && userId) {
       loadSessions({ userId })
     }
-  }, [isAdmin, isModerator, userId, loadSessions])
+  }, [canAccess, userId, loadSessions])
 
   useEffect(() => {
     if (userId) {
@@ -53,20 +55,20 @@ const UserSupportPage: React.FC = () => {
       await terminateSession(sessionId)
       await loadSessions()
     } catch (error) {
-      console.error('Failed to terminate session:', error)
+      loggingService.error('Failed to terminate session', error as Error)
     }
   }
 
   const handleTerminateAll = async () => {
     if (!userId) {
-      console.error('User ID not available')
+      loggingService.error('User ID not available', new Error('User ID is required'))
       return
     }
     try {
       await terminateAllSessions(userId)
       await loadSessions()
     } catch (error) {
-      console.error('Failed to terminate all sessions:', error)
+      loggingService.error('Failed to terminate all sessions', error as Error)
     }
   }
 
@@ -75,11 +77,25 @@ const UserSupportPage: React.FC = () => {
     // Session details view handler
   }
 
-  if (authLoading || loading) {
-    return <LoadingState fullScreen message="جاري تحميل معلومات المستخدم..." />
+  const { shouldShowLoading: sessionsShouldShowLoading, loadingMessage: sessionsLoadingMessage } =
+    usePageLoading({
+      isLoading: loading && userSessions.length === 0,
+      message: 'جاري تحميل معلومات المستخدم...',
+    })
+
+  if (getShouldRedirect()) {
+    return null
   }
 
-  if (!user || (!isAdmin && !isModerator)) {
+  if (!canAccess || pageShouldShowLoading || loadingState.shouldShowLoading) {
+    return <LoadingState fullScreen message={pageLoadingMessage || loadingState.loadingMessage} />
+  }
+
+  if (sessionsShouldShowLoading) {
+    return <LoadingState fullScreen message={sessionsLoadingMessage} />
+  }
+
+  if (!user) {
     return null
   }
 

@@ -9,18 +9,27 @@ export const ROUTES = {
   HOME: '/',
   LOGIN: '/login',
   REGISTER: '/register',
+  FORGOT_PASSWORD: '/forgot-password',
   TERMS: '/terms',
   PRIVACY: '/privacy',
 
   // Auth
   OAUTH_CALLBACK: '/auth/callback',
+  OAUTH_SUCCESS: '/auth/success',
+  VERIFY_EMAIL: '/verify-email',
+  RESEND_VERIFICATION: '/resend-verification',
 
   // Error Pages
   UNAUTHORIZED: '/unauthorized',
   FORBIDDEN: '/forbidden',
+  NOT_FOUND: '/404',
+  SERVER_ERROR: '/500',
+  NETWORK_ERROR: '/network-error',
+  MAINTENANCE: '/maintenance',
 
   // Protected
   DASHBOARD: '/dashboard',
+  LEARN: '/learn',
   LESSONS: '/lessons',
   LESSON_DETAIL: (lessonId: string) => `/lessons/${lessonId}`,
   LESSON_DETAIL_PATTERN: '/lessons/:lessonId',
@@ -34,6 +43,7 @@ export const ROUTES = {
   // Admin & Developer
   ADMIN_DASHBOARD: '/admin',
   ADMIN_USERS: '/admin/users',
+  ADMIN_WHITELIST: '/admin/whitelist',
   ADMIN_SECURITY: '/admin/security',
   ADMIN_SECURITY_DASHBOARD: '/admin/security/dashboard',
   ADMIN_SECURITY_SESSIONS: '/admin/security/sessions',
@@ -42,6 +52,23 @@ export const ROUTES = {
   ADMIN_SECURITY_ROUTES: '/admin/security/routes',
   ADMIN_ANALYTICS_ERRORS: '/admin/analytics/errors',
   ADMIN_ANALYTICS_PERFORMANCE: '/admin/analytics/performance',
+  ADMIN_KNOWLEDGE: '/admin/knowledge',
+
+  // Database Core
+  ADMIN_DATABASE_CORE: '/admin/database-core',
+  ADMIN_DATABASE_CORE_DASHBOARD: '/admin/database-core',
+  ADMIN_DATABASE_CORE_PERFORMANCE: '/admin/database-core/performance',
+  ADMIN_DATABASE_CORE_CONNECTIONS: '/admin/database-core/connections',
+  ADMIN_DATABASE_CORE_CACHE: '/admin/database-core/cache',
+  ADMIN_DATABASE_CORE_TRANSACTIONS: '/admin/database-core/transactions',
+  ADMIN_DATABASE_CORE_AUDIT: '/admin/database-core/audit',
+  ADMIN_DATABASE_CORE_BACKUPS: '/admin/database-core/backups',
+  ADMIN_DATABASE_CORE_MIGRATIONS: '/admin/database-core/migrations',
+  ADMIN_DATABASE_CORE_EXPLORER: '/admin/database-core/explorer',
+  ADMIN_DATABASE_CORE_QUERY_BUILDER: '/admin/database-core/query-builder',
+  ADMIN_DATABASE_CORE_TABLES: '/admin/database-core/tables',
+  ADMIN_DATABASE_CORE_SECURITY: '/admin/database-core/security',
+
   DEVELOPER_DASHBOARD: '/developer',
   DEVELOPER_SECURITY_ANALYTICS: '/developer/security/analytics',
   DEVELOPER_SECURITY_MONITORING: '/developer/security/monitoring',

@@ -1,14 +1,9 @@
 /**
- * Admin Services - خدمات الإدارة
+ * Admin Services - خدمات Admin
+ *
+ * تصدير جميع خدمات Admin
  */
 
 export * from './admin.service'
-export { adminService } from './admin.service'
-export type {
-  SystemStats,
-  UserStats,
-  ContentStats,
-  AdminUserInfo,
-  UpdateUserRequest,
-  SearchUsersRequest,
-} from './admin.service'
+export * from './admin-dashboard.service'
+export * from './users-management.service'

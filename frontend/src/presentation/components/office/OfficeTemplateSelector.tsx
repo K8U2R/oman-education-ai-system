@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Office Template Selector - محدد قوالب Office
  *
  * مكون لاختيار قالب Office
@@ -8,7 +8,6 @@ import React, { useState, useEffect, useCallback } from 'react'
 import { FileSpreadsheet, FileText, Presentation, Loader2 } from 'lucide-react'
 import { Card, Button } from '../common'
 import { officeService, type OfficeTemplate } from '@/application'
-import './OfficeTemplateSelector.scss'
 
 // Re-export for backward compatibility
 export type { OfficeTemplate } from '@/application'

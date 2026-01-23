@@ -164,7 +164,7 @@ export const publicRoutes: RouteConfig[] = [
 #### 3. `student.routes.tsx`
 
 **المسارات:** Dashboard, Lessons, Assessments, Projects, Storage  
-**الحماية:** ProtectedRoute مع الصلاحيات المناسبة
+**الحماية:** ProtectedRoute مع المناسبة
 
 #### 4. `teacher.routes.tsx`
 
@@ -397,10 +397,10 @@ export const allMetadata = {
 
 ```typescript
 // ✅ جيد - Lazy Loading
-const DashboardPage = lazy(() => import('../../../pages/user/DashboardPage'))
+const DashboardPage = lazy(() => import('../../../pages/user/dashboard/DashboardPage'))
 
 // ❌ سيء - Eager Loading
-import DashboardPage from '../../../pages/user/DashboardPage'
+import DashboardPage from '../../../pages/user/dashboard/DashboardPage'
 ```
 
 ### 3. فصل Metadata عن Routes
@@ -418,7 +418,7 @@ metadata: {
 }
 ```
 
-### 4. استخدام الصلاحيات بشكل صحيح
+### 4. استخدام بشكل صحيح
 
 ```typescript
 // ✅ جيد - صلاحيات محددة

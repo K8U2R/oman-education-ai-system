@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Office Export Dialog - حوار تصدير Office
  *
  * مكون حوار لتصدير ملفات Office
@@ -7,7 +7,6 @@
 import React, { useState } from 'react'
 import { Download, FileSpreadsheet, FileText, Presentation, X } from 'lucide-react'
 import { Modal, Button, Card } from '../common'
-import './OfficeExportDialog.scss'
 
 interface OfficeExportDialogProps {
   isOpen: boolean

@@ -8,7 +8,8 @@ import React, { useState, useEffect, useCallback } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Save, X, FolderKanban } from 'lucide-react'
 import { Card, Button, Input } from '../../components/common'
-import { projectService } from '@/application/features/projects/services/project.service'
+import { projectService } from '@/features/project-management-dashboard'
+import { loggingService } from '@/infrastructure/services'
 import { PageHeader, LoadingState } from '../components'
 import { ROUTES } from '@/domain/constants'
 import type {
@@ -16,8 +17,8 @@ import type {
   UpdateProjectRequest,
   ProjectType,
   ProjectStatus,
-} from '@/application/features/projects/services/project.service'
-import './ProjectFormPage.scss'
+} from '@/features/project-management-dashboard'
+
 
 interface ProjectFormData {
   title: string
@@ -68,7 +69,8 @@ const ProjectFormPage: React.FC = () => {
         })
         setRequirementsInput('')
       } catch (error) {
-        console.error('Failed to load project:', error)
+        loggingService.error('Failed to load project', error as Error)
+        // TODO: Replace with toast notification
         alert('فشل تحميل المشروع')
         navigate(ROUTES.PROJECTS)
       } finally {
@@ -121,7 +123,8 @@ const ProjectFormPage: React.FC = () => {
         navigate(ROUTES.PROJECT_DETAIL(project.id))
       }
     } catch (error) {
-      console.error('Failed to save project:', error)
+      loggingService.error('Failed to save project', error as Error)
+      // TODO: Replace with toast notification
       alert('فشل حفظ المشروع')
     } finally {
       setLoading(false)
@@ -147,7 +150,9 @@ const ProjectFormPage: React.FC = () => {
               <label className="project-form-page__label">العنوان *</label>
               <Input
                 value={formData.title}
-                onChange={e => setFormData({ ...formData, title: e.target.value })}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  setFormData({ ...formData, title: e.target.value })
+                }
                 required
                 placeholder="عنوان المشروع"
               />
@@ -158,7 +163,9 @@ const ProjectFormPage: React.FC = () => {
               <select
                 className="project-form-page__select"
                 value={formData.type}
-                onChange={e => setFormData({ ...formData, type: e.target.value as ProjectType })}
+                onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                  setFormData({ ...formData, type: e.target.value as ProjectType })
+                }
                 required
               >
                 <option value="educational">تعليمي</option>
@@ -176,7 +183,7 @@ const ProjectFormPage: React.FC = () => {
                 <select
                   className="project-form-page__select"
                   value={formData.status}
-                  onChange={e =>
+                  onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
                     setFormData({ ...formData, status: e.target.value as ProjectStatus })
                   }
                 >
@@ -194,7 +201,9 @@ const ProjectFormPage: React.FC = () => {
             <textarea
               className="project-form-page__textarea"
               value={formData.description}
-              onChange={e => setFormData({ ...formData, description: e.target.value })}
+              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+                setFormData({ ...formData, description: e.target.value })
+              }
               rows={6}
               placeholder="وصف المشروع..."
             />
@@ -205,7 +214,9 @@ const ProjectFormPage: React.FC = () => {
               <label className="project-form-page__label">المادة</label>
               <Input
                 value={formData.subject}
-                onChange={e => setFormData({ ...formData, subject: e.target.value })}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  setFormData({ ...formData, subject: e.target.value })
+                }
                 placeholder="اسم المادة"
               />
             </div>
@@ -214,7 +225,9 @@ const ProjectFormPage: React.FC = () => {
               <label className="project-form-page__label">المستوى</label>
               <Input
                 value={formData.grade_level}
-                onChange={e => setFormData({ ...formData, grade_level: e.target.value })}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  setFormData({ ...formData, grade_level: e.target.value })
+                }
                 placeholder="المستوى الدراسي"
               />
             </div>
@@ -224,7 +237,9 @@ const ProjectFormPage: React.FC = () => {
               <Input
                 type="date"
                 value={formData.due_date}
-                onChange={e => setFormData({ ...formData, due_date: e.target.value })}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  setFormData({ ...formData, due_date: e.target.value })
+                }
               />
             </div>
           </div>
@@ -233,7 +248,9 @@ const ProjectFormPage: React.FC = () => {
             <label className="project-form-page__label">المتطلبات (مفصولة بفواصل)</label>
             <Input
               value={requirementsInput}
-              onChange={e => setRequirementsInput(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setRequirementsInput(e.target.value)
+              }
               placeholder="متطلب1, متطلب2, متطلب3"
             />
           </div>

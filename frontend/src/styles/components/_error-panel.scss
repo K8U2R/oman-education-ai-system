@@ -1,0 +1,192 @@
+/**
+ * Error Panel Component Styles
+ * @law Law-6 (Visual Sovereign) - OKLCH tokens
+ * @law Law-7 (Diagnostic Protocol)
+ * @law Law-9 (Documentation)
+ */
+
+@use '../abstracts/mixins' as *;
+@use '../abstracts/variables' as *;
+@use '../abstracts/tokens' as *;
+
+// ============================================================================
+// Professional Error Panel Styles (X-Ray Diagnostic System)
+// ============================================================================
+
+.professional-error-panel {
+    background: var(--color-bg-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-lg);
+
+    // Network error variant
+    &--network {
+        border-color: var(--color-warning);
+        background: color-mix(in srgb, var(--color-warning), transparent 95%);
+    }
+
+    // Standard error variant
+    &--error {
+        border-color: var(--color-error);
+        background: color-mix(in srgb, var(--color-error), transparent 97%);
+    }
+
+    &__header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-bottom: var(--space-sm);
+        border-bottom: 1px solid var(--color-border);
+        margin-bottom: var(--space-md);
+    }
+
+    &__title {
+        display: flex;
+        align-items: center;
+        gap: var(--space-xs);
+        font-family: var(--font-family-mono);
+        font-size: $font-size-xs;
+        font-weight: var(--font-weight-bold);
+        color: var(--color-error);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+
+    &__content {
+        padding: var(--space-md) 0;
+    }
+
+    &__icon-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: var(--space-sm);
+        border-radius: var(--radius-full);
+        background: color-mix(in srgb, var(--color-error), transparent 90%);
+
+        &--warning {
+            background: color-mix(in srgb, var(--color-warning), transparent 90%);
+        }
+    }
+
+    &__icon {
+        width: 24px;
+        height: 24px;
+        color: var(--color-error);
+
+        &--warning {
+            color: var(--color-warning);
+        }
+
+        &--spin {
+            animation: spin 2s linear infinite;
+        }
+    }
+
+    &__message-title {
+        font-size: $font-size-lg;
+        font-weight: var(--font-weight-bold);
+        color: var(--color-text-main);
+        margin-bottom: var(--space-xs);
+    }
+
+    &__message-text {
+        color: var(--color-text-main);
+        opacity: 0.8;
+    }
+
+    &__code-badge {
+        display: inline-block;
+        padding: var(--space-xs) var(--space-sm);
+        background: color-mix(in srgb, var(--color-error), transparent 85%);
+        color: var(--color-error);
+        font-family: var(--font-family-mono);
+        font-size: $font-size-xs;
+        border-radius: var(--radius-sm);
+    }
+
+    &__terminal {
+        background: color-mix(in srgb, var(--color-text-main), transparent 95%);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-md);
+        padding: var(--space-md);
+        margin-top: var(--space-md);
+        font-family: var(--font-family-mono);
+    }
+
+    &__terminal-header {
+        display: flex;
+        align-items: center;
+        gap: var(--space-sm);
+        padding-bottom: var(--space-sm);
+        border-bottom: 1px solid var(--color-border);
+        margin-bottom: var(--space-md);
+        font-size: $font-size-xs;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: var(--color-info);
+    }
+
+    &__code-grid {
+        display: grid;
+        grid-template-columns: 80px 1fr;
+        gap: var(--space-sm);
+        font-size: $font-size-xs;
+    }
+
+    &__code-label {
+        color: var(--color-text-main);
+        opacity: 0.6;
+        font-weight: var(--font-weight-semibold);
+    }
+
+    &__code-value {
+        color: var(--color-text-main);
+        font-family: var(--font-family-mono);
+
+        &--warning {
+            color: var(--color-warning);
+        }
+
+        &--success {
+            color: var(--color-success);
+        }
+
+        &--info {
+            color: var(--color-info);
+        }
+    }
+
+    &__dev-hint {
+        background: color-mix(in srgb, var(--color-text-main), transparent 90%);
+        border: 1px solid color-mix(in srgb, var(--color-warning), transparent 90%);
+        padding: var(--space-xs) var(--space-sm);
+        border-radius: var(--radius-sm);
+        font-family: var(--font-family-mono);
+        font-size: 10px;
+        color: var(--color-text-main);
+        opacity: 0.7;
+    }
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes pulse-glow {
+
+    0%,
+    100% {
+        opacity: 0.2;
+    }
+
+    50% {
+        opacity: 0.4;
+    }
+}

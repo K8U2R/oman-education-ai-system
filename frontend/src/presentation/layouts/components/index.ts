@@ -4,4 +4,4 @@
  * تصدير جميع مكونات التخطيط المشتركة
  */
 
-export { LayoutContainer } from './LayoutContainer'
+export { LayoutContainer } from '../../components/shell/LayoutContainer/LayoutContainer'

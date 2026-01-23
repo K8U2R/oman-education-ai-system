@@ -36,9 +36,9 @@ test.describe('Authentication Flow', () => {
     test('should show error for invalid credentials', async ({ page }) => {
       const loginPage = new LoginPage(page)
       await loginPage.goto()
-      
+
       await loginPage.login('invalid@example.com', 'wrongpassword')
-      
+
       // انتظار رسالة الخطأ
       await expect(loginPage.errorMessage).toBeVisible({ timeout: 5000 })
     })
@@ -64,7 +64,7 @@ test.describe('Authentication Flow', () => {
 
       // التحقق من التوجيه إلى Dashboard
       await page.waitForURL(/\/dashboard/, { timeout: 10000 })
-      
+
       const dashboardPage = new DashboardPage(page)
       await dashboardPage.expectDashboardLoaded()
     })
@@ -72,9 +72,9 @@ test.describe('Authentication Flow', () => {
     test('should remember me checkbox work', async ({ page }) => {
       const loginPage = new LoginPage(page)
       await loginPage.goto()
-      
+
       await loginPage.checkRememberMe()
-      
+
       // التحقق من أن Checkbox محدد
       await expect(loginPage.rememberMeCheckbox).toBeChecked()
     })
@@ -82,9 +82,9 @@ test.describe('Authentication Flow', () => {
     test('should navigate to forgot password page', async ({ page }) => {
       const loginPage = new LoginPage(page)
       await loginPage.goto()
-      
+
       await loginPage.clickForgotPassword()
-      
+
       // التحقق من التوجيه إلى صفحة استعادة كلمة المرور
       await page.waitForURL(/\/forgot-password|\/reset-password/, { timeout: 5000 })
     })
@@ -100,10 +100,10 @@ test.describe('Authentication Flow', () => {
     test('should show validation errors for empty fields', async ({ page }) => {
       const registerPage = new RegisterPage(page)
       await registerPage.goto()
-      
+
       // محاولة الإرسال بدون ملء الحقول
       await registerPage.submit()
-      
+
       // التحقق من وجود رسائل التحقق
       // (قد تختلف حسب تنفيذ التحقق)
       await page.waitForTimeout(1000)
@@ -112,16 +112,16 @@ test.describe('Authentication Flow', () => {
     test('should show error for weak password', async ({ page }) => {
       const registerPage = new RegisterPage(page)
       await registerPage.goto()
-      
+
       await registerPage.fillRegistrationForm({
         firstName: testUser.firstName,
         lastName: testUser.lastName,
         email: testUser.email,
         password: 'weak',
       })
-      
+
       await registerPage.submit()
-      
+
       // التحقق من رسالة الخطأ
       await expect(registerPage.errorMessage).toBeVisible({ timeout: 5000 })
     })
@@ -129,7 +129,7 @@ test.describe('Authentication Flow', () => {
     test('should show error for password mismatch', async ({ page }) => {
       const registerPage = new RegisterPage(page)
       await registerPage.goto()
-      
+
       await registerPage.fillRegistrationForm({
         firstName: testUser.firstName,
         lastName: testUser.lastName,
@@ -137,9 +137,9 @@ test.describe('Authentication Flow', () => {
         password: testUser.password,
         confirmPassword: 'DifferentPassword123!',
       })
-      
+
       await registerPage.submit()
-      
+
       // التحقق من رسالة الخطأ
       await expect(registerPage.errorMessage).toBeVisible({ timeout: 5000 })
     })
@@ -147,7 +147,7 @@ test.describe('Authentication Flow', () => {
     test('should register successfully with valid data', async ({ page }) => {
       const registerPage = new RegisterPage(page)
       await registerPage.goto()
-      
+
       await registerPage.register({
         firstName: testUser.firstName,
         lastName: testUser.lastName,
@@ -191,7 +191,7 @@ test.describe('Authentication Flow', () => {
       // تسجيل الدخول أولاً
       const loginPage = new LoginPage(page)
       await loginPage.goto()
-      
+
       // إنشاء مستخدم وتسجيل الدخول
       const registerPage = new RegisterPage(page)
       await registerPage.goto()
@@ -221,7 +221,7 @@ test.describe('Authentication Flow', () => {
   test.describe('Navigation', () => {
     test('should redirect to login when accessing protected route', async ({ page }) => {
       await page.goto('/dashboard')
-      
+
       // التحقق من التوجيه إلى Login
       await page.waitForURL(/\/login/, { timeout: 5000 })
     })
@@ -230,7 +230,7 @@ test.describe('Authentication Flow', () => {
       // تسجيل الدخول
       const loginPage = new LoginPage(page)
       await loginPage.goto()
-      
+
       // إنشاء مستخدم وتسجيل الدخول
       const registerPage = new RegisterPage(page)
       await registerPage.goto()
@@ -251,10 +251,9 @@ test.describe('Authentication Flow', () => {
 
       // محاولة الوصول إلى Login مرة أخرى
       await page.goto('/login')
-      
+
       // يجب أن يتم التوجيه إلى Dashboard
       await page.waitForURL(/\/dashboard/, { timeout: 5000 })
     })
   })
 })
-

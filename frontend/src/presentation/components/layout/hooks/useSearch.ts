@@ -8,7 +8,7 @@ import { useState, useCallback, useMemo, useEffect } from 'react'
 import { SearchResult } from '../types'
 import { useNavigate } from 'react-router-dom'
 import { ROUTES } from '@/domain/constants/routes.constants'
-import { storageAdapter } from '@/infrastructure/storage'
+import { storageAdapter } from '@/infrastructure/services/storage'
 import { searchService } from '@/application'
 
 const SEARCH_HISTORY_KEY = 'search_history'

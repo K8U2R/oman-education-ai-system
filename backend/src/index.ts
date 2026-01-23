@@ -1,0 +1,110 @@
+/**
+ * Main Entry Point - API Gateway (Algorithmic Traffic Coordinator)
+ * Updated with Anti-Zombie Protection & Connection Timeouts
+ */
+
+import "dotenv/config"; // Must be first
+import express, { Express } from "express";
+import http from "http"; // Import HTTP module for server control
+import { logger } from "./shared/utils/logger.js";
+import { bootstrap } from "./bootstrap.js";
+import { setupAuthMiddleware } from "./infrastructure/auth/auth.middleware.js";
+import {
+  setupPreRouteMiddleware,
+  setupPostRouteMiddleware,
+} from "./presentation/api/middleware/pipeline.js";
+import coreRouter from "./presentation/api/routes/index.js";
+import oauthRoutes from "./application/routes/oauth.routes.js";
+
+const app: Express = express();
+
+/**
+ * 🛡️ Anti-Hang Middleware (Law 1: 10-Second Sovereignty)
+ * يقتل أي طلب لا يستجيب خلال 10 ثوانٍ لمنع تراكم الاتصالات المعلقة
+ */
+app.use((req, res, next) => {
+  res.setTimeout(10000, () => {
+    console.error(`❌ [TIMEOUT] Request to ${req.method} ${req.url} timed out > 10s`);
+    res.status(408).send("Request Timeout - Server took too long");
+  });
+  next();
+});
+
+async function startServer() {
+  try {
+    // ════════════════════════════════════════════════════════════════════════
+    // STEP 0: Priority Health Check (No Middleware Blocking)
+    // ════════════════════════════════════════════════════════════════════════
+    app.get("/health", (_req, res) => {
+      console.log(`💓 [HEALTH CHECK] Incoming from ${_req.ip}`);
+      res.status(200).json({
+        status: "ok",
+        priority: true,
+        message: "Oman Education AI Backend is alive",
+        timestamp: new Date().toISOString()
+      });
+    });
+
+    // ════════════════════════════════════════════════════════════════════════
+    // STEP 2: Strict System Bootstrap (Kernel & Database)
+    // ════════════════════════════════════════════════════════════════════════
+    console.log("⏳ [1/4] Starting Sovereign System Kernel...");
+    const settings = await bootstrap();
+    console.log("✅ [2/4] Kernel Bootstrap Successful.");
+
+    // ════════════════════════════════════════════════════════════════════════
+    // STEP 3: Middleware Pipeline Setup
+    // ════════════════════════════════════════════════════════════════════════
+    console.log("⏳ [3/4] Initializing Middleware Pipelines...");
+    setupPreRouteMiddleware(app, settings);
+    setupAuthMiddleware(app, settings);
+
+    // Sovereign App Routes
+    app.use("/api/v1", oauthRoutes);
+    app.use("/api/v1", coreRouter);
+
+    // Finalize Pipeline (404 and Error handling)
+    setupPostRouteMiddleware(app);
+
+    // ════════════════════════════════════════════════════════════════════════
+    // STEP 3: Safe Server Binding
+    // ════════════════════════════════════════════════════════════════════════
+    const { ENV_CONFIG } = await import("./infrastructure/config/env.config.js");
+    const PORT = ENV_CONFIG.PORT || 3000;
+
+    console.log(`⏳ [4/4] Attempting to bind to PORT: ${PORT}`);
+
+    // Create Server Instance explicitly to control timeouts
+    const server = http.createServer(app);
+
+    // Hard Timeout for TCP Connections (Kill zombies at TCP level)
+    server.timeout = 10000;
+    server.keepAliveTimeout = 5000;
+
+    server.listen(PORT, () => {
+      console.log('\n' + '╔' + '═'.repeat(78) + '╗');
+      console.log('║' + ' '.repeat(20) + '🚀 SERVER READY' + ' '.repeat(43) + '║');
+      console.log('╚' + '═'.repeat(78) + '╝\n');
+      console.log(`📡 URL: http://localhost:${PORT}`);
+      console.log(`🩺 Health: http://localhost:${PORT}/health`);
+      logger.info(`🚀 Sovereign System Ready on Port ${PORT}`);
+    });
+
+    // Handle Port Collision Errors
+    server.on('error', (e: any) => {
+      if (e.code === 'EADDRINUSE') {
+        console.error(`❌ FATAL: Port ${PORT} is already in use! Kill the zombie process.`);
+        process.exit(1);
+      } else {
+        console.error("❌ Server Error:", e);
+      }
+    });
+
+  } catch (error) {
+    console.error("❌ CRITICAL FAILURE:", error);
+    process.exit(1);
+  }
+}
+
+startServer();
+export default app;

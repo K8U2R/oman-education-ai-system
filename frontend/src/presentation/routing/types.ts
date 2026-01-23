@@ -8,7 +8,7 @@
 import React from 'react'
 import { UserRole, Permission } from '@/domain/types/auth.types'
 
-/** أنواع الأدوار والصلاحيات المستخدمة في التحكم بالوصول للمسارات */
+/** أنواع الأدوار و المستخدمة في التحكم بالوصول للمسارات */
 export type RouteRole = UserRole
 export type RoutePermission = Permission
 
@@ -34,7 +34,7 @@ export interface RouteMetadata {
   /** قائمة أدوار، يكفي وجود أحدها للوصول */
   requiredRoles?: UserRole[]
 
-  /** قائمة الصلاحيات المطلوبة للوصول */
+  /** قائمة  المطلوبة للوصول */
   requiredPermissions?: Permission[]
 
   /** تسمية مخصصة للـ Breadcrumb */

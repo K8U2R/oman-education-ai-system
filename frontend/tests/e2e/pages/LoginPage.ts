@@ -89,4 +89,3 @@ export class LoginPage {
     await this.forgotPasswordLink.click()
   }
 }
-

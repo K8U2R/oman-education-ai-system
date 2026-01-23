@@ -1,0 +1,38 @@
+{
+    "extends": "../backend/tsconfig.json",
+    "compilerOptions": {
+        "baseUrl": "../backend",
+        "paths": {
+            "@/*": [
+                "src/*"
+            ],
+            "@/domain/*": [
+                "src/domain/*"
+            ],
+            "@/application/*": [
+                "src/application/*"
+            ],
+            "@/infrastructure/*": [
+                "src/infrastructure/*"
+            ],
+            "@/presentation/*": [
+                "src/presentation/*"
+            ],
+            "@/shared/*": [
+                "src/shared/*"
+            ],
+            "@/core/*": [
+                "src/core/*"
+            ],
+            "@/modules/*": [
+                "src/modules/*"
+            ]
+        },
+        // Scripts reside outside of src, so we need to adjust rootDir or simply allow it
+        "rootDir": ".."
+    },
+    "include": [
+        ".",
+        "../backend/src/**/*"
+    ]
+}

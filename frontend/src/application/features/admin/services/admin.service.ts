@@ -4,7 +4,7 @@
  * Frontend service للوصول إلى Admin APIs
  */
 
-import { apiClientRefactored as apiClient } from '@/infrastructure/api'
+import { apiClientRefactored as apiClient } from '@/infrastructure/services/api'
 
 export interface SystemStats {
   total_users: number

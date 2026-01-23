@@ -1,30 +1,49 @@
 /**
  * Users Management Page - صفحة إدارة المستخدمين
  *
- * صفحة لإدارة المستخدمين والصلاحيات (للمسؤولين فقط)
+ * صفحة لإدارة المستخدمين و (للمسؤولين فقط)
  */
 
 import React, { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { Users, Edit, Trash2, Search, Check, X } from 'lucide-react'
-import { Card, Button, Input, Modal } from '../../components/common'
+import {
+  Card,
+  Button,
+  Input,
+  Modal,
+  DeleteConfirmModal,
+  LoadingWrapper,
+} from '../../components/common'
+import { AdminPageWrapper } from '../../components/admin'
 import { DataTable, DataTableColumn } from '../../components/data'
-import { adminService, AdminUserInfo, UpdateUserRequest } from '@/application'
-import { useAuth, useRole } from '@/application'
+import { adminService } from '@/application'
+import type { AdminUserInfo, UpdateUserRequest } from '@/application/types/admin.types'
+import { useModal, useSearchFilter } from '@/application/shared/hooks'
+import { useAuth } from '@/features/user-authentication-management'
+import { handleError } from '@/utils/errorHandler'
 import { Permission, ROLE_PERMISSIONS, UserRole } from '@/domain/types/auth.types'
-import { PageHeader, LoadingState } from '../components'
-import './UsersManagementPage.scss'
+import { PageHeader } from '../components'
 
 const UsersManagementPage: React.FC = () => {
-  const navigate = useNavigate()
-  const { user: currentUser } = useAuth()
-  const { isAdmin } = useRole()
+  const { user } = useAuth()
+
   const [users, setUsers] = useState<AdminUserInfo[]>([])
   const [loading, setLoading] = useState(true)
-  const [searchQuery, setSearchQuery] = useState('')
-  const [editModalOpen, setEditModalOpen] = useState(false)
-  const [deleteModalOpen, setDeleteModalOpen] = useState(false)
-  const [selectedUser, setSelectedUser] = useState<AdminUserInfo | null>(null)
+
+  const editModal = useModal<AdminUserInfo>()
+  const deleteModal = useModal<AdminUserInfo>()
+
+  const {
+    searchTerm,
+    setSearchTerm,
+    filteredData: filteredUsers,
+  } = useSearchFilter(users as unknown as Record<string, unknown>[], {
+    searchFields: ['email', 'first_name', 'last_name', 'username'] as (keyof Record<
+      string,
+      unknown
+    >)[],
+  })
+
   const [editForm, setEditForm] = useState<UpdateUserRequest>({})
   const [allPermissions] = useState<Permission[]>([
     'users.view',
@@ -54,12 +73,8 @@ const UsersManagementPage: React.FC = () => {
   ])
 
   useEffect(() => {
-    if (!isAdmin) {
-      navigate('/forbidden')
-      return
-    }
     loadUsers()
-  }, [isAdmin, navigate])
+  }, [])
 
   const loadUsers = async () => {
     try {
@@ -67,49 +82,61 @@ const UsersManagementPage: React.FC = () => {
       const result = await adminService.searchUsers({ per_page: 100 })
       setUsers(result.users)
     } catch (error) {
-      console.error('Failed to load users:', error)
+      handleError(error, {
+        message: 'فشل تحميل المستخدمين',
+        context: 'UsersManagementPage',
+      })
     } finally {
       setLoading(false)
     }
   }
 
   const handleEdit = (user: AdminUserInfo) => {
-    setSelectedUser(user)
+    editModal.openWith(user)
     setEditForm({
       role: user.role,
       is_active: user.is_active,
       is_verified: user.is_verified,
       permissions: [], // سيتم تحميلها من قاعدة البيانات
     })
-    setEditModalOpen(true)
   }
 
   const handleSave = async () => {
-    if (!selectedUser) return
+    if (!editModal.selectedData) return
 
     try {
-      await adminService.updateUser(selectedUser.id, editForm)
+      await adminService.updateUser(editModal.selectedData.id, editForm)
       await loadUsers()
-      setEditModalOpen(false)
-      setSelectedUser(null)
+      editModal.close()
       setEditForm({})
     } catch (error) {
-      console.error('Failed to update user:', error)
-      alert('فشل تحديث المستخدم')
+      handleError(error, {
+        message: 'فشل تحديث المستخدم',
+        context: 'UsersManagementPage',
+      })
     }
   }
 
   const handleDelete = async () => {
-    if (!selectedUser) return
+    if (!deleteModal.selectedData) return
+
+    const deletedUser = deleteModal.selectedData
+    const previousUsers = [...users]
+
+    // Optimistic update
+    setUsers(users.filter(u => u.id !== deletedUser.id))
+    deleteModal.close()
 
     try {
-      await adminService.deleteUser(selectedUser.id)
+      await adminService.deleteUser(deletedUser.id)
       await loadUsers()
-      setDeleteModalOpen(false)
-      setSelectedUser(null)
     } catch (error) {
-      console.error('Failed to delete user:', error)
-      alert('فشل حذف المستخدم')
+      // Rollback
+      setUsers(previousUsers)
+      handleError(error, {
+        message: 'فشل حذف المستخدم',
+        context: 'UsersManagementPage',
+      })
     }
   }
 
@@ -131,17 +158,6 @@ const UsersManagementPage: React.FC = () => {
       permissions: newPermissions,
     })
   }
-
-  const filteredUsers = users.filter(u => {
-    if (!searchQuery) return true
-    const query = searchQuery.toLowerCase()
-    return (
-      u.email.toLowerCase().includes(query) ||
-      u.first_name?.toLowerCase().includes(query) ||
-      u.last_name?.toLowerCase().includes(query) ||
-      u.username?.toLowerCase().includes(query)
-    )
-  })
 
   const columns: DataTableColumn<AdminUserInfo>[] = [
     {
@@ -207,14 +223,11 @@ const UsersManagementPage: React.FC = () => {
           <Button variant="ghost" size="sm" onClick={() => handleEdit(row)} leftIcon={<Edit />}>
             تعديل
           </Button>
-          {row.id !== currentUser?.id && (
+          {row.id !== user?.id && (
             <Button
               variant="ghost"
               size="sm"
-              onClick={() => {
-                setSelectedUser(row)
-                setDeleteModalOpen(true)
-              }}
+              onClick={() => deleteModal.openWith(row)}
               leftIcon={<Trash2 />}
             >
               حذف
@@ -225,174 +238,160 @@ const UsersManagementPage: React.FC = () => {
     },
   ]
 
-  if (loading) {
-    return <LoadingState fullScreen message="جاري تحميل المستخدمين..." />
-  }
-
   return (
-    <div className="users-management-page">
-      <PageHeader
-        title="إدارة المستخدمين"
-        description="إدارة المستخدمين والصلاحيات والأدوار"
-        icon={<Users />}
-      />
-
-      <div className="users-management-page__toolbar">
-        <div className="users-management-page__search">
-          <Input
-            placeholder="بحث في المستخدمين..."
-            value={searchQuery}
-            onChange={e => setSearchQuery(e.target.value)}
-            leftIcon={<Search />}
-          />
-        </div>
-      </div>
-
-      <Card className="users-management-page__table-card">
-        <DataTable
-          data={filteredUsers as unknown as Record<string, unknown>[]}
-          columns={columns as unknown as DataTableColumn<Record<string, unknown>>[]}
-          searchable={false}
-          pagination
-          pageSize={20}
-          emptyMessage="لا يوجد مستخدمين"
+    <AdminPageWrapper requiredRole="admin" loadingMessage="جاري تحميل المستخدمين...">
+      <div className="users-management-page">
+        <PageHeader
+          title="إدارة المستخدمين"
+          description="إدارة المستخدمين و والأدوار"
+          icon={<Users />}
         />
-      </Card>
 
-      {/* Edit Modal */}
-      <Modal
-        isOpen={editModalOpen}
-        onClose={() => {
-          setEditModalOpen(false)
-          setSelectedUser(null)
-          setEditForm({})
-        }}
-        size="lg"
-      >
-        <div className="users-management-page__edit-modal">
-          <h3 className="users-management-page__modal-title">
-            تعديل المستخدم: {selectedUser?.email}
-          </h3>
+        <div className="users-management-page__toolbar">
+          <div className="users-management-page__search">
+            <Input
+              placeholder="بحث في المستخدمين..."
+              value={searchTerm}
+              onChange={e => setSearchTerm(e.target.value)}
+              leftIcon={<Search />}
+            />
+          </div>
+        </div>
 
-          <div className="users-management-page__form">
-            <div className="users-management-page__form-group">
-              <label>الدور</label>
-              <select
-                value={editForm.role || 'student'}
-                onChange={e => setEditForm({ ...editForm, role: e.target.value as UserRole })}
-                className="users-management-page__select"
+        <LoadingWrapper isLoading={loading} message="جاري تحميل المستخدمين...">
+          <Card className="users-management-page__table-card">
+            <DataTable
+              data={
+                filteredUsers as unknown as AdminUserInfo[] as unknown as Record<string, unknown>[]
+              }
+              columns={columns as unknown as DataTableColumn<Record<string, unknown>>[]}
+              searchable={false}
+              pagination
+              pageSize={20}
+              emptyMessage="لا يوجد مستخدمين"
+            />
+          </Card>
+        </LoadingWrapper>
+
+        {/* Edit Modal */}
+        <Modal
+          isOpen={editModal.isOpen}
+          onClose={() => {
+            editModal.close()
+            setEditForm({})
+          }}
+          size="lg"
+        >
+          <div className="users-management-page__edit-modal">
+            <h3 className="users-management-page__modal-title">
+              تعديل المستخدم: {editModal.selectedData?.email}
+            </h3>
+
+            <div className="users-management-page__form">
+              <div className="users-management-page__form-group">
+                <label>الدور</label>
+                <select
+                  value={editForm.role || 'student'}
+                  onChange={e => setEditForm({ ...editForm, role: e.target.value as UserRole })}
+                  className="users-management-page__select"
+                >
+                  <option value="student">طالب</option>
+                  <option value="teacher">معلم</option>
+                  <option value="admin">مسؤول</option>
+                  <option value="developer">مطور</option>
+                  <option value="parent">ولي أمر</option>
+                  <option value="moderator">مشرف</option>
+                </select>
+              </div>
+
+              <div className="users-management-page__form-group">
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={editForm.is_active ?? true}
+                    onChange={e => setEditForm({ ...editForm, is_active: e.target.checked })}
+                  />
+                  نشط
+                </label>
+              </div>
+
+              <div className="users-management-page__form-group">
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={editForm.is_verified ?? false}
+                    onChange={e => setEditForm({ ...editForm, is_verified: e.target.checked })}
+                  />
+                  موثق
+                </label>
+              </div>
+
+              <div className="users-management-page__form-group">
+                <div className="users-management-page__permissions-header">
+                  <label></label>
+                  <Button variant="outline" size="sm" onClick={handleGrantAllPermissions}>
+                    منح جميع
+                  </Button>
+                </div>
+                <div className="users-management-page__permissions-grid">
+                  {allPermissions.map(permission => {
+                    const isChecked = editForm.permissions?.includes(permission) || false
+                    const rolePermissions = editForm.role
+                      ? ROLE_PERMISSIONS[editForm.role as UserRole] || []
+                      : []
+                    const hasRolePermission = rolePermissions.includes(permission)
+
+                    return (
+                      <label
+                        key={permission}
+                        className={`users-management-page__permission-item ${hasRolePermission
+                            ? 'users-management-page__permission-item--from-role'
+                            : ''
+                          }`}
+                      >
+                        <input
+                          type="checkbox"
+                          checked={isChecked}
+                          onChange={() => handleTogglePermission(permission)}
+                        />
+                        <span>{permission}</span>
+                        {hasRolePermission && (
+                          <span className="users-management-page__permission-badge">من الدور</span>
+                        )}
+                      </label>
+                    )
+                  })}
+                </div>
+              </div>
+            </div>
+
+            <div className="users-management-page__modal-actions">
+              <Button
+                variant="secondary"
+                onClick={() => {
+                  editModal.close()
+                  setEditForm({})
+                }}
               >
-                <option value="student">طالب</option>
-                <option value="teacher">معلم</option>
-                <option value="admin">مسؤول</option>
-                <option value="developer">مطور</option>
-                <option value="parent">ولي أمر</option>
-                <option value="moderator">مشرف</option>
-              </select>
-            </div>
-
-            <div className="users-management-page__form-group">
-              <label>
-                <input
-                  type="checkbox"
-                  checked={editForm.is_active ?? true}
-                  onChange={e => setEditForm({ ...editForm, is_active: e.target.checked })}
-                />
-                نشط
-              </label>
-            </div>
-
-            <div className="users-management-page__form-group">
-              <label>
-                <input
-                  type="checkbox"
-                  checked={editForm.is_verified ?? false}
-                  onChange={e => setEditForm({ ...editForm, is_verified: e.target.checked })}
-                />
-                موثق
-              </label>
-            </div>
-
-            <div className="users-management-page__form-group">
-              <div className="users-management-page__permissions-header">
-                <label>الصلاحيات</label>
-                <Button variant="outline" size="sm" onClick={handleGrantAllPermissions}>
-                  منح جميع الصلاحيات
-                </Button>
-              </div>
-              <div className="users-management-page__permissions-grid">
-                {allPermissions.map(permission => {
-                  const isChecked = editForm.permissions?.includes(permission) || false
-                  const rolePermissions = editForm.role
-                    ? ROLE_PERMISSIONS[editForm.role as UserRole] || []
-                    : []
-                  const hasRolePermission = rolePermissions.includes(permission)
-
-                  return (
-                    <label
-                      key={permission}
-                      className={`users-management-page__permission-item ${
-                        hasRolePermission ? 'users-management-page__permission-item--from-role' : ''
-                      }`}
-                    >
-                      <input
-                        type="checkbox"
-                        checked={isChecked}
-                        onChange={() => handleTogglePermission(permission)}
-                      />
-                      <span>{permission}</span>
-                      {hasRolePermission && (
-                        <span className="users-management-page__permission-badge">من الدور</span>
-                      )}
-                    </label>
-                  )
-                })}
-              </div>
+                إلغاء
+              </Button>
+              <Button variant="primary" onClick={handleSave}>
+                حفظ
+              </Button>
             </div>
           </div>
+        </Modal>
 
-          <div className="users-management-page__modal-actions">
-            <Button
-              variant="secondary"
-              onClick={() => {
-                setEditModalOpen(false)
-                setSelectedUser(null)
-                setEditForm({})
-              }}
-            >
-              إلغاء
-            </Button>
-            <Button variant="primary" onClick={handleSave}>
-              حفظ
-            </Button>
-          </div>
-        </div>
-      </Modal>
-
-      {/* Delete Modal */}
-      <Modal
-        isOpen={deleteModalOpen}
-        onClose={() => {
-          setDeleteModalOpen(false)
-          setSelectedUser(null)
-        }}
-        size="sm"
-      >
-        <div className="users-management-page__delete-modal">
-          <h3>تأكيد الحذف</h3>
-          <p>هل أنت متأكد من حذف المستخدم "{selectedUser?.email}"؟</p>
-          <p className="users-management-page__delete-warning">لا يمكن التراجع عن هذا الإجراء.</p>
-          <div className="users-management-page__delete-actions">
-            <Button variant="secondary" onClick={() => setDeleteModalOpen(false)}>
-              إلغاء
-            </Button>
-            <Button variant="primary" onClick={handleDelete}>
-              حذف
-            </Button>
-          </div>
-        </div>
-      </Modal>
-    </div>
+        {/* Delete Confirm Dialog */}
+        <DeleteConfirmModal
+          isOpen={deleteModal.isOpen}
+          onClose={deleteModal.close}
+          onConfirm={handleDelete}
+          itemTitle={deleteModal.selectedData?.email || ''}
+          itemType="مستخدم"
+        />
+      </div>
+    </AdminPageWrapper>
   )
 }
 

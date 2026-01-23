@@ -4,39 +4,40 @@
  * صفحة للإجراءات السريعة لحل المشاكل (للدعم الفني والمسؤولين)
  */
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Zap, User, Shield, AlertTriangle, Activity, XCircle, Search } from 'lucide-react'
 import { Card, Button, Input, Badge } from '../../../components/common'
-import { useSecurity, useSessions } from '@/application/features/security'
-import { useAuth, useRole } from '@/application'
+import { useSecurity, useSessions } from '@/features/system-administration-portal'
+import { usePageAuth, usePageLoading } from '@/application/shared/hooks'
+import { LoadingState } from '@/presentation/pages/components'
+import { loggingService } from '@/infrastructure/services'
 import { ROUTES } from '@/domain/constants/routes.constants'
-import { PageHeader, LoadingState } from '../../components'
-import './QuickActionsPage.scss'
+import { PageHeader } from '../../components'
+
 
 const QuickActionsPage: React.FC = () => {
   const navigate = useNavigate()
-  const { user, isLoading: authLoading, isAuthenticated } = useAuth()
-  const { isAdmin, hasRole } = useRole()
-  const isModerator = hasRole('moderator')
+  const { user, canAccess, getShouldRedirect, loadingState } = usePageAuth({
+    requireAuth: true,
+    requiredPermissions: ['admin.users', 'users.manage'],
+    redirectTo: ROUTES.FORBIDDEN,
+  })
+  const { shouldShowLoading: pageShouldShowLoading, loadingMessage: pageLoadingMessage } =
+    usePageLoading({
+      isLoading: !canAccess,
+      message: 'جاري تحميل صفحة الإجراءات السريعة...',
+    })
+
   const { stats, loading: securityLoading, refreshStats } = useSecurity()
   const { sessions, loading: sessionsLoading, loadSessions, terminateSession } = useSessions()
-  const [searchQuery, setSearchQuery] = useState('')
 
   useEffect(() => {
-    if (!authLoading && !isAuthenticated) {
-      navigate(ROUTES.LOGIN)
-    } else if (!authLoading && !isAdmin && !isModerator) {
-      navigate(ROUTES.FORBIDDEN)
-    }
-  }, [authLoading, isAuthenticated, isAdmin, isModerator, navigate])
-
-  useEffect(() => {
-    if (isAdmin || isModerator) {
+    if (canAccess) {
       refreshStats()
       loadSessions()
     }
-  }, [isAdmin, isModerator, refreshStats, loadSessions])
+  }, [canAccess, refreshStats, loadSessions])
 
   const handleTerminateUserSessions = async (userId: string) => {
     try {
@@ -46,7 +47,7 @@ const QuickActionsPage: React.FC = () => {
       }
       await loadSessions()
     } catch (error) {
-      console.error('Failed to terminate user sessions:', error)
+      loggingService.error('Failed to terminate user sessions', error as Error)
     }
   }
 
@@ -55,23 +56,45 @@ const QuickActionsPage: React.FC = () => {
     navigate(`${ROUTES.USER_SECURITY}/${userId}`)
   }
 
-  const uniqueUsers = Array.from(
+  interface UniqueUser {
+    id: string
+    email?: string
+    name?: string
+  }
+
+  const uniqueUsers: UniqueUser[] = Array.from(
     new Set(sessions.map(s => ({ id: s.userId, email: s.userEmail, name: s.userName })))
   )
 
-  const filteredUsers = uniqueUsers.filter(u => {
-    const matchesSearch =
-      u.email?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      u.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      false
-    return matchesSearch
-  })
+  const [searchTerm, setSearchTerm] = React.useState('')
 
-  if (authLoading || securityLoading || sessionsLoading) {
-    return <LoadingState fullScreen message="جاري تحميل الإجراءات السريعة..." />
+  const filteredUsers = React.useMemo(() => {
+    if (!searchTerm) return uniqueUsers
+    const term = searchTerm.toLowerCase()
+    return uniqueUsers.filter(
+      u => u.email?.toLowerCase().includes(term) || u.name?.toLowerCase().includes(term) || false
+    )
+  }, [uniqueUsers, searchTerm])
+
+  const { shouldShowLoading: dataShouldShowLoading, loadingMessage: dataLoadingMessage } =
+    usePageLoading({
+      isLoading: (securityLoading || sessionsLoading) && uniqueUsers.length === 0,
+      message: 'جاري تحميل الإجراءات السريعة...',
+    })
+
+  if (getShouldRedirect()) {
+    return null
   }
 
-  if (!user || (!isAdmin && !isModerator)) {
+  if (!canAccess || pageShouldShowLoading || loadingState.shouldShowLoading) {
+    return <LoadingState fullScreen message={pageLoadingMessage || loadingState.loadingMessage} />
+  }
+
+  if (dataShouldShowLoading) {
+    return <LoadingState fullScreen message={dataLoadingMessage} />
+  }
+
+  if (!user) {
     return null
   }
 
@@ -117,8 +140,8 @@ const QuickActionsPage: React.FC = () => {
         </div>
         <Input
           placeholder="ابحث بالبريد الإلكتروني أو الاسم..."
-          value={searchQuery}
-          onChange={e => setSearchQuery(e.target.value)}
+          value={searchTerm}
+          onChange={e => setSearchTerm(e.target.value)}
           leftIcon={<Search />}
           fullWidth
         />

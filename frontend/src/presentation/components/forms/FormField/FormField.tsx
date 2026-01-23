@@ -1,4 +1,4 @@
-/**
+﻿/**
  * FormField Component - مكون حقل النموذج
  *
  * مكون حقل نموذج مع التحقق من الصحة
@@ -8,7 +8,6 @@ import React from 'react'
 import { AlertCircle } from 'lucide-react'
 import { Input } from '../../common'
 import { cn } from '../../common/utils/classNames'
-import './FormField.scss'
 
 export interface FormFieldProps {
   label: string
@@ -53,7 +52,7 @@ export const FormField: React.FC<FormFieldProps> = ({
         name={name}
         type={type}
         value={value}
-        onChange={e => onChange(e.target.value)}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => onChange(e.target.value)}
         placeholder={placeholder}
         error={error}
         disabled={disabled}

@@ -1,7 +1,6 @@
 /**
  * Routing Components - مكونات التوجيه
- *
- * تصدير جميع Routing Components
  */
 
-export * from './Breadcrumbs'
+// UI Components have been evicted to presentation/components/layout or similar.
+export { };

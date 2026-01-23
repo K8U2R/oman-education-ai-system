@@ -4,7 +4,7 @@
  * خدمة لإدارة اللغات والترجمة
  */
 
-import { storageAdapter } from '@/infrastructure/storage'
+import { storageAdapter } from '@/infrastructure/services/storage'
 
 export type Language = 'ar' | 'en'
 export type Direction = 'rtl' | 'ltr'

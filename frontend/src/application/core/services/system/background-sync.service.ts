@@ -119,7 +119,7 @@ class BackgroundSyncService {
 
       task.status = 'completed'
       this.removeSyncTask(task.id)
-    } catch (error) {
+    } catch (_error) {
       task.retries++
       if (task.retries >= 3) {
         task.status = 'failed'

@@ -4,7 +4,7 @@
  * خدمة لإدارة التخزين المؤقت للبيانات
  */
 
-import { storageAdapter } from '@/infrastructure/storage'
+import { storageAdapter } from '@/infrastructure/services/storage'
 
 export interface CacheOptions {
   ttl?: number // Time to live in milliseconds

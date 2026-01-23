@@ -1,38 +1,22 @@
-/**
- * Notification Preferences Component - تفضيلات الإشعارات
+﻿/**
+ * NotificationPreferences Component - مكون تفضيلات الإشعارات
  *
- * مكون لإدارة تفضيلات الإشعارات
+ * مكون شامل لإدارة تفضيلات الإشعارات مع UI محسّن
  */
 
 import React, { useState, useEffect } from 'react'
-// Icons removed - not used in component
+import { Bell, VolumeX, RotateCcw } from 'lucide-react'
 import { Modal } from '../../common'
 import { Button } from '../../common'
-import { storageAdapter } from '@/infrastructure/storage'
-import './NotificationPreferences.scss'
-
-interface NotificationPreference {
-  type: string
-  enabled: boolean
-  sound: boolean
-  desktop: boolean
-  email: boolean
-}
-
-const NOTIFICATION_PREFERENCES_KEY = 'notification_preferences'
-
-const defaultPreferences: NotificationPreference[] = [
-  { type: 'message', enabled: true, sound: true, desktop: true, email: false },
-  { type: 'alert', enabled: true, sound: true, desktop: true, email: true },
-  { type: 'task', enabled: true, sound: false, desktop: true, email: false },
-  { type: 'test', enabled: true, sound: true, desktop: true, email: false },
-  { type: 'success', enabled: true, sound: false, desktop: false, email: false },
-  { type: 'warning', enabled: true, sound: true, desktop: true, email: false },
-  { type: 'error', enabled: true, sound: true, desktop: true, email: true },
-]
+import { useNotificationPreferences } from './hooks/useNotificationPreferences'
+import { NotificationCategory } from './components/NotificationCategory'
+import { SaveButtonSection } from './components/SaveButtonSection'
+import { cn } from '../../common/utils/classNames'
 
 interface NotificationPreferencesProps {
+  /** هل النافذة مفتوحة؟ */
   isOpen: boolean
+  /** دالة الإغلاق */
   onClose: () => void
 }
 
@@ -40,118 +24,185 @@ export const NotificationPreferences: React.FC<NotificationPreferencesProps> = (
   isOpen,
   onClose,
 }) => {
-  const [preferences, setPreferences] = useState<NotificationPreference[]>(defaultPreferences)
+  const {
+    preferences,
+    loading,
+    saving,
+    error,
+    hasChanges,
+    fetchPreferences,
+    updatePreference,
+    updateChannel,
+    savePreferences,
+    resetToDefaults,
+    toggleGlobalMute,
+    resetChanges,
+  } = useNotificationPreferences({
+    autoFetch: false, // سنجلب البيانات يدوياً عند فتح النافذة
+    onSuccess: () => {
+      setSuccess(true)
+      setTimeout(() => setSuccess(false), 3000) // إخفاء رسالة النجاح بعد 3 ثوان
+    },
+    onError: error => {
+      console.error('Notification preferences error:', error)
+    },
+  })
 
+  const [success, setSuccess] = useState(false)
+
+  // جلب البيانات عند فتح النافذة
   useEffect(() => {
-    try {
-      const stored = storageAdapter.get(NOTIFICATION_PREFERENCES_KEY)
-      if (stored) {
-        setPreferences(JSON.parse(stored))
-      }
-    } catch (error) {
-      console.error('Failed to load notification preferences:', error)
+    if (isOpen) {
+      fetchPreferences()
     }
-  }, [])
+  }, [isOpen, fetchPreferences])
 
-  const updatePreference = (type: string, field: keyof NotificationPreference, value: boolean) => {
-    setPreferences(prev => {
-      const updated = prev.map(pref => (pref.type === type ? { ...pref, [field]: value } : pref))
+  // إعادة تعيين حالة النجاح عند الإغلاق
+  useEffect(() => {
+    if (!isOpen) {
+      setSuccess(false)
+    }
+  }, [isOpen])
 
-      try {
-        storageAdapter.set(NOTIFICATION_PREFERENCES_KEY, JSON.stringify(updated))
-      } catch (error) {
-        console.error('Failed to save notification preferences:', error)
-      }
-
-      return updated
-    })
+  const handleSave = async () => {
+    const saved = await savePreferences()
+    if (saved) {
+      setTimeout(() => {
+        onClose()
+      }, 1500) // إغلاق النافذة بعد 1.5 ثانية من النجاح
+    }
   }
 
-  const getTypeLabel = (type: string): string => {
-    const labels: Record<string, string> = {
-      message: 'الرسائل',
-      alert: 'التنبيهات',
-      task: 'المهام',
-      test: 'الاختبارات',
-      success: 'النجاح',
-      warning: 'التحذيرات',
-      error: 'الأخطاء',
-    }
-    return labels[type] || type
-  }
-
-  const handleSave = () => {
-    // Save preferences
-    try {
-      storageAdapter.set(NOTIFICATION_PREFERENCES_KEY, JSON.stringify(preferences))
+  const handleCancel = () => {
+    if (hasChanges) {
+      if (window.confirm('هل أنت متأكد من إلغاء التغييرات؟')) {
+        resetChanges()
+        onClose()
+      }
+    } else {
       onClose()
-    } catch (error) {
-      console.error('Failed to save notification preferences:', error)
     }
   }
+
+  const handleGlobalMute = () => {
+    toggleGlobalMute()
+  }
+
+  const handleResetToDefaults = () => {
+    if (window.confirm('هل أنت متأكد من إعادة تعيين جميع الإعدادات إلى الافتراضية؟')) {
+      resetToDefaults()
+    }
+  }
+
+  if (!isOpen) return null
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title="تفضيلات الإشعارات" size="lg">
+    <Modal
+      isOpen={isOpen}
+      onClose={handleCancel}
+      title="تفضيلات الإشعارات"
+      description="تحكم في الإشعارات التي تصلك عبر القنوات المختلفة"
+      size="lg"
+      showCloseButton={true}
+    >
       <div className="notification-preferences">
-        <div className="notification-preferences__list">
-          {preferences.map(preference => (
-            <div key={preference.type} className="notification-preferences__item">
-              <div className="notification-preferences__item-header">
-                <div className="notification-preferences__item-info">
-                  <h4 className="notification-preferences__item-title">
-                    {getTypeLabel(preference.type)}
-                  </h4>
-                </div>
-                <label className="notification-preferences__toggle">
-                  <input
-                    type="checkbox"
-                    checked={preference.enabled}
-                    onChange={e => updatePreference(preference.type, 'enabled', e.target.checked)}
-                  />
-                  <span className="notification-preferences__toggle-slider" />
-                </label>
-              </div>
-
-              {preference.enabled && (
-                <div className="notification-preferences__item-options">
-                  <label className="notification-preferences__option">
-                    <input
-                      type="checkbox"
-                      checked={preference.sound}
-                      onChange={e => updatePreference(preference.type, 'sound', e.target.checked)}
-                    />
-                    <span>صوت</span>
-                  </label>
-                  <label className="notification-preferences__option">
-                    <input
-                      type="checkbox"
-                      checked={preference.desktop}
-                      onChange={e => updatePreference(preference.type, 'desktop', e.target.checked)}
-                    />
-                    <span>إشعار سطح المكتب</span>
-                  </label>
-                  <label className="notification-preferences__option">
-                    <input
-                      type="checkbox"
-                      checked={preference.email}
-                      onChange={e => updatePreference(preference.type, 'email', e.target.checked)}
-                    />
-                    <span>بريد إلكتروني</span>
-                  </label>
-                </div>
-              )}
+        {/* Header Section */}
+        <div className="notification-preferences__header">
+          <div className="notification-preferences__header-content">
+            <Bell className="notification-preferences__header-icon" size={24} />
+            <div className="notification-preferences__header-text">
+              <h3 className="notification-preferences__header-title">إعدادات الإشعارات</h3>
+              <p className="notification-preferences__header-description">
+                اختر أنواع الإشعارات التي تريد تلقيها والقنوات المفضلة لديك
+              </p>
             </div>
-          ))}
+          </div>
         </div>
 
-        <div className="notification-preferences__footer">
-          <Button variant="outline" onClick={onClose}>
-            إلغاء
+        {/* Quick Actions */}
+        <div className="notification-preferences__quick-actions">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleGlobalMute}
+            className={cn('notification-preferences__quick-action', {
+              'notification-preferences__quick-action--active': preferences?.globalMute,
+            })}
+            aria-label={preferences?.globalMute ? 'إلغاء كتم الإشعارات' : 'كتم جميع الإشعارات'}
+          >
+            {preferences?.globalMute ? (
+              <>
+                <VolumeX size={16} />
+                إلغاء كتم الإشعارات
+              </>
+            ) : (
+              <>
+                <VolumeX size={16} />
+                كتم جميع الإشعارات
+              </>
+            )}
           </Button>
-          <Button variant="primary" onClick={handleSave}>
-            حفظ
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={handleResetToDefaults}
+            className="notification-preferences__quick-action"
+            aria-label="إعادة تعيين للإعدادات الافتراضية"
+          >
+            <RotateCcw size={16} />
+            الإعدادات الافتراضية
           </Button>
         </div>
+
+        {/* Content */}
+        {loading ? (
+          <div className="notification-preferences__loading">
+            <div className="notification-preferences__loading-spinner" />
+            <p className="notification-preferences__loading-text">جاري تحميل التفضيلات...</p>
+          </div>
+        ) : error ? (
+          <div className="notification-preferences__error" role="alert">
+            <p className="notification-preferences__error-text">
+              {error.message || 'حدث خطأ أثناء تحميل التفضيلات'}
+            </p>
+            <Button variant="outline" size="sm" onClick={fetchPreferences}>
+              إعادة المحاولة
+            </Button>
+          </div>
+        ) : !preferences || preferences.categories.length === 0 ? (
+          <div className="notification-preferences__empty">
+            <Bell className="notification-preferences__empty-icon" size={48} />
+            <p className="notification-preferences__empty-text">لا توجد تفضيلات متاحة</p>
+          </div>
+        ) : (
+          <div className="notification-preferences__content">
+            {preferences.categories.map(category => (
+              <NotificationCategory
+                key={category.id}
+                category={category}
+                onPreferenceChange={(preferenceType, updates) =>
+                  updatePreference(category.id, preferenceType, updates)
+                }
+                onChannelChange={(preferenceType, channel, enabled, sound) =>
+                  updateChannel(category.id, preferenceType, channel, enabled, sound)
+                }
+                disabled={preferences.globalMute || saving}
+              />
+            ))}
+          </div>
+        )}
+
+        {/* Footer */}
+        {!loading && !error && preferences && preferences.categories.length > 0 && (
+          <SaveButtonSection
+            hasChanges={hasChanges}
+            saving={saving}
+            success={success}
+            onSave={handleSave}
+            onCancel={handleCancel}
+            onReset={hasChanges ? resetChanges : undefined}
+          />
+        )}
       </div>
     </Modal>
   )

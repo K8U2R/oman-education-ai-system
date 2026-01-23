@@ -17,11 +17,11 @@ import {
   Shield,
 } from 'lucide-react'
 import { Button, Card, Badge } from '../../../components/common'
-import { useMonitoring } from '@/application/features/security'
-import { useAuth, useRole } from '@/application'
+import { useMonitoring } from '@/features/system-administration-portal'
+import { useAuth, useRole } from '@/features/user-authentication-management'
 import { ROUTES } from '@/domain/constants/routes.constants'
 import { PageHeader, LoadingState } from '../../components'
-import './SecurityMonitoringPage.scss'
+
 
 const SecurityMonitoringPage: React.FC = () => {
   const navigate = useNavigate()

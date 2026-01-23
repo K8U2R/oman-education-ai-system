@@ -1,25 +1,32 @@
 /**
  * Infrastructure Services - خدمات البنية التحتية
  *
- * تصدير جميع خدمات البنية التحتية
+ * تصدير مركزي لجميع خدمات البنية التحتية
  */
 
-export { WebSocketService } from './websocket.service'
-export { SSEService } from './sse.service'
-export type { WebSocketEvent, WebSocketEventType, WebSocketEventHandler } from './websocket.service'
-export type { SSEEvent, SSEEventType, SSEEventHandler } from './sse.service'
-export { supabaseClient } from './supabase.client'
-export type { SupabaseConfig } from './supabase.client'
-export { serviceWorkerService } from './service-worker.service'
-export { monitoringService } from './monitoring.service'
-export type {
-  ErrorEntry,
-  ErrorStats,
-  ErrorFilter,
-  PerformanceMetric,
-  PerformanceStats,
-  PerformanceFilter,
-} from './monitoring.service'
+// Auth Services - خدمات المصادقة
+export * from './auth'
 
-export { performanceService } from './performance.service'
-export type { WebVitals, PerformanceMetrics } from './performance.service'
+// Communication Services - خدمات الاتصال
+export * from './communication'
+
+// Core Services - الخدمات الأساسية
+export * from './core'
+
+// Database Services - خدمات قاعدة البيانات
+export * from './database'
+
+// Monitoring Services - خدمات المراقبة
+export * from './monitoring'
+
+// API Services - خدمات التواصل
+export * from './api'
+
+// Storage Services - خدمات التخزين
+export * from './storage'
+
+// HTTP Services - خدمات HTTP
+export * from './http'
+
+// Shared Types - الأنواع المشتركة
+export * from './types'

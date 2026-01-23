@@ -12,7 +12,7 @@ import {
   NotificationType,
 } from '@/domain/types/notification.types'
 import { notificationService } from '../services'
-import { authService } from '@/application/features/auth/services'
+import { authService } from '@/features/user-authentication-management'
 
 interface NotificationState {
   // State

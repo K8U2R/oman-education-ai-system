@@ -9,7 +9,7 @@
  */
 
 import { AxiosError } from 'axios'
-import { ResponseInterceptor } from '@/infrastructure/http'
+import { ResponseInterceptor } from '@/infrastructure/services/http'
 import { offlineService } from '../services/system'
 
 /**

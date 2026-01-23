@@ -74,4 +74,3 @@ export class DashboardPage {
     await this.page.waitForURL(/\/storage/, { timeout: 10000 })
   }
 }
-

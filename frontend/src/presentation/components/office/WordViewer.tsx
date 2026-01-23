@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Word Viewer - معاين Word
  *
  * مكون لعرض ملفات Word
@@ -6,8 +6,8 @@
 
 import React from 'react'
 import { FileText, Download } from 'lucide-react'
+import { sanitizeHTML } from '@/infrastructure/utils/sanitize.util'
 import { Card, Button } from '../common'
-import './WordViewer.scss'
 
 interface WordViewerProps {
   content?: string
@@ -38,7 +38,10 @@ export const WordViewer: React.FC<WordViewerProps> = ({
       </div>
       <div className="word-viewer__content">
         {content ? (
-          <div className="word-viewer__preview" dangerouslySetInnerHTML={{ __html: content }} />
+          <div
+            className="word-viewer__preview"
+            dangerouslySetInnerHTML={{ __html: sanitizeHTML(content) }}
+          />
         ) : (
           <div className="word-viewer__empty">
             <FileText className="word-viewer__empty-icon" />

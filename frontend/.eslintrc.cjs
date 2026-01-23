@@ -5,6 +5,8 @@ module.exports = {
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:react-hooks/recommended',
+    'plugin:storybook/recommended',
+    'prettier', // يجب أن يكون في النهاية لتعطيل قواعد ESLint المتعارضة مع Prettier
   ],
   ignorePatterns: ['dist', '.eslintrc.cjs'],
   parser: '@typescript-eslint/parser',
@@ -14,10 +16,14 @@ module.exports = {
       'warn',
       { allowConstantExport: true },
     ],
-    '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
+    '@typescript-eslint/no-unused-vars': [
+      'warn',
+      { argsIgnorePattern: '^_', caughtErrorsIgnorePattern: '^_' },
+    ],
     '@typescript-eslint/no-explicit-any': ['warn', { ignoreRestArgs: true }],
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     'no-console': ['warn', { allow: ['warn', 'error'] }],
+    // Prettier config موجود في .prettierrc - لا حاجة لتكراره هنا
   },
 }
 

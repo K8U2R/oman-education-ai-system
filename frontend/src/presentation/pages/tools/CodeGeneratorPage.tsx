@@ -8,7 +8,7 @@ import React from 'react'
 import { Code2 } from 'lucide-react'
 import { CodeGeneratorComponent, type CodeGenerationResult } from '../../components/ai'
 import { PageHeader } from '../components'
-import './CodeGeneratorPage.scss'
+
 
 const CodeGeneratorPage: React.FC = () => {
   const handleCodeGenerated = (_result: CodeGenerationResult): void => {

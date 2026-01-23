@@ -51,7 +51,7 @@ export interface IAuthRepository {
   /**
    * الحصول على OAuth URL
    */
-  getOAuthUrl(provider: 'google' | 'github', redirectTo?: string): string
+  getOAuthUrl(provider: 'google', redirectTo?: string): string
 
   /**
    * معالجة OAuth Callback

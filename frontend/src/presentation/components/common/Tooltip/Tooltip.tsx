@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Tooltip Component - مكون التلميح
  *
  * مكون تلميح قابلة لإعادة الاستخدام
@@ -6,7 +6,6 @@
 
 import React, { useState, useRef, useEffect } from 'react'
 import { cn } from '../utils/classNames'
-import './Tooltip.scss'
 
 interface TooltipProps {
   content: React.ReactNode

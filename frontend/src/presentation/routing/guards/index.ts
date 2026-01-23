@@ -4,5 +4,6 @@
  * تصدير جميع Route Guards
  */
 
-export * from './ProtectedRoute'
-export * from './PublicRoute'
+export * from '@/features/user-authentication-management/guards/ProtectedRoute'
+export * from '@/features/user-authentication-management/guards/PublicRoute'
+export * from '@/features/user-authentication-management/guards/GuestRoute'

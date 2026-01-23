@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Excel Viewer - معاين Excel
  *
  * مكون لعرض ملفات Excel
@@ -7,7 +7,6 @@
 import React from 'react'
 import { FileSpreadsheet, Download } from 'lucide-react'
 import { Card, Button } from '../common'
-import './ExcelViewer.scss'
 
 interface ExcelViewerProps {
   data?: Record<string, unknown> | Array<Record<string, unknown>>

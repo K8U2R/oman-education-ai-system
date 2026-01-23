@@ -16,9 +16,10 @@ import {
 } from '../../components/office'
 import { ExportOptions } from '../../components/office'
 import { useOffice, type OfficeTemplate } from '@/application'
-import type { OfficeGenerationResponse } from '@/application/features/office/services/office.service'
+import { loggingService } from '@/infrastructure/services'
+import type { OfficeGenerationResponse } from '@/features/office-management'
 import { PageHeader } from '../components'
-import './OfficeGeneratorPage.scss'
+
 
 const OfficeGeneratorPage: React.FC = () => {
   const [selectedType, setSelectedType] = useState<'excel' | 'word' | 'powerpoint'>('word')
@@ -53,7 +54,7 @@ const OfficeGeneratorPage: React.FC = () => {
       setGeneratedFile(response)
     } catch (err) {
       // Error is handled by useOffice hook
-      console.error('Office generation error:', err)
+      loggingService.error('Office generation error', err as Error)
     }
   }
 
@@ -70,22 +71,22 @@ const OfficeGeneratorPage: React.FC = () => {
     label: string
     icon: React.ReactNode
   }> = [
-    {
-      type: 'excel',
-      label: 'Excel',
-      icon: <FileSpreadsheet />,
-    },
-    {
-      type: 'word',
-      label: 'Word',
-      icon: <FileText />,
-    },
-    {
-      type: 'powerpoint',
-      label: 'PowerPoint',
-      icon: <Presentation />,
-    },
-  ]
+      {
+        type: 'excel',
+        label: 'Excel',
+        icon: <FileSpreadsheet />,
+      },
+      {
+        type: 'word',
+        label: 'Word',
+        icon: <FileText />,
+      },
+      {
+        type: 'powerpoint',
+        label: 'PowerPoint',
+        icon: <Presentation />,
+      },
+    ]
 
   return (
     <div className="office-generator-page">
@@ -103,9 +104,8 @@ const OfficeGeneratorPage: React.FC = () => {
               {fileTypes.map(fileType => (
                 <Card
                   key={fileType.type}
-                  className={`office-generator-page__type ${
-                    selectedType === fileType.type ? 'office-generator-page__type--selected' : ''
-                  }`}
+                  className={`office-generator-page__type ${selectedType === fileType.type ? 'office-generator-page__type--selected' : ''
+                    }`}
                   onClick={() => setSelectedType(fileType.type)}
                   hoverable
                 >

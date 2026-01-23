@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Sessions Table - جدول الجلسات
  *
  * مكون لعرض الجلسات النشطة في جدول
@@ -9,8 +9,7 @@ import { Laptop, Smartphone, Tablet, Eye, XCircle, Shield } from 'lucide-react'
 import { Card, Button, Badge, Avatar } from '../../common'
 import { DataTable, DataTableColumn } from '../../data'
 import { cn } from '../../common/utils/classNames'
-import type { Session } from '@/application/features/security/types'
-import './SessionsTable.scss'
+import type { Session } from '@/features/system-administration-portal'
 
 export interface SessionsTableProps {
   sessions: Session[]

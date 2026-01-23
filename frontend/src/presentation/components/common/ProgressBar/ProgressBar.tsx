@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Progress Bar Component - مكون شريط التقدم
  *
  * مكون شريط تقدم قابلة لإعادة الاستخدام
@@ -6,7 +6,6 @@
 
 import React from 'react'
 import { cn } from '../utils/classNames'
-import './ProgressBar.scss'
 
 export type ProgressBarVariant = 'default' | 'primary' | 'success' | 'warning' | 'error'
 export type ProgressBarSize = 'sm' | 'md' | 'lg'

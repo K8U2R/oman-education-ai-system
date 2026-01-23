@@ -18,13 +18,11 @@ export * from './core/services/ui'
 export * from './shared/hooks'
 
 // Features Exports
-// Auth
-export * from './features/auth/hooks'
-export * from './features/auth/services'
+// Auth - Migrated to @/features/user-authentication-management
+// export * from './features/auth/hooks'
+// export * from './features/auth/services'
 
 // Learning
-export * from './features/learning/hooks'
-export * from './features/learning/services'
 
 // Storage
 export * from './features/storage/hooks'

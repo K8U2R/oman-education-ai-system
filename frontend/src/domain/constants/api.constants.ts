@@ -4,7 +4,7 @@
  * جميع الثوابت المتعلقة بـ API
  */
 
-export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:9681'
+export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:30000/api/v1'
 
 export const API_ENDPOINTS = {
   // Auth
@@ -16,7 +16,11 @@ export const API_ENDPOINTS = {
     REFRESH: '/auth/refresh',
     UPDATE_PASSWORD: '/auth/update-password',
     UPDATE_USER: '/auth/me',
-    OAUTH: (provider: string) => `/auth/oauth/${provider}`,
+    FORGOT_PASSWORD: '/auth/forgot-password',
+    RESET_PASSWORD: '/auth/reset-password',
+    OAUTH: (provider: string) => `/auth/${provider}`,
+    SEND_VERIFICATION_EMAIL: '/auth/verify/send',
+    VERIFY_EMAIL: '/auth/verify/confirm',
   },
   // Learning
   LEARNING: {
@@ -64,6 +68,11 @@ export const API_ENDPOINTS = {
     GENERATE: '/code-generation/generate',
     IMPROVE: '/code-generation/improve',
     EXPLAIN: '/code-generation/explain',
+  },
+  // AI Mastermind
+  AI: {
+    STREAM: '/ai/stream',
+    INTERACT: '/ai/interact',
   },
   // Office Generation
   OFFICE: {

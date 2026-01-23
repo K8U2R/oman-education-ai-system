@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Quick Actions Menu - قائمة الإجراءات السريعة
  *
  * قائمة إجراءات سريعة مع اختصارات
@@ -8,8 +8,8 @@ import React, { useState, useRef, useEffect, useMemo } from 'react'
 import { FileText, BookOpen, Upload, Settings, Zap } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import { ROUTES } from '@/domain/constants/routes.constants'
+import { useUIStore } from '@/application/shared/store'
 import { cn } from '../../common/utils/classNames'
-import './QuickActions.scss'
 
 interface QuickAction {
   id: string
@@ -27,6 +27,8 @@ export const QuickActions: React.FC<QuickActionsProps> = ({ className = '' }) =>
   const [isOpen, setIsOpen] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
   const navigate = useNavigate()
+
+  const { openSettings } = useUIStore()
 
   const actions: QuickAction[] = useMemo(
     () => [
@@ -65,13 +67,13 @@ export const QuickActions: React.FC<QuickActionsProps> = ({ className = '' }) =>
         label: 'الإعدادات',
         icon: Settings,
         action: () => {
-          navigate(ROUTES.SETTINGS)
+          openSettings()
           setIsOpen(false)
         },
         shortcut: 'S',
       },
     ],
-    [navigate]
+    [navigate, openSettings]
   )
 
   // Close menu when clicking outside

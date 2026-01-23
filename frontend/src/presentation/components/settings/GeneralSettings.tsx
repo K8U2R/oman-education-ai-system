@@ -1,14 +1,13 @@
-/**
+﻿/**
  * General Settings Component - إعدادات عامة
  *
  * مكون لإدارة الإعدادات العامة للحساب
  */
 
 import React, { useState, useEffect } from 'react'
-import { User, Mail, Save } from 'lucide-react'
-import { useAuth } from '@/application'
+import { User, Mail, Save, Shield } from 'lucide-react'
+import { useAuth } from '@/features/user-authentication-management'
 import { Button, Input, Card } from '../common'
-import './GeneralSettings.scss'
 
 const GeneralSettings: React.FC = () => {
   const { user, updateUser, refreshUser } = useAuth()
@@ -88,6 +87,43 @@ const GeneralSettings: React.FC = () => {
           <p className="general-settings__value">{user?.email || 'غير محدد'}</p>
           <p className="general-settings__hint">لا يمكن تغيير البريد الإلكتروني</p>
         </div>
+
+        {user && (
+          <>
+            <div className="general-settings__field">
+              <label className="general-settings__label">
+                <Shield className="general-settings__label-icon" />
+                الدور
+              </label>
+              <p className="general-settings__value">
+                {user.role === 'admin'
+                  ? 'مدير'
+                  : user.role === 'developer'
+                    ? 'مطور'
+                    : user.role === 'teacher'
+                      ? 'معلم'
+                      : user.role === 'student'
+                        ? 'طالب'
+                        : user.role === 'parent'
+                          ? 'ولي أمر'
+                          : user.role === 'moderator'
+                            ? 'مشرف'
+                            : user.role}
+              </p>
+            </div>
+
+            <div className="general-settings__field">
+              <label className="general-settings__label">
+                <Shield className="general-settings__label-icon" />
+                حالة الحساب
+              </label>
+              <p className="general-settings__value">
+                {user.isActive ? 'نشط' : 'غير نشط'}
+                {user.isVerified ? ' • مُتحقق' : ' • غير مُتحقق'}
+              </p>
+            </div>
+          </>
+        )}
 
         <div className="general-settings__actions">
           {isEditing ? (

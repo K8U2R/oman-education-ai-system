@@ -159,7 +159,7 @@ class RouteAnalytics {
         body: JSON.stringify(event),
       }).catch(error => {
         // Use logging service instead of console.error
-        import('@/infrastructure/services/logging.service').then(({ loggingService }) => {
+        import('@/infrastructure/services').then(({ loggingService }) => {
           loggingService.error('Failed to send analytics event', error as Error)
         })
       })

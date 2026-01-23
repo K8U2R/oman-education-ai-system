@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Code Generator Component - مكون توليد الكود
  *
  * مكون تفاعلي لتوليد الكود باستخدام AI
@@ -8,9 +8,8 @@ import React, { useState } from 'react'
 import { Code2, Sparkles, Copy, Download, Check } from 'lucide-react'
 import { Button, Card } from '../common'
 import { CodePreviewComponent } from './CodePreviewComponent'
-import { apiClient } from '@/infrastructure/api'
+import { apiClient } from '@/infrastructure/services/api'
 import { API_ENDPOINTS } from '@/domain/constants'
-import './CodeGeneratorComponent.scss'
 
 export interface CodeGenerationRequest {
   prompt: string

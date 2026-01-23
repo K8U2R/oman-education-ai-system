@@ -1,7 +1,6 @@
-import React from 'react'
+﻿import React from 'react'
 import { Globe } from 'lucide-react'
 import { useI18n } from '@/application'
-import './LanguageToggle.scss'
 
 const LanguageToggle: React.FC = () => {
   const { language, changeLanguage } = useI18n()

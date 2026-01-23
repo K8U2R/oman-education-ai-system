@@ -1,4 +1,4 @@
-/**
+﻿/**
  * AreaChart Component - مكون الرسم البياني المساحي
  *
  * مكون رسم بياني مساحي بسيط
@@ -6,7 +6,6 @@
 
 import React, { useRef, useEffect } from 'react'
 import { cn } from '../../common/utils/classNames'
-import './AreaChart.scss'
 
 export interface AreaChartDataPoint {
   x: string | number

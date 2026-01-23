@@ -82,7 +82,7 @@ export class User {
    * التحقق من أن المستخدم لديه صلاحية معينة
    */
   hasPermission(requiredPermission: Permission): boolean {
-    // استخدام الصلاحيات المخصصة إذا كانت موجودة، وإلا استخدام صلاحيات الدور
+    // استخدام  المخصصة إذا كانت موجودة، وإلا استخدام صلاحيات الدور
     const userPermissions =
       this.permissions.length > 0 ? this.permissions : RoleService.getRolePermissions(this.role)
 
@@ -90,7 +90,7 @@ export class User {
   }
 
   /**
-   * التحقق من أن المستخدم لديه إحدى الصلاحيات المطلوبة
+   * التحقق من أن المستخدم لديه إحدى  المطلوبة
    */
   hasAnyPermission(requiredPermissions: Permission[]): boolean {
     const userPermissions =
@@ -100,13 +100,25 @@ export class User {
   }
 
   /**
-   * التحقق من أن المستخدم لديه جميع الصلاحيات المطلوبة
+   * التحقق من أن المستخدم لديه جميع  المطلوبة
    */
   hasAllPermissions(requiredPermissions: Permission[]): boolean {
     const userPermissions =
       this.permissions.length > 0 ? this.permissions : RoleService.getRolePermissions(this.role)
 
     return RoleService.hasAllPermissions(userPermissions, requiredPermissions).hasPermission
+  }
+
+  /**
+   * الحصول على  الفعالة (المخصصة أو صلاحيات الدور)
+   */
+  getEffectivePermissions(): Permission[] {
+    // إذا كان المستخدم لديه صلاحيات مخصصة، استخدمها
+    if (this.permissions.length > 0) {
+      return this.permissions
+    }
+    // وإلا استخدم صلاحيات الدور الافتراضية
+    return RoleService.getRolePermissions(this.role)
   }
 
   /**

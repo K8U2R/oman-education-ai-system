@@ -1,11 +1,10 @@
-/**
+﻿/**
  * Skip Link - رابط التخطي
  *
  * رابط للانتقال مباشرة إلى المحتوى الرئيسي (لإمكانية الوصول)
  */
 
 import React from 'react'
-import styles from './SkipLink.module.scss'
 
 interface SkipLinkProps {
   /**
@@ -36,7 +35,7 @@ export const SkipLink: React.FC<SkipLinkProps> = ({
   }
 
   return (
-    <a href={`#${targetId}`} className={styles.skipLink} onClick={handleClick}>
+    <a href={`#${targetId}`} className="skipLink" onClick={handleClick}>
       {text}
     </a>
   )

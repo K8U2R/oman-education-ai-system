@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Security Stat Card - بطاقة إحصائية للأمان
  *
  * مكون لعرض إحصائيات الأمان في بطاقة
@@ -8,7 +8,6 @@ import React from 'react'
 import { LucideIcon } from 'lucide-react'
 import { Card } from '../../common'
 import { cn } from '../../common/utils/classNames'
-import './SecurityStatCard.scss'
 
 export interface SecurityStatCardProps {
   title: string

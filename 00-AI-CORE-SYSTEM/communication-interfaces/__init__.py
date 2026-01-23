@@ -1,5 +1,0 @@
-"""
-واجهات التواصل
-Communication Interfaces
-"""
-

@@ -4,7 +4,7 @@
  * Frontend service للتفاعل مع Developer APIs
  */
 
-import { apiClientRefactored as apiClient } from '@/infrastructure/api'
+import { apiClientRefactored as apiClient } from '@/infrastructure/services/api'
 import {
   DeveloperStats,
   APIEndpointInfo,

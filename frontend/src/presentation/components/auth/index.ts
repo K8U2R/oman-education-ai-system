@@ -4,5 +4,5 @@
  * Barrel export لجميع مكونات المصادقة
  */
 
-export { ProtectedComponent } from './ProtectedComponent'
-export { ProtectedButton } from './ProtectedButton'
+export { ProtectedComponent } from '@/features/user-authentication-management/components/ProtectedComponent'
+export { ProtectedButton } from '@/features/user-authentication-management/components/ProtectedButton'

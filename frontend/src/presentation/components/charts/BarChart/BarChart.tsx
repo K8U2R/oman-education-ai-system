@@ -1,4 +1,4 @@
-/**
+﻿/**
  * BarChart Component - مكون الرسم البياني العمودي
  *
  * مكون رسم بياني عمودي بسيط
@@ -6,7 +6,6 @@
 
 import React, { useRef, useEffect } from 'react'
 import { cn } from '../../common/utils/classNames'
-import './BarChart.scss'
 
 export interface BarChartDataPoint {
   label: string

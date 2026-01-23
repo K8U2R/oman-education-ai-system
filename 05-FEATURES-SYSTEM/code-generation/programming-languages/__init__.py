@@ -1,5 +1,0 @@
-"""
-لغات البرمجة
-Programming Languages
-"""
-

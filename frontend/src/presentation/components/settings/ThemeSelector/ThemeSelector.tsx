@@ -1,8 +1,7 @@
-import React from 'react'
+﻿import React from 'react'
 import { Moon, Sun, Monitor, Baby, Users, GraduationCap, School } from 'lucide-react'
 import { useTheme } from '@/presentation/providers/ThemeProvider'
 import type { ThemeMode, AgeTheme } from '@/application'
-import './ThemeSelector.scss'
 
 const ThemeSelector: React.FC = () => {
   const { theme, setMode, setAgeTheme, effectiveMode } = useTheme()

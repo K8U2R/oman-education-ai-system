@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Accordion Component - مكون القائمة المنبثقة
  *
  * مكون قائمة منبثقة قابلة لإعادة الاستخدام
@@ -7,7 +7,6 @@
 import React, { useState, createContext, useContext } from 'react'
 import { ChevronDown } from 'lucide-react'
 import { cn } from '../utils/classNames'
-import './Accordion.scss'
 
 interface AccordionContextValue {
   openItems: Set<string>

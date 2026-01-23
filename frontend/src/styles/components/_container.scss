@@ -1,0 +1,86 @@
+/**
+ * Container Layout Styles
+ * @law Law-6 (Visual Sovereign) - OKLCH tokens
+ * @law Law-9 (Documentation)
+ */
+
+@use '../abstracts/mixins' as *;
+@use '../abstracts/variables' as *;
+@use '../abstracts/tokens' as *;
+
+// ============================================================================
+// Container & Layout Utilities
+// ============================================================================
+
+.container {
+    width: 100%;
+    max-width: var(--container-max-width);
+    margin: 0 auto;
+    padding-left: var(--container-padding);
+    padding-right: var(--container-padding);
+
+    @media (max-width: $breakpoint-sm) {
+        padding-left: var(--space-md);
+        padding-right: var(--space-md);
+    }
+}
+
+.section {
+    padding-top: var(--space-xl);
+    padding-bottom: var(--space-xl);
+
+    @media (max-width: $breakpoint-md) {
+        padding-top: var(--space-lg);
+        padding-bottom: var(--space-lg);
+    }
+}
+
+// Flex utilities
+.flex {
+    display: flex;
+}
+
+.flex-col {
+    flex-direction: column;
+}
+
+.items-center {
+    align-items: center;
+}
+
+.justify-center {
+    justify-content: center;
+}
+
+.justify-between {
+    justify-content: space-between;
+}
+
+.gap-sm {
+    gap: var(--space-sm);
+}
+
+.gap-md {
+    gap: var(--space-md);
+}
+
+.gap-lg {
+    gap: var(--space-lg);
+}
+
+// Spacing utilities
+.mt-lg {
+    margin-top: var(--space-lg);
+}
+
+.mb-lg {
+    margin-bottom: var(--space-lg);
+}
+
+.p-md {
+    padding: var(--space-md);
+}
+
+.p-lg {
+    padding: var(--space-lg);
+}

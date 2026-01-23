@@ -1,11 +1,10 @@
-/**
+﻿/**
  * Skeleton Loader - مكون تحميل الهيكل
  *
  * مكون محسّن لعرض Skeleton loaders أثناء التحميل
  */
 
 import React from 'react'
-import styles from './SkeletonLoader.module.scss'
 
 interface SkeletonLoaderProps {
   /**
@@ -33,16 +32,16 @@ interface SkeletonLoaderProps {
  * Skeleton Card
  */
 const SkeletonCard: React.FC = () => (
-  <div className={styles.skeletonCard}>
-    <div className={styles.skeletonCardHeader}></div>
-    <div className={styles.skeletonCardContent}>
-      <div className={styles.skeletonLine}></div>
-      <div className={styles.skeletonLine}></div>
-      <div className={styles.skeletonLine} style={{ width: '60%' }}></div>
+  <div className="skeletonCard">
+    <div className="skeletonCardHeader"></div>
+    <div className="skeletonCardContent">
+      <div className="skeletonLine"></div>
+      <div className="skeletonLine"></div>
+      <div className="skeletonLine" style={{ width: '60%' }}></div>
     </div>
-    <div className={styles.skeletonCardFooter}>
-      <div className={styles.skeletonButton}></div>
-      <div className={styles.skeletonButton}></div>
+    <div className="skeletonCardFooter">
+      <div className="skeletonButton"></div>
+      <div className="skeletonButton"></div>
     </div>
   </div>
 )
@@ -51,11 +50,11 @@ const SkeletonCard: React.FC = () => (
  * Skeleton List Item
  */
 const SkeletonListItem: React.FC = () => (
-  <div className={styles.skeletonListItem}>
-    <div className={styles.skeletonAvatar}></div>
-    <div className={styles.skeletonListItemContent}>
-      <div className={styles.skeletonLine}></div>
-      <div className={styles.skeletonLine} style={{ width: '70%' }}></div>
+  <div className="skeletonListItem">
+    <div className="skeletonAvatar"></div>
+    <div className="skeletonListItemContent">
+      <div className="skeletonLine"></div>
+      <div className="skeletonLine" style={{ width: '70%' }}></div>
     </div>
   </div>
 )
@@ -64,18 +63,18 @@ const SkeletonListItem: React.FC = () => (
  * Skeleton Table Row
  */
 const SkeletonTableRow: React.FC = () => (
-  <tr className={styles.skeletonTableRow}>
+  <tr className="skeletonTableRow">
     <td>
-      <div className={styles.skeletonLine} style={{ width: '80%' }}></div>
+      <div className="skeletonLine" style={{ width: '80%' }}></div>
     </td>
     <td>
-      <div className={styles.skeletonLine} style={{ width: '60%' }}></div>
+      <div className="skeletonLine" style={{ width: '60%' }}></div>
     </td>
     <td>
-      <div className={styles.skeletonLine} style={{ width: '40%' }}></div>
+      <div className="skeletonLine" style={{ width: '40%' }}></div>
     </td>
     <td>
-      <div className={styles.skeletonButton} style={{ width: '60px' }}></div>
+      <div className="skeletonButton" style={{ width: '60px' }}></div>
     </td>
   </tr>
 )
@@ -84,22 +83,22 @@ const SkeletonTableRow: React.FC = () => (
  * Skeleton Form
  */
 const SkeletonForm: React.FC = () => (
-  <div className={styles.skeletonForm}>
-    <div className={styles.skeletonFormGroup}>
-      <div className={styles.skeletonLabel}></div>
-      <div className={styles.skeletonInput}></div>
+  <div className="skeletonForm">
+    <div className="skeletonFormGroup">
+      <div className="skeletonLabel"></div>
+      <div className="skeletonInput"></div>
     </div>
-    <div className={styles.skeletonFormGroup}>
-      <div className={styles.skeletonLabel}></div>
-      <div className={styles.skeletonInput}></div>
+    <div className="skeletonFormGroup">
+      <div className="skeletonLabel"></div>
+      <div className="skeletonInput"></div>
     </div>
-    <div className={styles.skeletonFormGroup}>
-      <div className={styles.skeletonLabel}></div>
-      <div className={styles.skeletonTextarea}></div>
+    <div className="skeletonFormGroup">
+      <div className="skeletonLabel"></div>
+      <div className="skeletonTextarea"></div>
     </div>
-    <div className={styles.skeletonFormActions}>
-      <div className={styles.skeletonButton} style={{ width: '120px' }}></div>
-      <div className={styles.skeletonButton} style={{ width: '100px' }}></div>
+    <div className="skeletonFormActions">
+      <div className="skeletonButton" style={{ width: '120px' }}></div>
+      <div className="skeletonButton" style={{ width: '100px' }}></div>
     </div>
   </div>
 )
@@ -114,13 +113,13 @@ export const SkeletonLoader: React.FC<SkeletonLoaderProps> = ({
   className = '',
 }) => {
   if (custom) {
-    return <div className={`${styles.skeletonContainer} ${className}`}>{custom}</div>
+    return <div className={`skeletonContainer ${className}`}>{custom}</div>
   }
 
   switch (type) {
     case 'card':
       return (
-        <div className={`${styles.skeletonContainer} ${className}`}>
+        <div className={`skeletonContainer ${className}`}>
           {Array.from({ length: count }).map((_, index) => (
             <SkeletonCard key={index} />
           ))}
@@ -129,7 +128,7 @@ export const SkeletonLoader: React.FC<SkeletonLoaderProps> = ({
 
     case 'list':
       return (
-        <div className={`${styles.skeletonContainer} ${className}`}>
+        <div className={`skeletonContainer ${className}`}>
           {Array.from({ length: count }).map((_, index) => (
             <SkeletonListItem key={index} />
           ))}
@@ -138,20 +137,20 @@ export const SkeletonLoader: React.FC<SkeletonLoaderProps> = ({
 
     case 'table':
       return (
-        <table className={`${styles.skeletonTable} ${className}`}>
+        <table className={`skeletonTable ${className}`}>
           <thead>
             <tr>
               <th>
-                <div className={styles.skeletonLine} style={{ width: '80%' }}></div>
+                <div className="skeletonLine" style={{ width: '80%' }}></div>
               </th>
               <th>
-                <div className={styles.skeletonLine} style={{ width: '60%' }}></div>
+                <div className="skeletonLine" style={{ width: '60%' }}></div>
               </th>
               <th>
-                <div className={styles.skeletonLine} style={{ width: '40%' }}></div>
+                <div className="skeletonLine" style={{ width: '40%' }}></div>
               </th>
               <th>
-                <div className={styles.skeletonLine} style={{ width: '30%' }}></div>
+                <div className="skeletonLine" style={{ width: '30%' }}></div>
               </th>
             </tr>
           </thead>
@@ -165,14 +164,14 @@ export const SkeletonLoader: React.FC<SkeletonLoaderProps> = ({
 
     case 'form':
       return (
-        <div className={`${styles.skeletonContainer} ${className}`}>
+        <div className={`skeletonContainer ${className}`}>
           <SkeletonForm />
         </div>
       )
 
     default:
       return (
-        <div className={`${styles.skeletonContainer} ${className}`}>
+        <div className={`skeletonContainer ${className}`}>
           <SkeletonCard />
         </div>
       )

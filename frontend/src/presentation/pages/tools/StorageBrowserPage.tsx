@@ -16,7 +16,7 @@ import {
 } from '../../components/storage'
 import type { ExportFormat } from '../../components/storage'
 import { Button } from '../../components/common'
-import './StorageBrowserPage.scss'
+
 
 const StorageBrowserPage: React.FC = () => {
   const { connectionId } = useParams<{ connectionId: string }>()
@@ -45,7 +45,7 @@ const StorageBrowserPage: React.FC = () => {
       ])
       setFiles(filesData)
       setFolders(foldersData)
-    } catch (err) {
+    } catch (_err) {
       // Error logging is handled by the error interceptor
       setError('فشل تحميل الملفات')
     } finally {
@@ -90,7 +90,7 @@ const StorageBrowserPage: React.FC = () => {
       a.click()
       window.URL.revokeObjectURL(url)
       document.body.removeChild(a)
-    } catch (err) {
+    } catch (_err) {
       // Error logging is handled by the error interceptor
       setError('فشل تحميل الملف')
     }
@@ -103,7 +103,7 @@ const StorageBrowserPage: React.FC = () => {
     try {
       await storageIntegrationService.deleteFile(connectionId, fileId)
       await loadFiles()
-    } catch (err) {
+    } catch (_err) {
       // Error logging is handled by the error interceptor
       setError('فشل حذف الملف')
     }
@@ -166,7 +166,7 @@ const StorageBrowserPage: React.FC = () => {
       a.click()
       document.body.removeChild(a)
       window.URL.revokeObjectURL(url)
-    } catch (error) {
+    } catch (_error) {
       // Error logging is handled by the error interceptor
     }
   }
@@ -245,7 +245,7 @@ const StorageBrowserPage: React.FC = () => {
     try {
       await storageIntegrationService.createFolder(connectionId, folderName, currentFolderId)
       await loadFiles()
-    } catch (err) {
+    } catch (_err) {
       // Error logging is handled by the error interceptor
       setError('فشل إنشاء المجلد')
     }

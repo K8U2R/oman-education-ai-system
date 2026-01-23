@@ -9,7 +9,7 @@
 
 import { test, expect } from '@playwright/test'
 import { LoginPage, DashboardPage } from './pages'
-// Test helpers imported but not used in this test file
+import { waitForPageLoad } from './utils/test-helpers'
 
 test.describe('Learning Flow', () => {
   const testUser = {
@@ -23,7 +23,7 @@ test.describe('Learning Flow', () => {
     // تسجيل الدخول قبل كل اختبار
     const loginPage = new LoginPage(page)
     await loginPage.goto()
-    
+
     // محاولة تسجيل الدخول (إذا فشل، سيتم إنشاء مستخدم جديد)
     try {
       await loginPage.login(testUser.email, testUser.password)
@@ -65,13 +65,13 @@ test.describe('Learning Flow', () => {
       const filterInputs = page.locator('input[placeholder*="بحث"], input[placeholder*="Search"]')
 
       // إذا وجدت أزرار تصفية، انقر عليها
-      if (await filterButtons.count() > 0) {
+      if ((await filterButtons.count()) > 0) {
         await filterButtons.first().click()
         await page.waitForTimeout(1000)
       }
 
       // إذا وجدت حقول بحث، املأها
-      if (await filterInputs.count() > 0) {
+      if ((await filterInputs.count()) > 0) {
         await filterInputs.first().fill('test')
         await page.waitForTimeout(1000)
       }
@@ -82,11 +82,13 @@ test.describe('Learning Flow', () => {
       await waitForPageLoad(page)
 
       // البحث عن رابط أو زر لدرس
-      const lessonLink = page.locator('a[href*="/lessons/"], button:has-text("عرض"), button:has-text("View")').first()
+      const lessonLink = page
+        .locator('a[href*="/lessons/"], button:has-text("عرض"), button:has-text("View")')
+        .first()
 
       if (await lessonLink.isVisible({ timeout: 5000 })) {
         await lessonLink.click()
-        
+
         // التحقق من التوجيه إلى صفحة تفاصيل الدرس
         await page.waitForURL(/\/lessons\/[^/]+/, { timeout: 10000 })
       }
@@ -120,15 +122,16 @@ test.describe('Learning Flow', () => {
       await waitForPageLoad(page)
 
       // البحث عن زر إنشاء تقييم جديد
-      const createButton = page.locator('button:has-text("إنشاء"), button:has-text("Create"), a:has-text("جديد")').first()
+      const createButton = page
+        .locator('button:has-text("إنشاء"), button:has-text("Create"), a:has-text("جديد")')
+        .first()
 
       if (await createButton.isVisible({ timeout: 5000 })) {
         await createButton.click()
-        
+
         // التحقق من التوجيه إلى صفحة إنشاء التقييم
         await page.waitForURL(/\/assessments\/new|\/assessments\/create/, { timeout: 10000 })
       }
     })
   })
 })
-

@@ -1,0 +1,127 @@
+/**
+ * Home Page Styles
+ * @law Law-6 (Visual Sovereign) - OKLCH tokens
+ * @law Law-9 (Documentation)
+ */
+
+@use '../abstracts/mixins' as *;
+@use '../abstracts/variables' as *;
+@use '../abstracts/tokens' as *;
+
+// ============================================================================
+// Home Page Styles
+// ============================================================================
+
+.home-page {
+    &__hero {
+        min-height: calc(100vh - var(--header-height));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: var(--space-xl) var(--container-padding);
+        background: linear-gradient(135deg, var(--color-bg-app) 0%, var(--color-bg-surface) 100%);
+        position: relative;
+
+        @media (max-width: $breakpoint-md) {
+            min-height: auto;
+            padding: var(--space-lg) var(--space-md);
+        }
+    }
+
+    &__hero-content {
+        max-width: var(--container-max-width);
+        margin: 0 auto;
+        text-align: center;
+        width: 100%;
+    }
+
+    &__hero-title {
+        font-family: var(--font-family-heading);
+        font-size: clamp(2rem, 5vw, 3.5rem);
+        font-weight: var(--font-weight-bold);
+        color: var(--color-text-main);
+        margin-bottom: var(--space-lg);
+        line-height: 1.2;
+
+        span {
+            color: var(--color-primary);
+        }
+    }
+
+    &__hero-description {
+        font-size: clamp(1rem, 2vw, 1.25rem);
+        color: var(--color-text-main);
+        opacity: 0.9;
+        margin-bottom: var(--space-xl);
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+        line-height: 1.6;
+    }
+
+    &__hero-actions {
+        display: flex;
+        gap: var(--space-md);
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    &__hero-button {
+        min-width: 200px;
+
+        &-icon {
+            width: 20px;
+            height: 20px;
+        }
+    }
+
+    // Features Section
+    &__features {
+        padding: var(--space-xl) var(--container-padding);
+        background: var(--color-bg-surface);
+    }
+
+    &__features-container {
+        max-width: var(--container-max-width);
+        margin: 0 auto;
+    }
+
+    &__features-title {
+        font-family: var(--font-family-heading);
+        font-size: clamp(1.75rem, 4vw, 2.5rem);
+        font-weight: var(--font-weight-bold);
+        color: var(--color-text-main);
+        text-align: center;
+        margin-bottom: var(--space-xl);
+    }
+
+    &__features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: var(--space-lg);
+    }
+
+    // Quick Access (authenticated)
+    &__quick-access {
+        padding: var(--space-xl) var(--container-padding);
+        background: var(--color-bg-app);
+    }
+
+    &__quick-access-container {
+        max-width: var(--container-max-width);
+        margin: 0 auto;
+    }
+
+    // CTA Section
+    &__cta {
+        padding: var(--space-xl) var(--container-padding);
+        background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+        color: var(--color-text-inverse);
+        text-align: center;
+    }
+
+    &__cta-container {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+}

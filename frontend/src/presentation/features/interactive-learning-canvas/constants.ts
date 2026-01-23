@@ -1,0 +1,24 @@
+export const DIFFICULTY_LEVELS = {
+  BEGINNER: 'beginner',
+  INTERMEDIATE: 'intermediate',
+  ADVANCED: 'advanced',
+} as const
+
+export const LEARNING_CONFIG = {
+  VALIDATION: {
+    LESSON_TITLE_MIN_LENGTH: 3,
+    LESSON_TITLE_MAX_LENGTH: 100,
+    ASSESSMENT_TITLE_MIN_LENGTH: 3,
+    ASSESSMENT_TITLE_MAX_LENGTH: 100,
+    QUESTION_MIN_LENGTH: 3,
+    QUESTION_MAX_LENGTH: 500,
+    ANSWER_MIN_LENGTH: 1,
+    ANSWER_MAX_LENGTH: 200,
+  },
+  PROGRESS: {
+    COMPLETION_THRESHOLD: 100,
+  },
+  ERROR_MESSAGES: {
+    UNKNOWN_ERROR: 'حدث خطأ غير متوقع',
+  },
+} as const

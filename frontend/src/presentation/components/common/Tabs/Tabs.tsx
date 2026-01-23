@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Tabs Component - مكون التبويبات
  *
  * مكون تبويبات قابلة لإعادة الاستخدام
@@ -6,7 +6,6 @@
 
 import React, { useState, createContext, useContext } from 'react'
 import { cn } from '../utils/classNames'
-import './Tabs.scss'
 
 interface TabsContextValue {
   activeTab: string

@@ -1,4 +1,4 @@
-/**
+﻿/**
  * PieChart Component - مكون الرسم البياني الدائري
  *
  * مكون رسم بياني دائري بسيط
@@ -6,7 +6,6 @@
 
 import React, { useRef, useEffect } from 'react'
 import { cn } from '../../common/utils/classNames'
-import './PieChart.scss'
 
 export interface PieChartDataPoint {
   label: string

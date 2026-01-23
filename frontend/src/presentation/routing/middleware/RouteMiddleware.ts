@@ -4,7 +4,7 @@
  * مجموعة من الـ Middlewares للتحكم في الوصول إلى المسارات بناءً على:
  * - حالة المصادقة (Authentication)
  * - الدور (Role)
- * - الصلاحيات (Permissions)
+ * -  (Permissions)
  *
  * يُستخدم مع نظام التوجيه لتحديد ما إذا كان يُسمح للمستخدم بالوصول إلى مسار معين
  * أو يتم توجيهه إلى صفحة أخرى (login / unauthorized / forbidden).
@@ -51,7 +51,7 @@ export const authMiddleware: RouteMiddleware = (context, metadata): MiddlewareRe
   if (routeMetadata?.requiresAuth && !context.isAuthenticated) {
     return {
       allow: false,
-      redirectTo: '/login',
+      redirectTo: '/',
       reason: 'يتطلب المسار المصادقة والمستخدم غير مسجل الدخول',
     }
   }
@@ -80,7 +80,7 @@ export const roleMiddleware: RouteMiddleware = (context, metadata): MiddlewareRe
   if (!context.isAuthenticated || !context.user) {
     return {
       allow: false,
-      redirectTo: '/login',
+      redirectTo: '/',
       reason: 'المستخدم غير مصادق عليه',
     }
   }
@@ -113,10 +113,10 @@ export const roleMiddleware: RouteMiddleware = (context, metadata): MiddlewareRe
 }
 
 /**
- * Middleware للتحقق من الصلاحيات (Permissions)
+ * Middleware للتحقق من  (Permissions)
  *
- * يتحقق من أن المستخدم يملك جميع الصلاحيات المطلوبة.
- * يستخدم الصلاحيات المخصصة للمستخدم إن وجدت، وإلا يعتمد على صلاحيات الدور.
+ * يتحقق من أن المستخدم يملك جميع  المطلوبة.
+ * يستخدم  المخصصة للمستخدم إن وجدت، وإلا يعتمد على صلاحيات الدور.
  */
 export const permissionMiddleware: RouteMiddleware = (context, metadata): MiddlewareResult => {
   const routeMetadata = metadata ?? context.metadata
@@ -129,12 +129,12 @@ export const permissionMiddleware: RouteMiddleware = (context, metadata): Middle
   if (!context.isAuthenticated || !context.user) {
     return {
       allow: false,
-      redirectTo: '/login',
+      redirectTo: '/',
       reason: 'المستخدم غير مصادق عليه',
     }
   }
 
-  // تحديد مصدر الصلاحيات
+  // تحديد مصدر
   const userPermissions: Permission[] =
     context.user.permissions.length > 0
       ? context.user.permissions
@@ -179,7 +179,7 @@ export const combineMiddlewares = (...middlewares: RouteMiddleware[]): RouteMidd
 /**
  * السلسلة الافتراضية للـ Middleware
  *
- * الترتيب مهم: المصادقة → الدور → الصلاحيات
+ * الترتيب مهم: المصادقة → الدور →
  */
 export const defaultMiddleware = combineMiddlewares(
   authMiddleware,

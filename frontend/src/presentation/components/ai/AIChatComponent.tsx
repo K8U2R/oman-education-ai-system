@@ -1,4 +1,4 @@
-/**
+﻿/**
  * AI Chat Component - مكون محادثة AI
  *
  * مكون تفاعلي للمحادثة مع الذكاء الاصطناعي
@@ -7,7 +7,6 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { Send, Bot, User, Loader2 } from 'lucide-react'
 import { Button, Card } from '../common'
-import './AIChatComponent.scss'
 
 export interface ChatMessage {
   id: string
@@ -18,6 +17,7 @@ export interface ChatMessage {
 
 interface AIChatComponentProps {
   onSendMessage?: (message: string) => Promise<string>
+  onStreamMessage?: (message: string, onToken: (token: string) => void) => Promise<void>
   initialMessages?: ChatMessage[]
   placeholder?: string
   title?: string
@@ -25,6 +25,7 @@ interface AIChatComponentProps {
 
 export const AIChatComponent: React.FC<AIChatComponentProps> = ({
   onSendMessage,
+  onStreamMessage,
   initialMessages = [],
   placeholder = 'اكتب رسالتك هنا...',
   title = 'محادثة مع المساعد الذكي',
@@ -58,29 +59,49 @@ export const AIChatComponent: React.FC<AIChatComponentProps> = ({
     setIsLoading(true)
 
     try {
-      let assistantResponse = ''
+      if (onStreamMessage) {
+        // Prepare assistant message placeholder
+        const assistantMsgId = (Date.now() + 1).toString()
+        const assistantMessage: ChatMessage = {
+          id: assistantMsgId,
+          role: 'assistant',
+          content: '',
+          timestamp: new Date(),
+        }
+        setMessages(prev => [...prev, assistantMessage])
 
-      if (onSendMessage) {
-        assistantResponse = await onSendMessage(userMessage.content)
+        // Stream Callback
+        await onStreamMessage(userMessage.content, (token) => {
+          setMessages(prev => prev.map(msg =>
+            msg.id === assistantMsgId ? { ...msg, content: msg.content + token } : msg
+          ))
+        })
+
+      } else if (onSendMessage) {
+        // Fallback for non-streaming
+        const response = await onSendMessage(userMessage.content)
+        const assistantMessage: ChatMessage = {
+          id: (Date.now() + 1).toString(),
+          role: 'assistant',
+          content: response,
+          timestamp: new Date(),
+        }
+        setMessages(prev => [...prev, assistantMessage])
       } else {
-        // Default response if no handler provided
-        assistantResponse = 'شكراً لرسالتك. أنا هنا لمساعدتك!'
+        const assistantMessage: ChatMessage = {
+          id: (Date.now() + 1).toString(),
+          role: 'assistant',
+          content: 'شكراً لرسالتك. أنا هنا لمساعدتك!',
+          timestamp: new Date(),
+        }
+        setMessages(prev => [...prev, assistantMessage])
       }
-
-      const assistantMessage: ChatMessage = {
-        id: (Date.now() + 1).toString(),
-        role: 'assistant',
-        content: assistantResponse,
-        timestamp: new Date(),
-      }
-
-      setMessages(prev => [...prev, assistantMessage])
     } catch (error) {
       console.error('Failed to send message:', error)
       const errorMessage: ChatMessage = {
-        id: (Date.now() + 1).toString(),
+        id: (Date.now() + 2).toString(),
         role: 'assistant',
-        content: 'عذراً، حدث خطأ أثناء معالجة رسالتك. الرجاء المحاولة مرة أخرى.',
+        content: 'عذراً، حدث خطأ أثناء معالجة رسالتك.',
         timestamp: new Date(),
       }
       setMessages(prev => [...prev, errorMessage])

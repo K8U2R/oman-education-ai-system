@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Change Password Component - تغيير كلمة المرور
  *
  * مكون لتغيير كلمة المرور
@@ -6,10 +6,9 @@
 
 import React, { useState } from 'react'
 import { Lock, Eye, EyeOff, Save } from 'lucide-react'
-import { useAuth } from '@/application'
+import { useAuth } from '@/features/user-authentication-management'
 import { ValidationService } from '@/application'
 import { Button, Input, Card } from '../common'
-import './ChangePassword.scss'
 
 const ChangePassword: React.FC = () => {
   const { updatePassword } = useAuth()

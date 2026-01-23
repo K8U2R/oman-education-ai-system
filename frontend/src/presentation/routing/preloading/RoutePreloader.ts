@@ -35,14 +35,14 @@ class RoutePreloader {
       this.preloadedRoutes.add(route.path)
       // Use logging service in production
       if (import.meta.env.PROD) {
-        import('@/infrastructure/services/logging.service').then(({ loggingService }) => {
+        import('@/infrastructure/services').then(({ loggingService }) => {
           loggingService.debug(`تم تحميل المسار مسبقاً: ${route.path}`)
         })
       }
       // Route preloaded
     } catch (error) {
       // Use logging service instead of console.error
-      import('@/infrastructure/services/logging.service').then(({ loggingService }) => {
+      import('@/infrastructure/services').then(({ loggingService }) => {
         loggingService.error(`فشل تحميل المسار مسبقاً ${route.path}`, error as Error)
       })
     }

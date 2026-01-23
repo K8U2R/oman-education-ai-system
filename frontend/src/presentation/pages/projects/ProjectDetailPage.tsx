@@ -16,17 +16,16 @@ import {
   FileText,
   Target,
 } from 'lucide-react'
-import { useProject } from '@/application/features/projects/hooks/useProjects'
-import { projectService } from '@/application/features/projects/services/project.service'
-import { Card, Button } from '../../components/common'
+import { useProject } from '@/features/project-management-dashboard'
+import { projectService } from '@/features/project-management-dashboard'
+import { useConfirmDialog } from '@/application/shared/hooks'
+import { loggingService } from '@/infrastructure/services'
+import { Card, Button, ConfirmDialog } from '../../components/common'
 import { ProtectedButton } from '../../components/auth'
 import { PageHeader, LoadingState, ErrorState } from '../components'
 import { ROUTES } from '@/domain/constants'
-import type {
-  ProjectType,
-  ProjectStatus,
-} from '@/application/features/projects/services/project.service'
-import './ProjectDetailPage.scss'
+import type { ProjectType, ProjectStatus } from '@/features/project-management-dashboard'
+
 
 const ProjectDetailPage: React.FC = () => {
   const { projectId } = useParams<{ projectId: string }>()
@@ -84,19 +83,32 @@ const ProjectDetailPage: React.FC = () => {
     }
   }
 
-  const handleDelete = async () => {
-    if (!projectId || !confirm('هل أنت متأكد من حذف هذا المشروع؟')) return
+  const deleteConfirm = useConfirmDialog()
 
-    try {
-      setIsDeleting(true)
-      await projectService.deleteProject(projectId)
-      navigate(ROUTES.PROJECTS)
-    } catch (err) {
-      console.error('Failed to delete project:', err)
-      alert('فشل حذف المشروع')
-    } finally {
-      setIsDeleting(false)
-    }
+  const handleDelete = () => {
+    if (!projectId) return
+
+    deleteConfirm.open({
+      title: 'تأكيد الحذف',
+      message: `هل أنت متأكد من حذف المشروع "${project?.title || projectId}"؟ لا يمكن التراجع عن هذا الإجراء.`,
+      variant: 'danger',
+      confirmText: 'حذف',
+      cancelText: 'إلغاء',
+      onConfirm: async () => {
+        try {
+          setIsDeleting(true)
+          await projectService.deleteProject(projectId)
+          navigate(ROUTES.PROJECTS)
+          deleteConfirm.close()
+        } catch (err) {
+          loggingService.error('Failed to delete project', err as Error)
+          // TODO: Replace with toast notification
+          alert('فشل حذف المشروع')
+        } finally {
+          setIsDeleting(false)
+        }
+      },
+    })
   }
 
   const handleEdit = () => {
@@ -253,14 +265,12 @@ const ProjectDetailPage: React.FC = () => {
                   {progress.milestones.map(milestone => (
                     <li
                       key={milestone.id}
-                      className={`project-detail__milestone ${
-                        milestone.completed ? 'project-detail__milestone--completed' : ''
-                      }`}
+                      className={`project-detail__milestone ${milestone.completed ? 'project-detail__milestone--completed' : ''
+                        }`}
                     >
                       <CheckCircle2
-                        className={`project-detail__milestone-icon ${
-                          milestone.completed ? 'project-detail__milestone-icon--completed' : ''
-                        }`}
+                        className={`project-detail__milestone-icon ${milestone.completed ? 'project-detail__milestone-icon--completed' : ''
+                          }`}
                       />
                       <span className="project-detail__milestone-title">{milestone.title}</span>
                       {milestone.completed_at && (
@@ -292,6 +302,21 @@ const ProjectDetailPage: React.FC = () => {
           </Card>
         )}
       </div>
+
+      {/* Delete Confirm Dialog */}
+      {deleteConfirm.options && (
+        <ConfirmDialog
+          isOpen={deleteConfirm.isOpen}
+          onClose={deleteConfirm.close}
+          onConfirm={deleteConfirm.options.onConfirm}
+          title={deleteConfirm.options.title}
+          message={deleteConfirm.options.message}
+          variant={deleteConfirm.options.variant || 'danger'}
+          confirmText={deleteConfirm.options.confirmText}
+          cancelText={deleteConfirm.options.cancelText}
+          isLoading={isDeleting}
+        />
+      )}
     </div>
   )
 }

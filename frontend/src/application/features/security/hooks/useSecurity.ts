@@ -4,7 +4,7 @@
  * Hook مخصص لإدارة الأمان والمصادقة
  */
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useCallback } from 'react'
 import { securityService } from '../services'
 import type { SecurityStats, SecuritySettings, SecurityAlert } from '../types'
 
@@ -138,10 +138,12 @@ export const useSecurity = (): UseSecurityReturn => {
 
   /**
    * تحميل البيانات عند التحميل الأول
+   * ملاحظة: يجب استدعاء refreshSettings() يدوياً من الصفحات التي تحتاجها
+   * لتجنب جلب البيانات للمستخدمين غير المسؤولين
    */
-  useEffect(() => {
-    refresh()
-  }, [refresh])
+  // useEffect(() => {
+  //   refresh()
+  // }, [refresh])
 
   return {
     stats,

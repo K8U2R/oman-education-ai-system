@@ -2,10 +2,10 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 import { ThemeProvider } from '@/presentation/providers/ThemeProvider'
-import { RouteProvider } from '@/presentation/routing/RouteProvider'
+import { RouteProvider } from '@/presentation/routing/providers/RouteProvider'
 import { ToastProvider } from '@/presentation/providers/ToastProvider'
-import { serviceWorkerService } from '@/infrastructure/services/service-worker.service'
-import { indexedDBService } from '@/infrastructure/storage/indexeddb.service'
+import { SentinelProvider } from '@/infrastructure/diagnostics'
+import { serviceWorkerService, indexedDBService } from '@/infrastructure/services'
 import App from './App'
 import './index.css'
 import './styles/main.scss'
@@ -15,7 +15,7 @@ if (import.meta.env.PROD && serviceWorkerService.isSupported()) {
   serviceWorkerService.register().catch(error => {
     // Use logging service in production, console in development
     if (import.meta.env.PROD) {
-      import('@/infrastructure/services/logging.service').then(({ loggingService }) => {
+      import('@/infrastructure/services').then(({ loggingService }) => {
         loggingService.error('Failed to register Service Worker', error as Error)
       })
     } else {
@@ -29,7 +29,7 @@ if (typeof window !== 'undefined') {
   indexedDBService.init().catch(error => {
     // Use logging service in production, console in development
     if (import.meta.env.PROD) {
-      import('@/infrastructure/services/logging.service').then(({ loggingService }) => {
+      import('@/infrastructure/services').then(({ loggingService }) => {
         loggingService.error('Failed to initialize IndexedDB', error as Error)
       })
     } else {
@@ -49,7 +49,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       <ThemeProvider>
         <RouteProvider>
           <ToastProvider>
-            <App />
+            <SentinelProvider>
+              <App />
+            </SentinelProvider>
           </ToastProvider>
         </RouteProvider>
       </ThemeProvider>

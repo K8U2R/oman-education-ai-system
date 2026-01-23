@@ -18,7 +18,7 @@ test.describe('Projects Flow', () => {
     // تسجيل الدخول قبل كل اختبار
     const loginPage = new LoginPage(page)
     await loginPage.goto()
-    
+
     // محاولة تسجيل الدخول
     try {
       await loginPage.login(testUser.email, testUser.password)
@@ -54,11 +54,13 @@ test.describe('Projects Flow', () => {
     await waitForPageLoad(page)
 
     // البحث عن زر إنشاء مشروع جديد
-    const createButton = page.locator('button:has-text("إنشاء"), button:has-text("Create"), a:has-text("جديد")').first()
+    const createButton = page
+      .locator('button:has-text("إنشاء"), button:has-text("Create"), a:has-text("جديد")')
+      .first()
 
     if (await createButton.isVisible({ timeout: 5000 })) {
       await createButton.click()
-      
+
       // التحقق من التوجيه إلى صفحة إنشاء المشروع
       await page.waitForURL(/\/projects\/new|\/projects\/create/, { timeout: 10000 })
     }
@@ -69,14 +71,15 @@ test.describe('Projects Flow', () => {
     await waitForPageLoad(page)
 
     // البحث عن رابط أو زر لمشروع
-    const projectLink = page.locator('a[href*="/projects/"], button:has-text("عرض"), button:has-text("View")').first()
+    const projectLink = page
+      .locator('a[href*="/projects/"], button:has-text("عرض"), button:has-text("View")')
+      .first()
 
     if (await projectLink.isVisible({ timeout: 5000 })) {
       await projectLink.click()
-      
+
       // التحقق من التوجيه إلى صفحة تفاصيل المشروع
       await page.waitForURL(/\/projects\/[^/]+/, { timeout: 10000 })
     }
   })
 })
-

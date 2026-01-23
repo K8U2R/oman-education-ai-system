@@ -5,7 +5,8 @@
  */
 
 import React, { createContext, useContext } from 'react'
-import { ToastContainer, useToast } from '../components/common/Toast'
+import { ToastContainer } from '@/presentation/components/ui/feedback/Toast/ToastContainer'
+import { useToast } from '@/presentation/components/ui/feedback/Toast/useToast'
 
 interface ToastContextType {
   showToast: (

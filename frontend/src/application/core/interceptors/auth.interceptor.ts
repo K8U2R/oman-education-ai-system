@@ -10,9 +10,9 @@
  */
 
 import { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'axios'
-import { RequestInterceptor, ResponseInterceptor } from '@/infrastructure/http'
-import { storageAdapter } from '@/infrastructure/storage'
-import { authService } from '../../features/auth/services'
+import { RequestInterceptor, ResponseInterceptor } from '@/infrastructure/services/http'
+import { storageAdapter } from '@/infrastructure/services/storage'
+import { authService } from '@/features/user-authentication-management'
 
 /**
  * Request Interceptor لإضافة Token
@@ -46,7 +46,7 @@ export function createAuthResponseInterceptor(): ResponseInterceptor {
 
   const processQueue = async (token: string | null, error: Error | undefined): Promise<void> => {
     // Import httpClient dynamically to avoid circular dependency
-    const { httpClient } = await import('@/infrastructure/http')
+    const { httpClient } = await import('@/infrastructure/services/http')
 
     const queue = [...failedQueue]
     failedQueue.length = 0
@@ -71,7 +71,8 @@ export function createAuthResponseInterceptor(): ResponseInterceptor {
 
   const redirectToLogin = (): void => {
     if (typeof window !== 'undefined') {
-      window.location.href = '/login'
+      console.warn('[Auth Interceptor] Auto-redirect DISABLED for debugging (Auth Freeze Mode).')
+      // window.location.href = '/login'
     }
   }
 
@@ -117,7 +118,7 @@ export function createAuthResponseInterceptor(): ResponseInterceptor {
           }
 
           // Import httpClient dynamically to avoid circular dependency
-          const { httpClient } = await import('@/infrastructure/http')
+          const { httpClient } = await import('@/infrastructure/services/http')
 
           // Retry using httpClient
           return httpClient.getAxiosInstance().request(originalRequest)

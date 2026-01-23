@@ -1,26 +1,43 @@
+﻿/**
+ * ProfileMenu Component - قائمة الملف الشخصي
+ *
+ * قائمة منسدلة محسّنة مع تجميع العناصر حسب الفئات
+ * تم إعادة تصميمها بالكامل لتحسين التنظيم والوظائف
+ */
+
 import React, { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
-import {
-  User as UserIcon,
-  Settings,
-  LogOut,
-  CreditCard,
-  Shield,
-  ChevronDown,
-  Code,
-} from 'lucide-react'
-import { useAuth, useRole } from '@/application'
-import { ROUTES } from '@/domain/constants/routes.constants'
+import { LogOut, ChevronDown } from 'lucide-react'
+import { useAuth, useRole } from '@/features/user-authentication-management'
+import { useUIStore } from '@/application/shared/store'
 import { OptimizedImage } from '../../common'
-import './ProfileMenu.scss'
+import { PROFILE_MENU_GROUPS } from './constants'
+import { filterProfileMenuGroups } from './utils'
+import type { ProfileMenuProps } from './types'
+import { cn } from '../../common/utils/classNames'
 
-const ProfileMenu: React.FC = () => {
+/**
+ * ProfileMenu Component
+ *
+ * @example
+ * ```tsx
+ * <ProfileMenu />
+ * ```
+ */
+export const ProfileMenu: React.FC<ProfileMenuProps> = React.memo(({ className }) => {
   const navigate = useNavigate()
   const [isOpen, setIsOpen] = useState(false)
   const { user, isLoading: isLoadingUser, logout } = useAuth()
-  const { isAdmin, isDeveloper } = useRole()
+  const { userRole } = useRole()
   const menuRef = useRef<HTMLDivElement>(null)
 
+  // فلترة المجموعات حسب الدور
+  const filteredGroups = React.useMemo(
+    () => filterProfileMenuGroups(PROFILE_MENU_GROUPS, userRole),
+    [userRole]
+  )
+
+  // إغلاق القائمة عند النقر خارجها
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
@@ -37,16 +54,63 @@ const ProfileMenu: React.FC = () => {
     }
   }, [isOpen])
 
-  const handleLogout = async () => {
+  // إغلاق القائمة عند الضغط على Escape
+  useEffect(() => {
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && isOpen) {
+        setIsOpen(false)
+      }
+    }
+
+    if (isOpen) {
+      document.addEventListener('keydown', handleEscape)
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleEscape)
+    }
+  }, [isOpen])
+
+  const { openSettings } = useUIStore()
+
+  const handleLogout = async (): Promise<void> => {
     await logout()
     navigate('/')
     setIsOpen(false)
   }
 
+  const handleItemClick = (id: string, path: string, onClick?: () => void): void => {
+    // التحقق مما إذا كان العنصر هو الإعدادات أو الملف الشخصي لفتح المودال بدلاً من الصفحة
+    if (id === 'settings' || id === 'profile' || id === 'security') {
+      const sectionMap: Record<string, string> = {
+        profile: 'profile',
+        settings: 'profile',
+        security: 'security',
+      }
+      openSettings(sectionMap[id] || 'profile')
+      setIsOpen(false)
+      return
+    }
+
+    if (onClick) {
+      onClick()
+    } else {
+      navigate(path)
+    }
+    setIsOpen(false)
+  }
+
+  // استخدام User Entity methods
+  const getUserInitials = (): string => user?.initials || 'U'
+  const getUserDisplayName = (): string => user?.fullName || 'مستخدم'
+
+  // يجب استدعاء useMemo قبل أي early returns (قواعد React Hooks)
+  const menuClasses = React.useMemo(() => cn('profile-menu', className), [className])
+
   // Show loading state or fallback
   if (isLoadingUser && !user) {
     return (
-      <div className="profile-menu">
+      <div className={menuClasses}>
         <div className="profile-menu__avatar-placeholder" style={{ width: '40px', height: '40px' }}>
           <span style={{ fontSize: '14px' }}>...</span>
         </div>
@@ -56,16 +120,14 @@ const ProfileMenu: React.FC = () => {
 
   if (!user) return null
 
-  // استخدام User Entity methods
-  const getUserInitials = () => user?.initials || 'U'
-  const getUserDisplayName = () => user?.fullName || 'مستخدم'
-
   return (
-    <div className="profile-menu" ref={menuRef}>
+    <div className={menuClasses} ref={menuRef}>
       <button
         className="profile-menu__trigger"
         onClick={() => setIsOpen(!isOpen)}
         aria-label="قائمة المستخدم"
+        aria-expanded={isOpen}
+        aria-haspopup="true"
       >
         {user.avatarUrl ? (
           <OptimizedImage
@@ -82,12 +144,13 @@ const ProfileMenu: React.FC = () => {
           <div className="profile-menu__avatar-placeholder">{getUserInitials()}</div>
         )}
         <ChevronDown
-          className={`profile-menu__chevron ${isOpen ? 'profile-menu__chevron--open' : ''}`}
+          className={cn('profile-menu__chevron', isOpen && 'profile-menu__chevron--open')}
         />
       </button>
 
       {isOpen && (
-        <div className="profile-menu__dropdown">
+        <div className="profile-menu__dropdown" role="menu">
+          {/* Header */}
           <div className="profile-menu__header">
             {user.avatarUrl ? (
               <OptimizedImage
@@ -111,104 +174,49 @@ const ProfileMenu: React.FC = () => {
 
           <div className="profile-menu__divider" />
 
-          <div className="profile-menu__items">
-            <button
-              className="profile-menu__item"
-              onClick={() => {
-                navigate(ROUTES.PROFILE)
-                setIsOpen(false)
-              }}
-            >
-              <UserIcon className="profile-menu__item-icon" />
-              <span>الملف الشخصي</span>
-            </button>
+          {/* Groups */}
+          <div className="profile-menu__groups">
+            {filteredGroups.map((group, groupIndex) => (
+              <React.Fragment key={group.id}>
+                {/* Group Label */}
+                {group.label && <div className="profile-menu__group-label">{group.label}</div>}
 
-            <button
-              className="profile-menu__item"
-              onClick={() => {
-                navigate(ROUTES.SETTINGS)
-                setIsOpen(false)
-              }}
-            >
-              <Settings className="profile-menu__item-icon" />
-              <span>الإعدادات</span>
-            </button>
+                {/* Group Items */}
+                <div className="profile-menu__group-items">
+                  {group.items.map(item => {
+                    const Icon = item.icon
+                    return (
+                      <button
+                        key={item.id}
+                        className={cn(
+                          'profile-menu__item',
+                          item.isDangerous && 'profile-menu__item--dangerous'
+                        )}
+                        onClick={() => handleItemClick(item.id, item.path, item.onClick)}
+                        role="menuitem"
+                      >
+                        <Icon className="profile-menu__item-icon" />
+                        <span>{item.label}</span>
+                      </button>
+                    )
+                  })}
+                </div>
 
-            <button
-              className="profile-menu__item"
-              onClick={() => {
-                navigate(ROUTES.USER_SECURITY_SETTINGS)
-                setIsOpen(false)
-              }}
-            >
-              <Shield className="profile-menu__item-icon" />
-              <span>إعدادات الأمان</span>
-            </button>
-
-            {isAdmin && (
-              <>
-                <button
-                  className="profile-menu__item"
-                  onClick={() => {
-                    navigate(ROUTES.ADMIN_DASHBOARD)
-                    setIsOpen(false)
-                  }}
-                >
-                  <Shield className="profile-menu__item-icon" />
-                  <span>لوحة تحكم المسؤول</span>
-                </button>
-                <button
-                  className="profile-menu__item"
-                  onClick={() => {
-                    navigate(ROUTES.ADMIN_SECURITY_DASHBOARD)
-                    setIsOpen(false)
-                  }}
-                >
-                  <Shield className="profile-menu__item-icon" />
-                  <span>أمان النظام</span>
-                </button>
-              </>
-            )}
-
-            {isDeveloper && (
-              <button
-                className="profile-menu__item"
-                onClick={() => {
-                  navigate(ROUTES.DEVELOPER_DASHBOARD)
-                  setIsOpen(false)
-                }}
-              >
-                <Code className="profile-menu__item-icon" />
-                <span>لوحة تحكم المطور</span>
-              </button>
-            )}
-
-            <button
-              className="profile-menu__item"
-              onClick={() => {
-                navigate(ROUTES.SUBSCRIPTION)
-                setIsOpen(false)
-              }}
-            >
-              <CreditCard className="profile-menu__item-icon" />
-              <span>الاشتراك والباقات</span>
-            </button>
-
-            <button
-              className="profile-menu__item"
-              onClick={() => {
-                navigate(ROUTES.PRIVACY)
-                setIsOpen(false)
-              }}
-            >
-              <Shield className="profile-menu__item-icon" />
-              <span>الخصوصية</span>
-            </button>
+                {/* Divider between groups (except last group) */}
+                {groupIndex < filteredGroups.length - 1 && (
+                  <div className="profile-menu__divider" />
+                )}
+              </React.Fragment>
+            ))}
           </div>
 
+          {/* Logout */}
           <div className="profile-menu__divider" />
-
-          <button className="profile-menu__item profile-menu__item--logout" onClick={handleLogout}>
+          <button
+            className="profile-menu__item profile-menu__item--logout"
+            onClick={handleLogout}
+            role="menuitem"
+          >
             <LogOut className="profile-menu__item-icon" />
             <span>تسجيل الخروج</span>
           </button>
@@ -216,6 +224,8 @@ const ProfileMenu: React.FC = () => {
       )}
     </div>
   )
-}
+})
+
+ProfileMenu.displayName = 'ProfileMenu'
 
 export default ProfileMenu

@@ -2,10 +2,13 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Cloud } from 'lucide-react'
 import { useStorage } from '@/application'
+import { useConfirmDialog } from '@/application/shared/hooks'
+import { loggingService } from '@/infrastructure/services'
 import { ROUTES } from '@/domain/constants/routes.constants'
 import { PageHeader, LoadingState, ErrorState, EmptyState } from '../components'
+import { ConfirmDialog } from '@/presentation/components/common'
 import { ProviderCard } from '../../components/storage'
-import './StoragePage.scss'
+
 
 const StoragePage: React.FC = () => {
   const navigate = useNavigate()
@@ -40,20 +43,33 @@ const StoragePage: React.FC = () => {
         window.location.href = response.auth_url
       }
     } catch (err) {
-      console.error('Failed to connect provider:', err)
+      loggingService.error('Failed to connect provider', err as Error)
       setConnecting(null)
     }
   }
 
-  const handleDisconnect = async (connectionId: string) => {
-    if (!confirm('هل أنت متأكد من قطع الاتصال؟')) return
+  const disconnectConfirm = useConfirmDialog()
 
-    try {
-      await disconnectProvider(connectionId)
-      await loadData()
-    } catch (err) {
-      console.error('Failed to disconnect:', err)
-    }
+  const handleDisconnect = (connectionId: string) => {
+    const connection = connections.find(conn => conn.id === connectionId)
+    const provider = connection ? providers.find(p => p.id === connection.providerId) : null
+    const providerName = provider?.display_name || 'مزود التخزين'
+    disconnectConfirm.open({
+      title: 'تأكيد قطع الاتصال',
+      message: `هل أنت متأكد من قطع الاتصال مع "${providerName}"؟`,
+      variant: 'warning',
+      confirmText: 'قطع الاتصال',
+      cancelText: 'إلغاء',
+      onConfirm: async () => {
+        try {
+          await disconnectProvider(connectionId)
+          await loadData()
+          disconnectConfirm.close()
+        } catch (err) {
+          loggingService.error('Failed to disconnect', err as Error)
+        }
+      },
+    })
   }
 
   const handleRefresh = async (connectionId: string) => {
@@ -61,7 +77,7 @@ const StoragePage: React.FC = () => {
       await refreshConnection(connectionId)
       await loadData()
     } catch (err) {
-      console.error('Failed to refresh connection:', err)
+      loggingService.error('Failed to refresh connection', err as Error)
     }
   }
 
@@ -114,6 +130,20 @@ const StoragePage: React.FC = () => {
             )
           })}
         </div>
+      )}
+
+      {/* Disconnect Confirm Dialog */}
+      {disconnectConfirm.options && (
+        <ConfirmDialog
+          isOpen={disconnectConfirm.isOpen}
+          onClose={disconnectConfirm.close}
+          onConfirm={disconnectConfirm.options.onConfirm}
+          title={disconnectConfirm.options.title}
+          message={disconnectConfirm.options.message}
+          variant={disconnectConfirm.options.variant || 'warning'}
+          confirmText={disconnectConfirm.options.confirmText}
+          cancelText={disconnectConfirm.options.cancelText}
+        />
       )}
     </div>
   )

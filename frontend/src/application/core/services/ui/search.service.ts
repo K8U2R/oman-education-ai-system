@@ -4,7 +4,7 @@
  * خدمة للتعامل مع API البحث
  */
 
-import { apiClientRefactored as apiClient } from '@/infrastructure/api'
+import { apiClientRefactored as apiClient } from '@/infrastructure/services/api'
 import { API_ENDPOINTS } from '@/domain/constants/api.constants'
 import { SearchResult } from '@/presentation/components/layout/types'
 

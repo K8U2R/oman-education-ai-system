@@ -7,9 +7,7 @@
 import { describe, it, expect, afterEach, beforeAll, afterAll, vi } from 'vitest'
 import { http, HttpResponse } from 'msw'
 import { setupServer } from 'msw/node'
-// @ts-expect-error - Path alias resolution in tests
 import { apiClientRefactored as apiClient } from '@/infrastructure/api'
-// @ts-expect-error - Path alias resolution in tests
 import { API_BASE_URL, API_ENDPOINTS } from '@/domain/constants/api.constants'
 
 // Mock analytics and performance services
@@ -212,8 +210,6 @@ describe('API Client Integration Tests', () => {
 
   describe('PUT requests', () => {
     it('should make PUT request successfully', async () => {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const updatedUser = { ...mockUser, name: 'Updated Name' }
 
       server.use(
         http.put(`${API_BASE_URL}${API_ENDPOINTS.AUTH.UPDATE_USER}`, async ({ request }) => {
@@ -387,7 +383,7 @@ describe('API Client Integration Tests', () => {
       server.use(
         http.get(`${API_BASE_URL}${API_ENDPOINTS.AUTH.ME}`, async () => {
           // Simulate slow response
-          await new Promise((resolve) => setTimeout(resolve, 10000))
+          await new Promise(resolve => setTimeout(resolve, 10000))
           return HttpResponse.json({ data: mockUser })
         })
       )
@@ -400,4 +396,3 @@ describe('API Client Integration Tests', () => {
     })
   })
 })
-

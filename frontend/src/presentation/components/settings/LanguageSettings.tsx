@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Language Settings Component - إعدادات اللغة
  *
  * مكون لإدارة إعدادات اللغة والمنطقة
@@ -8,7 +8,6 @@ import React, { useState, useEffect } from 'react'
 import { Globe, Clock, Calendar } from 'lucide-react'
 import { useI18n } from '@/application'
 import { Button, Dropdown, Card } from '../common'
-import './LanguageSettings.scss'
 
 const LanguageSettings: React.FC = () => {
   const { language, changeLanguage } = useI18n()

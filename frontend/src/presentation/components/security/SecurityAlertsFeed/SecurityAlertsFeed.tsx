@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Security Alerts Feed - تغذية تنبيهات الأمان
  *
  * مكون لعرض قائمة تنبيهات الأمان
@@ -8,8 +8,7 @@ import React from 'react'
 import { AlertTriangle, AlertCircle, Info, Check, Bell } from 'lucide-react'
 import { Card, Button, Badge } from '../../common'
 import { cn } from '../../common/utils/classNames'
-import type { SecurityAlert } from '@/application/features/security/types'
-import './SecurityAlertsFeed.scss'
+import type { SecurityAlert } from '@/features/system-administration-portal'
 
 export interface SecurityAlertsFeedProps {
   alerts: SecurityAlert[]

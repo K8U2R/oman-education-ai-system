@@ -1,4 +1,4 @@
-/**
+﻿/**
  * PowerPoint Viewer - معاين PowerPoint
  *
  * مكون لعرض ملفات PowerPoint
@@ -7,7 +7,6 @@
 import React from 'react'
 import { Presentation, Download } from 'lucide-react'
 import { Card, Button } from '../common'
-import './PowerPointViewer.scss'
 
 interface PowerPointViewerProps {
   slides?: Array<{ title: string; content: string }>

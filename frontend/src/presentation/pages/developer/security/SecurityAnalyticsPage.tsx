@@ -4,21 +4,30 @@
  * صفحة متقدمة لتحليل الأمان (للمطورين والإدارة فقط)
  */
 
-import React, { useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import React from 'react'
 import { BarChart3, Download, RefreshCw, TrendingUp, Activity } from 'lucide-react'
 import { Button, Card, Badge } from '../../../components/common'
-import { useAnalytics } from '@/application/features/security'
-import { useAuth, useRole } from '@/application'
+import { useAnalytics } from '@/features/system-administration-portal'
+import { usePageAuth, usePageLoading } from '@/application/shared/hooks'
+import { LoadingState } from '@/presentation/pages/components'
+import { loggingService } from '@/infrastructure/services'
 import { ROUTES } from '@/domain/constants/routes.constants'
-import { PageHeader, LoadingState } from '../../components'
-import type { AnalyticsPeriod } from '@/application/features/security/types'
-import './SecurityAnalyticsPage.scss'
+import { PageHeader } from '../../components'
+import type { AnalyticsPeriod } from '@/features/system-administration-portal'
+
 
 const SecurityAnalyticsPage: React.FC = () => {
-  const navigate = useNavigate()
-  const { user, isLoading: authLoading, isAuthenticated } = useAuth()
-  const { isAdmin, isDeveloper } = useRole()
+  const { user, canAccess, getShouldRedirect, loadingState } = usePageAuth({
+    requireAuth: true,
+    requiredRole: 'developer',
+    redirectTo: ROUTES.FORBIDDEN,
+  })
+  const { shouldShowLoading: pageShouldShowLoading, loadingMessage: pageLoadingMessage } =
+    usePageLoading({
+      isLoading: !canAccess,
+      message: 'جاري تحميل صفحة تحليلات الأمان...',
+    })
+
   const {
     metrics,
     loginActivity,
@@ -37,27 +46,33 @@ const SecurityAnalyticsPage: React.FC = () => {
     refresh,
   } = useAnalytics('7d')
 
-  useEffect(() => {
-    if (!authLoading && !isAuthenticated) {
-      navigate(ROUTES.LOGIN)
-    } else if (!authLoading && !isAdmin && !isDeveloper) {
-      navigate(ROUTES.FORBIDDEN)
-    }
-  }, [authLoading, isAuthenticated, isAdmin, isDeveloper, navigate])
-
   const handleExport = async (format: 'pdf' | 'excel' | 'csv') => {
     try {
       await exportReport(format)
     } catch (err) {
-      console.error('Failed to export report:', err)
+      loggingService.error('Failed to export report', err as Error)
     }
   }
 
-  if (authLoading || loading) {
-    return <LoadingState fullScreen message="جاري تحميل تحليلات الأمان..." />
+  const { shouldShowLoading: analyticsShouldShowLoading, loadingMessage: analyticsLoadingMessage } =
+    usePageLoading({
+      isLoading: loading && !metrics,
+      message: 'جاري تحميل تحليلات الأمان...',
+    })
+
+  if (getShouldRedirect()) {
+    return null
   }
 
-  if (!user || (!isAdmin && !isDeveloper)) {
+  if (!canAccess || pageShouldShowLoading || loadingState.shouldShowLoading) {
+    return <LoadingState fullScreen message={pageLoadingMessage || loadingState.loadingMessage} />
+  }
+
+  if (analyticsShouldShowLoading) {
+    return <LoadingState fullScreen message={analyticsLoadingMessage} />
+  }
+
+  if (!user) {
     return null
   }
 

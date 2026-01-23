@@ -9,7 +9,7 @@
  * - Cache size limits
  */
 
-import { indexedDBService } from '@/infrastructure/storage/indexeddb.service'
+import { indexedDBService } from '@/infrastructure/services/storage/indexeddb.service'
 
 export interface EnhancedCacheOptions {
   ttl?: number // Time to live in milliseconds
@@ -70,7 +70,7 @@ class EnhancedCacheService {
         }
       } catch (error) {
         // Use logging service instead of console.error
-        import('@/infrastructure/services/logging.service').then(({ loggingService }) => {
+        import('@/infrastructure/services').then(({ loggingService }) => {
           loggingService.error('Enhanced Cache: Failed to get from IndexedDB', error as Error)
         })
       }
@@ -109,7 +109,7 @@ class EnhancedCacheService {
         await indexedDBService.set('api-cache', fullKey, entry, { ttl })
       } catch (error) {
         // Use logging service instead of console.error
-        import('@/infrastructure/services/logging.service').then(({ loggingService }) => {
+        import('@/infrastructure/services').then(({ loggingService }) => {
           loggingService.error('Enhanced Cache: Failed to set in IndexedDB', error as Error)
         })
       }
@@ -132,7 +132,7 @@ class EnhancedCacheService {
         await indexedDBService.delete('api-cache', fullKey)
       } catch (error) {
         // Use logging service instead of console.error
-        import('@/infrastructure/services/logging.service').then(({ loggingService }) => {
+        import('@/infrastructure/services').then(({ loggingService }) => {
           loggingService.error('Enhanced Cache: Failed to delete from IndexedDB', error as Error)
         })
       }
@@ -154,7 +154,7 @@ class EnhancedCacheService {
         await indexedDBService.clear('api-cache')
       } catch (error) {
         // Use logging service instead of console.error
-        import('@/infrastructure/services/logging.service').then(({ loggingService }) => {
+        import('@/infrastructure/services').then(({ loggingService }) => {
           loggingService.error('Enhanced Cache: Failed to clear IndexedDB', error as Error)
         })
       }
@@ -204,7 +204,7 @@ class EnhancedCacheService {
         cleanedCount += indexedDBCleaned
       } catch (error) {
         // Use logging service instead of console.error
-        import('@/infrastructure/services/logging.service').then(({ loggingService }) => {
+        import('@/infrastructure/services').then(({ loggingService }) => {
           loggingService.error('Enhanced Cache: Failed to clean IndexedDB', error as Error)
         })
       }
@@ -243,7 +243,7 @@ class EnhancedCacheService {
         stats.indexedDBSize = await indexedDBService.getCacheSize('api-cache')
       } catch (error) {
         // Use logging service instead of console.error
-        import('@/infrastructure/services/logging.service').then(({ loggingService }) => {
+        import('@/infrastructure/services').then(({ loggingService }) => {
           loggingService.error('Enhanced Cache: Failed to get IndexedDB stats', error as Error)
         })
       }
@@ -294,7 +294,7 @@ if (typeof window !== 'undefined') {
   setInterval(
     () => {
       enhancedCacheService.cleanup({ useIndexedDB: true }).catch(error => {
-        import('@/infrastructure/services/logging.service').then(({ loggingService }) => {
+        import('@/infrastructure/services').then(({ loggingService }) => {
           loggingService.error('Enhanced Cache: Auto cleanup failed', error as Error)
         })
       })

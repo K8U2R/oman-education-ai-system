@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Optimized Image Component - مكون صورة محسّن
  *
  * مكون محسّن للصور مع:
@@ -10,7 +10,6 @@
  */
 
 import React, { useState, useRef, useEffect, useMemo } from 'react'
-import styles from './OptimizedImage.module.scss'
 import {
   isWebPSupported,
   isAVIFSupported,
@@ -168,12 +167,12 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
   return (
     <div
       ref={containerRef}
-      className={`${styles.optimizedImage} ${className} ${isLoaded ? styles.loaded : ''}`}
+      className={`optimizedImage ${className} ${isLoaded ? 'loaded' : ''}`}
       style={{ width, height }}
     >
       {/* Placeholder */}
       {placeholder && !isLoaded && (
-        <img src={placeholder} alt="" className={styles.placeholder} aria-hidden="true" />
+        <img src={placeholder} alt="" className="placeholder" aria-hidden="true" />
       )}
 
       {/* Main Image */}
@@ -203,7 +202,7 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
             width={width}
             height={height}
             loading={loading}
-            className={`${styles.image} ${isLoaded ? styles.loaded : ''}`}
+            className={`image ${isLoaded ? 'loaded' : ''}`}
             style={{ objectFit }}
             onLoad={handleLoad}
             onError={handleError}
@@ -214,9 +213,9 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
 
       {/* Error State */}
       {hasError && !fallback && (
-        <div className={styles.error} role="img" aria-label={alt}>
-          <span className={styles.errorIcon}>📷</span>
-          <span className={styles.errorText}>فشل تحميل الصورة</span>
+        <div className="error" role="img" aria-label={alt}>
+          <span className="errorIcon">📷</span>
+          <span className="errorText">فشل تحميل الصورة</span>
         </div>
       )}
     </div>

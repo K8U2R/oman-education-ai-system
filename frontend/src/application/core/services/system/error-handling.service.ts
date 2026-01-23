@@ -17,7 +17,8 @@ import {
   isAppError,
   isNetworkError,
 } from '@/domain/exceptions'
-import { loggingService } from '@/infrastructure/services/logging.service'
+import { loggingService } from '@/infrastructure/services'
+import { useNotificationStore } from '@/stores/useNotificationStore'
 
 export interface ErrorInfo {
   message: string
@@ -107,6 +108,25 @@ export class ErrorHandlingService {
    */
   logError(error: unknown, context?: string): void {
     const errorInfo = this.handleError(error)
+    const isDev = import.meta.env.DEV
+
+    // Push to Notification Store
+    // We only show critical/user-facing errors as toasts, or all if in DEV?
+    // User requested: "Every error... finds its design"
+    // So we notify.
+    useNotificationStore.getState().addNotification({
+      type: 'error',
+      title: errorInfo.code || 'System Error',
+      message: errorInfo.message,
+      duration: isDev ? 10000 : 5000, // Longer for dev to read debug
+      debugDetails: {
+        code: errorInfo.code,
+        stack: error instanceof Error ? error.stack : undefined,
+        context: errorInfo.details as Record<string, any>,
+        path: context,
+        timestamp: errorInfo.timestamp
+      }
+    })
 
     // استخدام LoggingService بدلاً من console.error
     loggingService.error(

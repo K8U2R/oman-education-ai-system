@@ -7,14 +7,32 @@ export { SkeletonLoader } from './SkeletonLoader'
 export { SkipLink } from './SkipLink'
 export { OptimizedImage } from './OptimizedImage/OptimizedImage'
 export { PWAInstallPrompt } from './PWAInstallPrompt'
-export { default as Button } from './Button'
-export { default as Card } from './Card'
-export { default as Input } from './Input'
-export { Switch } from './Switch/Switch'
-export { Badge } from './Badge'
-export type { BadgeVariant, BadgeSize } from './Badge'
-export { Modal } from './Modal'
-export { Avatar } from './Avatar'
-export type { AvatarSize } from './Avatar'
-export { Dropdown } from './Dropdown'
-export type { ButtonProps } from './types'
+
+// Inputs
+import { Button, Input, Checkbox, Switch, Dropdown } from '../ui'
+import type { CheckboxProps } from '../ui/inputs'
+
+export { Button, Input, Checkbox, Switch, Dropdown }
+export type { CheckboxProps }
+
+// Layout
+import { Card, Modal } from '../ui'
+export { Card, Modal }
+
+// Data Display
+import { Badge, Avatar } from '../ui'
+import type { BadgeVariant, BadgeSize, AvatarSize } from '../ui/data-display' // Keep specific type imports if not reachable via main index
+export { Badge, Avatar }
+export type { BadgeVariant, BadgeSize, AvatarSize }
+
+// Feedback
+import { Toast, LoadingSpinner } from '../ui'
+export { Toast, LoadingSpinner }
+
+// Composed / Legacy (To be moved later)
+// Composed / Legacy (To be moved later)
+// export type { ButtonProps } from '../ui/inputs/types' // Removed duplicate
+export { ConfirmDialog } from './ConfirmDialog'
+export type { ConfirmDialogVariant, ConfirmDialogProps } from './ConfirmDialog'
+export { LoadingWrapper } from './LoadingWrapper'
+export { DeleteConfirmModal } from './DeleteConfirmModal'

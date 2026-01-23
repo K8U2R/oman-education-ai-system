@@ -5,11 +5,11 @@
  */
 
 import { useEffect, useCallback, useMemo, useRef } from 'react'
-import { useNotificationStore } from '@/application/features/notifications/store/notificationStore'
+import { useNotificationStore } from '@/features/notification-center'
 import { NotificationData } from '@/domain/types/notification.types'
 import { Notification } from '../types'
-import { authService } from '@/application/features/auth/services'
-import { useAuth } from '@/application'
+import { authService } from '@/features/user-authentication-management'
+import { useAuth } from '@/features/user-authentication-management'
 
 /**
  * Convert NotificationData to Notification format for UI

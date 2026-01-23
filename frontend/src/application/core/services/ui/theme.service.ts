@@ -4,7 +4,7 @@
  * يدير الثيمات المختلفة (فاتح/داكن) والثيمات المخصصة للأعمار المختلفة
  */
 
-import { storageAdapter } from '@/infrastructure/storage'
+import { storageAdapter } from '@/infrastructure/services/storage'
 
 export type ThemeMode = 'light' | 'dark' | 'system'
 export type AgeTheme = 'kids' | 'teens' | 'adults' | 'university'
@@ -18,7 +18,7 @@ class ThemeService {
   private readonly STORAGE_KEY = 'theme_config'
   private currentTheme: ThemeConfig = {
     mode: 'system',
-    ageTheme: 'adults',
+    ageTheme: 'university',
   }
 
   constructor() {
