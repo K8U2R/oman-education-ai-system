@@ -49,7 +49,17 @@ async function runMigrations() {
         await client.connect();
         scriptLogger.info('Connected to PostgreSQL');
 
-        const migrationsDir = join(process.cwd(), 'migrations');
+        let migrationsDir = join(process.cwd(), 'migrations');
+
+        // Fallback to database-core/migrations if called from backend and local migrations is missing
+        try {
+            const files = await readdir(migrationsDir);
+            if (files.length === 0) throw new Error('Empty');
+        } catch (e) {
+            const fallback = join(process.cwd(), '..', 'database-core', 'migrations');
+            scriptLogger.info(`Local migrations not found, trying fallback: ${fallback}`);
+            migrationsDir = fallback;
+        }
 
         // Create migrations table
         await createMigrationsTable(client);

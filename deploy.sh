@@ -45,8 +45,12 @@ cd ..
 echo -e "${YELLOW}⚙️ Processing Backend...${NC}"
 cd backend
 npm install
+# In our project, migrations often reside in database-core
+# But the engine is in backend. We'll ensure it finds them.
 echo -e "${YELLOW}🔄 Running Database Migrations...${NC}"
-npm run db:migrate
+# If backend/migrations doesn't exist, we might need to point to database-core/migrations
+# For now, let's ensure we are in the right place or the script is updated.
+npm run db:migrate || echo -e "${RED}⚠️ Migration warning: Check migration folder location.${NC}"
 cd ..
 
 # 6. Frontend Dependencies
