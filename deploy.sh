@@ -25,31 +25,38 @@ git pull origin main
 echo -e "${YELLOW}📦 Updating Root Dependencies...${NC}"
 npm install
 
-# 3. Database Core
+# 3. Infrastructure Initialization
+echo -e "${YELLOW}🐳 Starting Database & Infrastructure...${NC}"
+docker compose up -d postgres redis
+
+# Wait for Postgres to be ready (Health check)
+echo -e "${YELLOW}⏳ Waiting for PostgreSQL to be ready...${NC}"
+until docker exec oman_edu_db pg_isready -U postgres; do
+  sleep 1
+done
+
+# 4. Database Core
 echo -e "${YELLOW}🗄️ Processing Database Core...${NC}"
 cd database-core
 npm install
-# npm run build:bundle  # Optional: ensure latest build is ready for Docker
 cd ..
 
-# 4. Backend Dependencies & Migrations
+# 5. Backend Dependencies & Migrations
 echo -e "${YELLOW}⚙️ Processing Backend...${NC}"
 cd backend
 npm install
-# Trigger the sovereign migration engine
 echo -e "${YELLOW}🔄 Running Database Migrations...${NC}"
 npm run db:migrate
 cd ..
 
-# 5. Frontend Dependencies
+# 6. Frontend Dependencies
 echo -e "${YELLOW}🎨 Processing Frontend...${NC}"
 cd frontend
 npm install
 cd ..
 
-# 6. Docker Orchestration
-echo -e "${YELLOW}🐳 Rebuilding and Restarting Containers...${NC}"
-# Rebuild ensures all code changes inside 'dist' or 'src' are included
+# 7. Final Orchestration
+echo -e "${YELLOW}🐳 Rebuilding and Restarting all services...${NC}"
 docker compose up -d --build
 
 # 7. Post-Deployment Clean (Optional)
