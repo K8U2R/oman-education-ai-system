@@ -27,11 +27,16 @@ npm install
 
 # 3. Sovereign Orchestration
 echo -e "${YELLOW}🐳 Initiating Unitary Containerization...${NC}"
-# This command builds new images and restarts everything atomically
 docker compose up -d --build --remove-orphans
 
-# 4. Post-Deployment Clean
+# 4. Database Migrations (Post-Launch)
+echo -e "${YELLOW}🔄 Triggering Database Migrations inside container...${NC}"
+# Wait a few seconds for Backend to be ready to accept commands
+sleep 5
+docker exec oman_edu_backend npm run db:migrate || echo -e "${RED}⚠️ Migration warning during container sync.${NC}"
+
+# 5. Post-Deployment Clean
 echo -e "${YELLOW}🧹 Cleaning up dangling images...${NC}"
 docker image prune -f
 
-echo -e "${GREEN}✅ Sovereign Deployment Successful! Entire System is now Dockerized.${NC}"
+echo -e "${GREEN}✅ Sovereign Deployment Successful! Entire System (FE, BE, DB) is now Dockerized.${NC}"

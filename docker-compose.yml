@@ -1,3 +1,16 @@
+services:
+  # 🎨 خدمة الـ Frontend (React/Vite)
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: oman_edu_frontend
+    restart: always
+    ports:
+      - "30174:80"
+    depends_on:
+      - backend
+
   # ⚙️ خدمة الـ Backend
   backend:
     build:
