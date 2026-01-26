@@ -93,7 +93,7 @@ export class TokenService {
         };
 
         return jwt.sign(payload, this.accessTokenSecret, {
-            expiresIn: this.accessTokenExpiry,
+            expiresIn: this.accessTokenExpiry as any,
             issuer: "oman-education-ai",
             audience: "oman-education-ai-client",
             subject: userId,
@@ -137,7 +137,7 @@ export class TokenService {
         };
 
         return jwt.sign(payload, this.refreshTokenSecret, {
-            expiresIn: this.refreshTokenExpiry,
+            expiresIn: this.refreshTokenExpiry as any,
             issuer: "oman-education-ai",
             audience: "oman-education-ai-client",
             subject: userId,
@@ -156,7 +156,7 @@ export class TokenService {
 
         // Extract exp from access token to get expires_in
         const decoded = jwt.decode(accessToken) as { exp: number; iat: number };
-        const expiresIn = decoded.exp - decoded.iat;
+        const expiresIn = (decoded.exp - decoded.iat) || 0;
 
         return {
             access_token: accessToken,

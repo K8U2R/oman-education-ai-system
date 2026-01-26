@@ -24,7 +24,7 @@ const app: Express = express();
  */
 app.use((req, res, next) => {
   res.setTimeout(10000, () => {
-    console.error(`❌ [TIMEOUT] Request to ${req.method} ${req.url} timed out > 10s`);
+    logger.error(`❌ [TIMEOUT] Request to ${req.method} ${req.url} timed out > 10s`);
     res.status(408).send("Request Timeout - Server took too long");
   });
   next();
@@ -36,7 +36,7 @@ async function startServer() {
     // STEP 0: Priority Health Check (No Middleware Blocking)
     // ════════════════════════════════════════════════════════════════════════
     app.get("/health", (_req, res) => {
-      console.log(`💓 [HEALTH CHECK] Incoming from ${_req.ip}`);
+      logger.info(`💓 [HEALTH CHECK] Incoming from ${_req.ip}`);
       res.status(200).json({
         status: "ok",
         priority: true,
@@ -48,14 +48,14 @@ async function startServer() {
     // ════════════════════════════════════════════════════════════════════════
     // STEP 2: Strict System Bootstrap (Kernel & Database)
     // ════════════════════════════════════════════════════════════════════════
-    console.log("⏳ [1/4] Starting Sovereign System Kernel...");
+    logger.info("⏳ [1/4] Starting Sovereign System Kernel...");
     const settings = await bootstrap();
-    console.log("✅ [2/4] Kernel Bootstrap Successful.");
+    logger.info("✅ [2/4] Kernel Bootstrap Successful.");
 
     // ════════════════════════════════════════════════════════════════════════
     // STEP 3: Middleware Pipeline Setup
     // ════════════════════════════════════════════════════════════════════════
-    console.log("⏳ [3/4] Initializing Middleware Pipelines...");
+    logger.info("⏳ [3/4] Initializing Middleware Pipelines...");
     setupPreRouteMiddleware(app, settings);
     setupAuthMiddleware(app, settings);
 
@@ -72,7 +72,7 @@ async function startServer() {
     const { ENV_CONFIG } = await import("./infrastructure/config/env.config.js");
     const PORT = ENV_CONFIG.PORT || 3000;
 
-    console.log(`⏳ [4/4] Attempting to bind to PORT: ${PORT}`);
+    logger.info(`⏳ [4/4] Attempting to bind to PORT: ${PORT}`);
 
     // Create Server Instance explicitly to control timeouts
     const server = http.createServer(app);
@@ -82,26 +82,28 @@ async function startServer() {
     server.keepAliveTimeout = 5000;
 
     server.listen(PORT, () => {
-      console.log('\n' + '╔' + '═'.repeat(78) + '╗');
-      console.log('║' + ' '.repeat(20) + '🚀 SERVER READY' + ' '.repeat(43) + '║');
-      console.log('╚' + '═'.repeat(78) + '╝\n');
-      console.log(`📡 URL: http://localhost:${PORT}`);
-      console.log(`🩺 Health: http://localhost:${PORT}/health`);
+      logger.info(`
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                    🚀 SERVER READY                                           ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+`);
+      logger.info(`📡 URL: http://localhost:${PORT}`);
+      logger.info(`\🩺 Health: http://localhost:${PORT}/health`);
       logger.info(`🚀 Sovereign System Ready on Port ${PORT}`);
     });
 
     // Handle Port Collision Errors
     server.on('error', (e: any) => {
       if (e.code === 'EADDRINUSE') {
-        console.error(`❌ FATAL: Port ${PORT} is already in use! Kill the zombie process.`);
+        logger.error(`❌ FATAL: Port ${PORT} is already in use! Kill the zombie process.`);
         process.exit(1);
       } else {
-        console.error("❌ Server Error:", e);
+        logger.error("❌ Server Error:", e);
       }
     });
 
   } catch (error) {
-    console.error("❌ CRITICAL FAILURE:", error);
+    logger.error("❌ CRITICAL FAILURE:", error);
     process.exit(1);
   }
 }

@@ -61,7 +61,7 @@ router.patch(
     "/profile",
     ...RouteFactory.createAuthenticatedRoute<AuthHandler>(
         "AuthHandler",
-        "updateProfile",
+        "update",
         authMiddleware.authenticate,
     ),
 );

@@ -16,7 +16,7 @@
 
 import { IEmailProvider, EmailOptions } from "@/domain/interfaces/email/IEmailProvider";
 import { logger } from "@/shared/common";
-import { EmailError } from "@/domain/exceptions/EmailExceptions";
+import { EmailSendError } from "@/domain/exceptions/EmailExceptions.js";
 
 export interface EmailServiceOptions {
     from?: string;
@@ -26,7 +26,6 @@ export interface EmailServiceOptions {
 
 export class EmailService {
     private readonly from: string;
-    private readonly replyTo: string;
     private readonly baseUrl: string;
 
     constructor(
@@ -37,10 +36,10 @@ export class EmailService {
             options?.from ||
             process.env.EMAIL_FROM ||
             "noreply@oman-education.ai";
-        this.replyTo =
+        /* this.replyTo = 
             options?.replyTo ||
             process.env.EMAIL_REPLY_TO ||
-            "support@oman-education.ai";
+            "support@oman-education.ai"; */
         this.baseUrl =
             options?.baseUrl ||
             process.env.FRONTEND_URL ||
@@ -85,7 +84,7 @@ export class EmailService {
             const result = await this.emailProvider.sendEmail(emailOptions);
 
             if (!result.success) {
-                throw new EmailError(
+                throw new EmailSendError(
                     result.error || "فشل إرسال بريد التحقق",
                 );
             }
@@ -96,7 +95,7 @@ export class EmailService {
             });
         } catch (error) {
             logger.error("Failed to send verification email", { to, error });
-            throw new EmailError(
+            throw new EmailSendError(
                 "فشل إرسال بريد التحقق. يرجى المحاولة لاحقاً",
             );
         }
@@ -134,7 +133,7 @@ export class EmailService {
             const result = await this.emailProvider.sendEmail(emailOptions);
 
             if (!result.success) {
-                throw new EmailError(
+                throw new EmailSendError(
                     result.error || "فشل إرسال بريد إعادة تعيين كلمة المرور",
                 );
             }
@@ -145,7 +144,7 @@ export class EmailService {
             });
         } catch (error) {
             logger.error("Failed to send password reset email", { to, error });
-            throw new EmailError(
+            throw new EmailSendError(
                 "فشل إرسال بريد إعادة تعيين كلمة المرور. يرجى المحاولة لاحقاً",
             );
         }
@@ -178,7 +177,7 @@ export class EmailService {
             const result = await this.emailProvider.sendEmail(emailOptions);
 
             if (!result.success) {
-                throw new EmailError(result.error || "فشل إرسال البريد الإلكتروني");
+                throw new EmailSendError(result.error || "فشل إرسال البريد الإلكتروني");
             }
 
             logger.info("Email sent successfully", {
@@ -188,7 +187,7 @@ export class EmailService {
             });
         } catch (error) {
             logger.error("Failed to send email", { to, subject, error });
-            throw new EmailError("فشل إرسال البريد الإلكتروني. يرجى المحاولة لاحقاً");
+            throw new EmailSendError("فشل إرسال البريد الإلكتروني. يرجى المحاولة لاحقاً");
         }
     }
 

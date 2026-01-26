@@ -41,3 +41,13 @@ export * from './communication';
 // ═══════════════════════════════════════════════════════════════════
 export * from './system';
 
+
+// ═══════════════════════════════════════════════════════════════════
+// 🏗️ Stubs for missing services (Temporary - See Law-13)
+// ═══════════════════════════════════════════════════════════════════
+export class GoogleOAuthService { [key: string]: any }
+export class KnowledgeBaseService { [key: string]: any }
+export class OfficeGenerationService { [key: string]: any }
+export class ContentManagementService { [key: string]: any }
+export class LoginRateLimiter { [key: string]: any }
+export class CodeGenerationService { [key: string]: any }

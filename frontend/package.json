@@ -5,8 +5,10 @@
   "description": "Oman Education AI System - Frontend",
   "scripts": {
     "dev": "vite",
+    "dev:cockpit": "vite -c vite.developer.config.ts",
     "dev:debug": "vite --debug",
     "build": "npm run type-check && vite build",
+    "build:cockpit": "vite build -c vite.developer.config.ts",
     "start": "vite preview --port 4173",
     "preview": "vite preview --port 4173",
     "test": "vitest",
@@ -54,6 +56,7 @@
     "react-intersection-observer": "^10.0.2",
     "react-markdown": "^10.1.0",
     "react-router-dom": "^6.20.0",
+    "recharts": "^2.15.4",
     "remark-gfm": "^4.0.1",
     "tailwind-merge": "^3.4.0",
     "zustand": "^4.4.7"

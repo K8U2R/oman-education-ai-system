@@ -62,6 +62,9 @@ const loadConfig = (): EnvConfig => {
       process.env.GOOGLE_CLIENT_SECRET,
     GOOGLE_CALLBACK_URL:
       process.env.GOOGLE_OAUTH_REDIRECT_URI || process.env.GOOGLE_CALLBACK_URL,
+    DEV_WHITELIST: process.env.DEV_WHITELIST
+      ? process.env.DEV_WHITELIST.split(",").map((ip) => ip.trim())
+      : undefined,
   };
 
   const result = ConfigSchema.safeParse(rawData);

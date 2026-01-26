@@ -11,4 +11,4 @@ export * from "./configuration";
 export * from "./utils";
 
 // Common - الاستيرادات الأكثر استخداماً (logger, exceptions, types)
-export * from "./common";
+// export * from "./common"; // Ambiguous with configuration

@@ -6,8 +6,8 @@
  * @example
  * ```typescript
  * const user = User.fromData(userData)
- * console.log(user.fullName) // "أحمد محمد"
- * console.log(user.isActiveUser()) // true/false
+ * const fullName = user.fullName // "أحمد محمد"
+ * const isActive = user.isActiveUser() // true/false
  * ```
  */
 
@@ -38,7 +38,7 @@ export class User {
     public readonly simulationActive: boolean = false,
     public readonly createdAt: Date = new Date(),
     public readonly updatedAt: Date = new Date(),
-  ) {}
+  ) { }
 
   /**
    * الحصول على الاسم الكامل

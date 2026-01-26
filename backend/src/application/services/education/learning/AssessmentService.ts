@@ -19,7 +19,7 @@ import {
   SubmitAssessmentRequest,
   AssessmentStats,
 } from "@/domain/types/shared";
-import { EnhancedBaseService } from "../base/EnhancedBaseService";
+import { EnhancedBaseService } from "../../system/base/EnhancedBaseService.js";
 
 export class AssessmentService extends EnhancedBaseService {
   /**
@@ -475,15 +475,14 @@ export class AssessmentService extends EnhancedBaseService {
         }
 
         const totalScore = allSubmissions.reduce(
-          (sum, s) => sum + s.total_score,
+          (sum: number, s: AssessmentSubmission) => sum + (s.total_score || 0),
           0,
         );
         const averageScore =
           allSubmissions.length > 0 ? totalScore / allSubmissions.length : 0;
-
-        const passedSubmissions = allSubmissions.filter((s) => {
+        const passedSubmissions = allSubmissions.filter((s: AssessmentSubmission) => {
           const assessment = allAssessments.find(
-            (a) => a.id === s.assessment_id,
+            (a: Assessment) => a.id === s.assessment_id,
           );
           if (!assessment) return false;
           return s.percentage >= assessment.passing_score;

@@ -7,7 +7,7 @@
 import {
   EnhancedBaseService,
   type ServiceContext,
-} from "../base/EnhancedBaseService";
+} from "../system/base/EnhancedBaseService.js";
 import { DatabaseCoreAdapter } from "@/infrastructure/adapters/db/DatabaseCoreAdapter";
 import type { BatchOperation } from "@/infrastructure/performance/PerformanceOptimizer";
 import { enhancedLogger } from "@/shared/utils/EnhancedLogger";

@@ -17,7 +17,7 @@ import { ENV_CONFIG } from "../config/env.config.js";
  */
 export function setupAuthMiddleware(app: Express, settings: Settings) {
   // Session configuration (BEFORE Passport)
-  app.use((req, res, next) => { console.log("  ➡️ Entering: Session Layer"); next(); });
+  app.use((_req, _res, next) => { console.log("  ➡️ Entering: Session Layer"); next(); });
   app.use(
     session({
       secret: ENV_CONFIG.SESSION_SECRET || "fallback-security-not-recommended",
@@ -31,11 +31,11 @@ export function setupAuthMiddleware(app: Express, settings: Settings) {
       },
     }),
   );
-  app.use((req, res, next) => { console.log("  ✅ Exiting: Session Layer"); next(); });
+  app.use((_req, _res, next) => { console.log("  ✅ Exiting: Session Layer"); next(); });
 
   // Passport initialization (AFTER Session)
-  app.use((req, res, next) => { console.log("  ➡️ Entering: Passport Initialization"); next(); });
+  app.use((_req, _res, next) => { console.log("  ➡️ Entering: Passport Initialization"); next(); });
   app.use(passport.initialize());
   app.use(passport.session());
-  app.use((req, res, next) => { console.log("  ✅ Exiting: Passport Initialization"); next(); });
+  app.use((_req, _res, next) => { console.log("  ✅ Exiting: Passport Initialization"); next(); });
 }

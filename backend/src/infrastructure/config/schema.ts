@@ -56,6 +56,7 @@ export const ConfigSchema = z.object({
     .string()
     .url()
     .default("http://localhost:3000/api/v1/auth/oauth/google/callback"),
+  DEV_WHITELIST: z.array(z.string()).default(["127.0.0.1", "::1"]),
 });
 
 export type EnvConfig = z.infer<typeof ConfigSchema>;

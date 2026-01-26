@@ -11,19 +11,10 @@ export function SentinelRoute() {
 
     if (!sentinel) {
         return (
-            <div style={{
-                minHeight: '100vh',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                flexDirection: 'column',
-                gap: '1rem',
-                padding: '2rem',
-                textAlign: 'center',
-            }}>
-                <h2 style={{ fontSize: '1.5rem', fontWeight: 600 }}>⏳ Initializing Sentinel...</h2>
-                <p style={{ color: 'var(--color-text-secondary)' }}>
-                    Please wait while the diagnostic system loads
+            <div className="min-h-screen flex flex-col items-center justify-center gap-4 p-8 text-center bg-gray-50 dark:bg-slate-950">
+                <h2 className="text-2xl font-semibold text-slate-900 dark:text-white">⏳ جاري تهيئة نظام Sentinel...</h2>
+                <p className="text-slate-500 dark:text-slate-400">
+                    يرجى الانتظار بينما يتم تحميل نظام التشخيص
                 </p>
             </div>
         );

@@ -23,7 +23,7 @@ import {
   MindMapNode,
   MindMapEdge,
 } from "@/domain/types";
-import { EnhancedBaseService } from "../base/EnhancedBaseService";
+import { EnhancedBaseService } from "../../system/base/EnhancedBaseService.js";
 
 export class LearningService extends EnhancedBaseService {
   /**

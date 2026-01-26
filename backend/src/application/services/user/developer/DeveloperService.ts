@@ -18,7 +18,7 @@ import {
   ServiceInfo,
   PerformanceMetric,
 } from "@/domain/types/user";
-import { EnhancedBaseService } from "../base/EnhancedBaseService";
+import { EnhancedBaseService } from "../../system/base/EnhancedBaseService.js";
 
 export class DeveloperService extends EnhancedBaseService {
   /**

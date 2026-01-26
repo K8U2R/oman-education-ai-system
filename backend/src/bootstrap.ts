@@ -15,33 +15,34 @@ import { ENV_CONFIG as _ENV_CONFIG } from "./infrastructure/config/env.config.js
  * Sovereign Bootstrap Sequence
  */
 export async function bootstrap() {
-  console.log('\n' + '═'.repeat(80));
-  console.log('🚀 SYSTEM BOOTSTRAP STARTED');
-  console.log('═'.repeat(80) + '\n');
+  logger.info(`
+🚀 SYSTEM BOOTSTRAP STARTED
+════════════════════════════════════════════════════════════════════════════════
+`);
 
   logger.info("🚀 Bootstrapping Oman Education AI System...");
 
   // 1. Centralized Environment Integrity Check (Automatic via Import of env.config.ts)
-  console.log('⏳ Step 1/5: Loading Environment Configuration...');
+  logger.info('⏳ Step 1/5: Loading Environment Configuration...');
   const { ENV_CONFIG } = await import("./infrastructure/config/env.config.js");
-  console.log(`   ✅ Environment: ${ENV_CONFIG.NODE_ENV}`);
-  console.log(`   ✅ Port: ${ENV_CONFIG.PORT}`);
-  console.log(`   ✅ Database: ${ENV_CONFIG.DATABASE_URL ? 'Configured' : '❌ Not Configured'}`);
-  console.log(`   ✅ Redis: ${ENV_CONFIG.REDIS_HOST}:${ENV_CONFIG.REDIS_PORT}`);
-  console.log(`   ✅ Frontend CORS: ${ENV_CONFIG.CORS_ORIGIN}`);
+  logger.info(`   ✅ Environment: ${ENV_CONFIG.NODE_ENV}`);
+  logger.info(`   ✅ Port: ${ENV_CONFIG.PORT}`);
+  logger.info(`   ✅ Database: ${ENV_CONFIG.DATABASE_URL ? 'Configured' : '❌ Not Configured'}`);
+  logger.info(`   ✅ Redis: ${ENV_CONFIG.REDIS_HOST}:${ENV_CONFIG.REDIS_PORT}`);
+  logger.info(`   ✅ Frontend CORS: ${ENV_CONFIG.CORS_ORIGIN}`);
 
   // 2. Initialize Dependency Injection Container
-  console.log('\n📦 Step 2/5: Initializing Dependency Injection Container...');
+  logger.info('\n📦 Step 2/5: Initializing Dependency Injection Container...');
   initializeServices();
   logger.info("✅ Dependency Injection Container initialized");
-  console.log('   ✅ All services registered\n');
+  logger.info('   ✅ All services registered\n');
 
   // 3. Initialize AI Provider
-  console.log('🤖 Step 3/5: Initializing AI Provider...');
+  logger.info('🤖 Step 3/5: Initializing AI Provider...');
   try {
     if (ENV_CONFIG.AI_DEFAULT_PROVIDER === "openai") {
       if (!ENV_CONFIG.OPENAI_API_KEY) {
-        console.log('   ⚠️  OpenAI API Key not configured - AI features disabled');
+        logger.info('   ⚠️  OpenAI API Key not configured - AI features disabled');
         throw new Error('No API key');
       }
       const { createAIProvider } =
@@ -49,48 +50,71 @@ export async function bootstrap() {
       const aiProvider = await createAIProvider();
       (globalThis as unknown & { setAIProvider?: (provider: unknown) => void }).setAIProvider?.(aiProvider);
       logger.info("✅ AI Provider initialized");
-      console.log('   ✅ OpenAI Provider ready\n');
+      logger.info('   ✅ OpenAI Provider ready\n');
     } else {
-      console.log(`   ℹ️  AI Provider: ${ENV_CONFIG.AI_DEFAULT_PROVIDER || 'None'}\n`);
+      logger.info(`   ℹ️  AI Provider: ${ENV_CONFIG.AI_DEFAULT_PROVIDER || 'None'}\n`);
     }
   } catch (error) {
     logger.warn("⚠️ AI Provider failed (Degradation Mode Active)", { error });
-    console.log('   ⚠️  Running in degradation mode (AI features disabled)\n');
+    logger.info('   ⚠️  Running in degradation mode (AI features disabled)\n');
   }
 
   // 4. Verify Critical Services
-  console.log('🔍 Step 4/5: Verifying Critical Services...');
+  logger.info('🔍 Step 4/5: Verifying Critical Services...');
 
-  try {
-    const { container } = await import("./infrastructure/di/index.js");
-    const databaseAdapter = container.resolve<any>("DatabaseAdapter");
+  const MAX_RETRIES = 10;
+  const RETRY_DELAY_MS = 3000;
+  let dbConnected = false;
 
-    console.log('   📊 Database: Checking connection to Database Core...');
-    const dbHealth = await Promise.race([
-      databaseAdapter.healthCheck(),
-      new Promise<boolean>((_, reject) => setTimeout(() => reject(new Error("BOOT_TIMEOUT: Database Core did not respond within 10s")), 10000))
-    ]);
+  for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
+    try {
+      const { container } = await import("./infrastructure/di/index.js");
+      const databaseAdapter = container.resolve<any>("DatabaseAdapter");
 
-    if (!dbHealth) {
+      logger.info(`   📊 Database: Checking connection (Attempt ${attempt}/${MAX_RETRIES})...`);
+
+      const dbHealth = await Promise.race([
+        databaseAdapter.healthCheck(),
+        new Promise<boolean>((_, reject) => setTimeout(() => reject(new Error("BOOT_TIMEOUT: Database Core did not respond within 10s")), 10000))
+      ]);
+
+      if (dbHealth) {
+        logger.info('   ✅ Database: Connected and Healthy');
+        dbConnected = true;
+        break;
+      }
+
       throw new Error("Database Core Service returned unhealthy status");
+    } catch (error) {
+      const isLastAttempt = attempt === MAX_RETRIES;
+      const errorMessage = error instanceof Error ? error.message : String(error);
+
+      if (isLastAttempt) {
+        logger.error(`   ❌ Database: Final connection attempt failed!`);
+        throw error;
+      }
+
+      logger.warn(`   ⚠️ Database: Attempt ${attempt} failed (${errorMessage}). Retrying in ${RETRY_DELAY_MS / 1000}s...`);
+      await new Promise(resolve => setTimeout(resolve, RETRY_DELAY_MS));
     }
-    console.log('   ✅ Database: Connected and Healthy');
-  } catch (error) {
-    console.error(`   ❌ Database: Connection Failed!`);
-    throw error;
   }
 
-  console.log('   💾 Redis/Memurai: Verification skipped (Non-blocking)');
-  console.log('   ✅ Service verification complete\n');
+  if (!dbConnected) {
+    throw new Error("Failed to establish stable connection to Database Core after multiple attempts.");
+  }
+
+  logger.info('   💾 Redis/Memurai: Verification skipped (Non-blocking)');
+  logger.info('   ✅ Service verification complete\n');
 
   // 5. Load Settings
-  console.log('⚙️  Step 5/5: Loading Application Settings...');
+  logger.info('⚙️  Step 5/5: Loading Application Settings...');
   const settings = getSettings();
-  console.log('   ✅ Settings loaded successfully\n');
+  logger.info('   ✅ Settings loaded successfully\n');
 
-  console.log('═'.repeat(80));
-  console.log('✅ BOOTSTRAP COMPLETE');
-  console.log('═'.repeat(80) + '\n');
+  logger.info(`
+✅ BOOTSTRAP COMPLETE
+════════════════════════════════════════════════════════════════════════════════
+`);
 
   return settings;
 }

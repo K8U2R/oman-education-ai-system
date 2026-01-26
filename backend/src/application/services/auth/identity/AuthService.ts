@@ -27,12 +27,7 @@ import {
     RefreshTokenResponse,
 } from "@/domain/types/auth";
 import { User } from "@/domain/entities/User";
-import {
-    AuthenticationFailedError,
-    UserNotFoundError,
-    InvalidTokenError,
-    TokenExpiredError,
-} from "@/domain/exceptions/AuthExceptions";
+// Auth Cluster - Repositories
 import { logger } from "@/shared/common";
 
 export class AuthService extends EnhancedBaseService {
@@ -153,6 +148,34 @@ export class AuthService extends EnhancedBaseService {
     }
 
     /**
+     * Get or Create User - للحصول على المستخدم أو إنشائه تلقائياً
+     * 
+     * @param userId - User ID from external provider or legacy system
+     * @param email - User email
+     * @param role - Optional role override
+     */
+    async getOrCreateUser(userId: string, email: string, role?: string): Promise<User> {
+        return this.executeWithEnhancements(
+            async () => {
+                try {
+                    return await this.authRepository.getCurrentUser(userId);
+                } catch (error) {
+                    logger.info("JIT Provisioning: Creating user", { userId, email });
+                    return await this.authRepository.register({
+                        email,
+                        password: Math.random().toString(36), // Random password for JIT users
+                        first_name: email.split('@')[0],
+                        last_name: "User",
+                        role: (role as any) || "student"
+                    });
+                }
+            },
+            { retryable: true },
+            { operation: "getOrCreateUser", userId }
+        );
+    }
+
+    /**
      * Refresh Token - تحديث الرمز
      *
      * @param request - RefreshTokenRequest
@@ -198,7 +221,7 @@ export class AuthService extends EnhancedBaseService {
         return this.executeWithEnhancements(
             async () => {
                 // First verify token structure
-                const payload = this.tokenService.verifyAccessToken(token);
+                this.tokenService.verifyAccessToken(token);
 
                 // Then verify against repository (checks if user still exists/active)
                 const userData = await this.authRepository.verifyToken(token);

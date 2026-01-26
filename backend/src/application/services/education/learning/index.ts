@@ -2,4 +2,5 @@
  * Assessment Services - خدمات التقييمات
  */
 
-export { AssessmentService } from "./AssessmentService";
+export { LearningService } from "./LearningService.js";
+export { AssessmentService } from "./AssessmentService.js";

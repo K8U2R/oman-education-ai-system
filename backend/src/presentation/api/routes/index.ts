@@ -28,8 +28,8 @@ import developerRoutes from "./developer/index.js";
 import healthRoutes from "./health.routes.js";
 import contentManagementRoutes from "./content-management.routes.js";
 
-// === AI INTERACTION ===
-import { chatRoutes } from "./features/ai/chat/chat.routes.js";
+// === SYSTEM ROUTES ===
+import changelogRoutes from "./system/changelog.routes.js";
 
 const coreRouter = Router();
 
@@ -55,7 +55,10 @@ coreRouter.use("/notifications", notificationRoutes);
 coreRouter.use("/admin", adminRoutes);
 coreRouter.use("/developer", developerRoutes);
 
+// System
+coreRouter.use("/system/changelog", changelogRoutes);
+
 // Unified AI Interaction
-coreRouter.use("/interact", chatRoutes);
+// coreRouter.use("/interact", chatRoutes); // TODO: Re-enable when chatRoutes is verified
 
 export default coreRouter;

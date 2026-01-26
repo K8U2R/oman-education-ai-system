@@ -14,7 +14,6 @@ import { moderatorRoutes } from '../../definitions/moderator/moderator.routes'
 import { sharedRoutes } from '../../definitions/shared/shared.routes'
 import { errorRoutes } from '../../definitions/error/error.routes'
 import { mastermindRoutes } from '../../definitions/mastermind/mastermind.routes'
-import { sentinelRoutes } from '../../definitions/sentinel/sentinel.routes'
 
 // Metadata
 import { publicMetadata } from '../../definitions/public/public.metadata'
@@ -30,7 +29,6 @@ import { errorMetadata } from '../../definitions/error/error.metadata'
  * All Routes - جميع المسارات
  */
 export const allRoutes: RouteConfig[] = [
-  ...sentinelRoutes, // Dev-only route (first priority)
   ...publicRoutes,
   ...authRoutes,
   ...studentRoutes,

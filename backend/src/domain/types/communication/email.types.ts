@@ -4,7 +4,7 @@
  * أنواع موحدة لإرسال البريد الإلكتروني والقوالب
  */
 
-import type { BaseEntity, Metadata } from "./common.types";
+import type { BaseEntity, Metadata } from "../../../shared/common.types.js";
 
 /**
  * Email Priority - أولوية البريد

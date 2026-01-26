@@ -4,7 +4,7 @@
  * أنواع موحدة لـ WebSocket Messages و Events
  */
 
-import type { Metadata } from "./common.types";
+import type { Metadata } from "../../../shared/common.types.js";
 
 /**
  * WebSocket Message Type - نوع رسالة WebSocket

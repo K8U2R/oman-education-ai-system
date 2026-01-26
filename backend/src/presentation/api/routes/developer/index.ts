@@ -10,7 +10,11 @@ import monitoringRoutes from "./monitoring.routes.js";
 import securityMonitoringRoutes from "./security-monitoring.routes.js";
 import performanceMonitoringRoutes from "./performance-monitoring.routes.js";
 
+import cockpitRoutes from "./cockpit.routes.js";
+
 const router = Router();
+
+router.use("/cockpit", cockpitRoutes);
 
 // Mount developer sub-routes
 router.use("/", developerRoutes);
