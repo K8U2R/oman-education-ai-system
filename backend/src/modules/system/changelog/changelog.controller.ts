@@ -8,7 +8,7 @@
  */
 
 import { Request, Response } from 'express';
-import { ChangelogService } from './changelog.service.js';
+import { ChangelogService } from '@/modules/support/changelog/changelog.service.js';
 import { CreateChangelogDto } from './dto/create-changelog.dto.js';
 import { validate } from 'class-validator';
 import { plainToInstance } from 'class-transformer';
@@ -20,17 +20,18 @@ export class ChangelogController {
      * جلب قائمة سجلات التغيير
      * GET /api/system/changelog
      */
-    async getEntries(req: Request, res: Response): Promise<void> {
+    async getEntries(_req: Request, res: Response): Promise<void> {
         try {
             const entries = await this.changelogService.getAll();
             res.status(200).json({
                 success: true,
                 data: entries
             });
-        } catch (error: any) {
+        } catch (error: unknown) {
+            const err = error as Error;
             res.status(500).json({
                 success: false,
-                error: error.message || "خطأ داخلي في الخادم"
+                error: err.message || "خطأ داخلي في الخادم"
             });
         }
     }
@@ -54,15 +55,17 @@ export class ChangelogController {
                 return;
             }
 
-            const entry = await this.changelogService.create(dto);
+            const authorId = req.user?.id || "system";
+            const entry = await this.changelogService.create(dto as any, authorId);
             res.status(201).json({
                 success: true,
                 data: entry
             });
-        } catch (error: any) {
+        } catch (error: unknown) {
+            const err = error as Error;
             res.status(500).json({
                 success: false,
-                error: error.message || "خطأ داخلي في الخادم"
+                error: err.message || "خطأ داخلي في الخادم"
             });
         }
     }

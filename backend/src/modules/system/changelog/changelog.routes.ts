@@ -7,7 +7,7 @@
 
 import { Router } from 'express';
 import { ChangelogController } from './changelog.controller.js';
-import { ChangelogService } from './changelog.service.js';
+import { ChangelogService } from '@/modules/support/changelog/changelog.service.js';
 import { container } from '@/infrastructure/di/Container.js';
 
 const router = Router();

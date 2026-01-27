@@ -4,8 +4,7 @@
 
 import { Request, Response } from "express";
 import { z } from "zod";
-import { SecurityAnalyticsService } from "@/application/services/security/SecurityAnalyticsService.js";
-import { BaseHandler } from "@/presentation/api/handlers/base/BaseHandler.js";
+import { SecurityAnalyticsService } from "@/modules/security/services/SecurityAnalyticsService.js";
 import { SecurityAnalyticsFilter } from "@/domain/types/security.types.js";
 
 // Validation Schemas
@@ -15,6 +14,8 @@ const GetAnalyticsReportRequestSchema = z.object({
   endDate: z.string().optional(),
   userId: z.string().optional(),
 });
+
+import { BaseHandler } from "@/presentation/api/handlers/base/BaseHandler.js";
 
 export class SecurityAnalyticsHandler extends BaseHandler {
   constructor(
@@ -26,7 +27,7 @@ export class SecurityAnalyticsHandler extends BaseHandler {
   private parseFilter(query: unknown): SecurityAnalyticsFilter {
     const validatedData = GetAnalyticsReportRequestSchema.parse(query);
     return {
-      period: validatedData.period,
+      period: validatedData.period as SecurityAnalyticsFilter['period'],
       startDate: validatedData.startDate
         ? new Date(validatedData.startDate)
         : undefined,

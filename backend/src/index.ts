@@ -88,12 +88,12 @@ async function startServer() {
 ╚══════════════════════════════════════════════════════════════════════════════╝
 `);
       logger.info(`📡 URL: http://localhost:${PORT}`);
-      logger.info(`\🩺 Health: http://localhost:${PORT}/health`);
+      logger.info(`🩺 Health: http://localhost:${PORT}/health`);
       logger.info(`🚀 Sovereign System Ready on Port ${PORT}`);
     });
 
     // Handle Port Collision Errors
-    server.on('error', (e: any) => {
+    server.on('error', (e: NodeJS.ErrnoException) => {
       if (e.code === 'EADDRINUSE') {
         logger.error(`❌ FATAL: Port ${PORT} is already in use! Kill the zombie process.`);
         process.exit(1);

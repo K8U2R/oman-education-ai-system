@@ -36,10 +36,10 @@ export const ModalManager: React.FC = () => {
                             isModal={true}
                             onForgotPassword={() => open('forgot-password')}
                         />
-                        <div className="mt-4 text-center text-sm text-gray-600 flex flex-col gap-2">
+                        <div className="mt-4 text-center text-sm text-text-secondary flex flex-col gap-2">
                             <div>
                                 ليس لديك حساب؟{' '}
-                                <button onClick={() => open('register')} className="text-primary-600 hover:underline font-medium">
+                                <button onClick={() => open('register')} className="text-primary-600 hover:text-primary-500 font-medium transition-colors">
                                     إنشاء حساب جديد
                                 </button>
                             </div>
@@ -50,9 +50,9 @@ export const ModalManager: React.FC = () => {
                 return (
                     <div className="p-1">
                         <RegisterForm onSuccess={handleRegisterSuccess} isModal={true} />
-                        <div className="mt-4 text-center text-sm text-gray-600">
+                        <div className="mt-4 text-center text-sm text-text-secondary">
                             لديك حساب بالفعل؟{' '}
-                            <button onClick={() => open('login')} className="text-primary-600 hover:underline font-medium">
+                            <button onClick={() => open('login')} className="text-primary-600 hover:text-primary-500 font-medium transition-colors">
                                 تسجيل الدخول
                             </button>
                         </div>
@@ -62,7 +62,7 @@ export const ModalManager: React.FC = () => {
                 return (
                     <div className="p-1">
                         <div className="text-center mb-6">
-                            <h2 className="text-xl font-bold text-gray-900">استعادة كلمة المرور</h2>
+                            <h2 className="text-xl font-bold text-text-primary">استعادة كلمة المرور</h2>
                         </div>
                         <ForgotPasswordForm isModal={true} onBackToLogin={() => open('login')} />
                     </div>
@@ -77,17 +77,17 @@ export const ModalManager: React.FC = () => {
             case 'confirmation':
                 return (
                     <div className="text-center p-4">
-                        <p className="mb-6 text-gray-800 text-lg">{props.message || 'Are you sure?'}</p>
+                        <p className="mb-6 text-text-primary text-lg">{props.message || 'Are you sure?'}</p>
                         <div className="flex justify-center gap-4">
                             <button
                                 onClick={() => { props.onConfirm?.(); close(); }}
-                                className="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+                                className="px-6 py-2 bg-error text-white rounded-lg hover:bg-red-700 transition-colors"
                             >
                                 تأكيد
                             </button>
                             <button
                                 onClick={close}
-                                className="px-6 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition-colors"
+                                className="px-6 py-2 bg-bg-tertiary text-text-primary rounded-lg hover:bg-bg-tertiary/80 transition-colors"
                             >
                                 إلغاء
                             </button>

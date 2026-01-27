@@ -1,5 +1,5 @@
 import { ISkill } from "../ISkill";
-import { KnowledgeBaseService } from "@/application/services/knowledge/KnowledgeBaseService";
+import { KnowledgeBaseService } from "@/application/services/index.js";
 import { container } from "@/infrastructure/di/Container";
 import { logger } from "@/shared/utils/logger";
 

@@ -17,7 +17,7 @@ export const NOTIFICATION_CONFIG = {
   // Realtime Connection
   REALTIME: {
     WEBSOCKET_URL: import.meta.env.VITE_WS_URL || 'ws://localhost:30000/ws/notifications',
-    SSE_URL: import.meta.env.VITE_SSE_URL || 'http://localhost:30000/notifications/stream',
+    SSE_URL: import.meta.env.VITE_SSE_URL || 'http://localhost:30000/api/v1/notifications/stream',
     CONNECTION_TIMEOUT: 5000, // 5 ثواني
     RECONNECT_DELAY: 3000, // 3 ثواني
     MAX_RECONNECT_ATTEMPTS: 5,

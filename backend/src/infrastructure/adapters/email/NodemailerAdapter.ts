@@ -1,156 +1,59 @@
-/**
- * NodemailerAdapter - محول Nodemailer للبريد الإلكتروني
- *
- * Concrete implementation of IEmailProvider using Nodemailer
- * Supports SMTP, Gmail, and other transports
- *
- * Constitutional Authority: LAWS.md - Law-1 (Iron Firewall)
- * Layer: Infrastructure
- *
- * @example
- * ```typescript
- * const adapter = new NodemailerAdapter();
- * await adapter.sendEmail({
- *   to: 'user@example.com',
- *   from: 'noreply@oman-education.ai',
- *   subject: 'Welcome',
- *   html: '<h1>Hello</h1>'
- * });
- * ```
- */
-
-import nodemailer, { Transporter } from "nodemailer";
-import {
-    IEmailProvider,
-    EmailOptions,
-    EmailResult,
-} from "@/domain/interfaces/email/IEmailProvider";
-import { logger } from "@/shared/common";
-
-export interface NodemailerConfig {
-    host?: string;
-    port?: number;
-    secure?: boolean;
-    auth?: {
-        user: string;
-        pass: string;
-    };
-    service?: string; // For Gmail, Outlook, etc.
-}
+import nodemailer from 'nodemailer';
+import { IEmailProvider } from '@/domain/interfaces/adapters/email/IEmailProvider.js';
+import { ENV_CONFIG } from '@/infrastructure/config/env.config.js';
+import { logger } from '@/shared/utils/logger.js';
 
 export class NodemailerAdapter implements IEmailProvider {
-    private transporter: Transporter;
-    private config: NodemailerConfig;
+    private transporter: nodemailer.Transporter;
 
-    constructor(config?: NodemailerConfig) {
-        // Load from environment or use provided config
-        this.config = config || this.loadConfigFromEnv();
+    constructor() {
+        if (ENV_CONFIG.EMAIL_PROVIDER === 'smtp') {
+            if (!ENV_CONFIG.SMTP_HOST || !ENV_CONFIG.SMTP_USER || !ENV_CONFIG.SMTP_PASS) {
+                logger.warn("⚠️ SMTP Credentials missing! Email features will fail.");
+            }
+        }
 
-        // Create transporter
-        this.transporter = nodemailer.createTransport(this.config as any);
-
-        logger.info("NodemailerAdapter initialized", {
-            host: this.config.host || this.config.service,
-            secure: this.config.secure,
+        this.transporter = nodemailer.createTransport({
+            host: ENV_CONFIG.SMTP_HOST || 'smtp.gmail.com',
+            port: ENV_CONFIG.SMTP_PORT || 587,
+            secure: ENV_CONFIG.SMTP_SECURE || false, // true for 465, false for other ports
+            auth: {
+                user: ENV_CONFIG.SMTP_USER,
+                pass: ENV_CONFIG.SMTP_PASS,
+            },
         });
     }
 
-    /**
-     * Load SMTP configuration from environment variables
-     */
-    private loadConfigFromEnv(): NodemailerConfig {
-        const service = process.env.EMAIL_SERVICE; // e.g., 'gmail', 'outlook'
+    async sendEmail(to: string, subject: string, htmlBody: string): Promise<void> {
+        try {
+            await this.transporter.sendMail({
+                from: ENV_CONFIG.EMAIL_FROM,
+                to,
+                subject,
+                html: htmlBody,
+            });
+            logger.info("Email sent successfully", { to, subject });
+        } catch (error: unknown) {
+            const err = error as Error;
+            // Law 08: Fail-Safe & Telemetry
+            logger.error("Failed to send email", {
+                to,
+                subject,
+                error: err.message,
+                stack: err.stack
+            });
 
-        if (service) {
-            // Using a predefined service (Gmail, Outlook, etc.)
-            return {
-                service,
-                auth: {
-                    user: process.env.EMAIL_USER || "",
-                    pass: process.env.EMAIL_PASSWORD || "",
-                },
-            };
-        } else {
-            // Using custom SMTP
-            return {
-                host: process.env.SMTP_HOST || "smtp.mailtrap.io",
-                port: parseInt(process.env.SMTP_PORT || "2525"),
-                secure: process.env.SMTP_SECURE === "true",
-                auth: {
-                    user: process.env.SMTP_USER || "",
-                    pass: process.env.SMTP_PASSWORD || "",
-                },
-            };
+            // Re-throw as a user-friendly domain exception if needed, or swallow if critical flow shouldn't break
+            throw new Error("EmailDeliveryException: Unable to send email at this time.");
         }
     }
 
-    /**
-     * Send email using Nodemailer
-     *
-     * @param options - Email options
-     * @returns EmailResult with success status
-     */
-    async sendEmail(options: EmailOptions): Promise<EmailResult> {
+    async checkHealth(): Promise<boolean> {
         try {
-            logger.info("Sending email via Nodemailer", {
-                to: options.to,
-                subject: options.subject,
-            });
-
-            const info = await this.transporter.sendMail({
-                from: options.from,
-                to: options.to,
-                subject: options.subject,
-                text: options.text,
-                html: options.html,
-            });
-
-            logger.info("Email sent successfully via Nodemailer", {
-                to: options.to,
-                messageId: info.messageId,
-            });
-
-            return {
-                success: true,
-                messageId: info.messageId,
-            };
-        } catch (error) {
-            const errorMessage = error instanceof Error ? error.message : "Unknown error";
-
-            logger.error("Failed to send email via Nodemailer", {
-                to: options.to,
-                error: errorMessage,
-            });
-
-            return {
-                success: false,
-                error: errorMessage,
-            };
-        }
-    }
-
-    /**
-     * Validate SMTP connection
-     *
-     * @returns true if connection is valid
-     */
-    async validate(): Promise<boolean> {
-        try {
-            logger.info("Validating Nodemailer connection...");
             await this.transporter.verify();
-            logger.info("Nodemailer connection validated successfully");
             return true;
-        } catch (error) {
-            logger.error("Nodemailer connection validation failed", { error });
+        } catch (_error) {
             return false;
         }
-    }
-
-    /**
-     * Close the transporter (cleanup)
-     */
-    async close(): Promise<void> {
-        this.transporter.close();
-        logger.info("Nodemailer transporter closed");
     }
 }

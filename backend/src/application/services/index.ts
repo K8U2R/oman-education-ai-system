@@ -14,12 +14,12 @@
 // ═══════════════════════════════════════════════════════════════════
 // 🏛️ Cluster 1: Authentication & Security
 // ═══════════════════════════════════════════════════════════════════
-export * from './auth';
+// export * from './auth';
 
 // ═══════════════════════════════════════════════════════════════════
 // 🏛️ Cluster 2: User Management
 // ═══════════════════════════════════════════════════════════════════
-export * from './user';
+// export * from './user';
 
 // ═══════════════════════════════════════════════════════════════════
 // 🏛️ Cluster 3: AI & Generation
@@ -29,7 +29,7 @@ export * from './ai';
 // ═══════════════════════════════════════════════════════════════════
 // 🏛️ Cluster 4: Educational Services
 // ═══════════════════════════════════════════════════════════════════
-export * from './education';
+// export * from './education';
 
 // ═══════════════════════════════════════════════════════════════════
 // 🏛️ Cluster 5: Communication
@@ -45,9 +45,9 @@ export * from './system';
 // ═══════════════════════════════════════════════════════════════════
 // 🏗️ Stubs for missing services (Temporary - See Law-13)
 // ═══════════════════════════════════════════════════════════════════
-export class GoogleOAuthService { [key: string]: any }
-export class KnowledgeBaseService { [key: string]: any }
-export class OfficeGenerationService { [key: string]: any }
-export class ContentManagementService { [key: string]: any }
-export class LoginRateLimiter { [key: string]: any }
-export class CodeGenerationService { [key: string]: any }
+export { GoogleOAuthService } from '@/modules/auth/services/GoogleOAuthService.js';
+export { KnowledgeBaseService } from "@/modules/education/services/KnowledgeBaseService.js";
+export { OfficeGenerationService } from "@/modules/office/services/OfficeGenerationService.js";
+// export class ContentManagementService { } // Moved to modules/education
+export { LoginRateLimiter } from '@/modules/auth/services/LoginRateLimiter.js';
+export { CodeGenerationService } from '@/modules/education/services/CodeGenerationService.js';

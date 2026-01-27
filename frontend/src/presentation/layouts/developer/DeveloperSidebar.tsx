@@ -1,53 +1,60 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { LayoutDashboard, ShieldCheck, Activity, Terminal } from 'lucide-react';
+import {
+    LayoutDashboard,
+    BrainCircuit,
+    Database,
+    ScrollText,
+    Settings,
+    Activity
+} from 'lucide-react';
 
-export const DeveloperSidebar = () => {
+export const DeveloperSidebar: React.FC = () => {
     const navItems = [
-        { icon: LayoutDashboard, label: 'قمرة القيادة', path: '/dev/cockpit' },
-        { icon: ShieldCheck, label: 'الحارس (Sentinel)', path: '/dev/sentinel' },
+        { path: '/dev/cockpit', icon: LayoutDashboard, label: 'Overview', end: true },
+        { path: '/dev/cockpit/ai-lab', icon: BrainCircuit, label: 'AI Lab' },
+        { path: '/dev/cockpit/database', icon: Database, label: 'Database' },
+        { path: '/dev/cockpit/logs', icon: ScrollText, label: 'System Logs' },
+        { path: '/dev/cockpit/settings', icon: Settings, label: 'Settings' },
     ];
 
     return (
-        <aside className="w-64 bg-bg-secondary border-l border-border-primary flex flex-col h-screen sticky top-0 transition-colors duration-300">
-            <div className="p-6 flex items-center gap-3 border-b border-border-primary">
-                <Activity className="text-primary-500 w-8 h-8" />
+        <div className="w-64 bg-slate-950 border-r border-slate-800 h-screen flex flex-col fixed left-0 top-0 overflow-hidden">
+            <div className="p-6 border-b border-slate-800 flex items-center gap-3">
+                <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white">
+                    <Activity size={20} />
+                </div>
                 <div>
-                    <h1 className="font-bold text-text-primary tracking-tight">Oman AI</h1>
-                    <span className="text-xs text-primary-500 font-bold tracking-widest uppercase">DevConsole</span>
+                    <h1 className="font-bold text-white text-sm">Oman AI System</h1>
+                    <p className="text-xs text-slate-400">Developer Cockpit</p>
                 </div>
             </div>
 
-            <nav className="flex-1 p-4 space-y-2">
+            <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
                 {navItems.map((item) => (
                     <NavLink
                         key={item.path}
                         to={item.path}
+                        end={item.end}
                         className={({ isActive }) => `
-              flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200
-              ${isActive
-                                ? 'bg-primary-500/10 text-primary-600 font-bold border border-primary-500/20'
-                                : 'text-text-secondary hover:bg-bg-tertiary hover:text-text-primary'}
-            `}
+                            flex items-center gap-3 px-4 py-3 rounded-lg transition-colors
+                            ${isActive
+                                ? 'bg-indigo-600/10 text-indigo-400 border border-indigo-600/20'
+                                : 'text-slate-400 hover:bg-slate-900 hover:text-white'
+                            }
+                        `}
                     >
-                        <item.icon className="w-5 h-5" />
-                        <span>{item.label}</span>
+                        <item.icon size={18} />
+                        <span className="text-sm font-medium">{item.label}</span>
                     </NavLink>
                 ))}
             </nav>
 
-            <div className="p-4 border-t border-border-primary">
-                <div className="bg-bg-tertiary rounded-xl p-4 border border-border-primary">
-                    <div className="flex items-center gap-2 mb-2">
-                        <Terminal className="w-4 h-4 text-text-tertiary" />
-                        <span className="text-xs font-mono text-text-tertiary">System Status</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                        <div className="w-2 h-2 rounded-full bg-success-500 animate-pulse"></div>
-                        <span className="text-sm font-bold text-success-600">ONLINE</span>
-                    </div>
+            <div className="p-4 border-t border-slate-800">
+                <div className="bg-slate-900 rounded-lg p-3 text-xs text-slate-500 text-center">
+                    v1.0.0-dev
                 </div>
             </div>
-        </aside>
+        </div>
     );
 };

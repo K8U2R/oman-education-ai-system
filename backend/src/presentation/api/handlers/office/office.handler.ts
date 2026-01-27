@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { z } from "zod";
-import { OfficeGenerationService } from "@/application/services/office/OfficeGenerationService";
+import { OfficeGenerationService } from "@/modules/office/services/OfficeGenerationService.js";
 import { BaseHandler } from "@/presentation/api/handlers/base/BaseHandler";
 
 // Validation Schemas
@@ -68,7 +68,7 @@ export class OfficeHandler extends BaseHandler {
       res,
       async () => {
         const type = req.query.type as string | undefined;
-        const templates = await this.officeGenerationService.getTemplates(type);
+        const templates = await this.officeGenerationService.getTemplates(type as string || "all");
         this.ok(res, {
           templates,
           count: templates.length,

@@ -18,6 +18,7 @@ export default defineConfig(({ mode }) => {
         '@/presentation': path.resolve(__dirname, './src/presentation'),
         '@': path.resolve(__dirname, './src'),
       },
+      dedupe: ['react', 'react-dom', 'react-router-dom'],
     },
     css: {
       preprocessorOptions: {

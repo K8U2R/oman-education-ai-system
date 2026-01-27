@@ -12,9 +12,13 @@
 ## القائمة البيضاء (المسموح ✅)
 
 - تسجيل الخدمات المكتملة فقط.
+- استخدام "أغلفة صلبة" (Empty Classes) للخدمات المستقبلية بدلاً من `any`.
 - تعليق (Comment out) الخدمات قيد التطوير.
 
 ## القائمة السوداء (المحظور ❌)
+
+- استخدام `new Service()` داخل الـ Constructor (Hard Dependency).
+- استخدام `null as any` أو `[key: string]: any` للخدمات غير المكتملة.
 
 ```typescript
 new NotificationHandler(null as any)

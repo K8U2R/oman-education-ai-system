@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { ChangelogService } from "@/application/services/system/changelog/ChangelogService.js";
+import { ChangelogService } from "@/modules/support/changelog/changelog.service.js";
 import { BaseHandler } from "@/presentation/api/handlers/base/BaseHandler.js";
 import { CreateChangelogSchema } from "@/presentation/api/dto/system/changelog/create-changelog.dto.js";
 

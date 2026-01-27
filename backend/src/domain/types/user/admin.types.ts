@@ -9,7 +9,7 @@ import type {
   LogLevel,
   Metadata,
   PaginationRequest,
-} from "../../../shared/common.types.js";
+} from "../shared/common.types.js";
 
 /**
  * إحصائيات النظام

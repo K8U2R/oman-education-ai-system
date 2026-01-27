@@ -52,31 +52,31 @@ export const ModalLayout: React.FC<ModalLayoutProps> = ({
 
                     {/* Backdrop with Blur - OKLCH */}
                     <motion.div
-                        className="modal__backdrop absolute inset-0"
+                        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
                         variants={backdropVariants}
                         onClick={onClose}
                     />
 
                     {/* Modal Content container - OKLCH Theme-aware */}
                     <motion.div
-                        className="modal__container relative w-full max-w-lg pointer-events-auto"
+                        className="relative w-full max-w-lg pointer-events-auto bg-bg-surface rounded-2xl shadow-xl border border-border-primary overflow-hidden"
                         variants={modalVariants}
                     >
                         {/* Header */}
-                        <div className="modal__header">
-                            <h3 className="modal__title">
+                        <div className="flex items-center justify-between px-6 py-4 border-b border-border-secondary bg-bg-surface">
+                            <h3 className="text-xl font-bold text-text-primary">
                                 {title || 'Oman AI System'}
                             </h3>
                             <button
                                 onClick={onClose}
-                                className="modal__close-button"
+                                className="text-text-secondary hover:text-error transition-colors p-1 rounded-md hover:bg-bg-tertiary"
                             >
                                 <X size={20} />
                             </button>
                         </div>
 
                         {/* Scrollable Content */}
-                        <div className="modal__content">
+                        <div className="p-6 overflow-y-auto max-h-[80vh] text-text-primary">
                             {children}
                         </div>
                     </motion.div>

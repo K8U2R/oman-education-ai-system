@@ -1,85 +1,74 @@
-import { container } from "../Container.js";
-import { TokenService, AuthService } from "../../../application/services/auth/index.js";
-import { AuthRepository } from "../../repositories/AuthRepository.js";
-import { RefreshTokenRepository } from "../../repositories/RefreshTokenRepository.js";
-import { VerificationTokenRepository } from "../../repositories/VerificationTokenRepository.js";
-import { UserRepository } from "../../repositories/UserRepository.js";
-import { GoogleOAuthRepository } from "../../repositories/GoogleOAuthRepository.js";
-import { WhitelistRepository } from "../../repositories/WhitelistRepository.js";
-import { AuthHandler } from "../../../presentation/api/handlers/auth/AuthHandler.js";
-import { UserHandler } from "../../../presentation/api/handlers/user/UserHandler.js";
+import { container } from "@/infrastructure/di/Container.js";
+import { DatabaseCoreAdapter } from "@/infrastructure/adapters/db/DatabaseCoreAdapter.js";
+import { AuthService } from "@/modules/auth/services/AuthService.js";
+import { TokenService } from "@/modules/auth/services/TokenService.js";
+import { GoogleOAuthService } from "@/modules/auth/services/GoogleOAuthService.js";
+import { OAuthStateService } from "@/modules/auth/services/OAuthStateService.js";
+import { WhitelistService } from "@/modules/auth/services/WhitelistService.js";
+import { AuthController } from "@/modules/auth/controllers/auth.controller.js";
+import { WhitelistController } from "@/modules/auth/controllers/whitelist.controller.js";
+import { IAuthRepository } from "@/domain/interfaces/repositories/auth/identity/IAuthRepository.js";
+// Auth Repository
+import { AuthRepository } from "@/infrastructure/repositories/AuthRepository.js";
+import { RefreshTokenRepository } from "@/infrastructure/repositories/RefreshTokenRepository.js";
+import { IRefreshTokenRepository } from "@/domain/interfaces/repositories/auth/tokens/IRefreshTokenRepository.js";
 
-/**
- * Auth Module - وحدة الهوية والتحقق
- * Handles registration of authentication, users, and session security.
- */
 export function registerAuthModule(): void {
-    // Services
-    container.register("TokenService", () => new TokenService(), "singleton");
-
-    container.register(
-        "AuthService",
-        (c) =>
-            new AuthService(
-                c.resolve("AuthRepository"),
-                c.resolve("DatabaseAdapter"),
-                c.resolve("TokenService"),
-            ),
-        "singleton",
-    );
+    // -----------------------------------------------------
+    // Cluster 1: Authentication & Security (Modules/Auth)
+    // -----------------------------------------------------
 
     // Repositories
-    container.register(
-        "UserRepository",
-        (c) => new UserRepository(c.resolve("DatabaseAdapter")),
-        "transient",
-    );
+    container.registerFactory("IRefreshTokenRepository", () => {
+        const db = new DatabaseCoreAdapter();
+        // Assuming RefreshTokenRepository is found in infrastructure/repositories and imported below/above
+        return new RefreshTokenRepository(db);
+    });
 
-    container.register(
-        "RefreshTokenRepository",
-        (c) => new RefreshTokenRepository(c.resolve("DatabaseAdapter")),
-        "transient",
-    );
+    container.registerFactory("IAuthRepository", () => {
+        const db = new DatabaseCoreAdapter();
+        const tokenService = container.resolve<TokenService>("TokenService");
+        const refreshTokenRepo = container.resolve<IRefreshTokenRepository>("IRefreshTokenRepository");
+        return new AuthRepository(db, tokenService, refreshTokenRepo);
+    });
 
-    container.register(
-        "VerificationTokenRepository",
-        (c) => new VerificationTokenRepository(c.resolve("DatabaseAdapter")),
-        "transient",
-    );
+    // Services
+    container.registerFactory("TokenService", () => {
+        return new TokenService();
+    });
 
-    container.register(
-        "AuthRepository",
-        (c) =>
-            new AuthRepository(
-                c.resolve("DatabaseAdapter"),
-                c.resolve("TokenService"),
-                c.resolve("RefreshTokenRepository"),
-            ),
-        "transient",
-    );
+    container.registerFactory("AuthService", () => {
+        const repo = container.resolve<IAuthRepository>("IAuthRepository");
+        const db = new DatabaseCoreAdapter();
+        const tokenService = container.resolve<TokenService>("TokenService");
+        return new AuthService(repo, db, tokenService);
+    });
 
-    container.register(
-        "GoogleOAuthRepository",
-        (c) => new GoogleOAuthRepository(c.resolve("DatabaseAdapter")),
-        "transient",
-    );
+    container.registerFactory("GoogleOAuthService", () => {
+        const db = new DatabaseCoreAdapter();
+        return new GoogleOAuthService(db);
+    });
 
-    container.register(
-        "WhitelistRepository",
-        (c) => new WhitelistRepository(c.resolve("DatabaseAdapter")),
-        "transient",
-    );
+    container.registerFactory("OAuthStateService", () => {
+        const db = new DatabaseCoreAdapter();
+        return new OAuthStateService(db);
+    });
 
-    // Handlers
-    container.register(
-        "AuthHandler",
-        (c) => new AuthHandler(c.resolve("AuthService")),
-        "singleton",
-    );
+    container.registerFactory("WhitelistService", () => {
+        const db = new DatabaseCoreAdapter();
+        return new WhitelistService(db);
+    });
 
-    container.register(
-        "UserHandler",
-        (c) => new UserHandler(c.resolve("UserRepository")),
-        "singleton",
-    );
+    // Controllers
+    container.registerFactory("AuthController", () => {
+        const service = container.resolve<AuthService>("AuthService");
+        return new AuthController(service);
+    });
+
+    container.registerFactory("WhitelistController", () => {
+        const service = container.resolve<WhitelistService>("WhitelistService");
+        return new WhitelistController(service);
+    });
+
+    console.log("🔐 Auth Module Registered");
 }

@@ -144,6 +144,34 @@ $radius: (
         --sidebar-collapsed-width: 64px;
         --footer-height: 80px;
 
+        // 5. Component Semantic Tokens (Expanded)
+        // Sidebar
+        --color-bg-sidebar: var(--color-bg-secondary);
+        --color-border-sidebar: var(--color-border-primary);
+        --color-text-sidebar-item: var(--color-text-secondary);
+        --color-bg-sidebar-item-hover: var(--color-bg-tertiary);
+        --color-bg-sidebar-item-active: var(--color-primary-100);
+        --color-text-sidebar-item-active: var(--color-primary-700);
+
+        // Header / Navbar
+        --color-bg-header: var(--color-bg-surface); // Usually translucent
+        --color-border-header: var(--color-border-primary);
+
+        // Footer
+        --color-bg-footer: var(--color-bg-secondary);
+        --color-text-footer: var(--color-text-tertiary);
+
+        // Menus & Dropdowns
+        --color-bg-menu: var(--color-bg-surface);
+        --color-border-menu: var(--color-border-primary);
+        --color-bg-menu-item-hover: var(--color-bg-tertiary);
+        --color-text-menu-item: var(--color-text-primary);
+
+        // Modals & Popups
+        --color-bg-modal-overlay: oklch(0 0 0 / 0.5); // Fixed overlay opacity
+        --color-bg-modal-surface: var(--color-bg-surface);
+        --color-border-modal: var(--color-border-primary);
+
         // Transition tokens
         --transition-base: 150ms ease;
         --transition-slow: 300ms ease;
@@ -229,6 +257,16 @@ $radius: (
             @each $key, $value in $dark-tokens {
                 --color-#{$key}: #{$value};
             }
+        }
+    }
+
+    // 🔥 CRITICAL FIX: Default Fallback to University Light Theme on :root
+    // This ensures variables exist even if 'theme-university' class is missing
+    :root {
+        $default-mode: map.get(map.get($themes-config, 'university'), 'light');
+
+        @each $key, $value in $default-mode {
+            --color-#{$key}: #{$value};
         }
     }
 }

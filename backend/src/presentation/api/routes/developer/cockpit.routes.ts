@@ -45,7 +45,7 @@ router.get("/logs", (req: Request, res: Response) => {
  * GET /api/v1/developer/cockpit/health
  * جلب بيانات الحالة (Prometheus / JSON)
  */
-router.get("/health", async (req: Request, res: Response) => {
+router.get("/health", async (_req: Request, res: Response) => {
     // سيتم توسيع هذا لاحقاً لجلب بيانات Prometheus
     res.json({
         success: true,

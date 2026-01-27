@@ -1,30 +1,39 @@
-/**
- * Main SCSS File - الملف الرئيسي للتصميم
- * 
- * يتم استيراد جميع ملفات SCSS هنا
- * 
- * ترتيب الاستيراد:
- * 1. Variables - المتغيرات الأساسية
- * 2. Mixins - الميكسينز (تعتمد على Variables)
- * 3. Themes - الثيمات (تعتمد على Variables)
- * 4. Global - الأنماط العامة (تعتمد على كل ما سبق)
- */
+// 1. Configuration & Helpers (MUST be first)
+@use './abstracts/variables';
+@use './abstracts/mixins';
+@use './abstracts/tokens';
 
-@use 'base/reset';
-@use 'base/typography';
-@use 'abstracts/mixins' as *;
-@use 'abstracts/tokens' as *;
-@use 'components/container';
-@use 'components/button';
-@use 'layouts/header';
-@use 'layouts/footer';
-@use 'layouts/app-shell';
-@use 'components/home-page';
-@use 'components/auth';
-@use 'components/toast';
-@use 'components/loading-overlay';
-@use 'components/modal';
-@use 'components/error-panel';
+// 2. Base Styles
+@use './base/reset';
+@use './base/typography';
 
-// Init Themes
-@include generate-themes;
+// 3. Theme
+@use './themes/theme';
+
+// 6. Components
+@use './components/button';
+@use './components/auth';
+@use './components/container';
+@use './components/error-panel';
+@use './components/home-page';
+@use './components/loading-overlay';
+@use './components/modal';
+@use './components/toast';
+@use './components/input';
+
+// 4. Vendor/Frameworks (Tailwind comes after config to access overrides if needed)
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+// Global Reset for Theme
+body {
+    background-color: var(--color-bg-app);
+    color: var(--color-text-main);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+// 5. Layouts & Components
+// @use './layouts/header';
+// @use './layouts/sidebar';
+// @use './layouts/footer';

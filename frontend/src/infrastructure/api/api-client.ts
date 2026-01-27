@@ -268,7 +268,7 @@ class ApiClient {
     try {
       // استخدام API_BASE_URL مباشرة لأنه يحتوي بالفعل على /api/v1
       const refreshUrl = API_BASE_URL.endsWith('/api/v1')
-        ? `${API_BASE_URL}/auth/refresh`
+        ? `${API_BASE_URL.replace(/\/api\/v1$/, '')}/api/v1/auth/refresh`
         : `${API_BASE_URL}/api/v1/auth/refresh`
       const response = await axios.post(refreshUrl, {
         refresh_token: refreshToken,

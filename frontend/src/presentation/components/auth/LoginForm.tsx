@@ -124,20 +124,20 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, isModal = false
                 />
 
                 <div className="login-page__options flex justify-between items-center">
-                    <label className="login-page__remember flex items-center gap-2">
-                        <input type="checkbox" className="rounded border-gray-300" />
-                        <span className="text-sm text-gray-600">تذكرني</span>
+                    <label className="login-page__remember flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" className="rounded border-border-primary text-primary-600 focus:ring-primary-500" />
+                        <span className="text-sm text-text-secondary">تذكرني</span>
                     </label>
                     {onForgotPassword ? (
                         <button
                             type="button"
                             onClick={onForgotPassword}
-                            className="text-sm text-primary-600 hover:underline"
+                            className="text-sm text-primary-600 hover:text-primary-500 hover:underline"
                         >
                             نسيت كلمة المرور؟
                         </button>
                     ) : (
-                        <Link to="/forgot-password" className="text-sm text-primary-600 hover:underline">
+                        <Link to="/forgot-password" className="text-sm text-primary-600 hover:text-primary-500 hover:underline">
                             نسيت كلمة المرور؟
                         </Link>
                     )}
@@ -150,15 +150,15 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, isModal = false
 
             <div className="login-page__oauth mt-6">
                 <div className="relative flex justify-center text-sm mb-4">
-                    <span className="bg-white px-2 text-gray-500">أو</span>
+                    <span className="bg-bg-surface px-2 text-text-secondary">أو</span>
                 </div>
                 <OAuthButtons isLoading={isLoading} />
             </div>
 
             {!isModal && (
-                <p className="mt-6 text-center text-sm text-gray-600">
+                <p className="mt-6 text-center text-sm text-text-secondary">
                     ليس لديك حساب؟{' '}
-                    <Link to="/register" className="text-primary-600 font-medium hover:underline">
+                    <Link to="/register" className="text-primary-600 font-medium hover:text-primary-500 hover:underline">
                         إنشاء حساب جديد
                     </Link>
                 </p>

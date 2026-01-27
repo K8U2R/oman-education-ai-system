@@ -1,7 +1,7 @@
 import { IntentAnalyzer } from "../intents/IntentAnalyzer";
 import { MessageInput, IntentAnalysisResult, UserContext } from "../types";
 import { logger } from "@/shared/utils/logger";
-import { KnowledgeBaseService } from "@/application/services/knowledge/KnowledgeBaseService";
+import { KnowledgeBaseService } from "@/application/services/index.js";
 
 import { EducatorAgent } from "@/application/core/ai-kernel/agents/educator/EducatorAgent";
 import { DeveloperAgent } from "@/application/core/ai-kernel/agents/developer/DeveloperAgent";
@@ -73,7 +73,7 @@ export class AgentDispatcher {
       typeof agentResponse === "string"
         ? agentResponse
         : (agentResponse as { explanation?: string }).explanation ||
-            JSON.stringify(agentResponse),
+        JSON.stringify(agentResponse),
     );
 
     const updatedContext = await this.memoryManager.updateContext(

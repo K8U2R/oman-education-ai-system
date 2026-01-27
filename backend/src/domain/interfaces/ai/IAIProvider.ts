@@ -71,9 +71,24 @@ export interface IAIProvider {
   generateEmbedding(text: string): Promise<number[]>;
 
   /**
-   * فحص الصحة
+   * Health Check (Simple)
    */
-  healthCheck(): Promise<{ status: "healthy" | "unhealthy"; message?: string }>;
+  checkHealth(): Promise<boolean>;
+
+  /**
+   * Check Health (Rich)
+   */
+  healthCheck(): Promise<{ status: "healthy" | "unhealthy"; message?: string } | string>;
+
+  /**
+   * Generate Text (Legacy/Simple)
+   */
+  generateText(prompt: string, options?: any): Promise<string>;
+
+  /**
+   * Generate JSON
+   */
+  generateJson<T>(prompt: string, schema: object, options?: any): Promise<T>;
 
   /**
    * اسم المزود

@@ -15,7 +15,7 @@ import { LoginResponse } from "@/domain";
 import { logger } from "@/shared/common";
 
 export class HandleGoogleOAuthCallbackUseCase {
-  constructor(private readonly googleOAuthService: GoogleOAuthService) {}
+  constructor(private readonly googleOAuthService: GoogleOAuthService) { }
 
   /**
    * Execute use case
@@ -49,10 +49,10 @@ export class HandleGoogleOAuthCallbackUseCase {
       state: state.substring(0, 10) + "...",
     });
 
-    return await this.googleOAuthService.handleCallback(
+    return await this.googleOAuthService.handleCallbackWithVerifier(
       code,
-      state,
       codeVerifier,
-    );
+      state
+    ) as unknown as LoginResponse & { redirectTo: string };
   }
 }

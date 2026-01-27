@@ -24,19 +24,19 @@ export enum ChangelogType {
 export class CreateChangelogDto {
     @IsString({ message: 'يجب أن يكون الإصدار نصاً' })
     @IsNotEmpty({ message: 'رقم الإصدار مطلوب' })
-    version: string;
+    version!: string;
 
     @IsEnum(ChangelogType, { message: 'نوع التغيير غير مدعوم' })
     @IsNotEmpty({ message: 'نوع التغيير مطلوب' })
-    type: ChangelogType;
+    type!: ChangelogType;
 
     @IsString({ message: 'يجب أن يكون اسم الوحدة نصاً' })
     @IsNotEmpty({ message: 'اسم الوحدة (Module) مطلوب' })
-    module: string;
+    module!: string;
 
     @IsString({ message: 'يجب أن يكون الوصف نصاً' })
     @IsNotEmpty({ message: 'وصف التغيير مطلوب' })
-    description: string;
+    description!: string;
 
     @IsOptional()
     @IsString()

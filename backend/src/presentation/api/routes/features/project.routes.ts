@@ -10,7 +10,7 @@
  */
 
 import { RouteFactory } from "../shared/route-factory.js";
-import { ProjectHandler } from "../../handlers/content/project.handler.js";
+import { ProjectController } from "@/modules/education/controllers/project.controller.js";
 import { authMiddleware } from "../../middleware/security/index.js";
 
 const router = RouteFactory.createFeatureRouter();
@@ -75,8 +75,8 @@ const router = RouteFactory.createFeatureRouter();
  */
 router.get(
   "/",
-  ...RouteFactory.createAuthenticatedRoute<ProjectHandler>(
-    "ProjectHandler",
+  ...RouteFactory.createAuthenticatedRoute<ProjectController>(
+    "ProjectController",
     "getProjects",
     authMiddleware.authenticate,
   ),
@@ -109,8 +109,8 @@ router.get(
  */
 router.get(
   "/stats",
-  ...RouteFactory.createAuthenticatedRoute<ProjectHandler>(
-    "ProjectHandler",
+  ...RouteFactory.createAuthenticatedRoute<ProjectController>(
+    "ProjectController",
     "getProjectProgress",
     authMiddleware.authenticate,
   ),
@@ -157,8 +157,8 @@ router.get(
  */
 router.get(
   "/:id",
-  ...RouteFactory.createAuthenticatedRoute<ProjectHandler>(
-    "ProjectHandler",
+  ...RouteFactory.createAuthenticatedRoute<ProjectController>(
+    "ProjectController",
     "getProject",
     authMiddleware.authenticate,
   ),
@@ -197,8 +197,8 @@ router.get(
  */
 router.post(
   "/",
-  ...RouteFactory.createAuthenticatedRoute<ProjectHandler>(
-    "ProjectHandler",
+  ...RouteFactory.createAuthenticatedRoute<ProjectController>(
+    "ProjectController",
     "createProject",
     authMiddleware.authenticate,
   ),
@@ -250,8 +250,8 @@ router.post(
  */
 router.put(
   "/:id",
-  ...RouteFactory.createAuthenticatedRoute<ProjectHandler>(
-    "ProjectHandler",
+  ...RouteFactory.createAuthenticatedRoute<ProjectController>(
+    "ProjectController",
     "updateProject",
     authMiddleware.authenticate,
   ),
@@ -284,8 +284,8 @@ router.put(
  */
 router.delete(
   "/:id",
-  ...RouteFactory.createAuthenticatedRoute<ProjectHandler>(
-    "ProjectHandler",
+  ...RouteFactory.createAuthenticatedRoute<ProjectController>(
+    "ProjectController",
     "deleteProject",
     authMiddleware.authenticate,
   ),
@@ -331,8 +331,8 @@ router.delete(
  */
 router.get(
   "/:id/progress",
-  ...RouteFactory.createAuthenticatedRoute<ProjectHandler>(
-    "ProjectHandler",
+  ...RouteFactory.createAuthenticatedRoute<ProjectController>(
+    "ProjectController",
     "getProjectProgress",
     authMiddleware.authenticate,
   ),

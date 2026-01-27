@@ -32,7 +32,7 @@ import {
   RegistrationFailedError,
 } from "@/domain/exceptions";
 import { DatabaseCoreAdapter } from "../adapters/db/DatabaseCoreAdapter";
-import { TokenService } from "@/application/services/auth";
+import { TokenService } from "@/modules/auth/services/TokenService.js";
 import { Password, type HashedPassword } from "@/domain/value-objects/Password";
 import { logger } from "@/shared/utils/logger";
 import { DatabaseQueryConditions, DatabaseQueryOptions } from "@/domain/types";
@@ -50,7 +50,7 @@ export class AuthRepository implements IAuthRepository {
     private readonly databaseAdapter: DatabaseCoreAdapter,
     private readonly tokenService: TokenService,
     private readonly refreshTokenRepository: IRefreshTokenRepository,
-  ) {}
+  ) { }
 
   /**
    * البحث عن مستخدمين باستخدام شروط قاعدة البيانات
@@ -64,12 +64,12 @@ export class AuthRepository implements IAuthRepository {
   ): Promise<UserData[]> {
     const adapterOptions = options
       ? {
-          limit: options.limit,
-          offset: options.offset,
-          orderBy: Array.isArray(options.orderBy)
-            ? options.orderBy[0]
-            : options.orderBy,
-        }
+        limit: options.limit,
+        offset: options.offset,
+        orderBy: Array.isArray(options.orderBy)
+          ? options.orderBy[0]
+          : options.orderBy,
+      }
       : undefined;
 
     return this.databaseAdapter.find<UserData>(

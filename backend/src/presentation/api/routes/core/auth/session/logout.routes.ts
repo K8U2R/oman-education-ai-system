@@ -5,7 +5,7 @@
  */
 
 import { RouteFactory } from "../../../shared/route-factory.js";
-import { AuthHandler } from "../../../../handlers/auth/index.js";
+import { AuthController } from "@/modules/auth/controllers/auth.controller.js";
 import { authMiddleware } from "../../../../middleware/security/index.js";
 
 const router = RouteFactory.createFeatureRouter();
@@ -25,8 +25,8 @@ const router = RouteFactory.createFeatureRouter();
  */
 router.post(
     "/logout",
-    ...RouteFactory.createAuthenticatedRoute<AuthHandler>(
-        "AuthHandler",
+    ...RouteFactory.createAuthenticatedRoute<AuthController>(
+        "AuthController",
         "logout",
         authMiddleware.authenticate,
     ),
@@ -47,8 +47,8 @@ router.post(
  */
 router.post(
     "/logout-all",
-    ...RouteFactory.createAuthenticatedRoute<AuthHandler>(
-        "AuthHandler",
+    ...RouteFactory.createAuthenticatedRoute<AuthController>(
+        "AuthController",
         "logoutAll",
         authMiddleware.authenticate,
     ),

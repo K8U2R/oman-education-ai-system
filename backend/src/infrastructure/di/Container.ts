@@ -34,6 +34,33 @@ export class Container {
   }
 
   /**
+   * Register a singleton service
+   */
+  registerSingleton<T>(key: string, constructorOrFactory: { new(...args: unknown[]): T } | ServiceFactory<T>): void {
+    let factory: ServiceFactory<T>;
+
+    if (this.isConstructor(constructorOrFactory)) {
+      const Constructor = constructorOrFactory as { new(...args: unknown[]): T };
+      factory = () => new Constructor();
+    } else {
+      factory = constructorOrFactory as ServiceFactory<T>;
+    }
+
+    this.register(key, factory, "singleton");
+  }
+
+  /**
+   * Register a factory (transient) service
+   */
+  registerFactory<T>(key: string, factory: ServiceFactory<T>): void {
+    this.register(key, factory, "transient");
+  }
+
+  private isConstructor(obj: unknown): boolean {
+    return !!(obj as { prototype?: { constructor?: { name?: string } } })?.prototype?.constructor?.name;
+  }
+
+  /**
    * Resolve a service
    */
   resolve<T>(key: string): T {

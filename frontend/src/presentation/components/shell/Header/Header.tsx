@@ -51,16 +51,16 @@ export const Header: React.FC<HeaderProps> = React.memo(
         isSidebarCollapsed,
       })
 
-    const headerClasses = React.useMemo(
-      () => cn('header', variant && `header--${variant}`, className),
-      [variant, className]
-    )
-
     return (
       <>
-        <header className={headerClasses}>
-          <div className="header__container">
-            <div className="header__content">
+        <header className={cn(
+          'sticky top-0 z-[1020] h-[var(--header-height)] w-full transition-all duration-300',
+          'bg-bg-surface/80 backdrop-blur-md border-b border-border-secondary',
+          variant && `header--${variant}`,
+          className
+        )}>
+          <div className="h-full max-w-[var(--container-max-width)] mx-auto px-[var(--container-padding)]">
+            <div className="h-full flex items-center justify-between gap-4">
               {/* Controls (Mobile Menu + Sidebar Toggle) */}
               <HeaderControls
                 onSidebarToggle={handleSidebarToggle}
@@ -76,17 +76,19 @@ export const Header: React.FC<HeaderProps> = React.memo(
               />
 
               {/* Navigation */}
-              <nav className="header__nav">
+              <nav className="flex items-center gap-4 flex-1 justify-end">
                 {isAuthenticated ? (
                   <>
                     {/* Search Bar */}
-                    <HeaderSearch />
+                    <div className="hidden md:block flex-1 max-w-md mx-4">
+                      <HeaderSearch />
+                    </div>
 
                     {/* Actions (AIStatusIndicator, Notifications, ProfileMenu) */}
                     <HeaderActions />
                   </>
                 ) : (
-                  <HeaderNavigation items={UNAUTHENTICATED_NAV_ITEMS} isAuthenticated={false} />
+                  <HeaderNavigation items={UNAUTHENTICATED_NAV_ITEMS} isAuthenticated={false} className="hidden md:flex" />
                 )}
               </nav>
             </div>

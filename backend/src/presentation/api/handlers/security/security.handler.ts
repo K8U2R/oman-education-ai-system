@@ -5,7 +5,7 @@
  */
 
 import { Request, Response } from "express";
-import { SecurityService } from "@/application/services/security/SecurityService.js";
+import { SecurityService } from "@/modules/security/index.js";
 import { BaseHandler } from "@/presentation/api/handlers/base/BaseHandler.js";
 import {
   CreateRouteProtectionRuleRequest as CreateRouteProtectionRuleDTO,
@@ -84,7 +84,7 @@ export class SecurityHandler extends BaseHandler {
           // Simplified CSV conversion
           const csv = logs
             .map(
-              (l) =>
+              (l: any) =>
                 `${l.id},${l.eventType},${l.severity},${l.userId},${l.createdAt}`,
             )
             .join("\n");

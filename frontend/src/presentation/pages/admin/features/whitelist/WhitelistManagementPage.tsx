@@ -146,7 +146,7 @@ const WhitelistManagementPage: React.FC = () => {
       description="إدارة  المتقدمة للمستخدمين المصرح لهم"
       icon={<Shield />}
       actions={
-        <div style={{ display: 'flex', gap: '8px' }}>
+        <div className="flex gap-2">
           <Button variant="ghost" size="sm" onClick={refresh} leftIcon={<RefreshCw />}>
             تحديث
           </Button>

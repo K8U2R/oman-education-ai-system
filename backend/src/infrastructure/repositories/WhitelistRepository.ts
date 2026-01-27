@@ -9,7 +9,7 @@ import {
   IWhitelistRepository,
   CreateWhitelistEntryInput,
   UpdateWhitelistEntryInput,
-} from "../../domain/interfaces/repositories/IWhitelistRepository";
+} from "@/domain/interfaces/repositories/auth/access/IWhitelistRepository.js";
 import { WhitelistEntry } from "../../domain/entities/WhitelistEntry";
 import { DatabaseCoreAdapter } from "../adapters/db/DatabaseCoreAdapter";
 import { BaseRepository } from "./BaseRepository";
@@ -36,8 +36,7 @@ interface WhitelistEntryDBData {
 
 export class WhitelistRepository
   extends BaseRepository
-  implements IWhitelistRepository
-{
+  implements IWhitelistRepository {
   constructor(databaseAdapter: DatabaseCoreAdapter) {
     super(databaseAdapter);
   }

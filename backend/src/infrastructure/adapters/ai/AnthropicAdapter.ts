@@ -241,4 +241,32 @@ Provide only the code without explanations unless specifically asked.`;
       throw error;
     }
   }
+  // --- IAIProvider Implementation ---
+
+  async checkHealth(): Promise<boolean> {
+    const status = await this.healthCheck();
+    return status === "healthy";
+  }
+
+  async generateEmbedding(_text: string): Promise<number[]> {
+    // Anthropic doesn't support embeddings natively in the same way, stubbing
+    return [0.0, 0.0, 0.0];
+  }
+
+  async generateText(prompt: string): Promise<string> {
+    const response = await this.chatCompletion({
+      messages: [{ role: 'user', content: prompt }],
+      model: this.defaultModel
+    });
+    return response.content;
+  }
+
+  async generateJson<T>(prompt: string, schema: object): Promise<T> {
+    const response = await this.generateText(prompt + "\n Return JSON matching: " + JSON.stringify(schema));
+    try {
+      return JSON.parse(response) as T;
+    } catch {
+      throw new Error("Failed to parse JSON");
+    }
+  }
 }

@@ -31,6 +31,7 @@ class ApiClient {
       headers: {
         'Content-Type': 'application/json',
       },
+      withCredentials: true, // Enable cross-origin cookies for Auth
       timeout: 30000,
     })
 

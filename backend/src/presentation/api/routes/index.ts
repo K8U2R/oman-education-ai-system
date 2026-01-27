@@ -17,6 +17,7 @@ import aiRoutes from "./features/ai/index.js";
 import storageRoutes from "./features/storage/storage.routes.js";
 import projectRoutes from "./features/project.routes.js";
 import notificationRoutes from "./features/notifications/notification.routes.js";
+import educationRoutes from "./education.routes.js"; // Standardized
 
 // === ADMIN ROUTES ===
 import adminRoutes from "./admin/index.js";
@@ -50,6 +51,7 @@ coreRouter.use("/content", contentManagementRoutes);
 coreRouter.use("/projects", projectRoutes);
 coreRouter.use("/storage", storageRoutes);
 coreRouter.use("/notifications", notificationRoutes);
+coreRouter.use("/education", educationRoutes);
 
 // Admin & Developer
 coreRouter.use("/admin", adminRoutes);

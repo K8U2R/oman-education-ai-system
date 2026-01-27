@@ -5,7 +5,7 @@
  */
 
 import { RouteFactory } from "../shared/route-factory.js";
-import { AdminHandler } from "../../handlers/admin/admin.handler.js";
+import { AdminController } from "../../../../modules/user/controllers/admin.controller.js";
 import { authMiddleware, requireAdmin } from "../../middleware/security/index.js";
 
 const router = RouteFactory.createFeatureRouter();
@@ -16,8 +16,8 @@ const router = RouteFactory.createFeatureRouter();
  */
 router.get(
   "/stats/system",
-  ...RouteFactory.createAdminRoute<AdminHandler>(
-    "AdminHandler",
+  ...RouteFactory.createAdminRoute<AdminController>(
+    "AdminController",
     "getSystemStats",
     authMiddleware.authenticate,
     requireAdmin,
@@ -30,8 +30,8 @@ router.get(
  */
 router.get(
   "/stats/users",
-  ...RouteFactory.createAdminRoute<AdminHandler>(
-    "AdminHandler",
+  ...RouteFactory.createAdminRoute<AdminController>(
+    "AdminController",
     "getUserStats",
     authMiddleware.authenticate,
     requireAdmin,
@@ -44,8 +44,8 @@ router.get(
  */
 router.get(
   "/stats/content",
-  ...RouteFactory.createAdminRoute<AdminHandler>(
-    "AdminHandler",
+  ...RouteFactory.createAdminRoute<AdminController>(
+    "AdminController",
     "getContentStats",
     authMiddleware.authenticate,
     requireAdmin,
@@ -58,8 +58,8 @@ router.get(
  */
 router.get(
   "/stats/usage",
-  ...RouteFactory.createAdminRoute<AdminHandler>(
-    "AdminHandler",
+  ...RouteFactory.createAdminRoute<AdminController>(
+    "AdminController",
     "getUsageStats",
     authMiddleware.authenticate,
     requireAdmin,
@@ -72,8 +72,8 @@ router.get(
  */
 router.get(
   "/users",
-  ...RouteFactory.createAdminRoute<AdminHandler>(
-    "AdminHandler",
+  ...RouteFactory.createAdminRoute<AdminController>(
+    "AdminController",
     "searchUsers",
     authMiddleware.authenticate,
     requireAdmin,
@@ -86,8 +86,8 @@ router.get(
  */
 router.put(
   "/users/:id",
-  ...RouteFactory.createAdminRoute<AdminHandler>(
-    "AdminHandler",
+  ...RouteFactory.createAdminRoute<AdminController>(
+    "AdminController",
     "updateUser",
     authMiddleware.authenticate,
     requireAdmin,
@@ -100,8 +100,8 @@ router.put(
  */
 router.delete(
   "/users/:id",
-  ...RouteFactory.createAdminRoute<AdminHandler>(
-    "AdminHandler",
+  ...RouteFactory.createAdminRoute<AdminController>(
+    "AdminController",
     "deleteUser",
     authMiddleware.authenticate,
     requireAdmin,
@@ -114,8 +114,8 @@ router.delete(
  */
 router.get(
   "/users/activities",
-  ...RouteFactory.createAdminRoute<AdminHandler>(
-    "AdminHandler",
+  ...RouteFactory.createAdminRoute<AdminController>(
+    "AdminController",
     "getUserActivities",
     authMiddleware.authenticate,
     requireAdmin,
@@ -126,14 +126,15 @@ router.get(
  * POST /admin/knowledge/ingest
  * Ingest curriculum knowledge (RAG)
  */
-router.post(
-  "/knowledge/ingest",
-  ...RouteFactory.createAdminRoute<AdminHandler>(
-    "AdminHandler",
-    "ingestKnowledge",
-    authMiddleware.authenticate,
-    requireAdmin,
-  ),
-);
+// router.post(
+//   "/knowledge/ingest",
+//   ...RouteFactory.createAdminRoute<AdminController>(
+//     "AdminController",
+//     // @ts-ignore - method not implemented yet
+//     "ingestKnowledge",
+//     authMiddleware.authenticate,
+//     requireAdmin,
+//   ),
+// );
 
 export default router;

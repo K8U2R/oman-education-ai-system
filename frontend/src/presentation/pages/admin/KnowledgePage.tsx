@@ -48,42 +48,42 @@ export const KnowledgePage: React.FC = () => {
     return (
         <div className="p-6 max-w-4xl mx-auto space-y-6 animate-fade-in-up">
             <header className="mb-8">
-                <h1 className="text-3xl font-bold text-gray-900 mb-2">إدارة المعرفة</h1>
-                <p className="text-gray-600">
+                <h1 className="text-3xl font-bold text-text-primary mb-2">إدارة المعرفة</h1>
+                <p className="text-text-secondary">
                     تغذية الذكاء الاصطناعي بالمناهج والمصادر التعليمية.
                 </p>
             </header>
 
-            <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+            <div className="bg-bg-surface rounded-xl shadow-sm border border-border-primary p-6">
                 <h2 className="text-xl font-semibold mb-6 flex items-center gap-2">
                     <span className="text-primary-600">📚</span>
-                    إضافة مصدر جديد
+                    <span className="text-text-primary">إضافة مصدر جديد</span>
                 </h2>
 
                 <form onSubmit={handleIngest} className="space-y-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                            <label className="block text-sm font-medium text-text-primary mb-2">
                                 عنوان المصدر
                             </label>
                             <input
                                 type="text"
                                 value={title}
                                 onChange={(e) => setTitle(e.target.value)}
-                                className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all"
+                                className="w-full px-4 py-2 rounded-lg border border-border-primary bg-bg-app text-text-primary focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all"
                                 placeholder="مثال: كتاب الفيزياء للصف الثاني عشر"
                                 required
                             />
                         </div>
 
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                            <label className="block text-sm font-medium text-text-primary mb-2">
                                 التصنيف
                             </label>
                             <select
                                 value={category}
                                 onChange={(e) => setCategory(e.target.value)}
-                                className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all"
+                                className="w-full px-4 py-2 rounded-lg border border-border-primary bg-bg-app text-text-primary focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all"
                             >
                                 <option value="curriculum">منهج دراسي</option>
                                 <option value="reference">مرجع إضافي</option>
@@ -93,31 +93,31 @@ export const KnowledgePage: React.FC = () => {
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                        <label className="block text-sm font-medium text-text-primary mb-2">
                             المحتوى النصي
                         </label>
                         <textarea
                             value={content}
                             onChange={(e) => setContent(e.target.value)}
-                            className="w-full h-64 px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all font-mono text-sm"
+                            className="w-full h-64 px-4 py-2 rounded-lg border border-border-primary bg-bg-app text-text-primary focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all font-mono text-sm"
                             placeholder="انسخ والصق نص الكتاب أو الوحدة الدراسية هنا..."
                             required
                         />
-                        <p className="mt-2 text-xs text-gray-500">
+                        <p className="mt-2 text-xs text-text-tertiary">
                             سيقوم النظام بتقسيم النص تلقائياً إلى أجزاء صغيرة وفهرستها للبحث الدلالي.
                         </p>
                     </div>
 
                     {status && (
-                        <div className={`p-4 rounded-lg ${status.type === 'success' ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'}`}>
+                        <div className={`p-4 rounded-lg ${status.type === 'success' ? 'bg-success/10 text-success' : 'bg-error/10 text-error'}`}>
                             {status.message}
                         </div>
                     )}
 
-                    <div className="flex justify-end gap-3 pt-4 border-t border-gray-100">
+                    <div className="flex justify-end gap-3 pt-4 border-t border-border-secondary">
                         <button
                             type="button"
-                            className="px-6 py-2 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors"
+                            className="px-6 py-2 text-text-secondary hover:bg-bg-tertiary rounded-lg transition-colors"
                             onClick={() => { setTitle(''); setContent(''); }}
                         >
                             مسح

@@ -56,8 +56,8 @@ export const useDashboard = () => {
     loadingState,
     canAccessCloudStorage,
     greeting,
-    navigateToLessons,
-    navigateToStorage,
-    handleShortcut,
+    onNavigateToLessons: navigateToLessons,
+    onNavigateToStorage: navigateToStorage,
+    onShortcut: handleShortcut,
   }
 }

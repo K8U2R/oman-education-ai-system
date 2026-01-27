@@ -5,7 +5,7 @@
  */
 
 import { RouteFactory } from "../shared/route-factory.js";
-import { DeveloperHandler } from "../../handlers/admin/developer.handler.js";
+import { DeveloperController } from "@/modules/user/controllers/developer.controller.js";
 import { authMiddleware, requireDeveloper } from "../../middleware/security/index.js";
 
 const router = RouteFactory.createFeatureRouter();
@@ -16,8 +16,8 @@ const router = RouteFactory.createFeatureRouter();
  */
 router.get(
   "/stats",
-  ...RouteFactory.createAdminRoute<DeveloperHandler>(
-    "DeveloperHandler",
+  ...RouteFactory.createAdminRoute<DeveloperController>(
+    "DeveloperController",
     "getDeveloperStats",
     authMiddleware.authenticate,
     requireDeveloper,
@@ -30,8 +30,8 @@ router.get(
  */
 router.get(
   "/api-endpoints",
-  ...RouteFactory.createAdminRoute<DeveloperHandler>(
-    "DeveloperHandler",
+  ...RouteFactory.createAdminRoute<DeveloperController>(
+    "DeveloperController",
     "getAPIEndpoints",
     authMiddleware.authenticate,
     requireDeveloper,
@@ -44,8 +44,8 @@ router.get(
  */
 router.get(
   "/services",
-  ...RouteFactory.createAdminRoute<DeveloperHandler>(
-    "DeveloperHandler",
+  ...RouteFactory.createAdminRoute<DeveloperController>(
+    "DeveloperController",
     "getServices",
     authMiddleware.authenticate,
     requireDeveloper,
@@ -58,8 +58,8 @@ router.get(
  */
 router.get(
   "/performance",
-  ...RouteFactory.createAdminRoute<DeveloperHandler>(
-    "DeveloperHandler",
+  ...RouteFactory.createAdminRoute<DeveloperController>(
+    "DeveloperController",
     "getPerformanceMetrics",
     authMiddleware.authenticate,
     requireDeveloper,

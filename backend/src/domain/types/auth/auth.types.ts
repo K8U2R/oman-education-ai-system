@@ -286,3 +286,58 @@ export interface PermissionCheckResult {
   hasPermission: boolean;
   missingPermissions?: Permission[];
 }
+
+// ============================================================================
+// Google OAuth Types
+// ============================================================================
+
+export interface GoogleOAuthTokens {
+  access_token: string;
+  refresh_token: string;
+  token_type: string;
+  expires_in: number;
+}
+
+export interface GoogleUserProfile {
+  id: string;
+  email: string;
+  name: string;
+  picture?: string;
+}
+
+export interface GoogleOAuthCallbackResponse {
+  tokens: GoogleOAuthTokens;
+  user: GoogleUserProfile;
+}
+
+// ============================================================================
+// Whitelist Types
+// ============================================================================
+
+export type PermissionLevel = "developer" | "admin" | "super_admin";
+
+export interface WhitelistEntry {
+  id: string;
+  email: string;
+  permission_level: PermissionLevel;
+  permissions: string[];
+  granted_by: string | null;
+  granted_at: Date;
+  expires_at: Date | null;
+  is_active: boolean;
+  is_permanent: boolean;
+  notes: string | null;
+  created_at: Date;
+  updated_at: Date;
+}
+
+export interface WhitelistFilter {
+  is_active?: boolean;
+  permission_level?: PermissionLevel;
+  include_expired?: boolean;
+}
+
+export interface WhitelistEntryData {
+  toData: () => WhitelistEntry;
+}
+

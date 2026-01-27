@@ -57,22 +57,22 @@ const HomePage: React.FC = () => {
 
   const features = [
     {
-      icon: <Code className="w-8 h-8" />,
+      icon: <Code className="w-8 h-8 text-primary-500" />,
       title: 'توليد الكود',
       description: 'استخدم الذكاء الاصطناعي لتوليد كود احترافي بسرعة',
     },
     {
-      icon: <BookOpen className="w-8 h-8" />,
+      icon: <BookOpen className="w-8 h-8 text-primary-500" />,
       title: 'مساعد التعلم',
       description: 'احصل على مساعدة ذكية في فهم المفاهيم البرمجية',
     },
     {
-      icon: <Rocket className="w-8 h-8" />,
+      icon: <Rocket className="w-8 h-8 text-primary-500" />,
       title: 'بناء المشاريع',
       description: 'أنشئ مشاريع كاملة من الصفر باستخدام AI',
     },
     {
-      icon: <Sparkles className="w-8 h-8" />,
+      icon: <Sparkles className="w-8 h-8 text-primary-500" />,
       title: 'تصميم الويب',
       description: ' صمم واجهات ويب احترافية بمساعدة الذكاء الاصطناعي',
     },
@@ -80,17 +80,17 @@ const HomePage: React.FC = () => {
 
   const whyUsReasons = [
     {
-      icon: <Shield className="home-page__why-us-icon" />,
+      icon: <Shield className="w-12 h-12 text-secondary-500 mb-4" />,
       title: 'آمن وموثوق',
       description: 'نستخدم أحدث تقنيات الأمان مع Supabase Authentication',
     },
     {
-      icon: <Zap className="home-page__why-us-icon" />,
+      icon: <Zap className="w-12 h-12 text-secondary-500 mb-4" />,
       title: 'سريع وفعال',
       description: 'أداء عالي وتجربة مستخدم سلسة وسريعة',
     },
     {
-      icon: <Sparkles className="home-page__why-us-icon" />,
+      icon: <Sparkles className="w-12 h-12 text-secondary-500 mb-4" />,
       title: 'ذكاء اصطناعي متقدم',
       description: 'أحدث تقنيات AI لتحسين تجربة التعلم',
     },
@@ -99,39 +99,42 @@ const HomePage: React.FC = () => {
   // Authenticated user view
   if (!isLoading && isAuthenticated && user) {
     return (
-      <div className="home-page">
+      <div className="min-h-screen bg-bg-app text-text-primary">
         {/* Hero Section للمستخدمين المسجلين */}
         <motion.section
           ref={heroRef}
-          className="home-page__hero home-page__hero--authenticated"
+          className="relative py-20 px-6 overflow-hidden md:py-32"
           initial="hidden"
           animate={heroInView ? 'visible' : 'hidden'}
           variants={staggerContainer}
         >
-          <div className="home-page__hero-content">
-            <motion.h1 className="home-page__hero-title" variants={fadeInUp}>
+          {/* Background Gradient Blob */}
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-primary-500/10 rounded-full blur-3xl -z-10" />
+
+          <div className="max-w-5xl mx-auto text-center relative z-10">
+            <motion.h1 className="text-4xl md:text-6xl font-bold mb-6 text-text-primary" variants={fadeInUp}>
               مرحباً بك، {user.fullName}
               <br />
-              <span style={{ color: 'var(--color-primary-200, #bfdbfe)' }}>
+              <span className="text-primary-600">
                 في نظام التعليم الذكي
               </span>
             </motion.h1>
-            <motion.p className="home-page__hero-description" variants={fadeInUp}>
+            <motion.p className="text-xl md:text-2xl text-text-secondary mb-10 max-w-3xl mx-auto" variants={fadeInUp}>
               ابدأ رحلتك التعليمية واستكشف جميع الميزات المتاحة لك
               <br />
               يمكنك الوصول إلى الدروس، المشاريع، التقييمات، والمزيد...
             </motion.p>
-            <motion.div className="home-page__hero-actions" variants={fadeInUp}>
+            <motion.div className="flex flex-col sm:flex-row gap-4 justify-center" variants={fadeInUp}>
               <motion.div whileHover="hover" whileTap={{ scale: 0.95 }} variants={scaleOnHover}>
                 <Button
-                  variant="secondary"
+                  variant="primary"
                   size="lg"
-                  className="home-page__hero-button home-page__hero-button--primary"
+                  className="w-full sm:w-auto gap-2"
                   onClick={() => navigate(ROUTES.DASHBOARD)}
                 >
-                  <LayoutDashboard className="home-page__hero-button-icon" />
+                  <LayoutDashboard className="w-5 h-5" />
                   الانتقال إلى لوحة التحكم
-                  <ArrowRight className="home-page__hero-button-icon" />
+                  <ArrowRight className="w-5 h-5" />
                 </Button>
               </motion.div>
               <Link to={ROUTES.LESSONS}>
@@ -139,9 +142,9 @@ const HomePage: React.FC = () => {
                   <Button
                     variant="outline"
                     size="lg"
-                    className="home-page__hero-button home-page__hero-button--outline"
+                    className="w-full sm:w-auto gap-2"
                   >
-                    <BookOpen className="home-page__hero-button-icon" />
+                    <BookOpen className="w-5 h-5" />
                     استكشف الدروس
                   </Button>
                 </motion.div>
@@ -151,10 +154,10 @@ const HomePage: React.FC = () => {
         </motion.section>
 
         {/* Quick Access Section */}
-        <section className="home-page__quick-access">
-          <div className="home-page__quick-access-container">
+        <section className="py-16 px-6 bg-bg-surface/50">
+          <div className="max-w-7xl mx-auto">
             <motion.h2
-              className="home-page__quick-access-title"
+              className="text-3xl font-bold text-center mb-12 text-text-primary"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
@@ -162,7 +165,7 @@ const HomePage: React.FC = () => {
               الوصول السريع
             </motion.h2>
             <motion.div
-              className="home-page__quick-access-grid"
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
               variants={staggerContainer}
               initial="hidden"
               animate="visible"
@@ -190,13 +193,17 @@ const HomePage: React.FC = () => {
               ].map((item, index) => (
                 <motion.div key={index} variants={fadeInUp}>
                   <Card
-                    className="home-page__quick-access-card"
+                    className="h-full border-border-secondary hover:border-primary-500/50 transition-colors bg-bg-surface"
                     hoverable
                     onClick={() => navigate(item.route)}
                   >
-                    <item.icon className="home-page__quick-access-icon" />
-                    <h3 className="home-page__quick-access-card-title">{item.title}</h3>
-                    <p className="home-page__quick-access-card-description">{item.desc}</p>
+                    <div className="p-6 flex flex-col items-center text-center">
+                      <div className="p-4 bg-primary-100/10 rounded-full text-primary-600 mb-4">
+                        <item.icon className="w-8 h-8" />
+                      </div>
+                      <h3 className="text-xl font-bold mb-2 text-text-primary">{item.title}</h3>
+                      <p className="text-text-secondary">{item.desc}</p>
+                    </div>
                   </Card>
                 </motion.div>
               ))}
@@ -207,26 +214,28 @@ const HomePage: React.FC = () => {
         {/* Features Section */}
         <motion.section
           ref={featuresRef}
-          className="home-page__features"
+          className="py-16 px-6"
           initial="hidden"
           animate={featuresInView ? 'visible' : 'hidden'}
           variants={staggerContainer}
         >
-          <div className="home-page__features-container">
-            <motion.div className="home-page__features-header" variants={fadeInUp}>
-              <h2 className="home-page__features-title">الميزات الرئيسية</h2>
-              <p className="home-page__features-subtitle">
+          <div className="max-w-7xl mx-auto">
+            <motion.div className="text-center mb-16" variants={fadeInUp}>
+              <h2 className="text-3xl font-bold mb-4 text-text-primary">الميزات الرئيسية</h2>
+              <p className="text-xl text-text-secondary">
                 اكتشف القوة الكاملة للذكاء الاصطناعي في التعليم
               </p>
             </motion.div>
 
-            <motion.div className="home-page__features-grid" variants={staggerContainer}>
+            <motion.div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8" variants={staggerContainer}>
               {features.map((feature, index) => (
                 <motion.div key={index} variants={fadeInUp}>
-                  <Card className="home-page__feature-card" hoverable>
-                    <div className="home-page__feature-icon">{feature.icon}</div>
-                    <h3 className="home-page__feature-title">{feature.title}</h3>
-                    <p className="home-page__feature-description">{feature.description}</p>
+                  <Card className="h-full border-border-secondary hover:border-primary-500/50 transition-colors bg-bg-surface" hoverable>
+                    <div className="p-6">
+                      <div className="mb-4">{feature.icon}</div>
+                      <h3 className="text-lg font-bold mb-2 text-text-primary">{feature.title}</h3>
+                      <p className="text-text-secondary">{feature.description}</p>
+                    </div>
                   </Card>
                 </motion.div>
               ))}
@@ -239,27 +248,31 @@ const HomePage: React.FC = () => {
 
   // Public user view
   return (
-    <div className="home-page">
+    <div className="min-h-screen bg-bg-app text-text-primary">
       {/* Hero Section */}
       <motion.section
         ref={heroRef}
-        className="home-page__hero"
+        className="relative py-20 px-6 overflow-hidden md:py-32"
         initial="hidden"
         animate={heroInView ? 'visible' : 'hidden'}
         variants={staggerContainer}
       >
-        <div className="home-page__hero-content">
-          <motion.h1 className="home-page__hero-title" variants={fadeInUp}>
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-primary-500/10 rounded-full blur-3xl -z-10" />
+
+        <div className="max-w-5xl mx-auto text-center relative z-10">
+          <motion.h1 className="text-5xl md:text-7xl font-bold mb-8 text-text-primary tracking-tight" variants={fadeInUp}>
             نظام التعليم الذكي
             <br />
-            <span>Oman Education AI System</span>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-500 to-secondary-500">
+              Oman Education AI System
+            </span>
           </motion.h1>
-          <motion.p className="home-page__hero-description" variants={fadeInUp}>
+          <motion.p className="text-xl md:text-2xl text-text-secondary mb-12 max-w-3xl mx-auto leading-relaxed" variants={fadeInUp}>
             نظام تعليمي متكامل يعتمد على الذكاء الاصطناعي لتطوير المهارات التقنية
             <br />
             يدعم توليد الكود، مساعدة التعلم، بناء المشاريع، تصميم الويب، وأكثر...
           </motion.p>
-          <motion.div className="home-page__hero-actions" variants={fadeInUp}>
+          <motion.div className="flex flex-col sm:flex-row gap-4 justify-center" variants={fadeInUp}>
             <motion.div
               whileHover="hover"
               whileTap={{ scale: 0.95 }}
@@ -267,9 +280,9 @@ const HomePage: React.FC = () => {
               onClick={() => useModalStore.getState().open('register')}
             >
               <Button
-                variant="secondary"
+                variant="primary"
                 size="lg"
-                className="home-page__hero-button home-page__hero-button--primary"
+                className="w-full sm:w-auto px-8 py-6 text-lg"
               >
                 ابدأ الآن مجاناً
               </Button>
@@ -283,7 +296,7 @@ const HomePage: React.FC = () => {
               <Button
                 variant="outline"
                 size="lg"
-                className="home-page__hero-button home-page__hero-button--outline"
+                className="w-full sm:w-auto px-8 py-6 text-lg"
               >
                 تسجيل الدخول
               </Button>
@@ -295,26 +308,28 @@ const HomePage: React.FC = () => {
       {/* Features Section */}
       <motion.section
         ref={featuresRef}
-        className="home-page__features"
+        className="py-20 px-6 bg-bg-surface/50"
         initial="hidden"
         animate={featuresInView ? 'visible' : 'hidden'}
         variants={staggerContainer}
       >
-        <div className="home-page__features-container">
-          <motion.div className="home-page__features-header" variants={fadeInUp}>
-            <h2 className="home-page__features-title">الميزات الرئيسية</h2>
-            <p className="home-page__features-subtitle">
+        <div className="max-w-7xl mx-auto">
+          <motion.div className="text-center mb-16" variants={fadeInUp}>
+            <h2 className="text-3xl font-bold mb-4 text-text-primary">الميزات الرئيسية</h2>
+            <p className="text-xl text-text-secondary">
               اكتشف القوة الكاملة للذكاء الاصطناعي في التعليم
             </p>
           </motion.div>
 
-          <motion.div className="home-page__features-grid" variants={staggerContainer}>
+          <motion.div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8" variants={staggerContainer}>
             {features.map((feature, index) => (
               <motion.div key={index} variants={fadeInUp}>
-                <Card className="home-page__feature-card" hoverable>
-                  <div className="home-page__feature-icon">{feature.icon}</div>
-                  <h3 className="home-page__feature-title">{feature.title}</h3>
-                  <p className="home-page__feature-description">{feature.description}</p>
+                <Card className="h-full border-border-secondary hover:border-primary-500/50 transition-colors bg-bg-surface" hoverable>
+                  <div className="p-6">
+                    <div className="mb-4">{feature.icon}</div>
+                    <h3 className="text-lg font-bold mb-2 text-text-primary">{feature.title}</h3>
+                    <p className="text-text-secondary">{feature.description}</p>
+                  </div>
                 </Card>
               </motion.div>
             ))}
@@ -325,23 +340,23 @@ const HomePage: React.FC = () => {
       {/* Why Choose Us Section */}
       <motion.section
         ref={whyUsRef}
-        className="home-page__why-us"
+        className="py-20 px-6"
         initial="hidden"
         animate={whyUsInView ? 'visible' : 'hidden'}
         variants={staggerContainer}
       >
-        <div className="home-page__why-us-container">
-          <motion.h2 className="home-page__why-us-title" variants={fadeInUp}>
+        <div className="max-w-7xl mx-auto">
+          <motion.h2 className="text-3xl font-bold text-center mb-16 text-text-primary" variants={fadeInUp}>
             لماذا نحن؟
           </motion.h2>
 
-          <motion.div className="home-page__why-us-grid" variants={staggerContainer}>
+          <motion.div className="grid grid-cols-1 md:grid-cols-3 gap-8" variants={staggerContainer}>
             {whyUsReasons.map((reason, index) => (
               <motion.div key={index} variants={fadeInUp}>
-                <Card className="home-page__why-us-card" hoverable>
-                  {reason.icon}
-                  <h3 className="home-page__why-us-card-title">{reason.title}</h3>
-                  <p className="home-page__why-us-card-description">{reason.description}</p>
+                <Card className="h-full p-8 text-center border-border-secondary bg-bg-surface" hoverable>
+                  <div className="flex justify-center">{reason.icon}</div>
+                  <h3 className="text-xl font-bold mb-4 text-text-primary">{reason.title}</h3>
+                  <p className="text-text-secondary">{reason.description}</p>
                 </Card>
               </motion.div>
             ))}
@@ -352,16 +367,16 @@ const HomePage: React.FC = () => {
       {/* CTA Section */}
       <motion.section
         ref={ctaRef}
-        className="home-page__cta"
+        className="py-24 px-6 bg-gradient-to-b from-bg-app to-primary-900/10"
         initial="hidden"
         animate={ctaInView ? 'visible' : 'hidden'}
         variants={staggerContainer}
       >
-        <div className="home-page__cta-container">
-          <motion.h2 className="home-page__cta-title" variants={fadeInUp}>
+        <div className="max-w-4xl mx-auto text-center">
+          <motion.h2 className="text-4xl font-bold mb-6 text-text-primary" variants={fadeInUp}>
             ابدأ رحلتك التعليمية اليوم
           </motion.h2>
-          <motion.p className="home-page__cta-description" variants={fadeInUp}>
+          <motion.p className="text-xl text-text-secondary mb-10" variants={fadeInUp}>
             انضم إلى آلاف الطلاب والمطورين الذين يستخدمون نظامنا
           </motion.p>
           <motion.div
@@ -370,7 +385,7 @@ const HomePage: React.FC = () => {
             variants={fadeInUp}
             onClick={() => useModalStore.getState().open('register')}
           >
-            <Button variant="secondary" size="lg" className="home-page__cta-button">
+            <Button variant="primary" size="lg" className="px-10 py-6 text-lg shadow-xl shadow-primary-500/20">
               إنشاء حساب مجاني
             </Button>
           </motion.div>

@@ -4,7 +4,7 @@
  * Production-ready management using central ENV_CONFIG engine.
  */
 
-import { IGoogleOAuthRepository } from "../../domain/interfaces/repositories/IGoogleOAuthRepository.js";
+import { IGoogleOAuthRepository } from "@/domain/interfaces/repositories/auth/social/IGoogleOAuthRepository.js";
 import { OAuthState } from "../../domain/entities/OAuthState.js";
 import { RedisCacheAdapter } from "../adapters/cache/RedisCacheAdapter.js";
 import { v4 as uuidv4 } from "uuid";

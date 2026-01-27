@@ -5,7 +5,7 @@
  */
 
 import { RouteFactory } from "../../../shared/route-factory.js";
-import { UserHandler } from "../../../../handlers/user/index.js";
+import { UserController } from "@/modules/user/controllers/user.controller.js";
 
 const router = RouteFactory.createFeatureRouter();
 
@@ -18,8 +18,8 @@ const router = RouteFactory.createFeatureRouter();
  */
 router.get(
     "/search",
-    ...RouteFactory.createRoute<UserHandler>(
-        "UserHandler",
+    ...RouteFactory.createRoute<UserController>(
+        "UserController",
         "searchUsers"
     )
 );

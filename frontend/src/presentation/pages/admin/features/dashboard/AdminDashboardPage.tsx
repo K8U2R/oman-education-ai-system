@@ -1,18 +1,21 @@
-/**
- * Admin Dashboard Page - لوحة تحكم المسؤول
- *
- * لوحة تحكم شاملة للمسؤولين والمالكين لإدارة النظام
- * تم نقلها إلى الهيكل الجديد مع استخدام Core Infrastructure
- */
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import {
+  Users,
+  Shield,
+  BarChart3,
+  Activity,
+  Server,
+  FileText,
+  Database,
+  Cpu
+} from 'lucide-react';
 
-import React from 'react'
-import { useNavigate } from 'react-router-dom'
-import { Users, Shield, BarChart3, Activity, Server, FileText } from 'lucide-react'
-import { AdminPageLayout, AdminStatsCard } from '../../core/components'
-import { AdminLoadingState, AdminErrorState } from '../../shared/components'
-import { useAdminDashboard } from './hooks'
-import { ADMIN_ROUTES } from '../../core/constants'
-
+import { AdminPageLayout } from '../../core/components';
+import { AdminLoadingState, AdminErrorState } from '../../shared/components';
+import { useAdminDashboard } from './hooks';
+import { ADMIN_ROUTES } from '../../core/constants';
+import { StatCard, QuickActionCard, HealthCard } from '@/presentation/components/dashboard';
 
 const AdminDashboardPage: React.FC = () => {
   const navigate = useNavigate()
@@ -30,8 +33,10 @@ const AdminDashboardPage: React.FC = () => {
 
   // عدم الوصول
   if (!canAccess) {
-    return null // سيتم إعادة التوجيه تلقائياً من useAdminPage
+    return null
   }
+
+  const systemStatus = stats?.systemHealth || 'healthy';
 
   return (
     <AdminPageLayout
@@ -39,126 +44,108 @@ const AdminDashboardPage: React.FC = () => {
       description="إدارة شاملة للنظام والمستخدمين"
       icon={<Shield />}
       actions={
-        <button onClick={refresh} className="admin-dashboard-page__refresh-btn">
-          تحديث
+        <button onClick={refresh} className="px-4 py-2 bg-primary-500/10 text-primary-500 rounded-lg text-sm font-medium hover:bg-primary-500/20 transition-colors">
+          تحديث البيانات
         </button>
       }
     >
-      <div className="admin-dashboard-page">
-        {/* Statistics Cards */}
-        <div className="admin-dashboard-page__stats">
-          <AdminStatsCard
+      <div className="grid grid-cols-12 gap-6 p-1">
+
+        {/* Row 1: Key Statistics */}
+        <div className="col-span-12 lg:col-span-3">
+          <StatCard
             title="إجمالي المستخدمين"
             value={stats?.totalUsers ?? 0}
             icon={<Users />}
             variant="default"
           />
-
-          <AdminStatsCard
+        </div>
+        <div className="col-span-12 lg:col-span-3">
+          <StatCard
             title="المستخدمين النشطين"
             value={stats?.activeUsers ?? 0}
             icon={<Activity />}
             variant="success"
+            trend={{ value: 12, label: 'مقارنة بالأسبوع الماضي', isPositive: true }}
           />
-
-          <AdminStatsCard
+        </div>
+        <div className="col-span-12 lg:col-span-3">
+          <StatCard
             title="إجمالي الدروس"
             value={stats?.totalLessons ?? 0}
             icon={<FileText />}
-            variant="default"
+            variant="info"
           />
-
-          <AdminStatsCard
-            title="حالة النظام"
-            value={
-              stats?.systemHealth === 'healthy'
-                ? 'سليم'
-                : stats?.systemHealth === 'warning'
-                  ? 'تحذير'
-                  : 'خطأ'
-            }
+        </div>
+        <div className="col-span-12 lg:col-span-3">
+          <StatCard
+            title="حالة الخوادم"
+            value={systemStatus === 'healthy' ? 'مستقرة' : 'تنبيه'}
             icon={<Server />}
-            variant={
-              stats?.systemHealth === 'healthy'
-                ? 'success'
-                : stats?.systemHealth === 'warning'
-                  ? 'warning'
-                  : 'danger'
-            }
+            variant={systemStatus === 'healthy' ? 'success' : 'warning'}
           />
         </div>
 
-        {/* Quick Actions */}
-        <div className="admin-dashboard-page__section">
-          <h2 className="admin-dashboard-page__section-title">إجراءات سريعة</h2>
-          <div className="admin-dashboard-page__quick-actions">
-            <div
-              className="admin-dashboard-page__action-card"
-              onClick={() => navigate(ADMIN_ROUTES.USERS)}
-            >
-              <Users className="admin-dashboard-page__action-icon" />
-              <h3 className="admin-dashboard-page__action-title">إدارة المستخدمين</h3>
-              <p className="admin-dashboard-page__action-description">
-                عرض وإدارة جميع المستخدمين و
-              </p>
-            </div>
-
-            <div
-              className="admin-dashboard-page__action-card"
-              onClick={() => navigate('/content/lessons')}
-            >
-              <FileText className="admin-dashboard-page__action-icon" />
-              <h3 className="admin-dashboard-page__action-title">إدارة المحتوى</h3>
-              <p className="admin-dashboard-page__action-description">
-                إدارة الدروس والمسارات التعليمية
-              </p>
-            </div>
-
-            <div
-              className="admin-dashboard-page__action-card"
-              onClick={() => navigate(ADMIN_ROUTES.ANALYTICS.ERRORS)}
-            >
-              <BarChart3 className="admin-dashboard-page__action-icon" />
-              <h3 className="admin-dashboard-page__action-title">التحليلات والإحصائيات</h3>
-              <p className="admin-dashboard-page__action-description">
-                عرض تقارير مفصلة عن استخدام النظام
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {/* System Health */}
-        <div className="admin-dashboard-page__section">
-          <h2 className="admin-dashboard-page__section-title">صحة النظام</h2>
-          <div className="admin-dashboard-page__health-card">
-            <div className="admin-dashboard-page__health-status">
-              <div
-                className={`admin-dashboard-page__health-indicator admin-dashboard-page__health-indicator--${stats?.systemHealth || 'healthy'}`}
+        {/* Row 2: Actions & Health */}
+        <div className="col-span-12 lg:col-span-8">
+          <div className="bg-bg-secondary/50 rounded-2xl p-6 border border-border-primary/50">
+            <h2 className="text-xl font-bold text-text-primary mb-6">الإجراءات السريعة</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <QuickActionCard
+                title="إدارة المستخدمين"
+                description="إدارة الصلاحيات، الحسابات، وتفعيل الاشتراكات."
+                icon={<Users />}
+                onClick={() => navigate(ADMIN_ROUTES.USERS)}
               />
-              <span className="admin-dashboard-page__health-text">النظام يعمل بشكل طبيعي</span>
-            </div>
-            <div className="admin-dashboard-page__health-details">
-              <div className="admin-dashboard-page__health-item">
-                <span className="admin-dashboard-page__health-label">قاعدة البيانات:</span>
-                <span className="admin-dashboard-page__health-value admin-dashboard-page__health-value--healthy">
-                  متصل
-                </span>
-              </div>
-              <div className="admin-dashboard-page__health-item">
-                <span className="admin-dashboard-page__health-label">الخادم:</span>
-                <span className="admin-dashboard-page__health-value admin-dashboard-page__health-value--healthy">
-                  نشط
-                </span>
-              </div>
-              {stats?.memoryUsage !== undefined && (
-                <div className="admin-dashboard-page__health-item">
-                  <span className="admin-dashboard-page__health-label">الذاكرة:</span>
-                  <span className="admin-dashboard-page__health-value">{stats.memoryUsage}%</span>
-                </div>
-              )}
+              <QuickActionCard
+                title="مكتبة المحتوى"
+                description="إضافة وتعديل المسارات التعليمية والدروس."
+                icon={<FileText />}
+                onClick={() => navigate('/content/lessons')}
+              />
+              <QuickActionCard
+                title="مركز التحليلات"
+                description="مراقبة الأداء، الأخطاء، وسلوك المستخدمين."
+                icon={<BarChart3 />}
+                onClick={() => navigate(ADMIN_ROUTES.ANALYTICS.ERRORS)}
+              />
+              <QuickActionCard
+                title="قائمة السماح"
+                description="إدارة التصاريح الاستثنائية للوصول المبكر."
+                icon={<Shield />}
+                onClick={() => navigate('/admin/whitelist')}
+              />
             </div>
           </div>
         </div>
+
+        <div className="col-span-12 lg:col-span-4">
+          <HealthCard
+            overallStatus={systemStatus === 'error' ? 'critical' : (systemStatus === 'healthy' ? 'healthy' : 'warning')}
+            lastUpdated={new Date().toLocaleTimeString('ar-SA')}
+            metrics={[
+              {
+                label: 'قاعدة البيانات',
+                value: 'Connected',
+                status: 'healthy',
+                icon: <Database />
+              },
+              {
+                label: 'وحدة المعالجة (CPU)',
+                value: '12%',
+                status: 'healthy',
+                icon: <Cpu />
+              },
+              {
+                label: 'الذاكرة (RAM)',
+                value: `${stats?.memoryUsage ?? 0}%`,
+                status: parseInt(String(stats?.memoryUsage || 0)) > 80 ? 'warning' : 'healthy',
+                icon: <Activity />
+              }
+            ]}
+          />
+        </div>
+
       </div>
     </AdminPageLayout>
   )

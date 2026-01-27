@@ -5,13 +5,11 @@
  * @law Law-2 (Isolation) - Domain separation
  */
 
-import { Router } from "express";
 import sessionRoutes from "./session/index.js";
 import accountRoutes from "./account/index.js";
 import securityRoutes from "./security/index.js";
 import socialRoutes from "./social/index.js";
 import { RouteFactory } from "../../shared/route-factory.js";
-import { AuthHandler } from "../../../handlers/auth/index.js";
 
 const router = RouteFactory.createFeatureRouter();
 

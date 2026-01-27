@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom'
+import { useRoutes } from 'react-router-dom'
 import { allRoutes } from '@/presentation/routing'
 import { useRouteGuard } from '@/presentation/routing/hooks/useRouteGuard'
 import { RouteErrorBoundary } from '@/presentation/components/ui/feedback/RouteErrorBoundary/RouteErrorBoundary'
@@ -17,6 +17,8 @@ function App() {
 
   // Global error state from auth (X-Ray Layer)
   const authError = useAuthStore(state => state.error)
+
+  const elements = useRoutes(allRoutes)
 
   return (
     <>
@@ -46,11 +48,7 @@ function App() {
 
       <RouteErrorBoundary>
         <RouteTransition transitionType="none" duration={0}>
-          <Routes>
-            {allRoutes.map(route => (
-              <Route key={route.path} path={route.path} element={route.element} />
-            ))}
-          </Routes>
+          {elements}
         </RouteTransition>
         <ModalManager />
       </RouteErrorBoundary>

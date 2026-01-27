@@ -5,8 +5,8 @@
  */
 
 import { Request, Response, NextFunction } from "express";
-import { AuthService } from "../../../../../application/services/auth/index.js";
-import { WhitelistService } from "../../../../../application/services/auth/access/index.js";
+import { AuthService } from "@/modules/auth/services/AuthService.js";
+import { WhitelistService } from "@/modules/auth/services/WhitelistService.js";
 import { container } from "../../../../../infrastructure/di/index.js";
 import { UserRole, Permission } from "../../../../../domain/types/auth/index.js";
 import { RoleService } from "../../../../../domain/services/role.service.js";
@@ -237,15 +237,13 @@ export function requirePermission(requiredPermission: Permission) {
       if (user.permissionSource === "whitelist" && user.whitelistEntryId) {
         try {
           const whitelistService =
-            container.resolve<
-              import("../../../../../application/services/auth/access/index.js").WhitelistService
-            >("WhitelistService");
+            container.resolve<WhitelistService>("WhitelistService");
           const whitelistEntry = await whitelistService.findById(
             user.whitelistEntryId,
           );
 
-          if (whitelistEntry && whitelistEntry.isValid()) {
-            userPermissions = whitelistEntry.getPermissions();
+          if (whitelistEntry && whitelistEntry.is_active && (!whitelistEntry.expires_at || new Date(whitelistEntry.expires_at) > new Date())) {
+            userPermissions = whitelistEntry.permissions as Permission[];
           } else {
             // Whitelist entry is invalid, fall back to default
             userPermissions =
@@ -373,8 +371,8 @@ export function requireAllPermissions(requiredPermissions: Permission[]) {
             user.whitelistEntryId,
           );
 
-          if (whitelistEntry && whitelistEntry.isValid()) {
-            userPermissions = whitelistEntry.getPermissions();
+          if (whitelistEntry && whitelistEntry.is_active && (!whitelistEntry.expires_at || new Date(whitelistEntry.expires_at) > new Date())) {
+            userPermissions = whitelistEntry.permissions as Permission[];
           } else {
             // Whitelist entry is invalid, fall back to default
             userPermissions =

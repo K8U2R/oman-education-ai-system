@@ -13,6 +13,7 @@
 
 - حقن التبعيات عبر الـ Constructor فقط (Constructor Injection).
 - استيراد الواجهات (Interfaces) من طبقة النطاق (Domain).
+- استخدام "نقطة وصول مركزية" (Centralized Access Point) للموارد الخارجية (مثل `client.ts` لقاعدة البيانات).
 
 ## القائمة السوداء (المحظور ❌)
 

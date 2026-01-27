@@ -1,7 +1,11 @@
 /**
- * CSS Reset & Base Styles
+ * 🧼 تصفير المتصفح (Browser Reset)
+ * 
+ * الهدف: توحيد سلوك المتصفحات المختلفة لتجنب الفروقات في العرض.
+ * المرجعية: هذا الملف يعمل جنباً إلى جنب مع Tailwind Preflight.
  */
 
+/* إعدادات الصندوق الأساسية */
 *,
 *::before,
 *::after {
@@ -10,17 +14,13 @@
     padding: 0;
 }
 
-html {
-    font-size: 16px;
-    scroll-behavior: smooth;
+/* إزالة التنسيقات الافتراضية للقوائم */
+ul,
+ol {
+    list-style: none;
 }
 
-body {
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-    direction: rtl; // Default for Oman
-}
-
+/* تحسين عرض الصور */
 img,
 picture,
 video,
@@ -30,9 +30,17 @@ svg {
     max-width: 100%;
 }
 
+/* توارث الخطوط لعناصر النماذج */
 input,
 button,
 textarea,
 select {
     font: inherit;
+}
+
+/* إزالة الحواف الافتراضية للأزرار */
+button {
+    background: none;
+    border: none;
+    cursor: pointer;
 }

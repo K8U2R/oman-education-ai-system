@@ -58,6 +58,7 @@ export class HttpClient {
         'Content-Type': 'application/json',
         ...config.headers,
       },
+      withCredentials: true, // Enable cross-origin cookies for Auth
     })
   }
 

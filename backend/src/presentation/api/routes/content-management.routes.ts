@@ -5,7 +5,7 @@
  */
 
 import { RouteFactory } from "./shared/route-factory.js";
-import { ContentManagementHandler } from "../handlers/content/content-management.handler.js";
+import { ContentManagementController } from "@/modules/education/controllers/content-management.controller.js";
 import { authMiddleware } from "../middleware/security/index.js";
 
 const router = RouteFactory.createFeatureRouter();
@@ -16,8 +16,8 @@ const router = RouteFactory.createFeatureRouter();
  */
 router.get(
   "/subjects",
-  ...RouteFactory.createAuthenticatedRoute<ContentManagementHandler>(
-    "ContentManagementHandler",
+  ...RouteFactory.createAuthenticatedRoute<ContentManagementController>(
+    "ContentManagementController",
     "getSubjects",
     authMiddleware.authenticate,
   ),
@@ -29,8 +29,8 @@ router.get(
  */
 router.get(
   "/grade-levels",
-  ...RouteFactory.createAuthenticatedRoute<ContentManagementHandler>(
-    "ContentManagementHandler",
+  ...RouteFactory.createAuthenticatedRoute<ContentManagementController>(
+    "ContentManagementController",
     "getGradeLevels",
     authMiddleware.authenticate,
   ),
@@ -42,8 +42,8 @@ router.get(
  */
 router.get(
   "/lessons",
-  ...RouteFactory.createAuthenticatedRoute<ContentManagementHandler>(
-    "ContentManagementHandler",
+  ...RouteFactory.createAuthenticatedRoute<ContentManagementController>(
+    "ContentManagementController",
     "getLessons",
     authMiddleware.authenticate,
   ),
@@ -55,8 +55,8 @@ router.get(
  */
 router.get(
   "/lessons/:id",
-  ...RouteFactory.createAuthenticatedRoute<ContentManagementHandler>(
-    "ContentManagementHandler",
+  ...RouteFactory.createAuthenticatedRoute<ContentManagementController>(
+    "ContentManagementController",
     "getLesson",
     authMiddleware.authenticate,
   ),
@@ -68,8 +68,8 @@ router.get(
  */
 router.post(
   "/lessons",
-  ...RouteFactory.createAuthenticatedRoute<ContentManagementHandler>(
-    "ContentManagementHandler",
+  ...RouteFactory.createAuthenticatedRoute<ContentManagementController>(
+    "ContentManagementController",
     "createLesson",
     authMiddleware.authenticate,
   ),
@@ -81,8 +81,8 @@ router.post(
  */
 router.put(
   "/lessons/:id",
-  ...RouteFactory.createAuthenticatedRoute<ContentManagementHandler>(
-    "ContentManagementHandler",
+  ...RouteFactory.createAuthenticatedRoute<ContentManagementController>(
+    "ContentManagementController",
     "updateLesson",
     authMiddleware.authenticate,
   ),
@@ -94,8 +94,8 @@ router.put(
  */
 router.delete(
   "/lessons/:id",
-  ...RouteFactory.createAuthenticatedRoute<ContentManagementHandler>(
-    "ContentManagementHandler",
+  ...RouteFactory.createAuthenticatedRoute<ContentManagementController>(
+    "ContentManagementController",
     "deleteLesson",
     authMiddleware.authenticate,
   ),
@@ -107,8 +107,8 @@ router.delete(
  */
 router.get(
   "/learning-paths",
-  ...RouteFactory.createAuthenticatedRoute<ContentManagementHandler>(
-    "ContentManagementHandler",
+  ...RouteFactory.createAuthenticatedRoute<ContentManagementController>(
+    "ContentManagementController",
     "getLearningPaths",
     authMiddleware.authenticate,
   ),
@@ -120,8 +120,8 @@ router.get(
  */
 router.post(
   "/learning-paths",
-  ...RouteFactory.createAuthenticatedRoute<ContentManagementHandler>(
-    "ContentManagementHandler",
+  ...RouteFactory.createAuthenticatedRoute<ContentManagementController>(
+    "ContentManagementController",
     "createLearningPath",
     authMiddleware.authenticate,
   ),
@@ -133,8 +133,8 @@ router.post(
  */
 router.put(
   "/learning-paths/:id",
-  ...RouteFactory.createAuthenticatedRoute<ContentManagementHandler>(
-    "ContentManagementHandler",
+  ...RouteFactory.createAuthenticatedRoute<ContentManagementController>(
+    "ContentManagementController",
     "updateLearningPath",
     authMiddleware.authenticate,
   ),
@@ -146,8 +146,8 @@ router.put(
  */
 router.delete(
   "/learning-paths/:id",
-  ...RouteFactory.createAuthenticatedRoute<ContentManagementHandler>(
-    "ContentManagementHandler",
+  ...RouteFactory.createAuthenticatedRoute<ContentManagementController>(
+    "ContentManagementController",
     "deleteLearningPath",
     authMiddleware.authenticate,
   ),

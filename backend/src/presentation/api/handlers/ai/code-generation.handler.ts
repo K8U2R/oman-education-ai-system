@@ -55,10 +55,10 @@ export class CodeGenerationHandler extends BaseHandler {
       res,
       async () => {
         const validatedData = CodeGenerationRequestSchema.parse(req.body);
-        const userId = req.user?.id;
+        // const userId = req.user?.id;
         const result = await this.codeGenerationService.generateCode(
           validatedData,
-          userId,
+          // userId,
         );
         this.ok(res, result);
       },

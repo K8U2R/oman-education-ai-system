@@ -4,7 +4,7 @@
  * TypeScript types لوحة تحكم المطور
  */
 
-import type { BaseEntity, LogLevel, Metadata } from "./common.types";
+import type { BaseEntity, LogLevel, Metadata } from "../shared/common.types.js";
 
 /**
  * إحصائيات المطور

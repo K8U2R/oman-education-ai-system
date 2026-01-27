@@ -5,7 +5,7 @@
  */
 
 import { RouteFactory } from "../../shared/route-factory.js";
-import { AssessmentHandler } from "../../../handlers/content/assessment.handler.js";
+import { AssessmentController } from "@/modules/education/controllers/assessment.controller.js";
 import { authMiddleware } from "../../../middleware/security/index.js";
 
 const router = RouteFactory.createFeatureRouter();
@@ -16,8 +16,8 @@ const router = RouteFactory.createFeatureRouter();
  */
 router.get(
   "/",
-  ...RouteFactory.createAuthenticatedRoute<AssessmentHandler>(
-    "AssessmentHandler",
+  ...RouteFactory.createAuthenticatedRoute<AssessmentController>(
+    "AssessmentController",
     "getAssessments",
     authMiddleware.authenticate,
   ),
@@ -29,8 +29,8 @@ router.get(
  */
 router.get(
   "/stats",
-  ...RouteFactory.createAuthenticatedRoute<AssessmentHandler>(
-    "AssessmentHandler",
+  ...RouteFactory.createAuthenticatedRoute<AssessmentController>(
+    "AssessmentController",
     "getAssessmentStats",
     authMiddleware.authenticate,
   ),
@@ -42,8 +42,8 @@ router.get(
  */
 router.get(
   "/:id",
-  ...RouteFactory.createAuthenticatedRoute<AssessmentHandler>(
-    "AssessmentHandler",
+  ...RouteFactory.createAuthenticatedRoute<AssessmentController>(
+    "AssessmentController",
     "getAssessment",
     authMiddleware.authenticate,
   ),
@@ -55,8 +55,8 @@ router.get(
  */
 router.post(
   "/",
-  ...RouteFactory.createAuthenticatedRoute<AssessmentHandler>(
-    "AssessmentHandler",
+  ...RouteFactory.createAuthenticatedRoute<AssessmentController>(
+    "AssessmentController",
     "createAssessment",
     authMiddleware.authenticate,
   ),
@@ -68,8 +68,8 @@ router.post(
  */
 router.put(
   "/:id",
-  ...RouteFactory.createAuthenticatedRoute<AssessmentHandler>(
-    "AssessmentHandler",
+  ...RouteFactory.createAuthenticatedRoute<AssessmentController>(
+    "AssessmentController",
     "updateAssessment",
     authMiddleware.authenticate,
   ),
@@ -81,8 +81,8 @@ router.put(
  */
 router.delete(
   "/:id",
-  ...RouteFactory.createAuthenticatedRoute<AssessmentHandler>(
-    "AssessmentHandler",
+  ...RouteFactory.createAuthenticatedRoute<AssessmentController>(
+    "AssessmentController",
     "deleteAssessment",
     authMiddleware.authenticate,
   ),
@@ -94,8 +94,8 @@ router.delete(
  */
 router.post(
   "/:id/submit",
-  ...RouteFactory.createAuthenticatedRoute<AssessmentHandler>(
-    "AssessmentHandler",
+  ...RouteFactory.createAuthenticatedRoute<AssessmentController>(
+    "AssessmentController",
     "submitAssessment",
     authMiddleware.authenticate,
   ),
@@ -107,8 +107,8 @@ router.post(
  */
 router.get(
   "/:id/submission",
-  ...RouteFactory.createAuthenticatedRoute<AssessmentHandler>(
-    "AssessmentHandler",
+  ...RouteFactory.createAuthenticatedRoute<AssessmentController>(
+    "AssessmentController",
     "getSubmission",
     authMiddleware.authenticate,
   ),

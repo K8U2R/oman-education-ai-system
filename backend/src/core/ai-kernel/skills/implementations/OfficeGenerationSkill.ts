@@ -1,5 +1,5 @@
 import { ISkill } from "../ISkill";
-import { OfficeGenerationService } from "@/application/services/office/OfficeGenerationService";
+import { OfficeGenerationService } from "@/application/services/index.js";
 import { OfficeGenerationRequest } from "@/domain/types/shared";
 import { container } from "@/infrastructure/di/Container";
 import { logger } from "@/shared/utils/logger";

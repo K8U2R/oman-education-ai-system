@@ -26,6 +26,8 @@
     "strictFunctionTypes": true,
     "strictBindCallApply": true,
     "strictPropertyInitialization": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     "noImplicitThis": true,
     "alwaysStrict": true,
     "baseUrl": ".",

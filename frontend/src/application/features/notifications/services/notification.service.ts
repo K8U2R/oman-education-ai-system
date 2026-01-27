@@ -200,6 +200,13 @@ class NotificationService {
     const skipRealtime = import.meta.env.VITE_SKIP_REALTIME === 'true'
 
     // في development mode، إذا كان VITE_SKIP_REALTIME=true، نتخطى الاتصال تماماً
+    // FORCE DISABLE IN DEV unless explicitly enabled
+    if (import.meta.env.DEV && import.meta.env.VITE_ENABLE_NOTIFICATIONS !== 'true') {
+      console.warn('Realtime Notification Service skipped in DEV mode (set VITE_ENABLE_NOTIFICATIONS=true to enable)');
+      this.isConnected = false
+      return
+    }
+
     if (isDevelopment && skipRealtime) {
       this.isConnected = false
       return
@@ -210,11 +217,10 @@ class NotificationService {
         localStorage.getItem('access_token') || localStorage.getItem('token') || undefined
       // Use same base URL as API client, convert http to ws
       // Extract base URL without /api/v1 suffix
-      let apiBaseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:30000'
-      // Remove /api/v1 if present
-      apiBaseUrl = apiBaseUrl.replace(/\/api\/v1$/, '')
+      const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:30000/api/v1'
+
       const wsBaseUrl = apiBaseUrl.replace(/^http/, 'ws')
-      const wsUrl = import.meta.env.VITE_WS_URL || `${wsBaseUrl}/ws/notifications`
+      const wsUrl = import.meta.env.VITE_WS_URL || `${wsBaseUrl.replace(/\/api\/v1\/?$/, '')}/ws/notifications`
       const sseUrl = import.meta.env.VITE_SSE_URL || `${apiBaseUrl}/notifications/stream`
 
       // في development mode، نحاول الاتصال مرة واحدة فقط بدون إعادة محاولة

@@ -55,6 +55,11 @@ const loadConfig = (): EnvConfig => {
     AI_DEFAULT_PROVIDER: process.env.AI_DEFAULT_PROVIDER,
     EMAIL_PROVIDER: process.env.EMAIL_PROVIDER,
     EMAIL_FROM: process.env.EMAIL_FROM,
+    SMTP_HOST: process.env.SMTP_HOST,
+    SMTP_PORT: process.env.SMTP_PORT ? Number(process.env.SMTP_PORT) : undefined,
+    SMTP_USER: process.env.SMTP_USER,
+    SMTP_PASS: process.env.SMTP_PASS,
+    SMTP_SECURE: process.env.SMTP_SECURE === "true",
     GOOGLE_CLIENT_ID:
       process.env.GOOGLE_OAUTH_CLIENT_ID || process.env.GOOGLE_CLIENT_ID,
     GOOGLE_CLIENT_SECRET:

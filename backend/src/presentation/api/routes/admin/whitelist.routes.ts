@@ -5,7 +5,7 @@
  */
 
 import { RouteFactory } from "../shared/route-factory.js";
-import { WhitelistHandler } from "../../handlers/auth/whitelist.handler.js";
+import { WhitelistController } from "@/modules/auth/controllers/whitelist.controller.js";
 import {
   authMiddleware,
   requireAnyRole,
@@ -32,8 +32,8 @@ const standardMiddleware = [
  */
 router.get(
   "/",
-  ...RouteFactory.createRoute<WhitelistHandler>(
-    "WhitelistHandler",
+  ...RouteFactory.createRoute<WhitelistController>(
+    "WhitelistController",
     "getAllEntries",
     ...standardMiddleware,
   ),
@@ -45,8 +45,8 @@ router.get(
  */
 router.get(
   "/expired",
-  ...RouteFactory.createRoute<WhitelistHandler>(
-    "WhitelistHandler",
+  ...RouteFactory.createRoute<WhitelistController>(
+    "WhitelistController",
     "getExpiredEntries",
     ...standardMiddleware,
   ),
@@ -58,8 +58,8 @@ router.get(
  */
 router.get(
   "/:id",
-  ...RouteFactory.createRoute<WhitelistHandler>(
-    "WhitelistHandler",
+  ...RouteFactory.createRoute<WhitelistController>(
+    "WhitelistController",
     "getEntryById",
     ...standardMiddleware,
   ),
@@ -71,8 +71,8 @@ router.get(
  */
 router.post(
   "/",
-  ...RouteFactory.createRoute<WhitelistHandler>(
-    "WhitelistHandler",
+  ...RouteFactory.createRoute<WhitelistController>(
+    "WhitelistController",
     "createEntry",
     ...standardMiddleware,
   ),
@@ -84,8 +84,8 @@ router.post(
  */
 router.put(
   "/:id",
-  ...RouteFactory.createRoute<WhitelistHandler>(
-    "WhitelistHandler",
+  ...RouteFactory.createRoute<WhitelistController>(
+    "WhitelistController",
     "updateEntry",
     ...standardMiddleware,
   ),
@@ -97,8 +97,8 @@ router.put(
  */
 router.delete(
   "/:id",
-  ...RouteFactory.createRoute<WhitelistHandler>(
-    "WhitelistHandler",
+  ...RouteFactory.createRoute<WhitelistController>(
+    "WhitelistController",
     "deleteEntry",
     ...standardMiddleware,
   ),
@@ -110,8 +110,8 @@ router.delete(
  */
 router.post(
   "/:id/activate",
-  ...RouteFactory.createRoute<WhitelistHandler>(
-    "WhitelistHandler",
+  ...RouteFactory.createRoute<WhitelistController>(
+    "WhitelistController",
     "activateEntry",
     ...standardMiddleware,
   ),
@@ -123,8 +123,8 @@ router.post(
  */
 router.post(
   "/:id/deactivate",
-  ...RouteFactory.createRoute<WhitelistHandler>(
-    "WhitelistHandler",
+  ...RouteFactory.createRoute<WhitelistController>(
+    "WhitelistController",
     "deactivateEntry",
     ...standardMiddleware,
   ),

@@ -46,8 +46,13 @@ export const ConfigSchema = z.object({
   AI_DEFAULT_PROVIDER: z.enum(["openai", "anthropic"]).default("openai"),
 
   // Email Service
-  EMAIL_PROVIDER: z.enum(["sendgrid", "ses", "console"]).default("console"),
+  EMAIL_PROVIDER: z.enum(["sendgrid", "ses", "console", "smtp"]).default("console"),
   EMAIL_FROM: z.string().email().default("no-reply@oman-edu.om"),
+  SMTP_HOST: z.string().optional(),
+  SMTP_PORT: z.number().default(587),
+  SMTP_USER: z.string().optional(),
+  SMTP_PASS: z.string().optional(),
+  SMTP_SECURE: z.boolean().default(false),
 
   // Google OAuth Governance
   GOOGLE_CLIENT_ID: z.string().optional(),

@@ -13,6 +13,7 @@ import { User } from '@/domain/entities/User';
 import { ROUTES } from '@/domain/constants/routes.constants';
 import { DefaultRouteLoader } from '@/presentation/components/common';
 import { useToastContext } from '@/presentation/providers/ToastProvider';
+import { useModalStore } from '@/stores/useModalStore';
 
 const AuthSuccessPage: React.FC = () => {
     const [searchParams] = useSearchParams();
@@ -21,72 +22,106 @@ const AuthSuccessPage: React.FC = () => {
     const { success, error: toastError } = useToastContext();
     const processedRef = useRef(false);
     const [debugInfo, setDebugInfo] = useState<string | null>(null);
+    const openModal = useModalStore(state => state.open);
 
     useEffect(() => {
         const processOAuthSuccess = async () => {
             if (processedRef.current) return;
             processedRef.current = true;
 
-            // 🔍 Debug Logging: See exactly what the backend sent
+            // ... (keep existing logs)
             const paramsObj = Object.fromEntries(searchParams.entries());
-            console.log("🔍 OAuth Callback Params:", paramsObj);
+            const hashParams = new URLSearchParams(window.location.hash.substring(1));
+            const hashObj = Object.fromEntries(hashParams.entries());
 
-            // Try all common variations for Access Token
+            console.log("🔍 OAuth Callback Params:", { query: paramsObj, hash: hashObj });
+
+            // Extract tokens
             const accessToken =
                 searchParams.get('access_token') ||
                 searchParams.get('accessToken') ||
-                searchParams.get('token');
+                searchParams.get('token') ||
+                hashParams.get('access_token') ||
+                hashParams.get('accessToken');
 
-            // Try all common variations for Refresh Token
             const refreshToken =
                 searchParams.get('refresh_token') ||
-                searchParams.get('refreshToken');
+                searchParams.get('refreshToken') ||
+                hashParams.get('refresh_token') ||
+                hashParams.get('refreshToken');
 
-            // Try to extract user data if passed directly
-            const rawUser = searchParams.get('user');
-            const errorParam = searchParams.get('error') || searchParams.get('message');
+            const rawUser = searchParams.get('user') || hashParams.get('user');
+            const errorParam = searchParams.get('error') || searchParams.get('message') || hashParams.get('error_description');
 
             if (errorParam) {
-                const decodedError = decodeURIComponent(errorParam);
+                const decodedError = decodeURIComponent(errorParam.replace(/\+/g, ' '));
                 toastError(decodedError);
-                console.error("❌ OAuth Backend Error:", decodedError);
                 setError(decodedError);
                 return;
             }
 
+            // ⚠️ If no tokens found, try to check if we already have a valid session
             if (!accessToken) {
-                const msg = 'فشل استلام رمز الدخول (Access Token missing)';
-                console.error(`❌ ${msg}. Received keys:`, Object.keys(paramsObj));
-                setDebugInfo(JSON.stringify(paramsObj, null, 2));
-                toastError(msg);
+                try {
+                    console.log("🔍 No tokens in URL, checking for existing session...");
+                    const currentUser = await authService.getCurrentUser();
+
+                    if (currentUser) {
+                        console.log("✅ Existing session found, redirecting...");
+
+                        // Hydrate store manually since we have a confirmed session
+                        // We use placeholder tokens because the real ones are in HttpOnly cookies
+                        // The backend will validate requests via cookies anyway
+                        login(currentUser, {
+                            access_token: 'SESSION_ACTIVE',
+                            refresh_token: 'SESSION_ACTIVE',
+                            token_type: 'Bearer',
+                            expires_in: 3600
+                        });
+
+                        success('تم التحقق من الجلسة بنجاح');
+                        navigate(ROUTES.DASHBOARD);
+                        return;
+                    } else {
+                        throw new Error("No active session returned");
+                    }
+                } catch (e) {
+                    console.warn("⚠️ No active session found and no tokens provided.");
+
+                    const msg = 'لم يتم العثور على رمز الدخول أو جلسة نشطة.';
+                    setDebugInfo(
+                        `Technical Details:\n` +
+                        `- Query Params: ${JSON.stringify(paramsObj)}\n` +
+                        `- Hash Params: ${JSON.stringify(hashObj)}\n` +
+                        `- Session Check: Failed (${e instanceof Error ? e.message : String(e)})`
+                    );
+                    setError(msg);
+                    // Do NOT toast error here to avoid annoying popup, just show the UI
+                }
                 return;
             }
 
+            // ... proceed with token login if tokens exist
             try {
                 setLoading(true);
-
-                // Ensure tokens are stored in the shared storageAdapter for authService consistency
-                // We manually set them if handleOAuthCallback doesn't catch them due to naming differences
+                // (keep existing token handling logic)
                 if (accessToken && refreshToken) {
                     localStorage.setItem('access_token', accessToken);
                     localStorage.setItem('refresh_token', refreshToken);
                 }
 
-                // 2. Fetch or Parse User Profile
                 let user: User;
                 if (rawUser) {
                     try {
                         const parsedUser = JSON.parse(decodeURIComponent(rawUser));
                         user = User.fromData(parsedUser);
                     } catch (e) {
-                        console.warn("⚠️ Failed to parse user param, fetching from /me instead");
                         user = await authService.getCurrentUser();
                     }
                 } else {
                     user = await authService.getCurrentUser();
                 }
 
-                // 3. Update Global Auth Store
                 login(user, {
                     access_token: accessToken,
                     refresh_token: refreshToken || '',
@@ -95,14 +130,11 @@ const AuthSuccessPage: React.FC = () => {
                 });
 
                 success('تم تسجيل الدخول بنجاح');
-
-                // 4. Final Redirect
                 navigate(ROUTES.DASHBOARD);
             } catch (err: any) {
                 console.error('Core OAuth Processing Error:', err);
                 const errorMessage = err.message || 'فشل استكمال عملية تسجيل الدخول';
                 setError(errorMessage);
-                toastError(errorMessage);
                 setDebugInfo(`Error: ${errorMessage}\nParams: ${JSON.stringify(paramsObj, null, 2)}`);
             } finally {
                 setLoading(false);
@@ -127,10 +159,14 @@ const AuthSuccessPage: React.FC = () => {
                             {debugInfo}
                         </pre>
                         <button
-                            onClick={() => navigate(ROUTES.LOGIN)}
-                            className="mt-4 w-full py-2 bg-primary text-primary-foreground rounded text-sm transition-opacity hover:opacity-90"
+                            onClick={() => {
+                                navigate(ROUTES.HOME);
+                                // Small timeout to ensure navigation completes before opening modal (optional but safer)
+                                setTimeout(() => openModal('login'), 50);
+                            }}
+                            className="mt-4 w-full py-2 bg-primary-600 text-white rounded-md text-sm transition-all hover:bg-primary-700 shadow-lg shadow-primary-500/20"
                         >
-                            العودة لصفحة الدخول
+                            العودة للصفحة الرئيسية وتسجيل الدخول
                         </button>
                     </div>
                 )}

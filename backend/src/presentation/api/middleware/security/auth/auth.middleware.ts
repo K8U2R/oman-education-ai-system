@@ -15,7 +15,7 @@
 import { Request, Response, NextFunction } from "express";
 
 // Application Layer - استخدام barrel exports
-import { TokenService } from "../../../../../application/services/auth/index.js";
+import { TokenService } from "@/modules/auth/services/TokenService.js";
 import {
   TokenExpiredError,
   InvalidTokenError,

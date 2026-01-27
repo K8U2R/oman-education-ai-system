@@ -7,7 +7,7 @@
 
 import { RouteFactory } from "../../../shared/route-factory.js";
 import { MiddlewareChains } from "../../../shared/middleware-helpers.js";
-import { AuthHandler } from "../../../../handlers/auth/index.js";
+import { AuthController } from "@/modules/auth/controllers/auth.controller.js";
 import { authMiddleware } from "../../../../middleware/security/index.js";
 import { loginRateLimitMiddleware } from "../../../../middleware/traffic/login-rate-limit.middleware.js"; // Using same for now or shared
 
@@ -35,8 +35,8 @@ const router = RouteFactory.createFeatureRouter();
  */
 router.post(
     "/forgot-password",
-    ...RouteFactory.createRoute<AuthHandler>(
-        "AuthHandler",
+    ...RouteFactory.createRoute<AuthController>(
+        "AuthController",
         "requestPasswordReset",
         ...MiddlewareChains.rateLimited(loginRateLimitMiddleware),
     ),
@@ -65,8 +65,8 @@ router.post(
  */
 router.post(
     "/reset-password",
-    ...RouteFactory.createRoute<AuthHandler>(
-        "AuthHandler",
+    ...RouteFactory.createRoute<AuthController>(
+        "AuthController",
         "resetPassword",
         ...MiddlewareChains.rateLimited(loginRateLimitMiddleware),
     ),
@@ -97,8 +97,8 @@ router.post(
  */
 router.put(
     "/update-password",
-    ...RouteFactory.createAuthenticatedRoute<AuthHandler>(
-        "AuthHandler",
+    ...RouteFactory.createAuthenticatedRoute<AuthController>(
+        "AuthController",
         "updatePassword",
         authMiddleware.authenticate,
     ),

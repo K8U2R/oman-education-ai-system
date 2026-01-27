@@ -8,7 +8,6 @@ import { SentinelProvider } from '@/infrastructure/diagnostics'
 import { serviceWorkerService } from '@/infrastructure/services/core/service-worker.service'
 import { indexedDBService } from '@/infrastructure/services/storage/indexeddb.service'
 import App from './App'
-import './index.css'
 import './styles/main.scss'
 
 // Initialize Service Worker

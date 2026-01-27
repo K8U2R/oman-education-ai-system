@@ -22,19 +22,16 @@ import FlagOfOman from '/Flag_of_Oman.svg.png'
  * ```
  */
 export const HeaderBrand: React.FC<HeaderBrandProps> = React.memo(
-  ({ showText = true, showFlag = true, size = 'md', className }) => {
-    const brandClasses = React.useMemo(
-      () => cn('header-brand', size && `header-brand--${size}`, className),
-      [size, className]
-    )
+  ({ showText = true, showFlag = true, className }) => {
+    // brandClasses removed as it was unused and referenced imports that were removed.
 
     return (
-      <Link to={ROUTES.HOME} className={brandClasses}>
-        <div className="header-brand__icon">
+      <Link to={ROUTES.HOME} className={cn('flex items-center gap-3', className)}>
+        <div className="relative">
           <OptimizedImage
             src={Logo}
             alt="Oman Education AI Logo"
-            className="header-brand__image"
+            className="w-10 h-10 object-contain"
             loading="eager"
             width={40}
             height={40}
@@ -43,18 +40,18 @@ export const HeaderBrand: React.FC<HeaderBrandProps> = React.memo(
         </div>
 
         {showText && (
-          <div className="header-brand__text">
-            <h1 className="header-brand__title">Oman Education AI</h1>
-            <p className="header-brand__subtitle">نظام التعليم الذكي</p>
+          <div className="flex flex-col">
+            <h1 className="text-lg font-bold text-text-primary leading-tight">Oman Education AI</h1>
+            <p className="text-xs text-text-secondary">نظام التعليم الذكي</p>
           </div>
         )}
 
         {showFlag && (
-          <div className="header-brand__flag" title="سلطنة عمان">
+          <div className="ml-2 pt-1" title="سلطنة عمان">
             <OptimizedImage
               src={FlagOfOman}
               alt="علم سلطنة عمان"
-              className="header-brand__flag-image"
+              className="w-6 h-4 object-contain shadow-sm rounded-sm"
               loading="lazy"
               width={24}
               height={16}

@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { z } from "zod";
-import { SessionService } from "@/application/services/security/SessionService.js";
+import { SessionService } from "@/modules/security/index.js";
 import { BaseHandler } from "@/presentation/api/handlers/base/BaseHandler.js";
 
 // Validation Schemas

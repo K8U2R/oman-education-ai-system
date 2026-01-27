@@ -35,23 +35,8 @@ export async function createAIProvider(): Promise<IAIProvider> {
       defaultModel: "gpt-4",
     });
 
-    // Wrap adapter to match IAIProvider interface
-    aiProvider = {
-      chatCompletion: (request) => adapter.chatCompletion(request),
-      generateCode: (request) => adapter.generateCode(request),
-      generateEmbedding: async () => [0.1, 0.2, 0.3],
-      healthCheck: async () => {
-        const status = await adapter.healthCheck();
-        return {
-          status: status === "healthy" ? "healthy" : "unhealthy",
-          message:
-            status === "healthy"
-              ? "OpenAI adapter is healthy"
-              : "OpenAI adapter is unhealthy",
-        };
-      },
-      getName: () => adapter.getName(),
-    };
+    // aiProvider = { ... }
+    aiProvider = adapter;
   } else if (provider === "anthropic") {
     if (!settings.ai.anthropicApiKey) {
       logger.warn("Anthropic API key not configured");
@@ -66,23 +51,11 @@ export async function createAIProvider(): Promise<IAIProvider> {
       defaultModel: "claude-3-opus-20240229",
     });
 
-    // Wrap adapter to match IAIProvider interface
-    aiProvider = {
-      chatCompletion: (request) => adapter.chatCompletion(request),
-      generateCode: (request) => adapter.generateCode(request),
-      generateEmbedding: async () => [0.1, 0.2, 0.3],
-      healthCheck: async () => {
-        const status = await adapter.healthCheck();
-        return {
-          status: status === "healthy" ? "healthy" : "unhealthy",
-          message:
-            status === "healthy"
-              ? "Anthropic adapter is healthy"
-              : "Anthropic adapter is unhealthy",
-        };
-      },
-      getName: () => adapter.getName(),
-    };
+    // Remove manual wrapper as Adapter now implements generic IAIProvider
+    // aiProvider = { ... }
+
+    // Check strict interface compliance
+    aiProvider = adapter;
   } else {
     throw new Error(`Unsupported AI provider: ${provider}`);
   }

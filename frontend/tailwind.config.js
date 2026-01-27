@@ -29,9 +29,16 @@ export default {
           primary: 'var(--color-bg-primary, #ffffff)',
           secondary: 'var(--color-bg-secondary, #f9fafb)',
           tertiary: 'var(--color-bg-tertiary, #f3f4f6)',
+          app: 'var(--color-bg-app, #f9fafb)',
+          surface: 'var(--color-bg-surface, #ffffff)',
+          sidebar: 'var(--color-bg-sidebar, #f9fafb)',
+          header: 'var(--color-bg-header, #ffffff)',
+          menu: 'var(--color-bg-menu, #ffffff)',
+          footer: 'var(--color-bg-footer, #f9fafb)',
+          modal: 'var(--color-bg-modal-surface, #ffffff)',
         },
         text: {
-          primary: 'var(--color-text-primary, #111827)',
+          primary: 'var(--color-text-main, #111827)', // Fixed: matches _tokens.scss 'text-main'
           secondary: 'var(--color-text-secondary, #4b5563)',
           tertiary: 'var(--color-text-tertiary, #6b7280)',
           inverse: 'var(--color-text-inverse, #ffffff)',

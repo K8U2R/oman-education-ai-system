@@ -4,7 +4,7 @@
 
 import { Request, Response } from "express";
 import { z } from "zod";
-import { SecurityMonitoringService } from "@/application/services/security/SecurityMonitoringService.js";
+import { SecurityMonitoringService } from "@/modules/security/services/SecurityMonitoringService.js";
 import { BaseHandler } from "@/presentation/api/handlers/base/BaseHandler.js";
 
 // Validation Schemas

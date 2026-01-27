@@ -36,7 +36,7 @@ export const LessonVideosTab: React.FC<LessonVideosTabProps> = ({ loading, video
                   />
                 ) : (
                   <div className="lesson-videos__item-thumbnail-placeholder">
-                    <Video className="w-12 h-12 text-gray-400" />
+                    <Video className="w-12 h-12 text-text-tertiary" />
                   </div>
                 )}
               </div>

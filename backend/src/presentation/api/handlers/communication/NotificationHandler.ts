@@ -5,7 +5,7 @@
  */
 
 import { Request, Response } from "express";
-import { NotificationService } from "@/application/services/notification/NotificationService.js";
+import { NotificationService } from "@/modules/communication/index.js";
 import { logger } from "@/shared/utils/logger.js";
 import { BaseHandler } from "@/presentation/api/handlers/base/BaseHandler.js";
 

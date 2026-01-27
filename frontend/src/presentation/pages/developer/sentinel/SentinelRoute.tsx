@@ -11,9 +11,9 @@ export function SentinelRoute() {
 
     if (!sentinel) {
         return (
-            <div className="min-h-screen flex flex-col items-center justify-center gap-4 p-8 text-center bg-gray-50 dark:bg-slate-950">
-                <h2 className="text-2xl font-semibold text-slate-900 dark:text-white">⏳ جاري تهيئة نظام Sentinel...</h2>
-                <p className="text-slate-500 dark:text-slate-400">
+            <div className="min-h-screen flex flex-col items-center justify-center gap-4 p-8 text-center bg-bg-app">
+                <h2 className="text-2xl font-semibold text-text-primary">⏳ جاري تهيئة نظام Sentinel...</h2>
+                <p className="text-text-secondary">
                     يرجى الانتظار بينما يتم تحميل نظام التشخيص
                 </p>
             </div>

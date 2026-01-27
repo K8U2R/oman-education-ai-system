@@ -5,7 +5,7 @@
  * @law Law-10 (Scalability) - Domain Persistence Implementation
  */
 
-import { IUserRepository } from "../../domain/interfaces/repositories/IUserRepository.js";
+import { IUserRepository } from "@/domain/interfaces/repositories/user/core/IUserRepository.js";
 import { User } from "../../domain/entities/User.js";
 import { UserData } from "../../domain/types/auth/auth.types.js";
 import { BaseRepository } from "./BaseRepository.js";

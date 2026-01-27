@@ -10,6 +10,10 @@ import { registerAuthModule } from "./modules/auth.module.js";
 import { registerSystemModule } from "./modules/system.module.js";
 import { registerCommunicationModule } from "./modules/communication.module.js";
 import { registerEducationModule } from "./modules/education.module.js";
+import { registerAIModule } from "./modules/ai.module.js";
+import { registerEmailModule } from "./modules/email.module.js";
+import { registerCacheModule } from "./modules/cache.module.js";
+import { registerSecurityModule } from "./modules/security.module.js";
 
 /**
  * Initialize all Sovereign Modules
@@ -17,14 +21,16 @@ import { registerEducationModule } from "./modules/education.module.js";
 export function registerServices(): void {
   // 1. Infrastructure first (Core Adapters)
   registerInfrastructureModule();
+  registerCacheModule(); // Rapid Memory
+  registerAIModule(); // Neural Core
+  registerEmailModule(); // Communication Core
 
   // 2. Domain Clusters
   registerAuthModule();
   registerSystemModule();
   registerCommunicationModule();
+  registerSecurityModule();
   registerEducationModule();
-
-  // 3. TODO: Education & AI Clusters (When implemented)
 }
 
 /**

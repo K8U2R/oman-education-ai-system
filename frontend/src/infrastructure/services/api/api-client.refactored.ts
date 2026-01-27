@@ -145,9 +145,16 @@ class ApiClient {
       }
     }
 
-    // Make API request
-    const response = await this.client.get<{ data?: T } & T>(url, apiConfig)
-    const data = (response.data as { data?: T }).data || (response.data as T)
+    // Make API request (httpClient returns the response body directly)
+    const response = await this.client.get<T>(url, apiConfig)
+
+    // Handle standard { success: true, data: ... } wrapper if present
+    // But verify if response ITSELF is T (unwrapped) or needs unwrapping
+    // Cast to any to check for 'data' property presence safely
+    const rawData = response as any;
+    const data = (rawData && rawData.data && typeof rawData.data === 'object' && !Array.isArray(rawData.data))
+      ? rawData.data as T
+      : response;
 
     // Cache response if enabled
     if (useCache && data) {

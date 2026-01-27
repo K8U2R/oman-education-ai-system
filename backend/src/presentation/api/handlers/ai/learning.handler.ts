@@ -5,7 +5,7 @@
  */
 
 import { Request, Response } from "express";
-import { LearningService } from "@/application/services/index.js";
+import { LearningService } from "@/modules/education/services/LearningService.js";
 import { BaseHandler } from "@/presentation/api/handlers/base/BaseHandler.js";
 import { AgentDispatcher } from "@/core/ai-kernel/dispatcher/AgentDispatcher";
 // import { AuthService } from "@/application/services/auth/AuthService";

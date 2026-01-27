@@ -6,7 +6,7 @@
 
 import { OAuthStateRepository } from "./OAuthStateRepository.js";
 import { FallbackOAuthStateRepository } from "./FallbackOAuthStateRepository.js";
-import { IGoogleOAuthRepository } from "../../domain/interfaces/repositories/IGoogleOAuthRepository.js";
+import { IGoogleOAuthRepository } from "@/domain/interfaces/repositories/auth/social/IGoogleOAuthRepository.js";
 import { logger } from "../../shared/utils/logger.js";
 import { ENV_CONFIG } from "../config/env.config.js";
 

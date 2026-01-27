@@ -69,7 +69,7 @@ export async function bootstrap() {
   for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
     try {
       const { container } = await import("./infrastructure/di/index.js");
-      const databaseAdapter = container.resolve<any>("DatabaseAdapter");
+      const databaseAdapter = container.resolve<{ healthCheck: () => Promise<boolean> }>("DatabaseAdapter");
 
       logger.info(`   📊 Database: Checking connection (Attempt ${attempt}/${MAX_RETRIES})...`);
 

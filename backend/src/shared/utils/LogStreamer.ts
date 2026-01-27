@@ -19,7 +19,7 @@ class BroadcastTransport extends Transport {
         super();
     }
 
-    log(info: any, callback: () => void) {
+    log(info: Record<string, unknown>, callback: () => void) {
         setImmediate(() => {
             this.emitter.emit("log", info);
         });
@@ -41,7 +41,7 @@ class LogStreamer extends EventEmitter {
     /**
      * اشتراك مستخدم جديد في البث
      */
-    public subscribe(callback: (log: any) => void) {
+    public subscribe(callback: (log: Record<string, unknown>) => void) {
         this.on("log", callback);
         return () => this.off("log", callback);
     }

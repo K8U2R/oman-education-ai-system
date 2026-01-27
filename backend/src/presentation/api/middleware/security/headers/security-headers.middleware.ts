@@ -194,7 +194,7 @@ export function developmentSecurityHeadersMiddleware() {
  * API Security Headers (Lightweight)
  */
 export function apiSecurityHeadersMiddleware() {
-    return (req: Request, res: Response, next: NextFunction): void => {
+    return (_req: Request, res: Response, next: NextFunction): void => {
         try {
             res.setHeader("X-Content-Type-Options", "nosniff");
             res.setHeader("X-Frame-Options", "DENY");

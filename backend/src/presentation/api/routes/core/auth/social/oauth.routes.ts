@@ -6,7 +6,7 @@
  */
 
 import { RouteFactory } from "../../../shared/route-factory.js";
-import { AuthHandler } from "../../../../handlers/auth/index.js";
+import { AuthController } from "@/modules/auth/controllers/auth.controller.js";
 
 const router = RouteFactory.createFeatureRouter();
 
@@ -36,7 +36,7 @@ const router = RouteFactory.createFeatureRouter();
  */
 router.get(
     "/oauth/:provider",
-    ...RouteFactory.createRoute<AuthHandler>("AuthHandler", "initiateOAuth"),
+    ...RouteFactory.createRoute<AuthController>("AuthController", "initiateOAuth"),
 );
 
 /**
@@ -59,8 +59,8 @@ router.get(
  */
 router.get(
     "/oauth/:provider/callback",
-    ...RouteFactory.createRoute<AuthHandler>(
-        "AuthHandler",
+    ...RouteFactory.createRoute<AuthController>(
+        "AuthController",
         "handleOAuthCallback",
     ),
 );
