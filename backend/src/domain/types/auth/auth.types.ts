@@ -16,6 +16,11 @@ export type UserRole =
   | "developer";
 
 /**
+ * Plan Tier - باقة الاشتراك
+ */
+export type PlanTier = "FREE" | "PRO" | "PREMIUM";
+
+/**
  * Permission - صلاحية
  */
 export type Permission =
@@ -159,6 +164,7 @@ export interface UserData {
   is_verified: boolean;
   is_active: boolean;
   role: UserRole;
+  planTier: PlanTier;
   permissions: Permission[];
   password_hash?: string;
   permission_source?: PermissionSource;
@@ -205,6 +211,37 @@ export interface RegisterRequest {
 export interface LoginResponse {
   user: UserData;
   tokens: AuthTokens;
+}
+
+/**
+ * LoginDto - بيانات تسجيل الدخول
+ * Alias for LoginRequest for naming consistency
+ */
+export type LoginDto = LoginRequest;
+
+/**
+ * RegisterDto - بيانات التسجيل
+ * Alias for RegisterRequest for naming consistency
+ */
+export type RegisterDto = RegisterRequest;
+
+/**
+ * AuthResponse - استجابة المصادقة الموحدة
+ */
+export type AuthResponse = LoginResponse;
+
+/**
+ * GoogleProfile - بيانات حساب جوجل
+ */
+export interface GoogleProfile {
+  id: string;
+  email: string;
+  name: string;
+  picture?: string;
+  given_name?: string;
+  family_name?: string;
+  locale?: string;
+  verified_email?: boolean;
 }
 
 /**
@@ -316,19 +353,19 @@ export interface GoogleOAuthCallbackResponse {
 
 export type PermissionLevel = "developer" | "admin" | "super_admin";
 
-export interface WhitelistEntry {
+export interface WhitelistEntryDto {
   id: string;
   email: string;
   permission_level: PermissionLevel;
   permissions: string[];
-  granted_by: string | null;
-  granted_at: Date;
-  expires_at: Date | null;
+  granted_by?: string | null;
+  granted_at: string;
+  expires_at?: string | null;
   is_active: boolean;
   is_permanent: boolean;
-  notes: string | null;
-  created_at: Date;
-  updated_at: Date;
+  notes?: string | null;
+  created_at: string;
+  updated_at: string;
 }
 
 export interface WhitelistFilter {
@@ -337,7 +374,8 @@ export interface WhitelistFilter {
   include_expired?: boolean;
 }
 
-export interface WhitelistEntryData {
-  toData: () => WhitelistEntry;
+export interface WhitelistEntryResponse {
+  entries: WhitelistEntryDto[];
+  total: number;
 }
 

@@ -6,7 +6,7 @@
 
 import { RouteFactory } from "../../../shared/route-factory.js";
 import { MiddlewareChains } from "../../../shared/middleware-helpers.js";
-import { AuthController } from "@/modules/auth/controllers/auth.controller.js";
+import { LoginHandler } from "@/modules/auth/controllers/handlers/LoginHandler.js";
 import { loginRateLimitMiddleware } from "../../../../middleware/traffic/login-rate-limit.middleware.js";
 
 const router = RouteFactory.createFeatureRouter();
@@ -43,8 +43,8 @@ const router = RouteFactory.createFeatureRouter();
  */
 router.post(
     "/login",
-    ...RouteFactory.createRoute<AuthController>(
-        "AuthController",
+    ...RouteFactory.createRoute<LoginHandler>(
+        "LoginHandler",
         "login",
         ...MiddlewareChains.rateLimited(loginRateLimitMiddleware),
     ),
@@ -59,7 +59,7 @@ router.post(
  */
 router.post(
     "/refresh",
-    ...RouteFactory.createRoute<AuthController>("AuthController", "refreshToken"),
+    ...RouteFactory.createRoute<LoginHandler>("LoginHandler", "refreshToken"),
 );
 
 export default router;

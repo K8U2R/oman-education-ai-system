@@ -50,7 +50,7 @@ export class ChangelogController {
             if (errors.length > 0) {
                 res.status(400).json({
                     success: false,
-                    errors: errors.map(e => Object.values(e.constraints || {})).flat()
+                    errors: errors.map((e: any) => Object.values(e.constraints || {})).flat()
                 });
                 return;
             }

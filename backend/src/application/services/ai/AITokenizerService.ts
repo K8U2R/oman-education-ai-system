@@ -1,5 +1,16 @@
+export interface TokenizerOptions {
+    model?: string;
+    normalize?: boolean;
+}
+
+export interface AnalysisResult {
+    tokens: number;
+    cost: number;
+    valid: boolean;
+}
+
 export class AITokenizerService {
-    analyze(_text: string, _options?: any): any {
+    analyze(_text: string, _options?: TokenizerOptions): AnalysisResult {
         return {
             tokens: 0,
             cost: 0,

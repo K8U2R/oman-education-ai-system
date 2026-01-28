@@ -1,34 +1,30 @@
-/**
- * Database Client Singleton
- * 
- * Centralizes the database connection logic to enforce Law 01 (Iron Wall) and Law 12 (DRY).
- * Handles the ESM/CommonJS interop issue with Prisma Client in a single location.
- * 
- * Constitutional Authority: Law-12 (Single Responsibility)
- */
-
 import { PrismaClient } from "@prisma/client";
-import pkg from "@prisma/client";
 
-// Solve ESM/CJS interop once and for all
-const { PrismaClient: PrismaCtor } = pkg;
+/**
+ * Database Client Proxy
+ * 
+ * Implements a lazy-initialization proxy for PrismaClient.
+ * This ensures that Prisma is ONLY instantiated when first accessed,
+ * preventing crashes during the early module evaluation phase.
+ */
+let prismaInstance: PrismaClient | null = null;
 
-class DatabaseClient {
-    private static instance: PrismaClient;
+export const prisma = new Proxy({} as any, {
+    get: (_target: any, prop: string | symbol) => {
+        if (prop === "moduleLoaded") return true;
+        if (prop === "toJSON") return () => "PrismaClientProxy";
 
-    private constructor() { }
-
-    /**
-     * Get the singleton instance of PrismaClient
-     * Law 01: Controlled Access Point
-     */
-    public static getInstance(): PrismaClient {
-        if (!DatabaseClient.instance) {
-            // Safe casting to ensure type integrity (Law 02)
-            DatabaseClient.instance = new PrismaCtor() as unknown as PrismaClient;
+        if (!prismaInstance) {
+            console.log("⏳ [LAZY-INIT] First access to Prisma detected - Instantiating...");
+            try {
+                prismaInstance = new PrismaClient();
+                console.log("✅ [LAZY-INIT] PrismaClient successfully instantiated");
+            } catch (error: any) {
+                console.error("❌ [LAZY-INIT] FATAL: Failed to instantiate Prisma:", error.message);
+                throw error;
+            }
         }
-        return DatabaseClient.instance;
-    }
-}
 
-export const prisma = DatabaseClient.getInstance();
+        return (prismaInstance as any)[prop];
+    }
+}) as PrismaClient;

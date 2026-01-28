@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import type { PrismaClient } from "@prisma/client";
 import { BaseService } from "@/application/services/system/base/BaseService.js";
 import { CreateChangelogDto } from "@/presentation/api/dto/system/changelog/create-changelog.dto.js";
 import { ChangelogResponseDto } from "@/presentation/api/dto/system/changelog/changelog-response.dto.js";

@@ -23,9 +23,9 @@ export const useHeader = (options: UseHeaderOptions = {}): UseHeaderReturn => {
   /**
    * دالة تبديل Sidebar
    */
-  const handleSidebarToggle = useCallback(() => {
+  const handleSidebarToggle = options.onSidebarToggle ? useCallback(() => {
     options.onSidebarToggle?.()
-  }, [options])
+  }, [options.onSidebarToggle]) : undefined
 
   /**
    * دالة تبديل Mobile Menu

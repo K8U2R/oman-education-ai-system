@@ -19,7 +19,57 @@
   font-feature-settings:
     'kern' 1,
     'liga' 1;
-  text-rendering: optimizeLegibility;
+
+  /* Light mode - rarely used, but defined for completeness */
+  --background: 222 47% 11%;
+  --foreground: 210 40% 98%;
+
+  --card: 222 47% 14%;
+  --card-foreground: 210 40% 98%;
+
+  --popover: 222 47% 14%;
+  --popover-foreground: 210 40% 98%;
+
+  --primary: 263 70% 50%;
+  --primary-foreground: 210 40% 98%;
+
+  --secondary: 217 33% 17%;
+  --secondary-foreground: 210 40% 98%;
+
+  --muted: 217 33% 17%;
+  --muted-foreground: 215 20% 65%;
+
+  --accent: 221 83% 53%;
+  --accent-foreground: 210 40% 98%;
+
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 210 40% 98%;
+
+  --border: 217 33% 25%;
+  --input: 217 33% 25%;
+  --ring: 263 70% 50%;
+
+  --radius: 0.75rem;
+
+  /* Custom colors for gradients */
+  --purple: 263 70% 50%;
+  --blue: 221 83% 53%;
+  --navy: 222 47% 11%;
+  --navy-light: 222 47% 18%;
+
+  /* Glassmorphism */
+  --glass-bg: 222 47% 11% / 0.7;
+  --glass-border: 217 33% 30% / 0.5;
+
+  /* Sidebar */
+  --sidebar-background: 222 47% 8%;
+  --sidebar-foreground: 210 40% 98%;
+  --sidebar-primary: 263 70% 50%;
+  --sidebar-primary-foreground: 210 40% 98%;
+  --sidebar-accent: 217 33% 17%;
+  --sidebar-accent-foreground: 210 40% 98%;
+  --sidebar-border: 217 33% 20%;
+  --sidebar-ring: 263 70% 50%;
 }
 
 body {
@@ -35,4 +85,125 @@ body {
 [dir='ltr'] {
   direction: ltr;
   text-align: left;
+}
+
+@layer base {
+  .dark {
+    --background: 222 47% 11%;
+    --foreground: 210 40% 98%;
+
+    --card: 222 47% 14%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222 47% 14%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 263 70% 50%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 217 33% 17%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217 33% 17%;
+    --muted-foreground: 215 20% 65%;
+
+    --accent: 221 83% 53%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 63% 31%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217 33% 25%;
+    --input: 217 33% 25%;
+    --ring: 263 70% 50%;
+
+    --sidebar-background: 222 47% 8%;
+    --sidebar-foreground: 210 40% 98%;
+    --sidebar-primary: 263 70% 50%;
+    --sidebar-primary-foreground: 210 40% 98%;
+    --sidebar-accent: 217 33% 17%;
+    --sidebar-accent-foreground: 210 40% 98%;
+    --sidebar-border: 217 33% 20%;
+    --sidebar-ring: 263 70% 50%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+}
+
+@layer components {
+
+  /* Glassmorphism Card */
+  .glass-card {
+    @apply bg-card/50 backdrop-blur-xl border border-white/10 rounded-2xl;
+  }
+
+  /* Gradient Button */
+  .btn-gradient {
+    @apply bg-gradient-to-l from-purple to-blue text-white font-semibold px-6 py-3 rounded-xl hover:opacity-90 transition-all duration-300 hover:shadow-lg hover:shadow-purple/25;
+  }
+
+  /* Ghost Button */
+  .btn-ghost {
+    @apply bg-transparent border border-white/20 text-white font-medium px-6 py-3 rounded-xl hover:bg-white/10 transition-all duration-300;
+  }
+
+  /* Glow Effect */
+  .text-glow {
+    text-shadow: 0 0 40px hsl(var(--purple) / 0.5),
+      0 0 80px hsl(var(--blue) / 0.3);
+  }
+
+  /* Card Glow on Hover */
+  .card-glow {
+    @apply transition-all duration-300;
+  }
+
+  .card-glow:hover {
+    box-shadow: 0 0 30px hsl(var(--purple) / 0.2),
+      0 10px 40px hsl(var(--navy) / 0.5);
+  }
+
+  /* Gradient Text */
+  .gradient-text {
+    @apply bg-gradient-to-l from-purple-400 via-blue-400 to-purple-400 bg-clip-text text-transparent;
+  }
+
+  /* Progress Bar Gradient */
+  .progress-gradient {
+    @apply bg-gradient-to-l from-purple to-blue;
+  }
+}
+
+@layer utilities {
+
+  /* Animation Utilities */
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  @keyframes float {
+
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  .animate-pulse-slow {
+    animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  /* Gradient Background */
+  .bg-gradient-radial {
+    background: radial-gradient(ellipse at top, hsl(var(--purple) / 0.15) 0%, transparent 50%),
+      radial-gradient(ellipse at bottom right, hsl(var(--blue) / 0.1) 0%, transparent 50%);
+  }
 }

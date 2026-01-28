@@ -5,7 +5,7 @@
  */
 
 import { RouteFactory } from "../../../shared/route-factory.js";
-import { AuthController } from "@/modules/auth/controllers/auth.controller.js";
+import { RegistrationHandler } from "@/modules/auth/controllers/handlers/RegistrationHandler.js";
 
 const router = RouteFactory.createFeatureRouter();
 
@@ -30,7 +30,7 @@ const router = RouteFactory.createFeatureRouter();
  */
 router.post(
     "/verify-email",
-    ...RouteFactory.createRoute<AuthController>("AuthController", "verifyEmail"),
+    ...RouteFactory.createRoute<RegistrationHandler>("RegistrationHandler", "verifyEmail"),
 );
 
 /**
@@ -54,8 +54,8 @@ router.post(
  */
 router.post(
     "/send-verification",
-    ...RouteFactory.createRoute<AuthController>(
-        "AuthController",
+    ...RouteFactory.createRoute<RegistrationHandler>(
+        "RegistrationHandler",
         "sendVerificationEmail",
     ),
 );

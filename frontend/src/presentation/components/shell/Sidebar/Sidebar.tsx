@@ -6,12 +6,15 @@
  */
 
 import React from 'react'
+import { Link } from 'react-router-dom'
+import { LogOut, Settings, HelpCircle, User } from 'lucide-react'
 import { LoadingState } from '@/presentation/pages/components'
 import { usePageLoading } from '@/application/shared/hooks'
 import { useSidebar } from './hooks'
 import { SidebarGroup } from './components'
 import { cn } from '../../common/utils/classNames'
 import type { SidebarProps } from './types'
+import { ROUTES } from '@/domain/constants/routes.constants'
 
 /**
  * Sidebar Overlay - Overlay للموبايل
@@ -37,7 +40,7 @@ const SidebarOverlay: React.FC<{ isVisible: boolean; onClose?: () => void }> = (
  * مكون القائمة الجانبية مع مجموعات قابلة للطي
  */
 export const Sidebar: React.FC<SidebarProps> = React.memo(
-  ({ isOpen = true, onClose, variant = 'default', isCollapsed = false }) => {
+  ({ isOpen = true, onClose, variant = 'default', isCollapsed = false, className }) => {
     // استخدام useSidebar hook للحصول على البيانات المفلترة
     const { user, canAccess, isLoading, groups } = useSidebar({
       requireAuth: true,
@@ -61,9 +64,10 @@ export const Sidebar: React.FC<SidebarProps> = React.memo(
           'sidebar',
           !isOpen && 'sidebar--closed',
           isOpen && 'sidebar--open',
-          shouldCollapse && 'sidebar--collapsed'
+          shouldCollapse && 'sidebar--collapsed',
+          className
         ),
-      [isOpen, shouldCollapse]
+      [isOpen, shouldCollapse, className]
     )
 
     // إظهار حالة التحميل
@@ -88,7 +92,20 @@ export const Sidebar: React.FC<SidebarProps> = React.memo(
         {isOpen && <SidebarOverlay isVisible={isOpen} onClose={onClose} />}
 
         <aside className={sidebarClasses}>
-          <nav className="sidebar__nav">
+          {/* Header: Logo */}
+          <div className="sidebar__header">
+            <div className="flex items-center gap-3 px-4 py-6">
+              <div className="w-8 h-8 rounded-lg bg-primary-600 flex items-center justify-center text-white font-bold text-xl">
+                E
+              </div>
+              {!shouldCollapse && (
+                <span className="font-bold text-lg tracking-tight">EduSystem</span>
+              )}
+            </div>
+          </div>
+
+          {/* Navigation: Links */}
+          <div className="sidebar__nav scrollbar-thin scrollbar-thumb-gray-200 dark:scrollbar-thumb-gray-800">
             {groups.length === 0 ? (
               <div className="sidebar__empty">
                 <p className="sidebar__empty-message">لا توجد عناصر متاحة</p>
@@ -103,7 +120,31 @@ export const Sidebar: React.FC<SidebarProps> = React.memo(
                 />
               ))
             )}
-          </nav>
+          </div>
+
+          {/* Footer: User/Settings */}
+          <div className="sidebar__footer border-t border-border p-4 mt-auto">
+            <Link to={ROUTES.PROFILE} className="flex items-center gap-3 p-2 rounded-lg hover:bg-muted transition-colors text-foreground/80 hover:text-foreground">
+              <div className="w-8 h-8 rounded-full bg-secondary text-secondary-foreground flex items-center justify-center">
+                <User className="w-4 h-4" />
+              </div>
+              {!shouldCollapse && (
+                <div className="flex flex-col overflow-hidden">
+                  <span className="text-sm font-medium truncate">{user.fullName || 'User'}</span>
+                  <span className="text-xs text-muted-foreground truncate">{user.email}</span>
+                </div>
+              )}
+            </Link>
+
+            <div className="grid grid-cols-2 gap-2 mt-2">
+              <button className="flex items-center justify-center p-2 rounded-md hover:bg-muted text-muted-foreground hover:text-foreground transition-colors" title="Settings">
+                <Settings className="w-4 h-4" />
+              </button>
+              <button className="flex items-center justify-center p-2 rounded-md hover:bg-muted text-muted-foreground hover:text-destructive transition-colors" title="Log out">
+                <LogOut className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
         </aside>
       </>
     )

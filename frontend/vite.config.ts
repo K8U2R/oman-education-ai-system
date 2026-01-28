@@ -40,79 +40,9 @@ export default defineConfig(({ mode }) => {
       minify: isProduction ? 'esbuild' : false,
       // CSS code splitting
       cssCodeSplit: true,
-      // Rollup options for advanced code splitting
       rollupOptions: {
         output: {
-          // Manual chunks for better code splitting
-          manualChunks: (id) => {
-            // Vendor chunks
-            if (id.includes('node_modules')) {
-              // React core
-              if (id.includes('react') || id.includes('react-dom') || id.includes('react-router')) {
-                return 'react-vendor'
-              }
-              // UI libraries
-              if (id.includes('lucide-react')) {
-                return 'ui-vendor'
-              }
-              // State management
-              if (id.includes('zustand')) {
-                return 'state-vendor'
-              }
-              // HTTP clients
-              if (id.includes('axios')) {
-                return 'http-vendor'
-              }
-              // Supabase
-              if (id.includes('@supabase')) {
-                return 'supabase-vendor'
-              }
-              // Other node_modules
-              return 'vendor'
-            }
-            // Route-based code splitting
-            if (id.includes('/presentation/pages/')) {
-              const pageMatch = id.match(/\/presentation\/pages\/([^/]+)/)
-              if (pageMatch) {
-                const pageName = pageMatch[1]
-                // Group similar pages
-                if (pageName.includes('admin') || pageName.includes('Admin')) {
-                  return 'pages-admin'
-                }
-                if (pageName.includes('learning') || pageName.includes('Learning')) {
-                  return 'pages-learning'
-                }
-                if (pageName.includes('project') || pageName.includes('Project')) {
-                  return 'pages-projects'
-                }
-                if (pageName.includes('user') || pageName.includes('User')) {
-                  return 'pages-user'
-                }
-                return 'pages-common'
-              }
-            }
-            // Infrastructure layer
-            if (id.includes('/infrastructure/')) {
-              if (id.includes('/infrastructure/api/')) {
-                return 'infra-api'
-              }
-              if (id.includes('/infrastructure/storage/')) {
-                return 'infra-storage'
-              }
-              return 'infra-common'
-            }
-            // Application layer
-            if (id.includes('/application/')) {
-              if (id.includes('/application/features/')) {
-                return 'app-features'
-              }
-              if (id.includes('/application/core/')) {
-                return 'app-core'
-              }
-              return 'app-common'
-            }
-          },
-          // Optimize chunk file names
+          // Optimized chunk file names
           chunkFileNames: isProduction
             ? 'assets/js/[name]-[hash].js'
             : 'assets/js/[name].js',
@@ -131,10 +61,6 @@ export default defineConfig(({ mode }) => {
             return `assets/[ext]/[name]-[hash][extname]`
           },
         },
-        // Tree shaking
-        treeshake: {
-          moduleSideEffects: false,
-        },
       },
       // Target modern browsers for smaller bundle
       target: ['es2020', 'edge88', 'firefox78', 'chrome87', 'safari14'],
@@ -152,11 +78,11 @@ export default defineConfig(({ mode }) => {
         // WARNING: This should NOT be used in production
         'Content-Security-Policy': [
           "default-src 'self'",
-          "script-src 'self' 'unsafe-eval' 'unsafe-inline' http://localhost:30000",
+          "script-src 'self' 'unsafe-eval' 'unsafe-inline'",
           "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://api.fontshare.com",
           "font-src 'self' data: https://fonts.gstatic.com https://cdn.fontshare.com",
           "img-src 'self' data: blob: https://lh3.googleusercontent.com https://*.googleusercontent.com",
-          "connect-src 'self' http://localhost:30000 http://localhost:8000 http://localhost:9681 ws://localhost:30000 ws://localhost:8000 ws://localhost:9681 https://fonts.googleapis.com https://api.fontshare.com",
+          "connect-src 'self' https://fonts.googleapis.com https://api.fontshare.com",
           "frame-src 'none'",
           "object-src 'none'",
           "base-uri 'self'",
@@ -164,7 +90,7 @@ export default defineConfig(({ mode }) => {
       },
       proxy: {
         '/api/v1': {
-          target: "http://localhost:30000", // Backend runs on port 3000
+          target: process.env.VITE_API_TARGET || "http://localhost:30000",
           changeOrigin: true,
           secure: false,
         },

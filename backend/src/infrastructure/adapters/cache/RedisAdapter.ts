@@ -14,7 +14,7 @@ export class RedisAdapter implements ICacheProvider {
             port: ENV_CONFIG.REDIS_PORT,
             password: ENV_CONFIG.REDIS_PASSWORD,
             lazyConnect: true, // Don't crash on startup if Redis is down
-            retryStrategy: (times) => {
+            retryStrategy: (times: number) => {
                 const delay = Math.min(times * 50, 2000);
                 return delay; // Exponential backoff max 2s
             },
@@ -31,7 +31,7 @@ export class RedisAdapter implements ICacheProvider {
             logger.info('Redis Connected 🚀');
         });
 
-        this.client.on('error', (err) => {
+        this.client.on('error', (err: Error) => {
             this.isConnected = false;
             // Silent log to avoid spamming
             if ((err as any).code === 'ECONNREFUSED') {

@@ -182,9 +182,9 @@ const DeveloperDashboardPage: React.FC = () => {
             className="developer-dashboard-page__tool-card"
             role="button"
             tabIndex={0}
-            onClick={() => window.open('http://localhost:9681/docs', '_blank')}
+            onClick={() => window.open(`${window.location.origin}/api/v1/docs`, '_blank')}
             onKeyDown={(e: React.KeyboardEvent) =>
-              e.key === 'Enter' && window.open('http://localhost:9681/docs', '_blank')
+              e.key === 'Enter' && window.open(`${window.location.origin}/api/v1/docs`, '_blank')
             }
           >
             <FileCode size={36} className="developer-dashboard-page__tool-icon" />
@@ -303,7 +303,7 @@ const DeveloperDashboardPage: React.FC = () => {
           <Button
             variant="primary"
             size="lg"
-            onClick={() => window.open('http://localhost:9681/docs', '_blank')}
+            onClick={() => window.open(`${window.location.origin}/api/v1/docs`, '_blank')}
           >
             <FileCode size={20} className="mr-2" />
             فتح وثائق API

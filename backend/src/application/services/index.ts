@@ -45,9 +45,9 @@ export * from './system';
 // ═══════════════════════════════════════════════════════════════════
 // 🏗️ Stubs for missing services (Temporary - See Law-13)
 // ═══════════════════════════════════════════════════════════════════
-export { GoogleOAuthService } from '@/modules/auth/services/GoogleOAuthService.js';
+export { GoogleOAuthService } from '@/modules/auth/services/strategies/GoogleOAuthService.js';
 export { KnowledgeBaseService } from "@/modules/education/services/KnowledgeBaseService.js";
 export { OfficeGenerationService } from "@/modules/office/services/OfficeGenerationService.js";
 // export class ContentManagementService { } // Moved to modules/education
-export { LoginRateLimiter } from '@/modules/auth/services/LoginRateLimiter.js';
+export { LoginRateLimiter } from '@/modules/auth/services/security/LoginRateLimiter.js';
 export { CodeGenerationService } from '@/modules/education/services/CodeGenerationService.js';

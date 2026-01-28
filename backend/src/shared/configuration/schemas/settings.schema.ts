@@ -51,7 +51,7 @@ export const SecuritySettingsSchema = z.object({
 export const AISettingsSchema = z.object({
   openaiApiKey: z.string().optional(),
   anthropicApiKey: z.string().optional(),
-  defaultProvider: z.enum(["openai", "anthropic"]).default("openai"),
+  defaultProvider: z.enum(["openai", "anthropic"]).catch("openai"),
   defaultModel: z.string().default("gpt-4-turbo-preview"),
 });
 
@@ -66,7 +66,7 @@ export const LoggingSettingsSchema = z.object({
 });
 
 export const EmailSettingsSchema = z.object({
-  provider: z.enum(["sendgrid", "ses", "console"]).default("console"),
+  provider: z.enum(["sendgrid", "ses", "console", "smtp"]).catch("console"),
   sendgridApiKey: z.string().optional(),
   sesRegion: z.string().optional(),
   sesAccessKeyId: z.string().optional(),

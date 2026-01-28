@@ -23,14 +23,18 @@ import AuthSuccessPage from '@/presentation/pages/auth/verification/AuthSuccessP
 import ForgotPasswordPage from '@/presentation/pages/auth/forgot-password/ForgotPasswordPage'
 import OAuthCallback from '@/presentation/pages/auth/callback/OAuthCallbackPage'
 
+import { PublicLayout } from '@/presentation/layouts/PublicLayout'
+
 export const authRoutes: RouteConfig[] = [
   {
     path: ROUTES.OAUTH_SUCCESS,
     element: (
       <PublicRoute>
-        <React.Suspense fallback={<DefaultRouteLoader />}>
-          <AuthSuccessPage />
-        </React.Suspense>
+        <PublicLayout>
+          <React.Suspense fallback={<DefaultRouteLoader />}>
+            <AuthSuccessPage />
+          </React.Suspense>
+        </PublicLayout>
       </PublicRoute>
     ),
     metadata: {
@@ -44,9 +48,11 @@ export const authRoutes: RouteConfig[] = [
     path: ROUTES.OAUTH_CALLBACK,
     element: (
       <PublicRoute>
-        <React.Suspense fallback={<DefaultRouteLoader />}>
-          <OAuthCallback />
-        </React.Suspense>
+        <PublicLayout>
+          <React.Suspense fallback={<DefaultRouteLoader />}>
+            <OAuthCallback />
+          </React.Suspense>
+        </PublicLayout>
       </PublicRoute>
     ),
     metadata: {
@@ -60,11 +66,13 @@ export const authRoutes: RouteConfig[] = [
     path: ROUTES.LOGIN,
     element: (
       <PublicRoute>
-        <AuthLayout>
-          <React.Suspense fallback={<DefaultRouteLoader />}>
-            <LoginPage />
-          </React.Suspense>
-        </AuthLayout>
+        <PublicLayout>
+          <AuthLayout>
+            <React.Suspense fallback={<DefaultRouteLoader />}>
+              <LoginPage />
+            </React.Suspense>
+          </AuthLayout>
+        </PublicLayout>
       </PublicRoute>
     ),
     metadata: authMetadata[ROUTES.LOGIN],
@@ -73,11 +81,13 @@ export const authRoutes: RouteConfig[] = [
     path: ROUTES.FORGOT_PASSWORD,
     element: (
       <PublicRoute>
-        <AuthLayout>
-          <React.Suspense fallback={<DefaultRouteLoader />}>
-            <ForgotPasswordPage />
-          </React.Suspense>
-        </AuthLayout>
+        <PublicLayout>
+          <AuthLayout>
+            <React.Suspense fallback={<DefaultRouteLoader />}>
+              <ForgotPasswordPage />
+            </React.Suspense>
+          </AuthLayout>
+        </PublicLayout>
       </PublicRoute>
     ),
     metadata: {
@@ -92,11 +102,13 @@ export const authRoutes: RouteConfig[] = [
     path: ROUTES.REGISTER,
     element: (
       <PublicRoute>
-        <AuthLayout>
-          <React.Suspense fallback={<DefaultRouteLoader />}>
-            <RegisterPage />
-          </React.Suspense>
-        </AuthLayout>
+        <PublicLayout>
+          <AuthLayout>
+            <React.Suspense fallback={<DefaultRouteLoader />}>
+              <RegisterPage />
+            </React.Suspense>
+          </AuthLayout>
+        </PublicLayout>
       </PublicRoute>
     ),
     metadata: authMetadata[ROUTES.REGISTER],
@@ -105,11 +117,13 @@ export const authRoutes: RouteConfig[] = [
     path: ROUTES.VERIFY_EMAIL,
     element: (
       <PublicRoute allowAuthenticated={true}>
-        <AuthLayout>
-          <React.Suspense fallback={<DefaultRouteLoader />}>
-            <VerifyEmailPage />
-          </React.Suspense>
-        </AuthLayout>
+        <PublicLayout>
+          <AuthLayout>
+            <React.Suspense fallback={<DefaultRouteLoader />}>
+              <VerifyEmailPage />
+            </React.Suspense>
+          </AuthLayout>
+        </PublicLayout>
       </PublicRoute>
     ),
     metadata: {

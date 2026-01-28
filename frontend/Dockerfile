@@ -19,6 +19,9 @@ FROM nginx:stable-alpine
 # Copy the build output from the builder stage to Nginx web root
 COPY --from=builder /app/dist /usr/share/nginx/html
 
+# Copy custom Nginx configuration
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
 # Expose port (Nginx default)
 EXPOSE 80
 

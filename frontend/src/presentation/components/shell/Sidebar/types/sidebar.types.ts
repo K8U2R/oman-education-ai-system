@@ -119,6 +119,11 @@ export interface SidebarProps {
    * هل Sidebar مطوي؟
    */
   isCollapsed?: boolean
+
+  /**
+   * كلاسات CSS إضافية
+   */
+  className?: string
 }
 
 /**

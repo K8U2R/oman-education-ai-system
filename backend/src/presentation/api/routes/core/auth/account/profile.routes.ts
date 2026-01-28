@@ -5,7 +5,7 @@
  */
 
 import { RouteFactory } from "../../../shared/route-factory.js";
-import { AuthController } from "@/modules/auth/controllers/auth.controller.js";
+import { UserHandler } from "@/modules/auth/controllers/handlers/UserHandler.js";
 import { authMiddleware } from "../../../../middleware/security/index.js";
 
 const router = RouteFactory.createFeatureRouter();
@@ -25,8 +25,8 @@ const router = RouteFactory.createFeatureRouter();
  */
 router.get(
     "/me",
-    ...RouteFactory.createAuthenticatedRoute<AuthController>(
-        "AuthController",
+    ...RouteFactory.createAuthenticatedRoute<UserHandler>(
+        "UserHandler",
         "getCurrentUser",
         authMiddleware.authenticate,
     ),
@@ -59,8 +59,8 @@ router.get(
  */
 router.patch(
     "/profile",
-    ...RouteFactory.createAuthenticatedRoute<AuthController>(
-        "AuthController",
+    ...RouteFactory.createAuthenticatedRoute<UserHandler>(
+        "UserHandler",
         "updateUser",
         authMiddleware.authenticate,
     ),

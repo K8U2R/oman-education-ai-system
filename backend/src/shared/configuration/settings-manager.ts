@@ -55,7 +55,7 @@ export function getSettings(): Settings {
     ai: {
       openaiApiKey: ENV_CONFIG.OPENAI_API_KEY,
       anthropicApiKey: "",
-      defaultProvider: ENV_CONFIG.AI_DEFAULT_PROVIDER as "openai" | "anthropic",
+      defaultProvider: (ENV_CONFIG.AI_DEFAULT_PROVIDER || "openai") as "openai" | "anthropic",
     },
     logging: {
       level: "info" as "debug" | "info" | "warn" | "error",
@@ -63,7 +63,7 @@ export function getSettings(): Settings {
       backupCount: 5,
     },
     email: {
-      provider: ENV_CONFIG.EMAIL_PROVIDER as "sendgrid" | "ses",
+      provider: (ENV_CONFIG.EMAIL_PROVIDER || "console") as "sendgrid" | "ses" | "console" | "smtp",
       sendgridApiKey: "",
       sesRegion: "",
       sesAccessKeyId: "",

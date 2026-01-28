@@ -16,7 +16,8 @@
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    background: var(--color-bg-app);
+    background: hsl(var(--background));
+    color: hsl(var(--foreground));
 
     &__layout {
         flex: 1;
@@ -26,9 +27,15 @@
 
     &__sidebar {
         width: var(--sidebar-width);
-        background: var(--color-bg-surface);
-        border-inline-end: 1px solid var(--color-border);
+        background: hsl(var(--sidebar-background));
+        color: hsl(var(--sidebar-foreground));
+        border-inline-end: 1px solid hsl(var(--sidebar-border));
         transition: width var(--transition-base);
+        height: 100vh;
+        overflow-y: auto;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
 
         @media (max-width: $breakpoint-lg) {
             position: fixed;
@@ -58,6 +65,7 @@
     &__content {
         flex: 1;
         padding: var(--space-lg);
+        background: hsl(var(--background));
 
         @media (max-width: $breakpoint-sm) {
             padding: var(--space-md);
@@ -77,6 +85,128 @@
                 bottom: 0;
                 background: rgba(0, 0, 0, 0.5);
                 z-index: calc(var(--z-modal) - 10);
+                backdrop-filter: blur(2px);
+            }
+        }
+    }
+}
+
+// ============================================================================
+// Component Visual Styles (Lovable Gold Standard)
+// ============================================================================
+
+.header {
+    background: hsl(var(--background) / 0.8);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid hsl(var(--border) / 0.5);
+    height: var(--header-height);
+    position: sticky;
+    top: 0;
+    z-index: var(--z-sticky);
+    width: 100%;
+    transition: background-color var(--transition-base), border-color var(--transition-base);
+
+    &__container {
+        height: 100%;
+        max-width: var(--container-max-width);
+        margin: 0 auto;
+        padding-inline: var(--container-padding);
+    }
+
+    &__content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 100%;
+        gap: var(--space-md);
+    }
+
+    &__brand {
+        display: flex;
+        align-items: center;
+        gap: var(--space-sm);
+    }
+
+    &__nav {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: var(--space-md);
+    }
+
+    &__search {
+        flex: 1;
+        max-width: 400px;
+        margin-inline: var(--space-lg);
+    }
+
+    &__actions {
+        display: flex;
+        align-items: center;
+        gap: var(--space-sm);
+    }
+
+    &__controls {
+        display: none;
+
+        @media (max-width: $breakpoint-lg) {
+            display: flex;
+        }
+    }
+}
+
+.sidebar {
+    background: hsl(var(--sidebar-background));
+    color: hsl(var(--sidebar-foreground));
+    border-inline-end: 1px solid hsl(var(--sidebar-border));
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    transition: width var(--transition-base), background-color var(--transition-base);
+
+    &__header {
+        height: var(--header-height);
+        display: flex;
+        align-items: center;
+        padding-inline: var(--space-md);
+        border-bottom: 1px solid hsl(var(--sidebar-border) / 0.5);
+    }
+
+    &__nav {
+        flex: 1;
+        overflow-y: auto;
+        padding: var(--space-md);
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-sm);
+    }
+
+    &__footer {
+        padding: var(--space-md);
+        border-top: 1px solid hsl(var(--sidebar-border) / 0.5);
+        background: hsl(var(--sidebar-accent) / 0.1);
+    }
+
+    &__empty {
+        text-align: center;
+        padding: var(--space-lg);
+        color: hsl(var(--muted-foreground));
+        font-size: 0.875rem;
+    }
+
+    &--collapsed {
+
+        // Handle collapsed state visuals if needed, though layout usually handles width
+        .sidebar__header span {
+            display: none;
+        }
+
+        .sidebar__footer {
+
+            // Adjust footer for collapsed state
+            span {
+                display: none;
             }
         }
     }

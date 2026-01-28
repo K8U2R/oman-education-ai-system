@@ -7,7 +7,7 @@
 import React from 'react'
 import { RouteConfig } from '../../types'
 import { ROUTES } from '@/domain/constants/routes.constants'
-import MainLayout from '@/presentation/layouts/MainLayout'
+import DashboardLayout from '@/presentation/layouts/DashboardLayout'
 import { ProtectedRoute } from '@/features/user-authentication-management'
 import { adminMetadata } from './admin.metadata'
 import { DefaultRouteLoader } from '@/presentation/components/common'
@@ -47,11 +47,11 @@ export const adminRoutes: RouteConfig[] = [
     path: ROUTES.ADMIN_DASHBOARD,
     element: (
       <ProtectedRoute requiredRole="admin">
-        <MainLayout>
+        <DashboardLayout>
           <React.Suspense fallback={<DefaultRouteLoader />}>
             <AdminDashboardPage />
           </React.Suspense>
-        </MainLayout>
+        </DashboardLayout>
       </ProtectedRoute>
     ),
     metadata: adminMetadata[ROUTES.ADMIN_DASHBOARD],
@@ -60,11 +60,11 @@ export const adminRoutes: RouteConfig[] = [
     path: ROUTES.ADMIN_KNOWLEDGE,
     element: (
       <ProtectedRoute requiredRole="admin">
-        <MainLayout>
+        <DashboardLayout>
           <React.Suspense fallback={<DefaultRouteLoader />}>
             <KnowledgePage />
           </React.Suspense>
-        </MainLayout>
+        </DashboardLayout>
       </ProtectedRoute>
     ),
     metadata: {
@@ -76,11 +76,11 @@ export const adminRoutes: RouteConfig[] = [
     path: ROUTES.ADMIN_USERS,
     element: (
       <ProtectedRoute requiredRole="admin">
-        <MainLayout>
+        <DashboardLayout>
           <React.Suspense fallback={<DefaultRouteLoader />}>
             <UsersManagementPage />
           </React.Suspense>
-        </MainLayout>
+        </DashboardLayout>
       </ProtectedRoute>
     ),
     metadata: adminMetadata[ROUTES.ADMIN_USERS],
@@ -89,11 +89,11 @@ export const adminRoutes: RouteConfig[] = [
     path: ROUTES.ADMIN_WHITELIST,
     element: (
       <ProtectedRoute requiredRole="admin" requiredPermissions={['whitelist.manage']}>
-        <MainLayout>
+        <DashboardLayout>
           <React.Suspense fallback={<DefaultRouteLoader />}>
             <WhitelistManagementPage />
           </React.Suspense>
-        </MainLayout>
+        </DashboardLayout>
       </ProtectedRoute>
     ),
     metadata: adminMetadata[ROUTES.ADMIN_WHITELIST],
@@ -102,11 +102,11 @@ export const adminRoutes: RouteConfig[] = [
     path: ROUTES.DEVELOPER_DASHBOARD,
     element: (
       <ProtectedRoute requiredRole="developer">
-        <MainLayout>
+        <DashboardLayout>
           <React.Suspense fallback={<DefaultRouteLoader />}>
             <DeveloperDashboardPage />
           </React.Suspense>
-        </MainLayout>
+        </DashboardLayout>
       </ProtectedRoute>
     ),
     metadata: adminMetadata[ROUTES.DEVELOPER_DASHBOARD],
@@ -116,11 +116,11 @@ export const adminRoutes: RouteConfig[] = [
     path: ROUTES.ADMIN_SECURITY_DASHBOARD,
     element: (
       <ProtectedRoute requiredRole="admin">
-        <MainLayout>
+        <DashboardLayout>
           <React.Suspense fallback={<DefaultRouteLoader />}>
             <SecurityDashboardPage />
           </React.Suspense>
-        </MainLayout>
+        </DashboardLayout>
       </ProtectedRoute>
     ),
     metadata: adminMetadata[ROUTES.ADMIN_SECURITY_DASHBOARD],
@@ -129,11 +129,11 @@ export const adminRoutes: RouteConfig[] = [
     path: ROUTES.ADMIN_SECURITY_SESSIONS,
     element: (
       <ProtectedRoute requiredRole="admin">
-        <MainLayout>
+        <DashboardLayout>
           <React.Suspense fallback={<DefaultRouteLoader />}>
             <SessionsManagementPage />
           </React.Suspense>
-        </MainLayout>
+        </DashboardLayout>
       </ProtectedRoute>
     ),
     metadata: adminMetadata[ROUTES.ADMIN_SECURITY_SESSIONS],
@@ -142,11 +142,11 @@ export const adminRoutes: RouteConfig[] = [
     path: ROUTES.ADMIN_SECURITY_LOGS,
     element: (
       <ProtectedRoute requiredRole="admin">
-        <MainLayout>
+        <DashboardLayout>
           <React.Suspense fallback={<DefaultRouteLoader />}>
             <SecurityLogsPage />
           </React.Suspense>
-        </MainLayout>
+        </DashboardLayout>
       </ProtectedRoute>
     ),
     metadata: adminMetadata[ROUTES.ADMIN_SECURITY_LOGS],
@@ -155,11 +155,11 @@ export const adminRoutes: RouteConfig[] = [
     path: ROUTES.ADMIN_SECURITY_SETTINGS,
     element: (
       <ProtectedRoute requiredRole="admin">
-        <MainLayout>
+        <DashboardLayout>
           <React.Suspense fallback={<DefaultRouteLoader />}>
             <SecuritySettingsPage />
           </React.Suspense>
-        </MainLayout>
+        </DashboardLayout>
       </ProtectedRoute>
     ),
     metadata: adminMetadata[ROUTES.ADMIN_SECURITY_SETTINGS],
@@ -168,11 +168,11 @@ export const adminRoutes: RouteConfig[] = [
     path: ROUTES.ADMIN_SECURITY_ROUTES,
     element: (
       <ProtectedRoute requiredRole="admin">
-        <MainLayout>
+        <DashboardLayout>
           <React.Suspense fallback={<DefaultRouteLoader />}>
             <RouteProtectionPage />
           </React.Suspense>
-        </MainLayout>
+        </DashboardLayout>
       </ProtectedRoute>
     ),
     metadata: adminMetadata[ROUTES.ADMIN_SECURITY_ROUTES],
@@ -182,11 +182,11 @@ export const adminRoutes: RouteConfig[] = [
     path: ROUTES.DEVELOPER_SECURITY_ANALYTICS,
     element: (
       <ProtectedRoute requiredRole="developer">
-        <MainLayout>
+        <DashboardLayout>
           <React.Suspense fallback={<DefaultRouteLoader />}>
             <SecurityAnalyticsPage />
           </React.Suspense>
-        </MainLayout>
+        </DashboardLayout>
       </ProtectedRoute>
     ),
     metadata: adminMetadata[ROUTES.DEVELOPER_SECURITY_ANALYTICS],
@@ -195,11 +195,11 @@ export const adminRoutes: RouteConfig[] = [
     path: ROUTES.DEVELOPER_SECURITY_MONITORING,
     element: (
       <ProtectedRoute requiredRole="developer">
-        <MainLayout>
+        <DashboardLayout>
           <React.Suspense fallback={<DefaultRouteLoader />}>
             <SecurityMonitoringPage />
           </React.Suspense>
-        </MainLayout>
+        </DashboardLayout>
       </ProtectedRoute>
     ),
     metadata: adminMetadata[ROUTES.DEVELOPER_SECURITY_MONITORING],
@@ -209,11 +209,11 @@ export const adminRoutes: RouteConfig[] = [
     path: ROUTES.ADMIN_ANALYTICS_ERRORS,
     element: (
       <ProtectedRoute requiredRole="admin">
-        <MainLayout>
+        <DashboardLayout>
           <React.Suspense fallback={<DefaultRouteLoader />}>
             <ErrorDashboardPage />
           </React.Suspense>
-        </MainLayout>
+        </DashboardLayout>
       </ProtectedRoute>
     ),
     metadata: adminMetadata[ROUTES.ADMIN_ANALYTICS_ERRORS],
@@ -222,11 +222,11 @@ export const adminRoutes: RouteConfig[] = [
     path: ROUTES.ADMIN_ANALYTICS_PERFORMANCE,
     element: (
       <ProtectedRoute requiredRole="admin">
-        <MainLayout>
+        <DashboardLayout>
           <React.Suspense fallback={<DefaultRouteLoader />}>
             <PerformanceDashboardPage />
           </React.Suspense>
-        </MainLayout>
+        </DashboardLayout>
       </ProtectedRoute>
     ),
     metadata: adminMetadata[ROUTES.ADMIN_ANALYTICS_PERFORMANCE],
@@ -236,11 +236,11 @@ export const adminRoutes: RouteConfig[] = [
     path: ROUTES.ADMIN_DATABASE_CORE_DASHBOARD,
     element: (
       <ProtectedRoute requiredRole="admin" requiredPermissions={['database-core.view']}>
-        <MainLayout>
+        <DashboardLayout>
           <React.Suspense fallback={<DefaultRouteLoader />}>
             <DatabaseCoreDashboardPage />
           </React.Suspense>
-        </MainLayout>
+        </DashboardLayout>
       </ProtectedRoute>
     ),
     metadata: adminMetadata[ROUTES.ADMIN_DATABASE_CORE_DASHBOARD],
@@ -249,11 +249,11 @@ export const adminRoutes: RouteConfig[] = [
     path: ROUTES.ADMIN_DATABASE_CORE_PERFORMANCE,
     element: (
       <ProtectedRoute requiredRole="admin" requiredPermissions={['database-core.metrics.view']}>
-        <MainLayout>
+        <DashboardLayout>
           <React.Suspense fallback={<DefaultRouteLoader />}>
             <PerformancePage />
           </React.Suspense>
-        </MainLayout>
+        </DashboardLayout>
       </ProtectedRoute>
     ),
     metadata: adminMetadata[ROUTES.ADMIN_DATABASE_CORE_PERFORMANCE],
@@ -265,11 +265,11 @@ export const adminRoutes: RouteConfig[] = [
         requiredRole="admin"
         requiredPermissions={['database-core.connections.manage']}
       >
-        <MainLayout>
+        <DashboardLayout>
           <React.Suspense fallback={<DefaultRouteLoader />}>
             <ConnectionsPage />
           </React.Suspense>
-        </MainLayout>
+        </DashboardLayout>
       </ProtectedRoute>
     ),
     metadata: adminMetadata[ROUTES.ADMIN_DATABASE_CORE_CONNECTIONS],
@@ -278,11 +278,11 @@ export const adminRoutes: RouteConfig[] = [
     path: ROUTES.ADMIN_DATABASE_CORE_CACHE,
     element: (
       <ProtectedRoute requiredRole="admin" requiredPermissions={['database-core.cache.manage']}>
-        <MainLayout>
+        <DashboardLayout>
           <React.Suspense fallback={<DefaultRouteLoader />}>
             <CachePage />
           </React.Suspense>
-        </MainLayout>
+        </DashboardLayout>
       </ProtectedRoute>
     ),
     metadata: adminMetadata[ROUTES.ADMIN_DATABASE_CORE_CACHE],
@@ -291,11 +291,11 @@ export const adminRoutes: RouteConfig[] = [
     path: ROUTES.ADMIN_DATABASE_CORE_EXPLORER,
     element: (
       <ProtectedRoute requiredRole="admin" requiredPermissions={['database-core.explore']}>
-        <MainLayout>
+        <DashboardLayout>
           <React.Suspense fallback={<DefaultRouteLoader />}>
             <DatabaseExplorerPage />
           </React.Suspense>
-        </MainLayout>
+        </DashboardLayout>
       </ProtectedRoute>
     ),
     metadata: adminMetadata[ROUTES.ADMIN_DATABASE_CORE_EXPLORER],
@@ -304,11 +304,11 @@ export const adminRoutes: RouteConfig[] = [
     path: ROUTES.ADMIN_DATABASE_CORE_QUERY_BUILDER,
     element: (
       <ProtectedRoute requiredRole="admin" requiredPermissions={['database-core.query.execute']}>
-        <MainLayout>
+        <DashboardLayout>
           <React.Suspense fallback={<DefaultRouteLoader />}>
             <QueryBuilderPage />
           </React.Suspense>
-        </MainLayout>
+        </DashboardLayout>
       </ProtectedRoute>
     ),
     metadata: adminMetadata[ROUTES.ADMIN_DATABASE_CORE_QUERY_BUILDER],
@@ -320,11 +320,11 @@ export const adminRoutes: RouteConfig[] = [
         requiredRole="admin"
         requiredPermissions={['database-core.transactions.view']}
       >
-        <MainLayout>
+        <DashboardLayout>
           <React.Suspense fallback={<DefaultRouteLoader />}>
             <TransactionsPage />
           </React.Suspense>
-        </MainLayout>
+        </DashboardLayout>
       </ProtectedRoute>
     ),
     metadata: adminMetadata[ROUTES.ADMIN_DATABASE_CORE_TRANSACTIONS],
@@ -333,11 +333,11 @@ export const adminRoutes: RouteConfig[] = [
     path: ROUTES.ADMIN_DATABASE_CORE_AUDIT,
     element: (
       <ProtectedRoute requiredRole="admin" requiredPermissions={['database-core.audit.view']}>
-        <MainLayout>
+        <DashboardLayout>
           <React.Suspense fallback={<DefaultRouteLoader />}>
             <AuditLogsPage />
           </React.Suspense>
-        </MainLayout>
+        </DashboardLayout>
       </ProtectedRoute>
     ),
     metadata: adminMetadata[ROUTES.ADMIN_DATABASE_CORE_AUDIT],
@@ -346,11 +346,11 @@ export const adminRoutes: RouteConfig[] = [
     path: ROUTES.ADMIN_DATABASE_CORE_BACKUPS,
     element: (
       <ProtectedRoute requiredRole="admin" requiredPermissions={['database-core.backups.manage']}>
-        <MainLayout>
+        <DashboardLayout>
           <React.Suspense fallback={<DefaultRouteLoader />}>
             <BackupsPage />
           </React.Suspense>
-        </MainLayout>
+        </DashboardLayout>
       </ProtectedRoute>
     ),
     metadata: adminMetadata[ROUTES.ADMIN_DATABASE_CORE_BACKUPS],
@@ -362,11 +362,11 @@ export const adminRoutes: RouteConfig[] = [
         requiredRole="admin"
         requiredPermissions={['database-core.migrations.manage']}
       >
-        <MainLayout>
+        <DashboardLayout>
           <React.Suspense fallback={<DefaultRouteLoader />}>
             <MigrationsPage />
           </React.Suspense>
-        </MainLayout>
+        </DashboardLayout>
       </ProtectedRoute>
     ),
     metadata: adminMetadata[ROUTES.ADMIN_DATABASE_CORE_MIGRATIONS],

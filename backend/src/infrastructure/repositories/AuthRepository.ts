@@ -32,7 +32,7 @@ import {
   RegistrationFailedError,
 } from "@/domain/exceptions";
 import { DatabaseCoreAdapter } from "../adapters/db/DatabaseCoreAdapter";
-import { TokenService } from "@/modules/auth/services/TokenService.js";
+import { TokenService } from "@/modules/auth/services/core/TokenService.js";
 import { Password, type HashedPassword } from "@/domain/value-objects/Password";
 import { logger } from "@/shared/utils/logger";
 import { DatabaseQueryConditions, DatabaseQueryOptions } from "@/domain/types";

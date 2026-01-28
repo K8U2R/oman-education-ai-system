@@ -110,6 +110,63 @@ $radius: (
 
     // Default Variables (Spacing, Radius, Typography, Layout) - Constant across themes
     :root {
+        /* Lovable HSL Variables (Gold Standard) */
+        --background: 222 47% 11%;
+        --foreground: 210 40% 98%;
+
+        --card: 222 47% 14%;
+        --card-foreground: 210 40% 98%;
+
+        --popover: 222 47% 14%;
+        --popover-foreground: 210 40% 98%;
+
+        --primary: 263 70% 50%;
+        --primary-foreground: 210 40% 98%;
+
+        --secondary: 217 33% 17%;
+        --secondary-foreground: 210 40% 98%;
+
+        --muted: 217 33% 17%;
+        --muted-foreground: 215 20% 65%;
+
+        --accent: 221 83% 53%;
+        --accent-foreground: 210 40% 98%;
+
+        --destructive: 0 84% 60%;
+        --destructive-foreground: 210 40% 98%;
+
+        --border: 217 33% 25%;
+        --input: 217 33% 25%;
+        --ring: 263 70% 50%;
+
+        --radius: 0.75rem;
+
+        /* Custom colors for gradients */
+        --purple: 263 70% 50%;
+        --blue: 221 83% 53%;
+        --navy: 222 47% 11%;
+        --navy-light: 222 47% 18%;
+
+        /* Glassmorphism */
+        --glass-bg: 222 47% 11% / 0.7;
+        --glass-border: 217 33% 30% / 0.5;
+
+        /* Sidebar */
+        --sidebar-background: 222 47% 8%;
+        --sidebar-foreground: 210 40% 98%;
+        --sidebar-primary: 263 70% 50%;
+        --sidebar-primary-foreground: 210 40% 98%;
+        --sidebar-accent: 217 33% 17%;
+        --sidebar-accent-foreground: 210 40% 98%;
+        --sidebar-border: 217 33% 20%;
+        --sidebar-ring: 263 70% 50%;
+
+        // Legacy/Semantic Mappings (Backwards Compatibility)
+        --color-bg-app: hsl(var(--background));
+        --color-bg-surface: hsl(var(--card));
+        --color-text-main: hsl(var(--foreground));
+        --color-primary-500: hsl(var(--primary));
+        // ... (Other specific mappings can be added as deemed necessary)
 
         // Spacing tokens
         @each $key, $value in $spacing {
@@ -122,12 +179,10 @@ $radius: (
         }
 
         // Typography tokens
-        --font-family-base: 'Noto Sans Arabic',
+        --font-family-base: 'Cairo',
         'Inter',
-        'Segoe UI',
-        sans-serif;
-        --font-family-heading: 'Clash Grotesk',
-        'Inter',
+        sans-serif; // Updated to Cairo
+        --font-family-heading: 'Cairo',
         sans-serif;
         --font-size-base: 1rem;
         --line-height-base: 1.6;
@@ -137,52 +192,17 @@ $radius: (
         --font-weight-bold: 700;
 
         // Layout tokens
-        --container-max-width: 1280px;
-        --container-padding: 1.5rem;
+        --container-max-width: 1400px; // Updated to 2xl
+        --container-padding: 2rem;
         --header-height: 64px;
         --sidebar-width: 280px;
         --sidebar-collapsed-width: 64px;
         --footer-height: 80px;
 
-        // 5. Component Semantic Tokens (Expanded)
-        // Sidebar
-        --color-bg-sidebar: var(--color-bg-secondary);
-        --color-border-sidebar: var(--color-border-primary);
-        --color-text-sidebar-item: var(--color-text-secondary);
-        --color-bg-sidebar-item-hover: var(--color-bg-tertiary);
-        --color-bg-sidebar-item-active: var(--color-primary-100);
-        --color-text-sidebar-item-active: var(--color-primary-700);
-
-        // Header / Navbar
-        --color-bg-header: var(--color-bg-surface); // Usually translucent
-        --color-border-header: var(--color-border-primary);
-
-        // Footer
-        --color-bg-footer: var(--color-bg-secondary);
-        --color-text-footer: var(--color-text-tertiary);
-
-        // Menus & Dropdowns
-        --color-bg-menu: var(--color-bg-surface);
-        --color-border-menu: var(--color-border-primary);
-        --color-bg-menu-item-hover: var(--color-bg-tertiary);
-        --color-text-menu-item: var(--color-text-primary);
-
-        // Modals & Popups
-        --color-bg-modal-overlay: oklch(0 0 0 / 0.5); // Fixed overlay opacity
-        --color-bg-modal-surface: var(--color-bg-surface);
-        --color-border-modal: var(--color-border-primary);
-
         // Transition tokens
         --transition-base: 150ms ease;
         --transition-slow: 300ms ease;
         --transition-fast: 100ms ease;
-
-        // Spacing aliases (semantic names for compatibility)
-        --spacing-xs: var(--space-xs);
-        --spacing-sm: var(--space-sm);
-        --spacing-md: var(--space-md);
-        --spacing-lg: var(--space-lg);
-        --spacing-xl: var(--space-xl);
 
         // Z-index scale
         --z-dropdown: 1000;
@@ -192,81 +212,12 @@ $radius: (
         --z-modal: 1050;
         --z-popover: 1060;
         --z-tooltip: 1070;
-
-        // Shadow tokens (OKLCH-based for theme consistency)
-        --shadow-sm: 0 1px 2px 0 oklch(0 0 0 / 0.05);
-        --shadow-md: 0 4px 6px -1px oklch(0 0 0 / 0.1),
-        0 2px 4px -2px oklch(0 0 0 / 0.1);
-        --shadow-lg: 0 10px 15px -3px oklch(0 0 0 / 0.1),
-        0 4px 6px -4px oklch(0 0 0 / 0.1);
-        --shadow-xl: 0 20px 25px -5px oklch(0 0 0 / 0.1),
-        0 8px 10px -6px oklch(0 0 0 / 0.1);
-        --shadow-2xl: 0 25px 50px -12px oklch(0 0 0 / 0.25);
-
-        // Notification/Toast state colors (OKLCH Logic)
-        --color-success: #{map.get($palette-sovereign, 'success')};
-        --color-error: #{map.get($palette-sovereign, 'error')};
-        --color-warning: #{map.get($palette-sovereign, 'warning')};
-        --color-info: #{map.get($palette-sovereign, 'info')};
-
-        // Monospace font for error panels/code
-        --font-family-mono: 'Fira Code',
-        'Consolas',
-        'Monaco',
-        'Courier New',
-        monospace;
     }
 
-    // Iterate over Persona (university, children)
-    @each $persona, $modes in $themes-config {
-
-        // Default Mode (Light) for each persona class
-        .theme-#{$persona} {
-            $light-tokens: map.get($modes, 'light');
-
-            @each $key, $value in $light-tokens {
-                --color-#{$key}: #{$value};
-            }
-        }
-
-        // Explicit Dark Mode override for each persona
-        @media (prefers-color-scheme: dark) {
-            .theme-#{$persona} {
-                $dark-tokens: map.get($modes, 'dark');
-
-                @each $key, $value in $dark-tokens {
-                    --color-#{$key}: #{$value};
-                }
-            }
-        }
-
-        // Manual 'dark-mode' class override (when user manually toggles dark mode)
-        .theme-#{$persona}.dark-mode,
-        .dark-mode .theme-#{$persona} {
-            $dark-tokens: map.get($modes, 'dark');
-
-            @each $key, $value in $dark-tokens {
-                --color-#{$key}: #{$value};
-            }
-        }
-
-        // Support for ThemeProvider's effectiveMode
-        .theme-#{$persona}.theme-dark {
-            $dark-tokens: map.get($modes, 'dark');
-
-            @each $key, $value in $dark-tokens {
-                --color-#{$key}: #{$value};
-            }
-        }
-    }
-
-    // 🔥 CRITICAL FIX: Default Fallback to University Light Theme on :root
-    // This ensures variables exist even if 'theme-university' class is missing
-    :root {
-        $default-mode: map.get(map.get($themes-config, 'university'), 'light');
-
-        @each $key, $value in $default-mode {
-            --color-#{$key}: #{$value};
-        }
+    // Light Mode Support (Rarely used in this design, but good for completeness)
+    .light {
+        --background: 0 0% 100%;
+        --foreground: 222.2 47.4% 11.2%;
+        // ... (Add full light palette if needed, otherwise fallback to root/dark)
     }
 }

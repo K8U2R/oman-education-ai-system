@@ -9,27 +9,31 @@ import type { UserRole, Permission } from '@/domain/types/auth.types'
 /**
  * Header Props - خصائص Header
  */
-export interface HeaderProps {
-  /**
-   * دالة تبديل Sidebar
-   */
-  onSidebarToggle?: () => void
-  onMenuClick?: () => void
+/**
+ * هل تظهر عناصر التحكم (Sidebar/MobileMenu)؟
+ */
+showControls ?: boolean
 
-  /**
-   * هل Sidebar مطوي؟
-   */
-  isSidebarCollapsed?: boolean
+/**
+ * دالة تبديل Sidebar
+ */
+onSidebarToggle ?: () => void
+  onMenuClick ?: () => void
 
-  /**
-   * نوع Header
-   */
-  variant?: 'default' | 'compact' | 'minimal'
+    /**
+     * هل Sidebar مطوي؟
+     */
+    isSidebarCollapsed ?: boolean
 
-  /**
-   * ClassName إضافي
-   */
-  className?: string
+/**
+ * نوع Header
+ */
+variant ?: 'default' | 'compact' | 'minimal'
+
+/**
+ * ClassName إضافي
+ */
+className ?: string
 }
 
 /**
@@ -201,6 +205,11 @@ export interface HeaderSearchProps {
  * UseHeader Options - خيارات useHeader Hook
  */
 export interface UseHeaderOptions {
+  /**
+   * هل تظهر عناصر التحكم؟
+   */
+  showControls?: boolean
+
   /**
    * دالة تبديل Sidebar
    */

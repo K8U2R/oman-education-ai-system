@@ -7,21 +7,21 @@ import { defineConfig, devices } from '@playwright/test'
  */
 export default defineConfig({
   testDir: './tests/e2e',
-  
+
   // Maximum time one test can run for
   timeout: 60 * 1000,
-  
+
   // Expect timeout
   expect: {
     timeout: 10 * 1000,
   },
-  
+
   // Test execution
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 1 : undefined,
-  
+
   // Reporter configuration
   reporter: [
     ['html', { outputFolder: 'playwright-report' }],
@@ -29,33 +29,33 @@ export default defineConfig({
     ['json', { outputFile: 'test-results.json' }],
     process.env.CI ? ['github'] : ['list'],
   ],
-  
+
   // Shared settings for all projects
   use: {
     // Base URL for tests
     baseURL: process.env.PLAYWRIGHT_TEST_BASE_URL || 'http://localhost:5173',
-    
+
     // Collect trace when retrying the failed test
     trace: 'on-first-retry',
-    
+
     // Screenshot on failure
     screenshot: 'only-on-failure',
-    
+
     // Video on failure
     video: 'retain-on-failure',
-    
+
     // Action timeout
     actionTimeout: 15 * 1000,
-    
+
     // Navigation timeout
     navigationTimeout: 30 * 1000,
-    
+
     // Viewport
     viewport: { width: 1280, height: 720 },
-    
+
     // Locale
     locale: 'ar-OM',
-    
+
     // Timezone
     timezoneId: 'Asia/Muscat',
   },
@@ -74,7 +74,7 @@ export default defineConfig({
       name: 'webkit',
       use: { ...devices['Desktop Safari'] },
     },
-    
+
     // Mobile viewports
     {
       name: 'Mobile Chrome',

@@ -15,7 +15,7 @@
 import { Request, Response, NextFunction } from "express";
 
 // Application Layer - استخدام barrel exports
-import { TokenService } from "@/modules/auth/services/TokenService.js";
+import { TokenService } from "@/modules/auth/services/core/TokenService.js";
 import {
   TokenExpiredError,
   InvalidTokenError,
@@ -24,18 +24,30 @@ import {
 } from "../../../../../domain/index.js";
 import { logger } from "../../../../../shared/utils/logger.js";
 
+import { container } from "../../../../../infrastructure/di/Container.js";
+
 // Express types are now defined in src/types/express.d.ts
 
 export class AuthMiddleware {
-  private readonly tokenService: TokenService;
+  private _tokenService: TokenService | undefined;
 
   /**
    * إنشاء Auth Middleware
    *
-   * @param tokenService - خدمة Token
+   * @param tokenService - خدمة Token (Optional for DI)
    */
   constructor(tokenService?: TokenService) {
-    this.tokenService = tokenService || new TokenService();
+    this._tokenService = tokenService;
+  }
+
+  /**
+   * Getter for TokenService (Lazy Resolution)
+   */
+  private get tokenService(): TokenService {
+    if (!this._tokenService) {
+      this._tokenService = container.resolve<TokenService>("TokenService");
+    }
+    return this._tokenService;
   }
 
   /**

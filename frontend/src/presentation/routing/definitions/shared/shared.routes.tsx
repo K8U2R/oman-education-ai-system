@@ -7,7 +7,7 @@
 import React, { lazy } from 'react'
 import { RouteConfig } from '../../types'
 import { ROUTES } from '@/domain/constants/routes.constants'
-import MainLayout from '@/presentation/layouts/MainLayout'
+import DashboardLayout from '@/presentation/layouts/DashboardLayout'
 import { ProtectedRoute } from '@/features/user-authentication-management'
 import { sharedMetadata } from './shared.metadata'
 import { DefaultRouteLoader } from '@/presentation/components/common'
@@ -25,11 +25,11 @@ export const sharedRoutes: RouteConfig[] = [
     path: ROUTES.PROFILE,
     element: (
       <ProtectedRoute>
-        <MainLayout>
+        <DashboardLayout>
           <React.Suspense fallback={<DefaultRouteLoader />}>
             <ProfilePage />
           </React.Suspense>
-        </MainLayout>
+        </DashboardLayout>
       </ProtectedRoute>
     ),
     metadata: sharedMetadata[ROUTES.PROFILE],
@@ -38,11 +38,11 @@ export const sharedRoutes: RouteConfig[] = [
     path: ROUTES.SETTINGS,
     element: (
       <ProtectedRoute>
-        <MainLayout>
+        <DashboardLayout>
           <React.Suspense fallback={<DefaultRouteLoader />}>
             <SettingsPage />
           </React.Suspense>
-        </MainLayout>
+        </DashboardLayout>
       </ProtectedRoute>
     ),
     metadata: sharedMetadata[ROUTES.SETTINGS],
@@ -51,11 +51,11 @@ export const sharedRoutes: RouteConfig[] = [
     path: ROUTES.SUBSCRIPTION,
     element: (
       <ProtectedRoute>
-        <MainLayout>
+        <DashboardLayout>
           <React.Suspense fallback={<DefaultRouteLoader />}>
             <SubscriptionPage />
           </React.Suspense>
-        </MainLayout>
+        </DashboardLayout>
       </ProtectedRoute>
     ),
     metadata: sharedMetadata[ROUTES.SUBSCRIPTION],
@@ -64,11 +64,11 @@ export const sharedRoutes: RouteConfig[] = [
     path: ROUTES.USER_SECURITY_SETTINGS,
     element: (
       <ProtectedRoute>
-        <MainLayout>
+        <DashboardLayout>
           <React.Suspense fallback={<DefaultRouteLoader />}>
             <UserSecuritySettingsPage />
           </React.Suspense>
-        </MainLayout>
+        </DashboardLayout>
       </ProtectedRoute>
     ),
     metadata: sharedMetadata[ROUTES.USER_SECURITY_SETTINGS],

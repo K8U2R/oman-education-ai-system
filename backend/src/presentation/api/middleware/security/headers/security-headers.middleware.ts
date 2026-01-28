@@ -7,6 +7,7 @@
 
 import { Request, Response, NextFunction } from "express";
 import { getSettings } from "../../../../../shared/configuration/index.js";
+import { enhancedLogger } from "../../../../../shared/utils/EnhancedLogger.js";
 
 /**
  * Security Headers Configuration
@@ -138,10 +139,12 @@ export function securityHeadersMiddleware(config: SecurityHeadersConfig = defaul
             res.setHeader("X-DNS-Prefetch-Control", "off");
             res.removeHeader("X-Powered-By");
 
-            console.log('   🔒 Security Headers Applied');
+            // Law 08: Fail-Safe Logging
+            enhancedLogger.info('Security Headers Applied');
             next();
         } catch (error) {
-            console.error('❌ Error applying Security Headers:', error);
+            // Law 08: Fail-Safe Logging
+            enhancedLogger.error('Error applying Security Headers', { error });
             next(error);
         }
     };
@@ -201,10 +204,12 @@ export function apiSecurityHeadersMiddleware() {
             res.setHeader("Referrer-Policy", "no-referrer");
             res.removeHeader("X-Powered-By");
 
-            console.log('   🔒 API Security Headers Applied');
+            // Law 08: Fail-Safe Logging
+            enhancedLogger.info('API Security Headers Applied');
             next();
         } catch (error) {
-            console.error('❌ Error applying API Security Headers:', error);
+            // Law 08: Fail-Safe Logging
+            enhancedLogger.error('Error applying API Security Headers', { error });
             next(error);
         }
     };

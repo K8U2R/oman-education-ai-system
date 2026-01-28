@@ -14,7 +14,7 @@ export const ROUTES = {
   PRIVACY: '/privacy',
 
   // Auth
-  OAUTH_CALLBACK: '/auth/callback',
+  OAUTH_CALLBACK: '/auth/success',
   OAUTH_SUCCESS: '/auth/success',
   VERIFY_EMAIL: '/verify-email',
   RESEND_VERIFICATION: '/resend-verification',

@@ -192,7 +192,7 @@ class AuthService implements IAuthRepository {
    */
   getOAuthUrl(provider: OAuthProvider, redirectTo?: string): string {
     // Backend runs on port 3000, frontend on 5174
-    const backendUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:30000'
+    const backendUrl = import.meta.env.VITE_API_BASE_URL || '/api/v1'
     // Remove /api/v1 suffix if present since routes are mounted at /api/v1 in express
     const baseUrl = backendUrl.replace(/\/api\/v1$/, '')
     const redirectUrl = redirectTo || `${window.location.origin}${ROUTES.OAUTH_CALLBACK}`

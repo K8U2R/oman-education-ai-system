@@ -9,7 +9,7 @@ import { tokenManager } from '../services/auth/token-manager.service'
 import { useAuthStore } from '@/features/user-authentication-management'
 import type { ApiRequestConfig } from './types'
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:30000/api/v1'
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api/v1'
 
 interface QueuedRequest {
   resolve: (value: unknown) => void

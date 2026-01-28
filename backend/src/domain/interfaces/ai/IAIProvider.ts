@@ -49,6 +49,12 @@ export interface AICodeGenerationResponse {
   framework?: string;
 }
 
+export interface AICompletionOptions {
+  systemPrompt?: string;
+  temperature?: number;
+  maxTokens?: number;
+}
+
 /**
  * واجهة مزود AI
  */
@@ -83,12 +89,12 @@ export interface IAIProvider {
   /**
    * Generate Text (Legacy/Simple)
    */
-  generateText(prompt: string, options?: any): Promise<string>;
+  generateText(prompt: string, options?: AICompletionOptions): Promise<string>;
 
   /**
    * Generate JSON
    */
-  generateJson<T>(prompt: string, schema: object, options?: any): Promise<T>;
+  generateJson<T>(prompt: string, schema: object, options?: AICompletionOptions): Promise<T>;
 
   /**
    * اسم المزود

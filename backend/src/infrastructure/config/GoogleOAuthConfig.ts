@@ -34,12 +34,12 @@ export type GoogleOAuthConfig = z.infer<typeof GoogleOAuthConfigSchema>;
  * @throws {ConfigurationError} If required configuration is missing
  */
 export function loadGoogleOAuthConfig(): GoogleOAuthConfig {
+  const { ENV_CONFIG } = require("../env.config.js");
+
   const config = {
-    clientId: process.env.GOOGLE_OAUTH_CLIENT_ID || "",
-    clientSecret: process.env.GOOGLE_OAUTH_CLIENT_SECRET || "",
-    redirectUri:
-      process.env.GOOGLE_OAUTH_REDIRECT_URI ||
-      "http://localhost:3000/api/v1/auth/oauth/google/callback",
+    clientId: ENV_CONFIG.GOOGLE_CLIENT_ID || "",
+    clientSecret: ENV_CONFIG.GOOGLE_CLIENT_SECRET || "",
+    redirectUri: ENV_CONFIG.GOOGLE_CALLBACK_URL, // Already has default in schema
     scope: process.env.GOOGLE_OAUTH_SCOPE || "openid email profile",
   };
 

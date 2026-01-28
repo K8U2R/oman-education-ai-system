@@ -7,7 +7,7 @@
 import React, { lazy } from 'react'
 import { RouteConfig } from '../../types'
 import { ROUTES } from '@/domain/constants/routes.constants'
-import MainLayout from '@/presentation/layouts/MainLayout'
+import PublicLayout from '@/presentation/layouts/PublicLayout'
 import { PublicRoute } from '../../guards'
 import { publicMetadata } from './public.metadata'
 import { DefaultRouteLoader } from '@/presentation/components/common'
@@ -23,11 +23,11 @@ export const publicRoutes: RouteConfig[] = [
     element: (
       // الصفحة الرئيسية متاحة للجميع بدون مصادقة (مستخدمين مصادق عليهم وغير مصادق عليهم)
       <PublicRoute allowAuthenticated={true}>
-        <MainLayout>
+        <PublicLayout>
           <React.Suspense fallback={<DefaultRouteLoader />}>
             <HomePage />
           </React.Suspense>
-        </MainLayout>
+        </PublicLayout>
       </PublicRoute>
     ),
     metadata: publicMetadata[ROUTES.HOME],
@@ -36,11 +36,11 @@ export const publicRoutes: RouteConfig[] = [
     path: ROUTES.TERMS,
     element: (
       <PublicRoute allowAuthenticated={true}>
-        <MainLayout>
+        <PublicLayout>
           <React.Suspense fallback={<DefaultRouteLoader />}>
             <TermsPage />
           </React.Suspense>
-        </MainLayout>
+        </PublicLayout>
       </PublicRoute>
     ),
     metadata: publicMetadata[ROUTES.TERMS],
@@ -49,11 +49,11 @@ export const publicRoutes: RouteConfig[] = [
     path: ROUTES.PRIVACY,
     element: (
       <PublicRoute allowAuthenticated={true}>
-        <MainLayout>
+        <PublicLayout>
           <React.Suspense fallback={<DefaultRouteLoader />}>
             <PrivacyPolicyPage />
           </React.Suspense>
-        </MainLayout>
+        </PublicLayout>
       </PublicRoute>
     ),
     metadata: publicMetadata[ROUTES.PRIVACY],

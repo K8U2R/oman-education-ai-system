@@ -11,6 +11,8 @@ import { ProjectService } from "@/modules/education/services/ProjectService.js";
 import { AssessmentController } from "@/modules/education/controllers/assessment.controller.js";
 import { ContentManagementController } from "@/modules/education/controllers/content-management.controller.js";
 import { ProjectController } from "@/modules/education/controllers/project.controller.js";
+import { LessonGeneratorService } from "@/modules/education/services/ai/LessonGeneratorService.js";
+import { educationConfig, type EducationConfig } from "@/modules/education/config/education.config.js";
 
 export function registerEducationModule(): void {
     // Factory method to inject dependencies
@@ -40,11 +42,23 @@ export function registerEducationModule(): void {
     // Cluster 4: Education Services (Modules/Education)
     // -----------------------------------------------------
 
+    // Config
+    container.registerFactory("EducationConfig", () => {
+        return educationConfig;
+    });
+
     // Services
     container.registerFactory("LearningService", () => {
         const ai = container.resolve<IAIProvider>("IAIProvider");
         const db = new DatabaseCoreAdapter();
         return new LearningService(ai, db);
+    });
+
+    container.registerFactory("LessonGeneratorService", () => {
+        const db = new DatabaseCoreAdapter();
+        const ai = container.resolve<IAIProvider>("IAIProvider");
+        const config = container.resolve<EducationConfig>("EducationConfig");
+        return new LessonGeneratorService(db, ai, config);
     });
 
     container.registerFactory("AssessmentService", () => {

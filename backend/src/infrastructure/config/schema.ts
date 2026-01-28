@@ -32,6 +32,8 @@ export const ConfigSchema = z.object({
 
   // Unified Authentication (Sovereign Passport)
   JWT_SECRET: z.string().default("dev-jwt-secret-change-in-production"),
+  JWT_ACCESS_EXPIRY: z.string().default("15m"),
+  JWT_REFRESH_EXPIRY: z.string().default("7d"),
   SESSION_SECRET: z.string().default("dev-session-secret-change-in-production"),
   FRONTEND_URL: z.string().url().default("http://localhost:5173"),
   CORS_ORIGIN: z.string().url().default("http://localhost:5173"),

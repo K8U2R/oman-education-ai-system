@@ -27,12 +27,12 @@ export default defineConfig({
       '@/presentation': resolve(srcDir, 'presentation'),
       '@/shared': resolve(srcDir, 'shared'),
     }
-    
+
     // Ensure proper resolution with extensions
     if (!options.resolveExtensions) {
       options.resolveExtensions = ['.ts', '.tsx', '.js', '.jsx', '.json']
     }
-    
+
     // Main fields for resolution
     if (!options.mainFields) {
       options.mainFields = ['module', 'main']

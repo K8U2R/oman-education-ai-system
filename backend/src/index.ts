@@ -3,7 +3,8 @@
  * Updated with Anti-Zombie Protection & Connection Timeouts
  */
 
-import "dotenv/config"; // Must be first
+import "reflect-metadata"; // Required for tsyringe
+import "dotenv/config"; // Must be first (after metadata)
 import express, { Express } from "express";
 import http from "http"; // Import HTTP module for server control
 import { logger } from "./shared/utils/logger.js";
@@ -14,7 +15,7 @@ import {
   setupPostRouteMiddleware,
 } from "./presentation/api/middleware/pipeline.js";
 import coreRouter from "./presentation/api/routes/index.js";
-import oauthRoutes from "./application/routes/oauth.routes.js";
+// import oauthRoutes from "./application/routes/oauth.routes.js";
 
 const app: Express = express();
 
@@ -35,7 +36,7 @@ async function startServer() {
     // ════════════════════════════════════════════════════════════════════════
     // STEP 0: Priority Health Check (No Middleware Blocking)
     // ════════════════════════════════════════════════════════════════════════
-    app.get("/health", (_req, res) => {
+    app.get("/api/health", (_req, res) => {
       logger.info(`💓 [HEALTH CHECK] Incoming from ${_req.ip}`);
       res.status(200).json({
         status: "ok",
@@ -60,7 +61,7 @@ async function startServer() {
     setupAuthMiddleware(app, settings);
 
     // Sovereign App Routes
-    app.use("/api/v1", oauthRoutes);
+    // app.use("/api/v1", oauthRoutes);
     app.use("/api/v1", coreRouter);
 
     // Finalize Pipeline (404 and Error handling)

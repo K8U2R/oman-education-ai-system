@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 // import { container } from "@/infrastructure/di/index.js";
-import { WhitelistService } from "../services/WhitelistService.js";
+import { WhitelistService } from "../services/security/WhitelistService.js";
 import { PermissionLevelType } from "@/domain/value-objects/PermissionLevel.js";
 import { Permission } from "@/domain/types/auth/index.js";
 import {
@@ -33,25 +33,9 @@ export class WhitelistController extends BaseHandler {
                     include_expired: query.include_expired,
                 });
 
-                const response = entries.map((entry) => ({
-                    id: entry.id,
-                    email: entry.email,
-                    permission_level: entry.permission_level,
-                    permissions: entry.permissions,
-                    granted_by: entry.granted_by,
-                    granted_at: entry.granted_at,
-                    expires_at: entry.expires_at,
-                    is_active: entry.is_active,
-                    is_permanent: entry.is_permanent,
-                    notes: entry.notes,
-                    created_at: entry.created_at,
-                    updated_at: entry.updated_at,
-                }));
-
-
                 this.ok(res, {
-                    entries: response,
-                    total: response.length,
+                    entries,
+                    total: entries.length,
                 });
             },
             "فشل جلب إدخالات القائمة البيضاء",
@@ -73,20 +57,7 @@ export class WhitelistController extends BaseHandler {
                     return;
                 }
 
-                this.ok(res, {
-                    id: entry.id,
-                    email: entry.email,
-                    permission_level: entry.permission_level,
-                    permissions: entry.permissions,
-                    granted_by: entry.granted_by,
-                    granted_at: entry.granted_at,
-                    expires_at: entry.expires_at,
-                    is_active: entry.is_active,
-                    is_permanent: entry.is_permanent,
-                    notes: entry.notes,
-                    created_at: entry.created_at,
-                    updated_at: entry.updated_at,
-                });
+                this.ok(res, entry);
             },
             "فشل جلب إدخال القائمة البيضاء",
         );
@@ -115,21 +86,7 @@ export class WhitelistController extends BaseHandler {
                     notes: validatedData.notes || null,
                 });
 
-                const data = entry.toData();
-                this.created(res, {
-                    id: data.id,
-                    email: data.email,
-                    permission_level: data.permission_level,
-                    permissions: data.permissions,
-                    granted_by: data.granted_by,
-                    granted_at: data.granted_at,
-                    expires_at: data.expires_at,
-                    is_active: data.is_active,
-                    is_permanent: data.is_permanent,
-                    notes: data.notes,
-                    created_at: data.created_at,
-                    updated_at: data.updated_at,
-                });
+                this.created(res, entry);
             },
             "فشل إنشاء إدخال القائمة البيضاء",
         );
@@ -158,21 +115,7 @@ export class WhitelistController extends BaseHandler {
                     notes: validatedData.notes || null,
                 });
 
-                const data = entry.toData();
-                this.ok(res, {
-                    id: data.id,
-                    email: data.email,
-                    permission_level: data.permission_level,
-                    permissions: data.permissions,
-                    granted_by: data.granted_by,
-                    granted_at: data.granted_at,
-                    expires_at: data.expires_at,
-                    is_active: data.is_active,
-                    is_permanent: data.is_permanent,
-                    notes: data.notes,
-                    created_at: data.created_at,
-                    updated_at: data.updated_at,
-                });
+                this.ok(res, entry);
             },
             "فشل تحديث إدخال القائمة البيضاء",
         );
@@ -204,11 +147,8 @@ export class WhitelistController extends BaseHandler {
             async () => {
                 const { id } = req.params;
                 const entry = await this.whitelistService.deactivateEntry(id);
-                const data = entry.toData();
                 this.ok(res, {
-                    id: data.id,
-                    email: data.email,
-                    is_active: data.is_active,
+                    ...entry,
                     message: "تم تعطيل إدخال القائمة البيضاء بنجاح",
                 });
             },
@@ -226,11 +166,8 @@ export class WhitelistController extends BaseHandler {
             async () => {
                 const { id } = req.params;
                 const entry = await this.whitelistService.activateEntry(id);
-                const data = entry.toData();
                 this.ok(res, {
-                    id: data.id,
-                    email: data.email,
-                    is_active: data.is_active,
+                    ...entry,
                     message: "تم تفعيل إدخال القائمة البيضاء بنجاح",
                 });
             },
@@ -247,17 +184,10 @@ export class WhitelistController extends BaseHandler {
             res,
             async () => {
                 const entries = await this.whitelistService.findExpiredEntries();
-                const response = entries.map((entry) => ({
-                    id: entry.id,
-                    email: entry.email,
-                    permission_level: entry.permission_level,
-                    expires_at: entry.expires_at,
-                    is_active: entry.is_active,
-                }));
 
                 this.ok(res, {
-                    entries: response,
-                    total: response.length,
+                    entries,
+                    total: entries.length,
                 });
             },
             "فشل جلب الإدخالات المنتهية",

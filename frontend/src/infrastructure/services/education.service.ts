@@ -24,7 +24,9 @@ export interface GeneratedLesson {
     // ... other fields
 }
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api/v1';
+// Use relative path to leverage Nginx proxy in production/docker
+// Or use VITE_API_BASE_URL if set
+const API_URL = import.meta.env.VITE_API_BASE_URL || '/api/v1';
 
 export interface EducationalLesson {
     id: string;

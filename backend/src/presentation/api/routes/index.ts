@@ -17,7 +17,7 @@ import aiRoutes from "./features/ai/index.js";
 import storageRoutes from "./features/storage/storage.routes.js";
 import projectRoutes from "./features/project.routes.js";
 import notificationRoutes from "./features/notifications/notification.routes.js";
-import educationRoutes from "./education.routes.js"; // Standardized
+import educationRoutes from "@/modules/education/interfaces/http/routes/education.routes.js"; // Modularized
 
 // === ADMIN ROUTES ===
 import adminRoutes from "./admin/index.js";

@@ -27,14 +27,16 @@ export const HeaderControls: React.FC<HeaderControlsProps> = React.memo(
 
     return (
       <div className={controlsClasses}>
-        {/* Mobile Menu Button */}
-        <button
-          className="header-controls__mobile-button"
-          onClick={onMobileMenuOpen}
-          aria-label="فتح القائمة"
-        >
-          <Menu className="header-controls__mobile-icon" />
-        </button>
+        {/* Mobile Menu Button - Shown only when onMobileMenuOpen is provided */}
+        {onMobileMenuOpen && (
+          <button
+            className="header-controls__mobile-button"
+            onClick={onMobileMenuOpen}
+            aria-label="فتح القائمة"
+          >
+            <Menu className="header-controls__mobile-icon" />
+          </button>
+        )}
 
         {/* Sidebar Toggle Button - Desktop only */}
         {onSidebarToggle && (

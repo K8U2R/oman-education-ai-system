@@ -1,38 +1,21 @@
-# --- Phase 1: Build Stage ---
-FROM node:20-alpine AS builder
+FROM node:20-slim
+
+# Required for Prisma
+RUN apt-get update && apt-get install -y openssl && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
-# Copy package files
-COPY package*.json ./
-
-# Install dependencies
-RUN npm install
-
-# Copy source code
+# Copy all files
 COPY . .
 
-# Build the application
-RUN npm run build:bundle
+# Install all dependencies (including dev for tsx)
+RUN npm install
 
-# --- Phase 2: Runtime Stage ---
-FROM node:20-alpine
-
-WORKDIR /app
-
-# Copy production dependencies only (optimization)
-COPY package*.json ./
-RUN npm install --omit=dev --ignore-scripts
-
-# Copy the build output from the builder stage
-COPY --from=builder /app/dist ./dist
-# Copy migrations for the migration engine to find them
-COPY --from=builder /app/scripts/backend/database/migrate.ts ./scripts/backend/database/migrate.ts
-# Copy env file to the runtime
-COPY .env .env
+# Generate Prisma
+RUN npx prisma generate
 
 # Expose the API port
 EXPOSE 30000
 
-# Start command
-CMD ["node", "dist/index.js"]
+# Start directly via tsx to avoid bundling issues
+CMD ["npx", "tsx", "src/index.ts"]

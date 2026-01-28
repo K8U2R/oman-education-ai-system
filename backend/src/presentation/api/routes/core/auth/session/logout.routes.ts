@@ -5,7 +5,7 @@
  */
 
 import { RouteFactory } from "../../../shared/route-factory.js";
-import { AuthController } from "@/modules/auth/controllers/auth.controller.js";
+import { LoginHandler } from "@/modules/auth/controllers/handlers/LoginHandler.js";
 import { authMiddleware } from "../../../../middleware/security/index.js";
 
 const router = RouteFactory.createFeatureRouter();
@@ -25,8 +25,8 @@ const router = RouteFactory.createFeatureRouter();
  */
 router.post(
     "/logout",
-    ...RouteFactory.createAuthenticatedRoute<AuthController>(
-        "AuthController",
+    ...RouteFactory.createAuthenticatedRoute<LoginHandler>(
+        "LoginHandler",
         "logout",
         authMiddleware.authenticate,
     ),
@@ -45,13 +45,15 @@ router.post(
  *       200:
  *         description: تم تسجيل الخروج من جميع الأجهزة
  */
+/* 
 router.post(
     "/logout-all",
-    ...RouteFactory.createAuthenticatedRoute<AuthController>(
-        "AuthController",
+    ...RouteFactory.createAuthenticatedRoute<LoginHandler>(
+        "LoginHandler",
         "logoutAll",
         authMiddleware.authenticate,
     ),
-);
+); 
+*/
 
 export default router;

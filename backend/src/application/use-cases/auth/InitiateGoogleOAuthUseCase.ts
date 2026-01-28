@@ -5,16 +5,18 @@
  */
 
 // Application Layer - استخدام barrel exports
-import { GoogleOAuthService } from "@/application/services";
+import { GoogleOAuthService } from "@/modules/auth/services/strategies/GoogleOAuthService";
+import { OAuthStateService } from "@/modules/auth/services/state/OAuthStateService";
 
 // Domain Layer - استخدام barrel exports
 import { ValidationError } from "@/domain/exceptions";
+import { container } from "@/infrastructure/di/index";
 
 // Shared Layer - استخدام common.ts
 import { logger } from "@/shared/common";
 
 export class InitiateGoogleOAuthUseCase {
-  constructor(private readonly googleOAuthService: GoogleOAuthService) {}
+  constructor(private readonly googleOAuthService: GoogleOAuthService) { }
 
   /**
    * Execute use case
@@ -37,6 +39,13 @@ export class InitiateGoogleOAuthUseCase {
 
     logger.debug("Initiating Google OAuth", { redirectTo });
 
-    return await this.googleOAuthService.generateAuthorizationUrl(redirectTo);
+    // 1. Resolve OAuthStateService (Lazy resolution to avoid circle during refactor)
+    const oauthStateService = container.resolve<OAuthStateService>("OAuthStateService");
+
+    // 2. Generate secure state mapped to this specific user's redirect intent
+    const state = await oauthStateService.generateState(redirectTo);
+
+    // 3. Generate Auth URL with this specific state
+    return await this.googleOAuthService.generateAuthorizationUrl(state);
   }
 }

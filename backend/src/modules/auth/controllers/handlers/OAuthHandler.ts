@@ -1,0 +1,119 @@
+import { Request, Response } from "express";
+import { BaseHandler } from "@/presentation/api/handlers/base/BaseHandler.js";
+import { logger } from "@/shared/utils/logger.js";
+import { z } from "zod";
+import { InitiateGoogleOAuthUseCase } from "@/application/use-cases/auth/InitiateGoogleOAuthUseCase.js";
+import { OAuthStateService } from "@/modules/auth/services/state/OAuthStateService.js";
+import { GoogleOAuthService } from "@/modules/auth/services/strategies/GoogleOAuthService.js";
+import { OAuthProviderNotSupportedError } from "@/domain/exceptions/OAuthExceptions.js";
+import { ENV_CONFIG } from "@/infrastructure/config/env.config.js";
+
+export class OAuthHandler extends BaseHandler {
+    constructor(
+        private readonly initiateGoogleOAuthUseCase: InitiateGoogleOAuthUseCase,
+        private readonly oauthStateService: OAuthStateService,
+        private readonly googleOAuthService: GoogleOAuthService
+    ) {
+        super();
+    }
+
+    /**
+     * GET /api/v1/auth/oauth/:provider
+     */
+    initiateOAuth = async (req: Request, res: Response): Promise<void> => {
+        await this.execute(
+            res,
+            async () => {
+                const { provider } = req.params;
+                const redirectTo = req.query.redirect_to as string | undefined;
+
+                if (provider !== "google") {
+                    throw new OAuthProviderNotSupportedError(
+                        `Provider "${provider}" غير مدعوم`,
+                    );
+                }
+
+                if (!redirectTo) {
+                    this.badRequest(res, "redirect_to مطلوب");
+                    return;
+                }
+
+                const authorizationUrl = await this.initiateGoogleOAuthUseCase.execute(redirectTo);
+
+                res.setHeader(
+                    "Cache-Control",
+                    "no-store, no-cache, must-revalidate, private",
+                );
+                res.redirect(authorizationUrl);
+            },
+            "فشل بدء عملية OAuth",
+        );
+    };
+
+    /**
+     * GET /api/v1/auth/oauth/:provider/callback
+     */
+    handleOAuthCallback = async (req: Request, res: Response): Promise<void> => {
+        try {
+            const { provider } = req.params;
+            if (provider !== "google")
+                throw new OAuthProviderNotSupportedError(
+                    `Provider "${provider}" غير مدعوم`,
+                );
+
+            if (req.query.error) {
+                throw new Error(
+                    (req.query.error_description as string) || "فشل عملية OAuth",
+                );
+            }
+
+            const { code, state } = req.query;
+            if (!code || !state) {
+                throw new Error("Invalid callback data");
+            }
+
+            const { codeVerifier, redirectTo } =
+                await this.oauthStateService.validateAndGetRedirect(state as string);
+
+            const result = await this.googleOAuthService.handleCallbackWithVerifier(
+                code as string,
+                codeVerifier,
+                redirectTo,
+            );
+
+            // Construct redirect URL with tokens
+            const redirectUrl = new URL(result.redirectTo);
+            redirectUrl.searchParams.set("access_token", result.tokens.access_token);
+            redirectUrl.searchParams.set(
+                "refresh_token",
+                result.tokens.refresh_token,
+            );
+            redirectUrl.searchParams.set("token_type", result.tokens.token_type);
+            redirectUrl.searchParams.set(
+                "expires_in",
+                result.tokens.expires_in.toString(),
+            );
+
+            res.redirect(redirectUrl.toString());
+        } catch (error: unknown) {
+            const dbError = error as { message: string; stack?: string };
+            // Backend Protocol #2: Telemetry
+            logger.error('OAuth Failed', {
+                provider: 'google',
+                error: dbError.message || "Unknown error",
+                stack: dbError.stack,
+                timestamp: new Date().toISOString()
+            });
+
+            // Backend Protocol #1: Silent Defense
+            const errorMsg = "oauth_failed";
+            const safeReason = "Authentication handshake failed";
+
+            const frontendUrl = ENV_CONFIG.FRONTEND_URL || "http://localhost:5173";
+
+            res.redirect(
+                `${frontendUrl}/login?error=${encodeURIComponent(errorMsg)}&reason=${encodeURIComponent(safeReason)}`,
+            );
+        }
+    };
+}

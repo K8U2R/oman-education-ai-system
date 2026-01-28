@@ -7,7 +7,7 @@
 import React, { lazy } from 'react'
 import { RouteConfig } from '../../types'
 import { ROUTES } from '@/domain/constants/routes.constants'
-import MainLayout from '@/presentation/layouts/MainLayout'
+import DashboardLayout from '@/presentation/layouts/DashboardLayout'
 import { ProtectedRoute } from '@/features/user-authentication-management'
 import { studentMetadata } from './student.metadata'
 import { DefaultRouteLoader } from '@/presentation/components/common'
@@ -33,11 +33,11 @@ export const studentRoutes: RouteConfig[] = [
     path: ROUTES.DASHBOARD,
     element: (
       <ProtectedRoute>
-        <MainLayout>
+        <DashboardLayout>
           <React.Suspense fallback={<DefaultRouteLoader />}>
             <DashboardPage />
           </React.Suspense>
-        </MainLayout>
+        </DashboardLayout>
       </ProtectedRoute>
     ),
     metadata: studentMetadata[ROUTES.DASHBOARD],
@@ -46,11 +46,11 @@ export const studentRoutes: RouteConfig[] = [
     path: ROUTES.LEARN,
     element: (
       <ProtectedRoute>
-        <MainLayout>
+        <DashboardLayout>
           <React.Suspense fallback={<DefaultRouteLoader />}>
             <AICanvasPage />
           </React.Suspense>
-        </MainLayout>
+        </DashboardLayout>
       </ProtectedRoute>
     ),
     metadata: {
@@ -62,11 +62,11 @@ export const studentRoutes: RouteConfig[] = [
     path: ROUTES.LESSONS,
     element: (
       <ProtectedRoute requiredPermissions={['lessons.view']}>
-        <MainLayout>
+        <DashboardLayout>
           <React.Suspense fallback={<DefaultRouteLoader />}>
             <LessonsPage />
           </React.Suspense>
-        </MainLayout>
+        </DashboardLayout>
       </ProtectedRoute>
     ),
     metadata: studentMetadata[ROUTES.LESSONS],
@@ -75,11 +75,11 @@ export const studentRoutes: RouteConfig[] = [
     path: ROUTES.LESSON_DETAIL_PATTERN,
     element: (
       <ProtectedRoute>
-        <MainLayout>
+        <DashboardLayout>
           <React.Suspense fallback={<DefaultRouteLoader />}>
             <LessonDetailPage />
           </React.Suspense>
-        </MainLayout>
+        </DashboardLayout>
       </ProtectedRoute>
     ),
     metadata: studentMetadata[ROUTES.LESSON_DETAIL_PATTERN],
@@ -88,11 +88,11 @@ export const studentRoutes: RouteConfig[] = [
     path: ROUTES.ASSESSMENTS,
     element: (
       <ProtectedRoute requiredPermissions={['lessons.view']}>
-        <MainLayout>
+        <DashboardLayout>
           <React.Suspense fallback={<DefaultRouteLoader />}>
             <AssessmentsPage />
           </React.Suspense>
-        </MainLayout>
+        </DashboardLayout>
       </ProtectedRoute>
     ),
     metadata: studentMetadata[ROUTES.ASSESSMENTS],
@@ -101,11 +101,11 @@ export const studentRoutes: RouteConfig[] = [
     path: ROUTES.ASSESSMENT_DETAIL_PATTERN,
     element: (
       <ProtectedRoute requiredPermissions={['lessons.view']}>
-        <MainLayout>
+        <DashboardLayout>
           <React.Suspense fallback={<DefaultRouteLoader />}>
             <AssessmentDetailPage />
           </React.Suspense>
-        </MainLayout>
+        </DashboardLayout>
       </ProtectedRoute>
     ),
     metadata: studentMetadata[ROUTES.ASSESSMENT_DETAIL_PATTERN],
@@ -114,11 +114,11 @@ export const studentRoutes: RouteConfig[] = [
     path: ROUTES.ASSESSMENT_TAKE_PATTERN,
     element: (
       <ProtectedRoute requiredPermissions={['lessons.view']}>
-        <MainLayout>
+        <DashboardLayout>
           <React.Suspense fallback={<DefaultRouteLoader />}>
             <AssessmentTakePage />
           </React.Suspense>
-        </MainLayout>
+        </DashboardLayout>
       </ProtectedRoute>
     ),
     metadata: studentMetadata[ROUTES.ASSESSMENT_TAKE_PATTERN],
@@ -127,11 +127,11 @@ export const studentRoutes: RouteConfig[] = [
     path: ROUTES.ASSESSMENT_RESULTS_PATTERN,
     element: (
       <ProtectedRoute requiredPermissions={['lessons.view']}>
-        <MainLayout>
+        <DashboardLayout>
           <React.Suspense fallback={<DefaultRouteLoader />}>
             <AssessmentResultsPage />
           </React.Suspense>
-        </MainLayout>
+        </DashboardLayout>
       </ProtectedRoute>
     ),
     metadata: studentMetadata[ROUTES.ASSESSMENT_RESULTS_PATTERN],
@@ -140,11 +140,11 @@ export const studentRoutes: RouteConfig[] = [
     path: ROUTES.ASSESSMENT_NEW,
     element: (
       <ProtectedRoute requiredPermissions={['lessons.create']}>
-        <MainLayout>
+        <DashboardLayout>
           <React.Suspense fallback={<DefaultRouteLoader />}>
             <AssessmentFormPage />
           </React.Suspense>
-        </MainLayout>
+        </DashboardLayout>
       </ProtectedRoute>
     ),
     metadata: studentMetadata[ROUTES.ASSESSMENT_NEW],
@@ -153,11 +153,11 @@ export const studentRoutes: RouteConfig[] = [
     path: ROUTES.ASSESSMENT_FORM_PATTERN,
     element: (
       <ProtectedRoute requiredPermissions={['lessons.update']}>
-        <MainLayout>
+        <DashboardLayout>
           <React.Suspense fallback={<DefaultRouteLoader />}>
             <AssessmentFormPage />
           </React.Suspense>
-        </MainLayout>
+        </DashboardLayout>
       </ProtectedRoute>
     ),
     metadata: studentMetadata[ROUTES.ASSESSMENT_FORM_PATTERN],
@@ -166,11 +166,11 @@ export const studentRoutes: RouteConfig[] = [
     path: ROUTES.PROJECTS,
     element: (
       <ProtectedRoute requiredPermissions={['lessons.view']}>
-        <MainLayout>
+        <DashboardLayout>
           <React.Suspense fallback={<DefaultRouteLoader />}>
             <ProjectsPage />
           </React.Suspense>
-        </MainLayout>
+        </DashboardLayout>
       </ProtectedRoute>
     ),
     metadata: studentMetadata[ROUTES.PROJECTS],
@@ -179,11 +179,11 @@ export const studentRoutes: RouteConfig[] = [
     path: ROUTES.PROJECT_DETAIL_PATTERN,
     element: (
       <ProtectedRoute requiredPermissions={['lessons.view']}>
-        <MainLayout>
+        <DashboardLayout>
           <React.Suspense fallback={<DefaultRouteLoader />}>
             <ProjectDetailPage />
           </React.Suspense>
-        </MainLayout>
+        </DashboardLayout>
       </ProtectedRoute>
     ),
     metadata: studentMetadata[ROUTES.PROJECT_DETAIL_PATTERN],
@@ -192,11 +192,11 @@ export const studentRoutes: RouteConfig[] = [
     path: ROUTES.PROJECT_NEW,
     element: (
       <ProtectedRoute requiredPermissions={['lessons.create']}>
-        <MainLayout>
+        <DashboardLayout>
           <React.Suspense fallback={<DefaultRouteLoader />}>
             <ProjectFormPage />
           </React.Suspense>
-        </MainLayout>
+        </DashboardLayout>
       </ProtectedRoute>
     ),
     metadata: studentMetadata[ROUTES.PROJECT_NEW],
@@ -205,11 +205,11 @@ export const studentRoutes: RouteConfig[] = [
     path: ROUTES.PROJECT_FORM_PATTERN,
     element: (
       <ProtectedRoute requiredPermissions={['lessons.update']}>
-        <MainLayout>
+        <DashboardLayout>
           <React.Suspense fallback={<DefaultRouteLoader />}>
             <ProjectFormPage />
           </React.Suspense>
-        </MainLayout>
+        </DashboardLayout>
       </ProtectedRoute>
     ),
     metadata: studentMetadata[ROUTES.PROJECT_FORM_PATTERN],
@@ -218,11 +218,11 @@ export const studentRoutes: RouteConfig[] = [
     path: ROUTES.STORAGE,
     element: (
       <ProtectedRoute requiredPermissions={['storage.view']}>
-        <MainLayout>
+        <DashboardLayout>
           <React.Suspense fallback={<DefaultRouteLoader />}>
             <StoragePage />
           </React.Suspense>
-        </MainLayout>
+        </DashboardLayout>
       </ProtectedRoute>
     ),
     metadata: studentMetadata[ROUTES.STORAGE],
@@ -231,11 +231,11 @@ export const studentRoutes: RouteConfig[] = [
     path: ROUTES.STORAGE_BROWSER_PATTERN,
     element: (
       <ProtectedRoute>
-        <MainLayout>
+        <DashboardLayout>
           <React.Suspense fallback={<DefaultRouteLoader />}>
             <StorageBrowserPage />
           </React.Suspense>
-        </MainLayout>
+        </DashboardLayout>
       </ProtectedRoute>
     ),
     metadata: studentMetadata[ROUTES.STORAGE_BROWSER_PATTERN],

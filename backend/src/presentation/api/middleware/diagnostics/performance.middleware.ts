@@ -1,42 +1,22 @@
-/**
- * Enhanced Performance Middleware - Middleware الأداء المحسّن
- *
- * يستخدم Performance Optimizer و Connection Pool Monitor
- */
-
 import { Response, NextFunction } from "express";
-import { PerformanceOptimizer } from "../../../../infrastructure/performance/PerformanceOptimizer.js";
-import { connectionPoolMonitor } from "../../../../infrastructure/performance/ConnectionPoolMonitor.js";
+import { ServiceContainer } from "../../../../infrastructure/ioc/container.js";
 import { enhancedLogger } from "../../../../shared/utils/EnhancedLogger.js";
-import { DatabaseCoreAdapter } from "../../../../infrastructure/adapters/db/DatabaseCoreAdapter.js";
 import { ContextRequest } from "./context.middleware.js";
+import { PerformanceOptimizer } from "../../../../infrastructure/performance/PerformanceOptimizer.js";
+
+
 
 export interface EnhancedPerformanceRequest extends ContextRequest {
   requestSize?: number;
   performanceOptimizer?: PerformanceOptimizer;
 }
 
-// Global performance optimizer instance
-let globalPerformanceOptimizer: PerformanceOptimizer | null = null;
-
 /**
  * Initialize performance optimizer
+ * Law 01: Iron Firewall - Use IoC Container
  */
 function getPerformanceOptimizer(): PerformanceOptimizer {
-  if (!globalPerformanceOptimizer) {
-    const adapter = new DatabaseCoreAdapter();
-    globalPerformanceOptimizer = new PerformanceOptimizer(adapter);
-
-    // Initialize connection pool monitor
-    const httpAgent = (adapter as unknown as { httpAgent?: unknown })
-      .httpAgent as any; // eslint-disable-line @typescript-eslint/no-explicit-any
-    const httpsAgent = (adapter as unknown as { httpsAgent?: unknown })
-      .httpsAgent as any; // eslint-disable-line @typescript-eslint/no-explicit-any
-    if (httpAgent || httpsAgent) {
-      connectionPoolMonitor.initialize(httpAgent, httpsAgent);
-    }
-  }
-  return globalPerformanceOptimizer;
+  return ServiceContainer.performanceOptimizer;
 }
 
 /**
@@ -57,7 +37,7 @@ export function enhancedPerformanceMiddleware(
     JSON.stringify(req.body || {}).length +
     JSON.stringify(req.query || {}).length;
 
-  // Get performance optimizer
+  // Get performance optimizer via IoC
   req.performanceOptimizer = getPerformanceOptimizer();
 
   // Track response
@@ -75,8 +55,8 @@ export function enhancedPerformanceMiddleware(
       duration,
       res.statusCode < 400,
       {
-        userId: (req as unknown as { user?: { id?: string } }).user?.id,
-        requestId: (req as unknown as { requestId?: string }).requestId,
+        userId: req.user?.id || req.userId, // Use strict typing from ContextRequest
+        requestId: req.requestId,
         operation: `${req.method} ${req.path}`,
         service: "API",
         metadata: {
@@ -88,14 +68,14 @@ export function enhancedPerformanceMiddleware(
       },
     );
 
-    // Record response time in connection pool monitor
-    connectionPoolMonitor.recordResponseTime(duration);
+    // Law 08: Fail-Safe - Connection Pool Monitoring handled inside Optimizer/Adapter
+    // We don't need to manually poke the agents here anymore, metrics are exposed via optimizer.
 
     // Log warning for slow requests
     if (duration > 2000) {
       enhancedLogger.warn("Slow request detected", {
         duration,
-        requestId: (req as unknown as { requestId?: string }).requestId,
+        requestId: req.requestId,
         metadata: {
           path: req.path,
           method: req.method,
@@ -117,8 +97,6 @@ export function databasePerformanceMiddleware(
   _res: Response,
   next: NextFunction,
 ): void {
-  // This middleware can be used to track database queries
-  // It will be called before database operations
   next();
 }
 
@@ -127,12 +105,5 @@ export function databasePerformanceMiddleware(
  */
 export function getPerformanceMetrics() {
   const optimizer = getPerformanceOptimizer();
-  const poolStats = connectionPoolMonitor.getStats();
-  const metrics = optimizer.getPerformanceMetrics();
-
-  return {
-    ...metrics,
-    connectionPool: poolStats,
-    timestamp: Date.now(),
-  };
+  return optimizer.getPerformanceMetrics();
 }

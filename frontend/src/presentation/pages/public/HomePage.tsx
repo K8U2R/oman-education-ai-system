@@ -99,7 +99,7 @@ const HomePage: React.FC = () => {
   // Authenticated user view
   if (!isLoading && isAuthenticated && user) {
     return (
-      <div className="min-h-screen bg-bg-app text-text-primary">
+      <div className="flex-grow bg-bg-app text-text-primary">
         {/* Hero Section للمستخدمين المسجلين */}
         <motion.section
           ref={heroRef}
@@ -248,7 +248,7 @@ const HomePage: React.FC = () => {
 
   // Public user view
   return (
-    <div className="min-h-screen bg-bg-app text-text-primary">
+    <div className="flex-grow bg-bg-app text-text-primary">
       {/* Hero Section */}
       <motion.section
         ref={heroRef}

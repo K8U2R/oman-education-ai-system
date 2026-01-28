@@ -10,6 +10,8 @@ import { ROUTES } from '@/domain/constants/routes.constants'
 import { errorMetadata } from './error.metadata'
 import { DefaultRouteLoader } from '@/presentation/components/common'
 
+import PublicLayout from '@/presentation/layouts/PublicLayout'
+
 // Lazy load pages
 const UnauthorizedPage = lazy(() =>
   import('@/presentation/pages/errors/pages/UnauthorizedPage').then(module => ({
@@ -31,27 +33,33 @@ export const errorRoutes: RouteConfig[] = [
   {
     path: ROUTES.UNAUTHORIZED,
     element: (
-      <React.Suspense fallback={<DefaultRouteLoader />}>
-        <UnauthorizedPage />
-      </React.Suspense>
+      <PublicLayout>
+        <React.Suspense fallback={<DefaultRouteLoader />}>
+          <UnauthorizedPage />
+        </React.Suspense>
+      </PublicLayout>
     ),
     metadata: errorMetadata[ROUTES.UNAUTHORIZED],
   },
   {
     path: ROUTES.FORBIDDEN,
     element: (
-      <React.Suspense fallback={<DefaultRouteLoader />}>
-        <ForbiddenPage />
-      </React.Suspense>
+      <PublicLayout>
+        <React.Suspense fallback={<DefaultRouteLoader />}>
+          <ForbiddenPage />
+        </React.Suspense>
+      </PublicLayout>
     ),
     metadata: errorMetadata[ROUTES.FORBIDDEN],
   },
   {
     path: ROUTES.NOT_FOUND,
     element: (
-      <React.Suspense fallback={<DefaultRouteLoader />}>
-        <NotFoundPage />
-      </React.Suspense>
+      <PublicLayout>
+        <React.Suspense fallback={<DefaultRouteLoader />}>
+          <NotFoundPage />
+        </React.Suspense>
+      </PublicLayout>
     ),
     metadata: errorMetadata[ROUTES.NOT_FOUND],
   },

@@ -50,6 +50,7 @@
   "dependencies": {
     "@aws-sdk/client-ses": "^3.490.0",
     "@prisma/client": "^7.3.0",
+    "prisma": "^7.3.0",
     "@sendgrid/mail": "^8.1.0",
     "@supabase/supabase-js": "^2.91.0",
     "@types/bcryptjs": "^2.4.6",
@@ -84,7 +85,8 @@
     "uuid": "^13.0.0",
     "winston": "^3.11.0",
     "ws": "^8.19.0",
-    "zod": "^3.25.76"
+    "zod": "^3.25.76",
+    "tsx": "^4.7.0"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",
@@ -111,11 +113,9 @@
     "eslint": "^8.56.0",
     "husky": "^9.1.7",
     "prettier": "^3.1.1",
-    "prisma": "^7.3.0",
     "supertest": "^6.1.6",
     "tsconfig-paths": "^4.2.0",
     "tsup": "^8.5.1",
-    "tsx": "^4.7.0",
     "typescript": "^5.3.3",
     "vite-tsconfig-paths": "^6.0.4",
     "vitest": "^1.6.1"

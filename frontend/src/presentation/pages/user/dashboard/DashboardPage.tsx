@@ -3,6 +3,7 @@ import { LayoutDashboard, AlertTriangle } from 'lucide-react'
 import { LoadingState } from '@/presentation/pages/components'
 import { PageHeader } from '../../components'
 import { useDashboard } from './hooks/useDashboard'
+import { StudentDashboard } from '@/presentation/pages/student/dashboard/StudentDashboard'
 // Old imports removed
 import { WIDGET_REGISTRY } from '@/presentation/features/dashboard/WidgetRegistry'
 import { DASHBOARD_LAYOUTS, DashboardWidgetConfig } from '@/presentation/features/dashboard/dashboard.config'
@@ -33,8 +34,20 @@ const DashboardPage: React.FC = () => {
 
   if (!user) return null
 
+
   // 1. Determine Layout based on Role
   const role: UserRole = user.role || 'student';
+
+  // 🔥 NEW DESIGN SYSTEM INTEGRATION
+  // If the user is a student, we render the new "Gold Standard" Dashboard
+  if (role === 'student') {
+    return (
+      // Import dynamic to avoid cycle? No, we will add import at top.
+      <StudentDashboard />
+    );
+  }
+
+  // Legacy/Admin Dashboard Logic
   const layoutConfig: DashboardWidgetConfig[] = DASHBOARD_LAYOUTS[role] || DASHBOARD_LAYOUTS.default || [];
 
   return (
@@ -62,10 +75,6 @@ const DashboardPage: React.FC = () => {
             }
             return null; // Silent fail in prod
           }
-
-          // Check Permission (if field exists, simplistic check for now)
-          // In a real scenario, use a PermissionGuard hook here.
-          // if (widgetConfig.permission && !user.hasPermission(widgetConfig.permission)) return null;
 
           return (
             <div key={widgetConfig.id} className={`col-span-12 md:col-span-${widgetConfig.colSpan || 12}`}>

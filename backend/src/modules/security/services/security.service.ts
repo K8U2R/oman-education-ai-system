@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import type { PrismaClient } from "@prisma/client";
 import { logger } from "@/shared/utils/logger.js";
 import { BaseService } from "@/application/services/system/base/BaseService.js";
 

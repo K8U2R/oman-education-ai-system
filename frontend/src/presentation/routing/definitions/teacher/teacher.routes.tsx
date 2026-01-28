@@ -7,7 +7,7 @@
 import React, { lazy } from 'react'
 import { RouteConfig } from '../../types'
 import { ROUTES } from '@/domain/constants/routes.constants'
-import MainLayout from '@/presentation/layouts/MainLayout'
+import DashboardLayout from '@/presentation/layouts/DashboardLayout'
 import { ProtectedRoute } from '@/features/user-authentication-management'
 import { teacherMetadata } from './teacher.metadata'
 import { DefaultRouteLoader } from '@/presentation/components/common'
@@ -26,11 +26,11 @@ export const teacherRoutes: RouteConfig[] = [
     path: ROUTES.LESSONS_MANAGEMENT,
     element: (
       <ProtectedRoute requiredPermissions={['lessons.manage']}>
-        <MainLayout>
+        <DashboardLayout>
           <React.Suspense fallback={<DefaultRouteLoader />}>
             <LessonsManagementPage />
           </React.Suspense>
-        </MainLayout>
+        </DashboardLayout>
       </ProtectedRoute>
     ),
     metadata: teacherMetadata[ROUTES.LESSONS_MANAGEMENT],
@@ -39,11 +39,11 @@ export const teacherRoutes: RouteConfig[] = [
     path: ROUTES.LESSON_FORM,
     element: (
       <ProtectedRoute requiredPermissions={['lessons.create', 'lessons.manage']}>
-        <MainLayout>
+        <DashboardLayout>
           <React.Suspense fallback={<DefaultRouteLoader />}>
             <LessonFormPage />
           </React.Suspense>
-        </MainLayout>
+        </DashboardLayout>
       </ProtectedRoute>
     ),
     metadata: teacherMetadata[ROUTES.LESSON_FORM],
@@ -52,11 +52,11 @@ export const teacherRoutes: RouteConfig[] = [
     path: ROUTES.LESSON_EDIT_PATTERN,
     element: (
       <ProtectedRoute requiredPermissions={['lessons.update', 'lessons.manage']}>
-        <MainLayout>
+        <DashboardLayout>
           <React.Suspense fallback={<DefaultRouteLoader />}>
             <LessonFormPage />
           </React.Suspense>
-        </MainLayout>
+        </DashboardLayout>
       </ProtectedRoute>
     ),
     metadata: teacherMetadata[ROUTES.LESSON_EDIT_PATTERN],
@@ -65,11 +65,11 @@ export const teacherRoutes: RouteConfig[] = [
     path: ROUTES.LEARNING_PATHS_MANAGEMENT,
     element: (
       <ProtectedRoute requiredPermissions={['lessons.manage']}>
-        <MainLayout>
+        <DashboardLayout>
           <React.Suspense fallback={<DefaultRouteLoader />}>
             <LearningPathsManagementPage />
           </React.Suspense>
-        </MainLayout>
+        </DashboardLayout>
       </ProtectedRoute>
     ),
     metadata: teacherMetadata[ROUTES.LEARNING_PATHS_MANAGEMENT],
@@ -78,11 +78,11 @@ export const teacherRoutes: RouteConfig[] = [
     path: ROUTES.CODE_GENERATOR,
     element: (
       <ProtectedRoute requiredPermissions={['lessons.create', 'lessons.manage']}>
-        <MainLayout>
+        <DashboardLayout>
           <React.Suspense fallback={<DefaultRouteLoader />}>
             <CodeGeneratorPage />
           </React.Suspense>
-        </MainLayout>
+        </DashboardLayout>
       </ProtectedRoute>
     ),
     metadata: teacherMetadata[ROUTES.CODE_GENERATOR],
@@ -91,11 +91,11 @@ export const teacherRoutes: RouteConfig[] = [
     path: ROUTES.OFFICE_GENERATOR,
     element: (
       <ProtectedRoute requiredPermissions={['lessons.create', 'lessons.manage']}>
-        <MainLayout>
+        <DashboardLayout>
           <React.Suspense fallback={<DefaultRouteLoader />}>
             <OfficeGeneratorPage />
           </React.Suspense>
-        </MainLayout>
+        </DashboardLayout>
       </ProtectedRoute>
     ),
     metadata: teacherMetadata[ROUTES.OFFICE_GENERATOR],

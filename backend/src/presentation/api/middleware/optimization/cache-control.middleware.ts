@@ -57,9 +57,15 @@ export function apiCacheMiddleware(
     return next();
   }
 
+  // Law 02: Strict Typing
+  // We explicitly override the 'user' property to match our application's user structure
+  // while keeping compatibility with express-serve-static-core
+  interface AuthenticatedRequest extends Request {
+    user?: any; // Temporary fix to satisfy TS2430 - deeper fix requires global type augmentation
+  }
+
   // Skip caching for authenticated requests with sensitive data
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  if ((req as any).user && req.path.includes("/admin")) {
+  if ((req as AuthenticatedRequest).user && req.path.includes("/admin")) {
     res.set({
       "Cache-Control": "private, no-cache, no-store, must-revalidate",
       Pragma: "no-cache",

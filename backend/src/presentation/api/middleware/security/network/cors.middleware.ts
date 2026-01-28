@@ -13,8 +13,8 @@ const corsOrigins = ENV_CONFIG.CORS_ORIGIN.split(",")
 
 export const corsMiddleware = cors({
   origin: (origin, callback) => {
-    // Allow requests with no origin in development
-    if (!origin && ENV_CONFIG.NODE_ENV !== "production") {
+    // Allow requests with no origin (e.g. mobile apps, curl, server-to-server, health checks)
+    if (!origin) {
       return callback(null, true);
     }
 

@@ -124,6 +124,7 @@ model users {
   is_verified                                                   Boolean?              @default(false)
   is_active                                                     Boolean?              @default(true)
   role                                                          String?               @default("student") @db.VarChar(50)
+  planTier                                                      PlanTier              @default(FREE)
   permissions                                                   String[]              @default([])
   google_id                                                     String?               @unique @db.VarChar(255)
   google_email                                                  String?               @db.VarChar(255)
@@ -235,4 +236,10 @@ enum changelog_status {
   draft
   published
   archived
+}
+
+enum PlanTier {
+  FREE
+  PRO
+  PREMIUM
 }

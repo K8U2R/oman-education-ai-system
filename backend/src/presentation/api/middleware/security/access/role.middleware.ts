@@ -5,8 +5,8 @@
  */
 
 import { Request, Response, NextFunction } from "express";
-import { AuthService } from "@/modules/auth/services/AuthService.js";
-import { WhitelistService } from "@/modules/auth/services/WhitelistService.js";
+import { AuthService } from "@/modules/auth/services/core/AuthService.js";
+import { WhitelistService } from "@/modules/auth/services/security/WhitelistService.js";
 import { container } from "../../../../../infrastructure/di/index.js";
 import { UserRole, Permission } from "../../../../../domain/types/auth/index.js";
 import { RoleService } from "../../../../../domain/services/role.service.js";

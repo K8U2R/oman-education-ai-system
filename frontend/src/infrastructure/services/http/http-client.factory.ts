@@ -6,7 +6,7 @@
 
 import { HttpClient, HttpClientConfig } from './http-client'
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:30000/api/v1'
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api/v1'
 
 /**
  * إنشاء HTTP Client افتراضي
