@@ -50,8 +50,13 @@ coreRouter.use("/ai", aiRoutes);
 coreRouter.use("/content", contentManagementRoutes);
 coreRouter.use("/projects", projectRoutes);
 coreRouter.use("/storage", storageRoutes);
-coreRouter.use("/notifications", notificationRoutes);
-coreRouter.use("/education", educationRoutes);
+// ════════════════════════════════════════════════════════════════════════
+// Protected Feature Routes (Require Authentication + Email Verification)
+// ════════════════════════════════════════════════════════════════════════
+import { requireVerification } from "../middleware/security/auth/require-verification.middleware.js";
+
+// Education routes (AI Lesson Generation) - Requires verified email in production
+coreRouter.use("/education", requireVerification, educationRoutes);
 
 // Admin & Developer
 coreRouter.use("/admin", adminRoutes);

@@ -32,14 +32,21 @@ export type GoogleOAuthConfig = z.infer<typeof GoogleOAuthConfigSchema>;
  * Load Google OAuth configuration from environment
  *
  * @throws {ConfigurationError} If required configuration is missing
+ * @compliance Emergency Audit Item #2 - Dynamic Callback URL
  */
 export function loadGoogleOAuthConfig(): GoogleOAuthConfig {
   const { ENV_CONFIG } = require("../env.config.js");
 
+  // ✅ Dynamic Callback URL based on environment
+  const baseUrl = ENV_CONFIG.APP_URL || ENV_CONFIG.GOOGLE_CALLBACK_URL || 'http://localhost:3000';
+  const redirectUri = baseUrl.includes('/callback')
+    ? baseUrl // Already complete URL from GOOGLE_CALLBACK_URL
+    : `${baseUrl}/api/v1/auth/google/callback`; // Construct from APP_URL
+
   const config = {
     clientId: ENV_CONFIG.GOOGLE_CLIENT_ID || "",
     clientSecret: ENV_CONFIG.GOOGLE_CLIENT_SECRET || "",
-    redirectUri: ENV_CONFIG.GOOGLE_CALLBACK_URL, // Already has default in schema
+    redirectUri, // ✅ Now dynamic
     scope: process.env.GOOGLE_OAUTH_SCOPE || "openid email profile",
   };
 
