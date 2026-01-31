@@ -58,7 +58,8 @@ async function startServer() {
     // ════════════════════════════════════════════════════════════════════════
     logger.info("⏳ [3/4] Initializing Middleware Pipelines...");
     setupPreRouteMiddleware(app, settings);
-    setupAuthMiddleware(app, settings);
+    // Authentication middleware (Session + Passport)
+    await setupAuthMiddleware(app, settings);
 
     // Sovereign App Routes
     // app.use("/api/v1", oauthRoutes);

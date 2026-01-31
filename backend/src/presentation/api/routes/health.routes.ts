@@ -98,4 +98,43 @@ router.get("/health/live", (_req: Request, res: Response) => {
   });
 });
 
+/**
+ * GET /health/redis
+ * Redis Session Store health check
+ * 
+ * يتحقق من اتصال Redis Session Store
+ */
+router.get("/health/redis", async (_req: Request, res: Response) => {
+  try {
+    // Dynamically import to avoid circular dependency
+    const authModule = await import("../../../infrastructure/auth/auth.middleware.js");
+
+    const isHealthy = await authModule.getSessionStoreHealth();
+
+    if (isHealthy) {
+      res.status(200).json({
+        status: "healthy",
+        service: "Redis Session Store",
+        timestamp: new Date().toISOString(),
+      });
+    } else {
+      res.status(503).json({
+        status: "unhealthy",
+        service: "Redis Session Store",
+        error: "Redis connection not available or not configured",
+        timestamp: new Date().toISOString(),
+      });
+    }
+  } catch (error) {
+    const errorMsg = error instanceof Error ? error.message : "Unknown error";
+
+    res.status(503).json({
+      status: "error",
+      service: "Redis Session Store",
+      error: errorMsg,
+      timestamp: new Date().toISOString(),
+    });
+  }
+});
+
 export default router;
