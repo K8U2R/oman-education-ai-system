@@ -10,11 +10,8 @@ export {
   resetConfigManager,
 } from "./ConfigManager.js";
 export {
-  validateEnvironment,
-  validateEnvironmentOrThrow,
-  type EnvironmentValidationResult,
-} from "./EnvironmentValidator.js";
-export {
   loadGoogleOAuthConfig,
   type GoogleOAuthConfig,
 } from "./GoogleOAuthConfig.js";
+export { ENV_CONFIG } from "./env.config.js";
+export { validateEnvironment } from "./env.validator.js";
