@@ -78,4 +78,40 @@ router.get(
     ),
 );
 
+/**
+ * @swagger
+ * /api/v1/auth/oauth/exchange-code:
+ *   post:
+ *     summary: تبادل رمز OAuth (Frontend-owned)
+ *     description: يستقبل code/state من Frontend ويبادله بـ tokens
+ *     tags: [Authentication - Social]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - code
+ *               - state
+ *               - provider
+ *             properties:
+ *               code:
+ *                 type: string
+ *               state:
+ *                 type: string
+ *               provider:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: تبادل ناجح - إرجاع tokens
+ */
+router.post(
+    "/oauth/exchange-code",
+    ...RouteFactory.createRoute<OAuthHandler>(
+        "OAuthHandler",
+        "exchangeOAuthCode",
+    ),
+);
+
 export default router;

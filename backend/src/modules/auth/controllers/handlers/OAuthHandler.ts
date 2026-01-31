@@ -68,8 +68,21 @@ export class OAuthHandler extends BaseHandler {
             }
 
             const { code, state } = req.query;
+
+            // Graceful handling for direct access (human users, not Google)
             if (!code || !state) {
-                throw new Error("Invalid callback data");
+                logger.warn('Direct OAuth callback access without code/state', {
+                    ip: req.ip,
+                    userAgent: req.get('user-agent'),
+                    hasReferer: !!req.get('referer'),
+                    path: req.originalUrl
+                });
+
+                // Redirect to login instead of showing error page
+                const frontendUrl = ENV_CONFIG.FRONTEND_URL || "http://localhost:5173";
+                return res.redirect(
+                    `${frontendUrl}/login?message=${encodeURIComponent('يرجى تسجيل الدخول للمتابعة')}`
+                );
             }
 
             const { codeVerifier, redirectTo } =
@@ -115,5 +128,51 @@ export class OAuthHandler extends BaseHandler {
                 `${frontendUrl}/login?error=${encodeURIComponent(errorMsg)}&reason=${encodeURIComponent(safeReason)}`,
             );
         }
+    };
+
+    /**
+     * POST /api/v1/auth/oauth/exchange-code
+     * Frontend-owned OAuth: Exchange code for tokens
+     * 
+     * Called by OAuthCallbackPage.tsx after receiving code/state from Google
+     */
+    exchangeOAuthCode = async (req: Request, res: Response): Promise<void> => {
+        await this.execute(
+            res,
+            async () => {
+                const { code, state, provider } = req.body;
+
+                if (provider !== "google") {
+                    throw new OAuthProviderNotSupportedError(
+                        `Provider "${provider}" غير مدعوم`,
+                    );
+                }
+
+                if (!code || !state) {
+                    this.badRequest(res, "code و state مطلوبان");
+                    return;
+                }
+
+                // Validate state and get redirect URL
+                const { codeVerifier, redirectTo } =
+                    await this.oauthStateService.validateAndGetRedirect(state as string);
+
+                // Exchange code for tokens
+                const result = await this.googleOAuthService.handleCallbackWithVerifier(
+                    code as string,
+                    codeVerifier,
+                    redirectTo,
+                );
+
+                // Return JSON response (not redirect!)
+                this.ok(res, {
+                    success: true,
+                    tokens: result.tokens,
+                    user: result.user,
+                    redirectTo: result.redirectTo
+                });
+            },
+            "فشل تبادل رمز OAuth"
+        );
     };
 }

@@ -47,7 +47,7 @@ const OAuthCallback: React.FC = () => {
     const completeOAuth = async () => {
       try {
         // Messenger: Pass code to Backend for sovereign secret processing
-        const response = await apiClient.post<any>('/auth/oauth/callback', {
+        const response = await apiClient.post<any>('/auth/oauth/exchange-code', {
           code,
           state,
           provider: 'google'
