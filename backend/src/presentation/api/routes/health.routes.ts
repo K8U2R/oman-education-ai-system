@@ -41,14 +41,8 @@ function initializeHealthChecks(): void {
  * Health check endpoint
  */
 router.get("/health", (_req: Request, res: Response) => {
-  const settings = getSettings();
-
   res.status(200).json({
-    status: "ok",
-    service: "Oman Education AI Backend",
-    version: settings.app.version,
-    environment: settings.app.env,
-    timestamp: new Date().toISOString(),
+    status: "ok"
   });
 });
 

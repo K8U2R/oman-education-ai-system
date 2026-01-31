@@ -48,12 +48,8 @@ async function startServer() {
     // STEP 0: Priority Health Check (No Middleware Blocking)
     // ════════════════════════════════════════════════════════════════════════
     app.get("/api/health", (_req, res) => {
-      logger.info(`💓 [HEALTH CHECK] Incoming from ${_req.ip}`);
       res.status(200).json({
-        status: "ok",
-        priority: true,
-        message: "Oman Education AI Backend is alive",
-        timestamp: new Date().toISOString()
+        status: "ok"
       });
     });
 
