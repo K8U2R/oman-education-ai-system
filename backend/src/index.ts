@@ -5,9 +5,21 @@
 
 import "reflect-metadata"; // Required for tsyringe
 import "dotenv/config"; // Must be first (after metadata)
-import express, { Express } from "express";
-import http from "http"; // Import HTTP module for server control
+import express from "express";
+import type { Express } from "express";
+import { ENV_CONFIG } from "./infrastructure/config/env.config.js";
+import { validateEnvironment } from "./infrastructure/config/env.validator.js";
 import { logger } from "./shared/utils/logger.js";
+
+// ============================================================================
+// Environment Validation (CRITICAL - Run before anything else)
+// ============================================================================
+validateEnvironment();
+
+// ============================================================================
+// Application Setup
+// ============================================================================
+import http from "http";
 import { bootstrap } from "./bootstrap.js";
 import { setupAuthMiddleware } from "./infrastructure/auth/auth.middleware.js";
 import {
@@ -15,7 +27,6 @@ import {
   setupPostRouteMiddleware,
 } from "./presentation/api/middleware/pipeline.js";
 import coreRouter from "./presentation/api/routes/index.js";
-// import oauthRoutes from "./application/routes/oauth.routes.js";
 
 const app: Express = express();
 

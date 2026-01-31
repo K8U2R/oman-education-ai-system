@@ -1,6 +1,13 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
+
+// ============================================================================
+// Environment Validation (CRITICAL - Run before app initialization)
+// ============================================================================
+import { ENV } from '@/config/env'
+console.log('🚀 Frontend initialized with environment:', ENV.IS_DEV ? 'development' : 'production')
+
 import { ThemeProvider } from '@/presentation/providers/ThemeProvider'
 import { RouteProvider } from '@/presentation/routing/providers/RouteProvider'
 import { ToastProvider } from '@/presentation/providers/ToastProvider'
