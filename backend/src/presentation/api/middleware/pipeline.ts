@@ -57,15 +57,9 @@ export function setupPostRouteMiddleware(app: Express) {
   // 6. Finalization (Nervous System Response)
   app.use(Diagnostics.requestCompletionMiddleware);
 
-  // 🚪 404 Handler - Catch unreachable routes
-  app.use((_req, res) => {
-    res.status(404).json({
-      status: "error",
-      message: "Resource not found",
-      path: _req.path,
-    });
-  });
+  // 7. 404 Handler - Professional middleware for undefined routes
+  app.use(Diagnostics.notFound);
 
-  // 7. Error Handling (Immune System - MUST BE LAST)
+  // 8. Error Handling (Immune System - MUST BE LAST)
   app.use(Diagnostics.enhancedErrorMiddleware);
 }
