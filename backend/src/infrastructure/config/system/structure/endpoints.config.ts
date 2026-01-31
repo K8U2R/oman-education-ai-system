@@ -1,11 +1,11 @@
 /**
- * System Structure Configuration
+ * System Endpoints Configuration
  * 
- * Defines static system components (endpoints, services) for introspection tools.
- * Law 12: Single Responsibility Principle & DRY.
+ * Defines static system endpoints for introspection tools.
+ * @compliance LAW_05 - Single Responsibility (Endpoints only)
  */
 
-import { APIEndpointInfo, ServiceInfo } from "@/domain/types/user";
+import { APIEndpointInfo } from "@/domain/types/user";
 
 export const SYSTEM_ENDPOINTS: APIEndpointInfo[] = [
     // Health
@@ -185,17 +185,4 @@ export const SYSTEM_ENDPOINTS: APIEndpointInfo[] = [
         average_response_time: 0,
         error_count: 0,
     },
-];
-
-export const SYSTEM_SERVICES: Partial<ServiceInfo>[] = [
-    { name: "Database Core" },
-    { name: "Auth Service" },
-    { name: "Notification Service" },
-    { name: "Learning Service" },
-    { name: "Code Generation Service" },
-    { name: "Office Generation Service" },
-    { name: "Content Management Service" },
-    { name: "Admin Service" },
-    { name: "Developer Service" },
-    { name: "Assessment Service" },
 ];

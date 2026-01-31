@@ -10,7 +10,7 @@ import { logger } from "@/shared/utils/logger";
 import {
   loadGoogleOAuthConfig,
   type GoogleOAuthConfig,
-} from "./GoogleOAuthConfig";
+} from "../oauth/google/google-oauth.config.js";
 
 /**
  * Application Configuration
