@@ -29,6 +29,9 @@ import developerRoutes from "./developer/index.js";
 import healthRoutes from "./health.routes.js";
 import contentManagementRoutes from "./content-management.routes.js";
 
+// === MIDDLEWARE ===
+import { requireVerification } from "../middleware/security/auth/require-verification.middleware.js";
+
 // === SYSTEM ROUTES ===
 import changelogRoutes from "./system/changelog.routes.js";
 
@@ -50,12 +53,11 @@ coreRouter.use("/ai", aiRoutes);
 coreRouter.use("/content", contentManagementRoutes);
 coreRouter.use("/projects", projectRoutes);
 coreRouter.use("/storage", storageRoutes);
-// ════════════════════════════════════════════════════════════════════════
-// Protected Feature Routes (Require Authentication + Email Verification)
-// ════════════════════════════════════════════════════════════════════════
-import { requireVerification } from "../middleware/security/auth/require-verification.middleware.js";
+coreRouter.use("/notifications", notificationRoutes);
 
-// Education routes (AI Lesson Generation) - Requires verified email in production
+// ════════════════════════════════════════════════════════════════════════
+// Protected Feature Routes (Require Email Verification in Production)
+// ════════════════════════════════════════════════════════════════════════
 coreRouter.use("/education", requireVerification, educationRoutes);
 
 // Admin & Developer

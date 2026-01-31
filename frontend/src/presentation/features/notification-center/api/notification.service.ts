@@ -210,8 +210,7 @@ class NotificationService {
         localStorage.getItem('access_token') || localStorage.getItem('token') || undefined
       // Use same base URL as API client, convert http to ws
       // Extract base URL without /api/v1 suffix
-      let apiBaseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:30000'
-      // Remove /api/v1 if present
+      let apiBaseUrl = import.meta.env.VITE_API_BASE_URL      // Remove /api/v1 if present
       apiBaseUrl = apiBaseUrl.replace(/\/api\/v1$/, '')
       const wsBaseUrl = apiBaseUrl.replace(/^http/, 'ws')
       const wsUrl = import.meta.env.VITE_WS_URL || `${wsBaseUrl}/ws/notifications`

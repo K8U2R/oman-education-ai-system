@@ -89,10 +89,9 @@ export default defineConfig(({ mode }) => {
         ].join('; '),
       },
       proxy: {
-        '/api/v1': {
-          target: process.env.VITE_API_TARGET || "http://localhost:30000",
+        '/api': {
+          target: process.env.VITE_API_TARGET,
           changeOrigin: true,
-          secure: false,
         },
       },
     },

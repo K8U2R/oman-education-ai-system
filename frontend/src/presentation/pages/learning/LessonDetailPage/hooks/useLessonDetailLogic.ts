@@ -157,7 +157,7 @@ export const useLessonDetailLogic = () => {
     try {
       const token = localStorage.getItem('token'); // Simplistic token retreival for MVP
 
-      const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:30000/api/v1'}/learning/lessons/${lessonId}/chat`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/learning/lessons/${lessonId}/chat`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
