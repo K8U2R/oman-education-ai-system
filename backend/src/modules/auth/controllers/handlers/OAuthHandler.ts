@@ -79,7 +79,7 @@ export class OAuthHandler extends BaseHandler {
                 });
 
                 // Redirect to login instead of showing error page
-                const frontendUrl = ENV_CONFIG.FRONTEND_URL || "http://localhost:5173";
+                const frontendUrl = ENV_CONFIG.FRONTEND_URL;
                 return res.redirect(
                     `${frontendUrl}/login?message=${encodeURIComponent('يرجى تسجيل الدخول للمتابعة')}`
                 );
@@ -122,7 +122,7 @@ export class OAuthHandler extends BaseHandler {
             const errorMsg = "oauth_failed";
             const safeReason = "Authentication handshake failed";
 
-            const frontendUrl = ENV_CONFIG.FRONTEND_URL || "http://localhost:5173";
+            const frontendUrl = ENV_CONFIG.FRONTEND_URL;
 
             res.redirect(
                 `${frontendUrl}/login?error=${encodeURIComponent(errorMsg)}&reason=${encodeURIComponent(safeReason)}`,

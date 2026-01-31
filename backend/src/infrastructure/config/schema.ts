@@ -35,8 +35,11 @@ export const ConfigSchema = z.object({
   JWT_ACCESS_EXPIRY: z.string().default("15m"),
   JWT_REFRESH_EXPIRY: z.string().default("7d"),
   SESSION_SECRET: z.string().default("dev-session-secret-change-in-production"),
+
+  // Development defaults - MUST be overridden in .env.production
   FRONTEND_URL: z.string().url().default("http://localhost:5173"),
   CORS_ORIGIN: z.string().url().default("http://localhost:5173"),
+
   OAUTH_STATE_EXPIRY: z.number().default(3600),
   OAUTH_STATE_STORAGE: z.enum(["redis", "memory"]).default("memory"),
 
