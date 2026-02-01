@@ -7,6 +7,7 @@
 import { RouteFactory } from "../../shared/route-factory.js";
 import { OfficeHandler } from "../../../handlers/office/office.handler.js";
 import { authMiddleware } from "../../../middleware/security/index.js";
+import { requireTier, requireFeature } from "../../../middleware/subscription/index.js";
 
 const router = RouteFactory.createFeatureRouter();
 
@@ -20,6 +21,8 @@ router.post(
     "OfficeHandler",
     "generateOffice",
     authMiddleware.authenticate,
+    requireTier({ minTier: "pro" }),
+    requireFeature("office_generation"),
   ),
 );
 
@@ -33,6 +36,8 @@ router.get(
     "OfficeHandler",
     "getTemplates",
     authMiddleware.authenticate,
+    requireTier({ minTier: "pro" }),
+    requireFeature("office_generation"),
   ),
 );
 
