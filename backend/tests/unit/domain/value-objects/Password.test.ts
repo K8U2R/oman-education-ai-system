@@ -3,8 +3,8 @@
  */
 
 import { describe, it, expect } from "vitest";
-import { Password } from "./Password";
-import { InvalidPasswordError } from "./Password";
+import { Password } from "../../../../src/domain/value-objects/Password.js";
+import { InvalidPasswordError } from "../../../../src/domain/value-objects/Password.js";
 
 describe("Password", () => {
   describe("constructor", () => {

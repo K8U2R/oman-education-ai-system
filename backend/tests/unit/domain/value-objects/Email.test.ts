@@ -3,8 +3,8 @@
  */
 
 import { describe, it, expect } from "vitest";
-import { Email } from "./Email";
-import { InvalidEmailError } from "./Email";
+import { Email } from "../../../../src/domain/value-objects/Email.js";
+import { InvalidEmailError } from "../../../../src/domain/value-objects/Email.js";
 
 describe("Email", () => {
   describe("constructor", () => {
