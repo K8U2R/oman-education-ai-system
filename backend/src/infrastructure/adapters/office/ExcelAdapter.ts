@@ -5,7 +5,7 @@
  */
 
 import ExcelJS from "exceljs";
-import { ExcelGenerationRequest } from "@/domain/types/shared";
+import { ExcelGenerationRequest } from "@/domain/types/features/productivity/office.types.js";
 import { logger } from "@/shared/utils/logger";
 
 export class ExcelAdapter {

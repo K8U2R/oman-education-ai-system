@@ -8,12 +8,14 @@
 import type {
   LearningLesson,
   ContentLesson,
+} from '../features/education/index.js';
+import type {
   BaseLog,
   LogLevel,
   HealthStatus,
   Status,
   Metadata,
-} from "./index";
+} from "./common.types.js";
 
 /**
  * Type Guard للتحقق من أن القيمة هي LearningLesson

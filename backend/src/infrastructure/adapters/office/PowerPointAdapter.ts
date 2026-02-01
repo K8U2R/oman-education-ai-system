@@ -5,7 +5,7 @@
  */
 
 import PptxGenJS from "pptxgenjs";
-import { PowerPointGenerationRequest } from "@/domain/types/shared";
+import { PowerPointGenerationRequest } from "@/domain/types/features/productivity/office.types.js";
 import { logger } from "@/shared/utils/logger";
 
 export class PowerPointAdapter {

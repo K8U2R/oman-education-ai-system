@@ -18,7 +18,7 @@ import {
     AssessmentSubmission,
     SubmitAssessmentRequest,
     AssessmentStats,
-} from "@/domain/types/shared";
+} from "@/domain/types/features/education/assessment.types.js";
 import { EnhancedBaseService } from "@/application/services/system/base/EnhancedBaseService.js";
 
 export class AssessmentService extends EnhancedBaseService {

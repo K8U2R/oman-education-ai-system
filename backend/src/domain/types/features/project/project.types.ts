@@ -61,7 +61,7 @@ export interface CreateProjectRequest {
  *
  * يستخدم PartialExcept من Common Types لجعل جميع الحقول اختيارية
  */
-// import type { PartialExcept } from './common.types'
+// import type { PartialExcept } from '../../shared/common.types.js'
 
 export interface UpdateProjectRequest extends Partial<
   Omit<Project, "id" | "created_by" | "created_at" | "updated_at">

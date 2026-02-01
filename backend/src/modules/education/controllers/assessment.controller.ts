@@ -15,7 +15,7 @@ import {
     CreateAssessmentRequest,
     SubmitAssessmentRequest,
     UpdateAssessmentRequest,
-} from "@/domain/types/shared/assessment.types.js";
+} from "@/domain/types/features/education/assessment.types.js";
 
 export class AssessmentController extends BaseHandler {
     /**

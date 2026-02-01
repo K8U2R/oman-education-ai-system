@@ -6,7 +6,7 @@ import {
 } from "@/core/ai-kernel/types";
 import { logger } from "@/shared/utils/logger";
 import { SkillRegistry } from "@/core/ai-kernel/skills/SkillRegistry";
-import { OfficeGenerationRequest } from "@/domain/types/shared";
+import { OfficeGenerationRequest } from "@/domain/types/features/productivity/office.types.js";
 import { ISkill } from "@/core/ai-kernel/skills/ISkill";
 
 export class OfficeAgent {

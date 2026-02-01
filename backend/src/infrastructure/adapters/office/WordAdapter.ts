@@ -15,7 +15,7 @@ import {
   TableCell,
   WidthType,
 } from "docx";
-import { WordGenerationRequest } from "@/domain/types/shared";
+import { WordGenerationRequest } from "@/domain/types/features/productivity/office.types.js";
 import { logger } from "@/shared/utils/logger";
 
 export class WordAdapter {
