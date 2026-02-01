@@ -1,5 +1,5 @@
 import nodemailer from 'nodemailer';
-import { IEmailProvider } from '@/domain/interfaces/adapters/email/IEmailProvider.js';
+import { IEmailProvider } from '@/domain/interfaces/email/IEmailProvider.js';
 import { ENV_CONFIG } from '@/infrastructure/config/env.config.js';
 import { logger } from '@/shared/utils/logger.js';
 

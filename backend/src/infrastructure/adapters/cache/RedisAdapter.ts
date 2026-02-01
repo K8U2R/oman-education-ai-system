@@ -1,5 +1,5 @@
 import Redis from 'ioredis';
-import { ICacheProvider } from '@/domain/interfaces/adapters/cache/ICacheProvider.js';
+import { ICacheProvider } from '@/domain/interfaces/cache/ICacheProvider.js';
 import { ENV_CONFIG } from '@/infrastructure/config/env.config.js';
 import { logger } from '@/shared/utils/logger.js';
 

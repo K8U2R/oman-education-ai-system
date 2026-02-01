@@ -5,7 +5,6 @@
  */
 
 import { Router, Request, Response } from "express";
-import { getSettings } from "../../../shared/configuration/index.js";
 import { container } from "../../../infrastructure/di/index.js";
 import { getHealthChecker } from "../../../infrastructure/monitoring/index.js";
 import {
