@@ -64,10 +64,22 @@ export function registerAuthModule(): void {
         return new AuthService(repo, db, tokenService, emailService);
     });
 
+    import { IGoogleOAuthRepository } from "@/domain/interfaces/repositories/auth/social/IGoogleOAuthRepository.js";
+    import { GoogleOAuthRepository } from "@/infrastructure/repositories/GoogleOAuthRepository.js";
+
+    // ... existing imports ...
+
+    container.registerFactory("IGoogleOAuthRepository", () => {
+        const db = new DatabaseCoreAdapter();
+        return new GoogleOAuthRepository(db);
+    });
+
     container.registerFactory("GoogleOAuthService", () => {
         const db = new DatabaseCoreAdapter();
         const config = container.resolve<AuthConfig>("AuthConfig");
-        return new GoogleOAuthService(db, config);
+        const repo = container.resolve<IGoogleOAuthRepository>("IGoogleOAuthRepository");
+        const tokenService = container.resolve<TokenService>("TokenService");
+        return new GoogleOAuthService(db, config, repo, tokenService);
     });
 
     container.registerFactory("OAuthStateService", () => {

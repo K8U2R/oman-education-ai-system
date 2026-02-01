@@ -5,13 +5,22 @@ import { AppError } from "@/core/errors/AppError.js";
 import { logger } from "@/shared/utils/logger.js";
 import axios from "axios";
 import { AuthConfig } from "../../config/auth.config.js";
+import { inject } from "tsyringe";
+import { IGoogleOAuthRepository } from "@/domain/interfaces/repositories/auth/social/IGoogleOAuthRepository.js";
+import { TokenService } from "../core/TokenService.js";
+import { AuthTokens } from "@/domain/types/auth/index.js";
 
 export class GoogleOAuthService extends EnhancedBaseService {
     private readonly clientId: string;
     private readonly clientSecret: string;
     private readonly callbackUrl: string;
 
-    constructor(databaseAdapter: DatabaseCoreAdapter, config: AuthConfig) {
+    constructor(
+        databaseAdapter: DatabaseCoreAdapter,
+        @inject("AuthConfig") config: AuthConfig,
+        @inject("IGoogleOAuthRepository") private readonly googleOAuthRepository: IGoogleOAuthRepository,
+        @inject("TokenService") private readonly tokenService: TokenService
+    ) {
         super(databaseAdapter);
         this.clientId = config.google.clientId;
         this.clientSecret = config.google.clientSecret;
@@ -65,9 +74,9 @@ export class GoogleOAuthService extends EnhancedBaseService {
      * Handle OAuth Callback
      * 
      * @param code - Authorization code
-     * @returns GoogleOAuthCallbackResponse
+     * @returns AuthTokens & User Profile
      */
-    async handleCallback(code: string): Promise<GoogleOAuthCallbackResponse> {
+    async handleCallback(code: string): Promise<{ tokens: AuthTokens; user: GoogleProfile }> {
         return this.executeWithEnhancements(
             async () => {
                 if (!code) {
@@ -78,7 +87,7 @@ export class GoogleOAuthService extends EnhancedBaseService {
                     throw new AppError("Google OAuth is not configured", "OAUTH_NOT_CONFIGURED", 500);
                 }
 
-                // 1. Exchange code for tokens
+                // 1. Exchange code for Google tokens
                 const tokenResponse = await axios.post('https://oauth2.googleapis.com/token', {
                     code,
                     client_id: this.clientId,
@@ -87,16 +96,16 @@ export class GoogleOAuthService extends EnhancedBaseService {
                     grant_type: 'authorization_code'
                 });
 
-                const { access_token, refresh_token, expires_in, token_type } = tokenResponse.data;
+                const { access_token } = tokenResponse.data;
 
-                // 2. Fetch user profile
+                // 2. Fetch user profile from Google
                 const profileResponse = await axios.get('https://www.googleapis.com/oauth2/v3/userinfo', {
                     headers: { Authorization: `Bearer ${access_token}` }
                 });
 
                 const userData = profileResponse.data;
 
-                const profile: GoogleProfile = {
+                const googleProfile: GoogleProfile = {
                     id: userData.sub,
                     email: userData.email,
                     name: userData.name,
@@ -106,14 +115,41 @@ export class GoogleOAuthService extends EnhancedBaseService {
                     verified_email: userData.email_verified
                 };
 
+                // 3. Persist User (Create or Update)
+                // This is the CRITICAL fix: Saving the user to our DB
+                const user = await this.googleOAuthRepository.createUserFromGoogle(new GoogleUserInfo(
+                    googleProfile.id,
+                    googleProfile.email,
+                    googleProfile.name,
+                    googleProfile.given_name,
+                    googleProfile.family_name,
+                    googleProfile.picture,
+                    googleProfile.verified_email,
+                    "google"
+                ));
+
+                // 4. Generate Local JWT Tokens
+                // This ensures the frontend gets a token valid for OUR API
+                const localTokens = this.tokenService.generateTokens({
+                    id: user.id,
+                    email: user.email,
+                    username: user.username,
+                    role: user.role,
+                    is_verified: user.isVerified,
+                    is_active: user.isActive,
+                    permissions: user.permissions,
+                    created_at: user.createdAt.toISOString(),
+                    updated_at: user.updatedAt.toISOString()
+                });
+
+                logger.info("OAuth Login Successful", {
+                    userId: user.id,
+                    email: user.email
+                });
+
                 return {
-                    tokens: {
-                        access_token,
-                        refresh_token: refresh_token || null,
-                        token_type,
-                        expires_in
-                    },
-                    user: profile
+                    tokens: localTokens,
+                    user: googleProfile
                 };
             },
             { retryable: false },
@@ -124,7 +160,7 @@ export class GoogleOAuthService extends EnhancedBaseService {
     /**
      * Handle Callback with Verifier (PKCE)
      */
-    async handleCallbackWithVerifier(code: string, _codeVerifier: string, redirectTo: string): Promise<GoogleOAuthCallbackResponse & { redirectTo: string }> {
+    async handleCallbackWithVerifier(code: string, _codeVerifier: string, redirectTo: string): Promise<{ tokens: AuthTokens; user: GoogleProfile; redirectTo: string }> {
         return this.executeWithEnhancements(
             async () => {
                 if (!code) throw new AppError("Code is required", "MISSING_CODE", 400);

@@ -10,19 +10,21 @@ import { EnhancedBaseService } from "@/application/services/system/base/Enhanced
 import { DatabaseCoreAdapter } from "@/infrastructure/adapters/db/DatabaseCoreAdapter.js";
 import { AuthConfig } from "../../config/auth.config.js";
 import { inject } from "tsyringe";
+import { RedisOAuthStateRepository } from "@/infrastructure/repositories/RedisOAuthStateRepository.js";
 
 export class OAuthStateService extends EnhancedBaseService {
     private readonly frontendUrl: string;
+    private readonly stateRepository: RedisOAuthStateRepository;
 
     constructor(
         databaseAdapter: DatabaseCoreAdapter,
         @inject("AuthConfig") private readonly config: AuthConfig
     ) {
         super(databaseAdapter);
-        this.frontendUrl = config.jwt.accessExpiry ? "ignored" : "ignored"; // access config to key off typing
-        // Use frontendUrl from config or fallbacks
-        // Note: We use ENV_CONFIG in the fallback logic currently below, but we can refactor that later.
-        // For now, let's just make the signatures match.
+        this.frontendUrl = config.jwt.accessExpiry ? "ignored" : "ignored";
+
+        // Initialize the dedicated Redis repository for OAuth state
+        this.stateRepository = new RedisOAuthStateRepository();
     }
 
     protected getServiceName(): string {
@@ -33,25 +35,23 @@ export class OAuthStateService extends EnhancedBaseService {
      * Generate a secure random state and store it with the redirect URL
      */
     async generateState(redirectTo: string): Promise<string> {
-        const state = crypto.randomUUID();
-        // Store state with short expiration (e.g., 10 minutes)
-        // Using "oauth:state:" prefix
-        await this.databaseAdapter.redis.setex(`oauth:state:${state}`, 600, redirectTo);
-        return state;
+        // Use the repository to create state
+        // Using "mock_verifier" to match previous behavior until PKCE is fully implemented
+        const state = await this.stateRepository.createState(
+            redirectTo,
+            "mock_verifier",
+            600 // 10 minutes expiration
+        );
+
+        return state.stateToken;
     }
 
-    async validateAndGetRedirect(state: string): Promise<{ codeVerifier: string; redirectTo: string }> {
-        // Retrieve redirect URL from Redis
-        const redirectTo = await this.databaseAdapter.redis.get(`oauth:state:${state}`);
+    async validateAndGetRedirect(stateToken: string): Promise<{ codeVerifier: string; redirectTo: string }> {
+        // Retrieve state from repository
+        const state = await this.stateRepository.findStateByToken(stateToken);
 
-        if (!redirectTo) {
-            // Fallback using injected config
-            // Note: authConfig structure in auth.config.ts doesn't have frontendUrl at root, 
-            // it assumes ENV. 
-            // We should use the DI config or keep the current fallback if DI is complicated.
-            // But we must fix the constructor mismatch.
-
-            // Re-importing ENV for safety if config is missing properties
+        if (!state) {
+            // Fallback using injected config (preserving original fallback logic)
             const { ENV_CONFIG } = await import("@/infrastructure/config/env.config.js");
             return {
                 codeVerifier: "mock_verifier",
@@ -60,11 +60,11 @@ export class OAuthStateService extends EnhancedBaseService {
         }
 
         // Delete state after use (Rotation)
-        await this.databaseAdapter.redis.del(`oauth:state:${state}`);
+        await this.stateRepository.deleteState(stateToken);
 
         return {
-            codeVerifier: "mock_verifier",
-            redirectTo: redirectTo
+            codeVerifier: state.codeVerifier,
+            redirectTo: state.redirectTo
         };
     }
 }
