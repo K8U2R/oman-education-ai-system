@@ -1,0 +1,39 @@
+@use 'sass:map';
+
+/**
+ * Tier Token Maps
+ * Defines the visual overrides for each plan level.
+ */
+
+$tier-free: (
+    'card-bg': var(--color-bg-surface),
+    'card-border': 1px solid var(--color-border),
+    'card-shadow': 0 2px 4px rgba(0, 0, 0, 0.05),
+    'btn-primary-bg': var(--color-primary),
+    'btn-shadow': none,
+    'glass-opacity': 1
+);
+
+$tier-pro: (
+    'card-bg': var(--color-bg-surface),
+    'card-border': 1px solid var(--color-primary-200),
+    'card-shadow': 0 8px 16px rgba(0, 0, 0, 0.08),
+    'btn-primary-bg': var(--color-primary),
+    'btn-shadow': 0 4px 12px rgba(0, 0, 0, 0.1),
+    'glass-opacity': 1
+);
+
+$tier-premium: (
+    'card-bg': rgba(255, 255, 255, 0.05),
+    'card-border': 1px solid rgba(255, 255, 255, 0.1),
+    'card-shadow': 0 12px 32px rgba(0, 0, 0, 0.2),
+    'btn-primary-bg': linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%),
+    'btn-shadow': 0 4px 15px rgba(0, 0, 0, 0.2),
+    'glass-opacity': 0.7
+);
+
+$tiers: (
+    'free': $tier-free,
+    'pro': $tier-pro,
+    'premium': $tier-premium
+);

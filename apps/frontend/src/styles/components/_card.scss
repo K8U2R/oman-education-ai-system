@@ -1,0 +1,82 @@
+/**
+ * Card Component Styles
+ * @law Law-6 (Visual Sovereign) - OKLCH tokens
+ */
+
+@use '../abstracts/mixins' as *;
+@use '../abstracts/variables' as *;
+@use '../abstracts/tokens' as *;
+
+.card {
+    background: var(--color-bg-surface);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-border);
+    overflow: hidden;
+    transition: all var(--transition-base);
+
+    &--variant-default {
+        background: var(--color-bg-surface);
+    }
+
+    &--variant-outlined {
+        background: transparent;
+        border: 2px solid var(--color-border);
+    }
+
+    &--variant-elevated {
+        // Fallback or specific override
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    // Glass variant can remain as a utility, but main tier styling handles the default look
+    &--glass {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    &--hoverable:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+        border-color: var(--color-primary);
+    }
+
+    &--clickable {
+        cursor: pointer;
+    }
+
+    // Paddings
+    &--padding-none {
+        padding: 0;
+    }
+
+    &--padding-sm {
+        padding: var(--space-sm);
+    }
+
+    &--padding-md {
+        padding: var(--space-md);
+    }
+
+    &--padding-lg {
+        padding: var(--space-lg);
+    }
+
+    // Shadows
+    &--shadow-sm {
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+
+    &--shadow-md {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    &--shadow-lg {
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    }
+
+    &--shadow-xl {
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+    }
+}

@@ -1,0 +1,29 @@
+@use '../abstracts/tokens' as *;
+
+// Premium Tier: Luxury, Glassmorphism, Gradients
+// The full "Omani Edu Spark" experience.
+.tier-premium {
+    --card-bg: rgba(255, 255, 255, 0.05);
+    --card-border-color: rgba(255, 255, 255, 0.1);
+
+    // Glassmorphism default for all cards in Premium
+    .card {
+        background: var(--card-bg);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid var(--card-border-color);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    }
+
+    // Gradients for primary buttons
+    .button--primary {
+        background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        border: none;
+
+        &:hover {
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            filter: brightness(1.1);
+        }
+    }
+}

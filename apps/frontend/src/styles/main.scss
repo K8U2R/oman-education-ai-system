@@ -1,0 +1,39 @@
+// 1. Configuration & Helpers (Already injected by vite.config.ts)
+@use './abstracts/tokens';
+
+// 2. Base Styles
+@use './base/reset';
+@use './base/typography';
+
+// 3. Theme
+@use './themes/theme';
+
+// 4. Tiers (Plan Sovereignty)
+@use './tiers/free';
+@use './tiers/pro';
+@use './tiers/premium';
+
+// 6. Components
+@use './components/button';
+@use './components/auth';
+@use './components/container';
+@use './components/error-panel';
+@use './components/home-page';
+@use './components/loading-overlay';
+@use './components/modal';
+@use './components/toast';
+@use './components/card';
+@use './components/input';
+
+// 7. Pages
+@use './pages/dashboard';
+
+// Call the theme generator to inject CSS variables
+@include tokens.generate-themes;
+
+// Global Reset for Theme
+body {
+    background-color: var(--color-bg-app);
+    color: var(--color-text-main);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}

@@ -1,0 +1,10 @@
+@use '../abstracts/tokens' as *;
+
+// Free Tier: Clean, Flat, Functional
+// Focus on content readability and simplicity.
+.tier-free {
+    // Override root variables if needed for this scope
+    --card-bg: var(--color-bg-surface);
+    --card-border-color: var(--color-border);
+    --btn-primary-bg: var(--color-primary);
+}

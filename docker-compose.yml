@@ -2,7 +2,7 @@ services:
   # 🎨 خدمة الـ Frontend (React/Vite)
   frontend:
     build:
-      context: ./frontend
+      context: ./apps/frontend
       dockerfile: Dockerfile
     container_name: oman_edu_frontend
     restart: always
@@ -14,7 +14,7 @@ services:
   # ⚙️ خدمة الـ Backend
   backend:
     build:
-      context: ./backend
+      context: ./apps/backend
       dockerfile: Dockerfile
     container_name: oman_edu_backend
     restart: always
@@ -29,12 +29,12 @@ services:
       - DATABASE_URL=postgresql://postgres:SecurePassword123!@postgres:5432/oman_education_db
       - DATABASE_CORE_URL=http://database-core:3001
     env_file:
-      - ./backend/.env.production
+      - ./apps/backend/.env.production
 
   # 🗄️ خدمة الـ Database Core
   database-core:
     build:
-      context: ./database-core
+      context: ./apps/database-core
       dockerfile: Dockerfile
     container_name: oman_edu_db_core
     restart: always

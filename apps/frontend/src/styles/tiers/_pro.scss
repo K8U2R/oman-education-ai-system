@@ -1,0 +1,14 @@
+@use '../abstracts/tokens' as *;
+
+// Pro Tier: Professional, Depth, Refined
+// Adds subtle shadows and better visual hierarchy.
+.tier-pro {
+    --card-bg: var(--color-bg-surface);
+    --card-border-color: var(--color-primary-200);
+    --btn-primary-bg: var(--color-primary);
+
+    // Deeper shadows for Pro
+    .card {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+}

@@ -1,0 +1,130 @@
+openapi: 3.0.0
+info:
+  title: Oman Education AI System - Core Learning API
+  version: 1.0.0
+  description: API for AI Tutor, Course Management, and Assessments.
+
+paths:
+  # --- AI Tutor Endpoints ---
+  /learning/chat/threads:
+    post:
+      summary: Start a new AI tutoring session
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                context:
+                  type: string
+                  description: "Initial topic or lesson context"
+      responses:
+        '201':
+          description: Thread created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Thread'
+
+  /learning/chat/threads/{threadId}/messages:
+    post:
+      summary: Send a message to the AI Tutor
+      parameters:
+        - name: threadId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                content:
+                  type: string
+      responses:
+        '200':
+          description: AI Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+
+  # --- Course Content ---
+  /learning/courses:
+    get:
+      summary: List available courses (filtered by user tier)
+      responses:
+        '200':
+          description: List of courses
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Course'
+
+  # --- Assessments ---
+  /assessments/{assessmentId}/submit:
+    post:
+      summary: Submit assessment answers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                answers:
+                  type: object
+                  additionalProperties: 
+                    type: string
+      responses:
+        '200':
+          description: Submission result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssessmentResult'
+
+components:
+  schemas:
+    Thread:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+    
+    Message:
+      type: object
+      properties:
+        id:
+          type: string
+        role:
+          type: string
+          enum: [user, assistant]
+        content:
+          type: string
+    
+    Course:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        isLocked:
+          type: boolean
+          description: "True if user tier does not allow access"
+    
+    AssessmentResult:
+      type: object
+      properties:
+        score:
+          type: integer
+        passed:
+          type: boolean
+        feedback:
+          type: string
