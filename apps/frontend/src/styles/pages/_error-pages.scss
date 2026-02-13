@@ -1,5 +1,5 @@
-@use '../abstracts/tokens' as *;
-@use '../abstracts/mixins' as *;
+@use '../abstracts/foundation-colors' as *;
+@use '../abstracts/engine-helpers' as *;
 
 .base-error-page {
     display: flex;

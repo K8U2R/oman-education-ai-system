@@ -1,6 +1,6 @@
 @use 'sass:string';
-@use 'variables' as *;
-@use 'liquid-variables' as liquid;
+@use 'foundation-typography' as *;
+@use 'engine-fluid-metrics' as liquid;
 
 /**
  * SCSS Mixins - خلطات التصميم

@@ -3,9 +3,9 @@
  * @law Law-6 (Visual Sovereign) - OKLCH tokens
  */
 
-@use '../abstracts/mixins' as *;
-@use '../abstracts/variables' as *;
-@use '../abstracts/tokens' as *;
+@use '../abstracts/engine-helpers' as *;
+@use '../abstracts/foundation-typography' as *;
+@use '../abstracts/foundation-colors' as *;
 
 .input-wrapper {
     display: flex;

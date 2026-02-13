@@ -1,6 +1,6 @@
 @use 'sass:math';
-@use './liquid-variables' as liquid;
-@use './variables' as vars;
+@use './engine-fluid-metrics' as liquid;
+@use './foundation-typography' as vars;
 
 /**
  * Liquid Layout Mixins - خلطات التخطيط السائل

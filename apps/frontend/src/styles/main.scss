@@ -1,9 +1,9 @@
 // 0. Liquid System (NEW! - Fluid Layout Foundation)
-@use './abstracts/liquid-variables';
+@use './abstracts/engine-fluid-metrics';
 @use './abstracts/liquid-layout';
 
 // 1. Configuration & Helpers (Already injected by vite.config.ts)
-@use './abstracts/tokens';
+@use './abstracts/foundation-colors';
 
 // 2. Base Styles
 @use './base/reset';

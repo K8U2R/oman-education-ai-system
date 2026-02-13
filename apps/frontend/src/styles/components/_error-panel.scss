@@ -5,9 +5,9 @@
  * @law Law-9 (Documentation)
  */
 
-@use '../abstracts/mixins' as *;
-@use '../abstracts/variables' as *;
-@use '../abstracts/tokens' as *;
+@use '../abstracts/engine-helpers' as *;
+@use '../abstracts/foundation-typography' as *;
+@use '../abstracts/foundation-colors' as *;
 
 // ============================================================================
 // Professional Error Panel Styles (X-Ray Diagnostic System)

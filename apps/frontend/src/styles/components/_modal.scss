@@ -1,6 +1,6 @@
-@use '../abstracts/mixins' as *;
-@use '../abstracts/variables' as *;
-@use '../abstracts/tokens' as *;
+@use '../abstracts/engine-helpers' as *;
+@use '../abstracts/foundation-typography' as *;
+@use '../abstracts/foundation-colors' as *;
 
 /**
  * Modal Layout Styles (OKLCH-based, Theme-aware)

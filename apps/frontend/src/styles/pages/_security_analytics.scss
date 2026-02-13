@@ -1,5 +1,5 @@
-@use '../abstracts/variables' as *;
-@use '../abstracts/mixins' as *;
+@use '../abstracts/foundation-typography' as *;
+@use '../abstracts/engine-helpers' as *;
 
 .security-analytics-page {
     display: flex;
