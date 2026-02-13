@@ -6,6 +6,7 @@
 
 import { z } from "zod";
 import { ConfigurationError } from "@/domain/exceptions";
+import { ENV_CONFIG } from "../../env.config"; // Fixed import
 
 const GoogleOAuthConfigSchema = z.object({
   clientId: z.string().min(1, "GOOGLE_OAUTH_CLIENT_ID is required"),
@@ -35,11 +36,9 @@ export type GoogleOAuthConfig = z.infer<typeof GoogleOAuthConfigSchema>;
  * @compliance Emergency Audit Item #2 - Dynamic Callback URL
  */
 export function loadGoogleOAuthConfig(): GoogleOAuthConfig {
-  const { ENV_CONFIG } = require("../env.config.js");
-
   // ✅ Dynamic Callback URL based on environment
-  const baseUrl = ENV_CONFIG.APP_URL || ENV_CONFIG.GOOGLE_CALLBACK_URL || 'http://localhost:3000';
-  const redirectUri = baseUrl.includes('/callback')
+  const baseUrl = ENV_CONFIG.APP_URL || ENV_CONFIG.GOOGLE_CALLBACK_URL || "";
+  const redirectUri = baseUrl.includes("/callback")
     ? baseUrl // Already complete URL from GOOGLE_CALLBACK_URL
     : `${baseUrl}/api/v1/auth/google/callback`; // Construct from APP_URL
 

@@ -1,0 +1,72 @@
+@use '@/styles/abstracts/liquid-variables' as liquid;
+
+.container {
+    padding: liquid.$spacing-fluid-4;
+    display: flex;
+    flex-direction: column;
+    gap: liquid.$spacing-fluid-6;
+    max-width: liquid.$content-fluid-max;
+    margin: 0 auto;
+}
+
+.content {
+    display: grid;
+    gap: liquid.$gap-fluid-lg;
+    grid-template-columns: 1fr;
+
+    @media (min-width: 1024px) {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.card {
+    // Inherit standard card styles, but can add specific settings card overrides here
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.cardHeader {
+    display: flex;
+    gap: liquid.$spacing-fluid-6;
+    padding: liquid.$spacing-fluid-6;
+    margin-bottom: liquid.$spacing-fluid-6;
+    gap: liquid.$spacing-fluid-4;
+    border-bottom: 1px solid var(--border-secondary);
+}
+
+.cardIcon {
+    color: var(--primary-600);
+}
+
+.cardTitle {
+    font-size: liquid.$font-fluid-lg;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.cardContent {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.actionButton {
+    width: 100%;
+    padding: liquid.$spacing-fluid-4;
+    background-color: var(--bg-app);
+    border: 1px solid var(--border-secondary);
+    border-radius: liquid.$radius-fluid-md;
+    color: var(--text-primary);
+    font-weight: 500;
+    text-align: center;
+    cursor: pointer;
+    transition: all liquid.$transition-fast;
+
+    &:hover {
+        background-color: color-mix(in srgb, var(--primary-500), transparent 90%);
+        border-color: var(--primary-500);
+        color: var(--primary-700);
+    }
+}

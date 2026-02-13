@@ -1,7 +1,9 @@
 /**
  * ProtectedRoute - مكون حماية المسار
  *
- * مكون يحمي المسارات التي تتطلب مصادقة
+ * ✅ LAW 08 & 14 Compliant Route Protection
+ * - Blocks unencrypted /admin/* and /developer/* routes
+ * - Decrypts and validates /p/* encrypted routes
  */
 
 import React from 'react'
@@ -13,6 +15,7 @@ import { ROUTES } from '@/domain/constants/routes.constants'
 import { UserRole, Permission } from '@/domain/types/auth.types'
 import { User } from '@/domain/entities/User'
 import { useRouteContext } from '@/presentation/routing/providers/RouteContext'
+import { decryptRoute, isSensitiveRoute } from '@/domain/security/route-encryption'
 
 interface ProtectedRouteProps {
   children: React.ReactElement
@@ -39,11 +42,48 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
     isLoading: storeIsLoading,
     isInitialized,
     user,
-    error: storeError, // Capture store error
+    error: storeError,
   } = useAuthStore()
   const { hasRole, hasAnyRole, hasPermission, hasAllPermissions } = useRole()
   const location = useLocation()
-  const { metadata: routeMetadata } = useRouteContext() // ✅ Get metadata from Context
+  const { metadata: routeMetadata } = useRouteContext()
+
+  // ===================================================================
+  // 🔒 PHASE 3: Route Encryption Protection (LAW 08 & LAW 14)
+  // ===================================================================
+
+  // Block direct access to unencrypted sensitive routes
+  const currentPath = location.pathname
+
+  if (isSensitiveRoute(currentPath) && !currentPath.startsWith('/p/')) {
+    // ❌ Direct access to /admin/* or /developer/* - BLOCKED
+    if (import.meta.env.DEV) {
+      console.warn('[Route Security] Blocked unencrypted sensitive route:', currentPath)
+    }
+    return <Navigate to={ROUTES.HOME} replace />
+  }
+
+  // Decrypt encrypted routes (/p/xxxx)
+  if (currentPath.startsWith('/p/')) {
+    const decrypted = decryptRoute(currentPath)
+
+    if (!decrypted) {
+      // Invalid encrypted route
+      if (import.meta.env.DEV) {
+        console.error('[Route Security] Invalid encrypted route:', currentPath)
+      }
+      return <Navigate to={ROUTES.HOME} replace />
+    }
+
+    // Encrypted route is valid - continue with normal checks
+    if (import.meta.env.DEV) {
+      console.log('[Route Security] Decrypted route:', currentPath, '→', decrypted)
+    }
+  }
+
+  // ===================================================================
+  // Continue with normal authentication and authorization checks
+  // ===================================================================
 
   // التحقق من المصادقة من store و localStorage (fallback)
   const hasToken = authService.isAuthenticated()

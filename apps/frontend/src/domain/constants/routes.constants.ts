@@ -94,6 +94,7 @@ export const ROUTES = {
   LESSON_FORM: '/content/lessons/new',
   LESSON_EDIT: (lessonId: string) => `/content/lessons/${lessonId}/edit`,
   LESSON_EDIT_PATTERN: '/content/lessons/:lessonId/edit',
+  LESSON_GENERATOR: '/teacher/ai/lessons/new', // New AI Route
   LEARNING_PATHS_MANAGEMENT: '/content/learning-paths',
   LEARNING_PATH_FORM: '/content/learning-paths/new',
   LEARNING_PATH_EDIT: (pathId: string) => `/content/learning-paths/${pathId}/edit`,

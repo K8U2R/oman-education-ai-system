@@ -1,6 +1,6 @@
 /**
  * User Management Routes (Admin) - مسارات إدارة المستخدمين
- * 
+ *
  * @law Law-10 (Scalability) - Management Domain
  */
 
@@ -12,22 +12,22 @@ const router = RouteFactory.createFeatureRouter();
 
 // GET /api/v1/users/management/
 router.get(
-    "/",
-    ...RouteFactory.createAuthenticatedRoute<UserController>(
-        "UserController",
-        "listUsers",
-        authMiddleware.authenticate
-    )
+  "/",
+  ...RouteFactory.createAuthenticatedRoute<UserController>(
+    "UserController",
+    "listUsers",
+    authMiddleware.authenticate,
+  ),
 );
 
 // POST /api/v1/users/management/:id/ban
 router.post(
-    "/:id/ban",
-    ...RouteFactory.createAuthenticatedRoute<UserController>(
-        "UserController",
-        "banUser",
-        authMiddleware.authenticate
-    )
+  "/:id/ban",
+  ...RouteFactory.createAuthenticatedRoute<UserController>(
+    "UserController",
+    "banUser",
+    authMiddleware.authenticate,
+  ),
 );
 
 export default router;

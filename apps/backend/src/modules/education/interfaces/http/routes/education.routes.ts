@@ -13,9 +13,9 @@ const controller = new EducationController();
 // POST /api/v1/education/generate
 // Protected by AuthMiddleware to ensure req.user is populated
 router.post(
-    "/generate",
-    authMiddleware.authenticate,
-    controller.generateLesson
+  "/generate",
+  authMiddleware.authenticate,
+  controller.generateLesson,
 );
 
 export default router;

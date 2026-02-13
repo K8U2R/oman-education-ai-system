@@ -1,0 +1,90 @@
+@use '@/styles/abstracts/liquid-variables' as liquid;
+
+.container {
+    padding: liquid.$spacing-fluid-6;
+    display: flex;
+    flex-direction: column;
+    gap: liquid.$spacing-fluid-6;
+}
+
+.header {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: liquid.$spacing-fluid-4;
+}
+
+.title {
+    font-size: liquid.$font-fluid-2xl;
+    font-weight: 700;
+    color: var(--text-primary);
+
+    span {
+        color: var(--primary-600);
+    }
+}
+
+.subtitle {
+    font-size: liquid.$font-fluid-base;
+    color: var(--text-secondary);
+}
+
+.grid {
+    display: grid;
+    gap: liquid.$gap-fluid-lg;
+    grid-template-columns: 1fr;
+
+    @media (min-width: 1024px) {
+        grid-template-columns: repeat(12, 1fr);
+    }
+}
+
+.mainContent {
+    @media (min-width: 1024px) {
+        grid-column: span 8;
+    }
+
+    display: flex;
+    flex-direction: column;
+    gap: liquid.$spacing-fluid-6;
+}
+
+.sidebar {
+    @media (min-width: 1024px) {
+        grid-column: span 4;
+    }
+
+    display: flex;
+    flex-direction: column;
+    gap: liquid.$spacing-fluid-6;
+}
+
+.statGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: liquid.$gap-fluid-md;
+
+    @media (min-width: 640px) {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+.welcomeCard {
+    background: linear-gradient(135deg, var(--primary-600), var(--primary-800));
+    color: white;
+    border: none;
+
+    .cardTitle {
+        color: white;
+    }
+
+    .cardDescription {
+        color: color-mix(in srgb, white, transparent 20%);
+    }
+}
+
+.sectionTitle {
+    font-size: liquid.$font-fluid-lg;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: liquid.$spacing-fluid-4;
+}

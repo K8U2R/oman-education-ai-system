@@ -2,6 +2,7 @@
  * QuickActionsMenu Component - قائمة الإجراءات السريعة
  *
  * قائمة منسدلة للإجراءات السريعة مع Keyboard Shortcuts
+ * T047: Refactored to use CSS Modules for secure overlay handling
  */
 
 import React, { useState, useEffect, useRef } from 'react'
@@ -11,6 +12,8 @@ import { ROUTES } from '@/domain/constants/routes.constants'
 import { useRole } from '@/features/user-authentication-management'
 import { useUIStore } from '@/application/shared/store'
 import type { QuickAction } from '../../types'
+
+import styles from './QuickActionsMenu.module.scss'
 
 /**
  * Quick Actions Configuration
@@ -158,7 +161,7 @@ export const QuickActionsMenu: React.FC = () => {
     <>
       {/* Overlay */}
       <div
-        className="quick-actions-overlay"
+        className={styles.overlay}
         onClick={() => {
           setIsOpen(false)
           setSearchQuery('')
@@ -168,17 +171,17 @@ export const QuickActionsMenu: React.FC = () => {
 
       {/* Menu */}
       <div
-        className="quick-actions-menu"
+        className={styles.menu}
         ref={menuRef}
         role="dialog"
         aria-label="الإجراءات السريعة"
       >
-        <div className="quick-actions-menu__header">
-          <div className="quick-actions-menu__search">
-            <Search className="quick-actions-menu__search-icon" />
+        <div className={styles['menu__header']}>
+          <div className={styles['menu__search']}>
+            <Search className={styles['menu__search-icon']} />
             <input
               type="text"
-              className="quick-actions-menu__search-input"
+              className={styles['menu__search-input']}
               placeholder="ابحث عن إجراء..."
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
@@ -186,41 +189,41 @@ export const QuickActionsMenu: React.FC = () => {
             />
             {searchQuery && (
               <button
-                className="quick-actions-menu__search-clear"
+                className={styles['menu__search-clear']}
                 onClick={() => setSearchQuery('')}
                 aria-label="مسح البحث"
               >
-                <X className="quick-actions-menu__search-clear-icon" />
+                <X className={styles['menu__search-clear-icon']} />
               </button>
             )}
           </div>
         </div>
 
-        <div className="quick-actions-menu__divider" />
+        <div className={styles['menu__divider']} />
 
-        <div className="quick-actions-menu__content">
+        <div className={styles['menu__content']}>
           {visibleActions.length === 0 ? (
-            <div className="quick-actions-menu__empty">
-              <Zap className="quick-actions-menu__empty-icon" />
-              <p className="quick-actions-menu__empty-text">لا توجد إجراءات</p>
+            <div className={styles['menu__empty']}>
+              <Zap className={styles['menu__empty-icon']} />
+              <p className={styles['menu__empty-text']}>لا توجد إجراءات</p>
             </div>
           ) : (
-            <div className="quick-actions-menu__list">
+            <div className={styles['menu__list']}>
               {visibleActions.map(action => {
                 const Icon = action.icon
                 return (
                   <button
                     key={action.id}
-                    className="quick-actions-menu__item"
+                    className={styles['menu__item']}
                     onClick={() => handleActionClick(action)}
                     role="menuitem"
                   >
-                    <Icon className="quick-actions-menu__item-icon" />
-                    <span className="quick-actions-menu__item-label">{action.label}</span>
+                    <Icon className={styles['menu__item-icon']} />
+                    <span className={styles['menu__item-label']}>{action.label}</span>
                     {action.shortcut && (
-                      <span className="quick-actions-menu__item-shortcut">{action.shortcut}</span>
+                      <span className={styles['menu__item-shortcut']}>{action.shortcut}</span>
                     )}
-                    <ChevronRight className="quick-actions-menu__item-chevron" />
+                    <ChevronRight className={styles['menu__item-chevron']} />
                   </button>
                 )
               })}
@@ -228,8 +231,8 @@ export const QuickActionsMenu: React.FC = () => {
           )}
         </div>
 
-        <div className="quick-actions-menu__footer">
-          <p className="quick-actions-menu__footer-hint">
+        <div className={styles['menu__footer']}>
+          <p className={styles['menu__footer-hint']}>
             اضغط <kbd>Esc</kbd> للإغلاق
           </p>
         </div>

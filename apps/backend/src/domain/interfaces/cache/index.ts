@@ -2,4 +2,4 @@
  * Cache Interfaces - Barrel Export
  */
 
-export * from './ICacheProvider.js';
+export * from "./ICacheProvider.js";

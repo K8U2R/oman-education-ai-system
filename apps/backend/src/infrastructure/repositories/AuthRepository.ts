@@ -10,9 +10,9 @@
  * ```
  */
 
-import { IAuthRepository } from "@/domain/interfaces/repositories";
-import { IRefreshTokenRepository } from "@/domain/interfaces/repositories";
-import { User } from "@/domain/entities/User";
+import { IAuthRepository } from "../../domain/interfaces/repositories/index.js";
+import { IRefreshTokenRepository } from "../../domain/interfaces/repositories/index.js";
+import { User } from "../../domain/entities/User.js";
 import {
   LoginRequest,
   RegisterRequest,
@@ -21,7 +21,7 @@ import {
   LoginResponse,
   UserData,
   VerificationTokenData,
-} from "@/domain/types/auth";
+} from "../../domain/types/auth/index.js";
 import {
   AuthenticationFailedError,
   UserNotFoundError,
@@ -30,12 +30,18 @@ import {
   InvalidPasswordError,
   InvalidEmailError,
   RegistrationFailedError,
-} from "@/domain/exceptions";
-import { DatabaseCoreAdapter } from "../adapters/db/DatabaseCoreAdapter";
-import { TokenService } from "@/modules/auth/services/identity/TokenService.js";
-import { Password, type HashedPassword } from "@/domain/value-objects/Password";
-import { logger } from "@/shared/utils/logger";
-import { DatabaseQueryConditions, DatabaseQueryOptions } from "@/domain/types";
+} from "../../domain/exceptions/index.js";
+import { DatabaseCoreAdapter } from "../adapters/db/DatabaseCoreAdapter.js";
+import { TokenService } from "../../modules/auth/services/identity/TokenService.js";
+import {
+  Password,
+  type HashedPassword,
+} from "../../domain/value-objects/Password.js";
+import { logger } from "../../shared/utils/logger.js";
+import {
+  DatabaseQueryConditions,
+  DatabaseQueryOptions,
+} from "../../domain/types/index.js";
 
 import { randomUUID } from "crypto";
 
@@ -50,7 +56,7 @@ export class AuthRepository implements IAuthRepository {
     private readonly databaseAdapter: DatabaseCoreAdapter,
     private readonly tokenService: TokenService,
     private readonly refreshTokenRepository: IRefreshTokenRepository,
-  ) { }
+  ) {}
 
   /**
    * البحث عن مستخدمين باستخدام شروط قاعدة البيانات
@@ -64,12 +70,12 @@ export class AuthRepository implements IAuthRepository {
   ): Promise<UserData[]> {
     const adapterOptions = options
       ? {
-        limit: options.limit,
-        offset: options.offset,
-        orderBy: Array.isArray(options.orderBy)
-          ? options.orderBy[0]
-          : options.orderBy,
-      }
+          limit: options.limit,
+          offset: options.offset,
+          orderBy: Array.isArray(options.orderBy)
+            ? options.orderBy[0]
+            : options.orderBy,
+        }
       : undefined;
 
     return this.databaseAdapter.find<UserData>(
@@ -195,6 +201,7 @@ export class AuthRepository implements IAuthRepository {
         is_verified: false,
         is_active: true,
         permissions: [],
+        planTier: "FREE",
       };
 
       // Insert user
@@ -602,6 +609,7 @@ export class AuthRepository implements IAuthRepository {
       // unless they set one later.
       password_hash: await new Password(randomUUID()).hash(),
       permission_source: "default",
+      planTier: "FREE",
     };
 
     const createdUser = await this.databaseAdapter.insert<UserData>("users", {
@@ -616,5 +624,23 @@ export class AuthRepository implements IAuthRepository {
     });
 
     return User.fromData(createdUser);
+  }
+
+  /**
+   * تحديث وقت آخر ظهور للمستخدم
+   *
+   * @param userId - معرف المستخدم
+   * @returns void
+   */
+  async updateLastLogin(userId: string): Promise<void> {
+    await this.databaseAdapter.update(
+      "users",
+      { id: userId },
+      {
+        last_login_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      },
+    );
+    logger.info("Updated last_login_at", { userId });
   }
 }

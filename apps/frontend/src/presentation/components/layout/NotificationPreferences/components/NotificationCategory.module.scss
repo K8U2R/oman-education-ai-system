@@ -1,0 +1,144 @@
+@use '@/styles/abstracts/liquid-variables' as liquid;
+@use '@/styles/abstracts/variables' as *;
+@use '@/styles/abstracts/mixins' as *;
+
+.category {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: liquid.$radius-fluid-lg;
+    overflow: hidden;
+    transition: all liquid.$transition-normal ease;
+
+    &--expanded {
+        border-color: var(--color-primary-200);
+        box-shadow: $shadow-sm;
+    }
+
+    &--disabled {
+        opacity: 0.6;
+        pointer-events: none;
+    }
+
+    &__header {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: liquid.$spacing-fluid-4;
+        background: none;
+        border: none;
+        cursor: pointer;
+        text-align: start;
+
+        &:hover {
+            background-color: var(--color-bg-secondary);
+        }
+
+        &-content {
+            display: flex;
+            align-items: center;
+            gap: liquid.$spacing-fluid-4;
+            flex: 1;
+        }
+    }
+
+    &__icon {
+        color: var(--color-primary);
+    }
+
+    &__info {
+        display: flex;
+        flex-direction: column;
+        gap: liquid.$spacing-fluid-1;
+    }
+
+    &__title {
+        @include typography-body-lg;
+        font-weight: $font-weight-semibold;
+        color: var(--color-text-primary);
+        margin: 0;
+    }
+
+    &__description {
+        @include typography-body-sm;
+        color: var(--color-text-secondary);
+        margin: 0;
+    }
+
+    &__chevron {
+        color: var(--color-text-tertiary);
+        transition: transform liquid.$transition-fast;
+    }
+
+    &__content {
+        padding: 0 liquid.$spacing-fluid-4 liquid.$spacing-fluid-4;
+        border-top: 1px solid var(--color-border-light);
+        animation: slideDown liquid.$transition-fast ease-out;
+    }
+
+    &__preference {
+        padding: liquid.$spacing-fluid-4 0;
+        border-bottom: 1px solid var(--color-border-light);
+
+        &:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        &-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: liquid.$spacing-fluid-4;
+            margin-bottom: liquid.$spacing-fluid-3;
+        }
+
+        &-info {
+            display: flex;
+            gap: liquid.$spacing-fluid-3;
+        }
+
+        &-icon {
+            color: var(--color-text-secondary);
+            margin-top: 2px;
+        }
+
+        &-text {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        &-title {
+            @include typography-body-md;
+            font-weight: $font-weight-medium;
+            color: var(--color-text-primary);
+            margin: 0;
+        }
+
+        &-description {
+            @include typography-body-xs;
+            color: var(--color-text-secondary);
+            margin: 0;
+        }
+    }
+
+    &__channels {
+        display: flex;
+        gap: liquid.$spacing-fluid-4;
+        padding-inline-start: calc(#{liquid.$spacing-fluid-8} + #{liquid.$spacing-fluid-3}); // Indent to align with text
+        flex-wrap: wrap;
+    }
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(calc(#{liquid.$spacing-fluid-2} * -1));
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

@@ -1,11 +1,6 @@
-/**
- * Whitelist Management Page - صفحة إدارة القائمة البيضاء
- *
- * صفحة شاملة لإدارة القائمة البيضاء للصلاحيات المتقدمة
- */
-
 import React, { useEffect } from 'react'
 import { Shield, Plus, RefreshCw, AlertCircle, CheckCircle2 } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { PageHeader } from '../components'
 import { Card, Button, Modal, Input } from '../../components/common'
 import { WhitelistEntryTable, WhitelistEntryForm } from '../../components/whitelist'
@@ -17,6 +12,7 @@ import type { WhitelistEntry, WhitelistEntryFormData } from '@/application/featu
 import { Permission } from '@/domain/types/auth.types'
 
 const WhitelistManagementPage: React.FC = () => {
+  const { t } = useTranslation()
   const {
     entries,
     loading,
@@ -36,20 +32,20 @@ const WhitelistManagementPage: React.FC = () => {
   const { searchTerm, filter, setSearchTerm, setFilter, filteredData } = useSearchFilter(entries, {
     searchFields: ['email', 'permission_level'] as (keyof WhitelistEntry)[],
     filterOptions: [
-      { value: 'all', label: 'الكل' },
+      { value: 'all', label: t('admin.whitelist.filters.all') },
       {
         value: 'active',
-        label: 'نشط',
+        label: t('admin.whitelist.filters.active'),
         filterFn: entry => (entry as unknown as WhitelistEntry).is_active,
       },
       {
         value: 'inactive',
-        label: 'غير نشط',
+        label: t('admin.whitelist.filters.inactive'),
         filterFn: entry => !(entry as unknown as WhitelistEntry).is_active,
       },
       {
         value: 'expired',
-        label: 'منتهي',
+        label: t('admin.whitelist.filters.expired'),
         filterFn: entry => {
           const entryData = entry as unknown as WhitelistEntry
           return entryData.expires_at ? new Date(entryData.expires_at) < new Date() : false
@@ -106,11 +102,11 @@ const WhitelistManagementPage: React.FC = () => {
   useEffect(() => {
     if (error) {
       handleError(error, {
-        message: 'خطأ في القائمة البيضاء',
+        message: t('admin.whitelist.messages.error_title'),
         context: 'WhitelistManagementPage',
       })
     }
-  }, [error])
+  }, [error, t])
 
   const handleCreate = () => {
     formModal.open()
@@ -132,7 +128,7 @@ const WhitelistManagementPage: React.FC = () => {
       deleteModal.close()
     } catch (error) {
       handleError(error, {
-        message: 'فشل حذف إدخال القائمة البيضاء',
+        message: t('admin.whitelist.messages.delete_fail'),
         context: 'WhitelistManagementPage',
       })
     }
@@ -143,7 +139,7 @@ const WhitelistManagementPage: React.FC = () => {
       await activateEntry(entry.id)
     } catch (error) {
       handleError(error, {
-        message: 'فشل تفعيل إدخال القائمة البيضاء',
+        message: t('admin.whitelist.messages.activate_fail'),
         context: 'WhitelistManagementPage',
       })
     }
@@ -154,7 +150,7 @@ const WhitelistManagementPage: React.FC = () => {
       await deactivateEntry(entry.id)
     } catch (error) {
       handleError(error, {
-        message: 'فشل تعطيل إدخال القائمة البيضاء',
+        message: t('admin.whitelist.messages.deactivate_fail'),
         context: 'WhitelistManagementPage',
       })
     }
@@ -183,7 +179,7 @@ const WhitelistManagementPage: React.FC = () => {
       formModal.close()
     } catch (error) {
       handleError(error, {
-        message: 'فشل حفظ إدخال القائمة البيضاء',
+        message: t('admin.whitelist.messages.save_fail'),
         context: 'WhitelistManagementPage',
       })
       throw error // Let form handle the error
@@ -193,12 +189,12 @@ const WhitelistManagementPage: React.FC = () => {
   return (
     <AdminPageWrapper
       requiredPermissions={['whitelist.manage']}
-      loadingMessage="جاري تحميل القائمة البيضاء..."
+      loadingMessage={t('loading')}
     >
       <div className="whitelist-management-page">
         <PageHeader
-          title="إدارة القائمة البيضاء"
-          description="إدارة  المتقدمة للمستخدمين المصرح لهم"
+          title={t('admin.whitelist.title')}
+          description={t('admin.whitelist.description')}
           icon={<Shield />}
         />
 
@@ -206,7 +202,7 @@ const WhitelistManagementPage: React.FC = () => {
         <div className="whitelist-management-page__toolbar">
           <div className="whitelist-management-page__search">
             <Input
-              placeholder="بحث في القائمة البيضاء..."
+              placeholder={t('common.search_placeholder')}
               value={searchTerm}
               onChange={e => setSearchTerm(e.target.value)}
               className="whitelist-management-page__search-input"
@@ -219,37 +215,37 @@ const WhitelistManagementPage: React.FC = () => {
               size="sm"
               onClick={() => setFilter('all')}
             >
-              الكل
+              {t('admin.whitelist.filters.all')}
             </Button>
             <Button
               variant={filter === 'active' ? 'primary' : 'ghost'}
               size="sm"
               onClick={() => setFilter('active')}
             >
-              نشط
+              {t('admin.whitelist.filters.active')}
             </Button>
             <Button
               variant={filter === 'inactive' ? 'primary' : 'ghost'}
               size="sm"
               onClick={() => setFilter('inactive')}
             >
-              معطل
+              {t('admin.whitelist.filters.inactive')}
             </Button>
             <Button
               variant={filter === 'expired' ? 'primary' : 'ghost'}
               size="sm"
               onClick={() => setFilter('expired')}
             >
-              منتهي
+              {t('admin.whitelist.filters.expired')}
             </Button>
           </div>
 
           <div className="whitelist-management-page__actions">
             <Button variant="ghost" size="sm" onClick={refresh} leftIcon={<RefreshCw />}>
-              تحديث
+              {t('admin.whitelist.actions.refresh')}
             </Button>
             <Button variant="primary" onClick={handleCreate} leftIcon={<Plus />}>
-              إضافة جديد
+              {t('admin.whitelist.actions.add_new')}
             </Button>
           </div>
         </div>
@@ -261,7 +257,7 @@ const WhitelistManagementPage: React.FC = () => {
               <AlertCircle size={20} />
               <span>{error.message}</span>
               <Button variant="ghost" size="sm" onClick={clearError}>
-                إخفاء
+                {t('admin.whitelist.actions.clear_error')}
               </Button>
             </div>
           </Card>
@@ -272,7 +268,7 @@ const WhitelistManagementPage: React.FC = () => {
           <Card className="whitelist-management-page__info-card">
             <div className="whitelist-management-page__info-content">
               <CheckCircle2 size={20} />
-              <span>تم تحميل {entries.length} إدخال بنجاح</span>
+              <span>{t('admin.whitelist.messages.load_success', { count: entries.length })}</span>
             </div>
           </Card>
         )}
@@ -295,7 +291,7 @@ const WhitelistManagementPage: React.FC = () => {
           isOpen={formModal.isOpen}
           onClose={formModal.close}
           size="lg"
-          title={formModal.selectedData ? 'تعديل إدخال القائمة البيضاء' : 'إضافة إدخال جديد'}
+          title={formModal.selectedData ? t('admin.whitelist.form.edit_title') : t('admin.whitelist.form.create_title')}
         >
           <WhitelistEntryForm
             entry={formModal.selectedData}
@@ -311,28 +307,28 @@ const WhitelistManagementPage: React.FC = () => {
           isOpen={deleteModal.isOpen}
           onClose={deleteModal.close}
           size="md"
-          title="تأكيد الحذف"
+          title={t('admin.whitelist.messages.delete_title')}
         >
           <div className="whitelist-management-page__delete-modal">
             <p>
-              هل أنت متأكد من حذف الإدخال <strong>{deleteModal.selectedData?.email}</strong>؟
+              {t('admin.whitelist.messages.delete_confirm')} <strong>{deleteModal.selectedData?.email}</strong>?
             </p>
             {deleteModal.selectedData?.is_permanent && (
               <div className="whitelist-management-page__permanent-warning">
                 <AlertCircle size={16} />
-                <span>هذا إدخال دائم ولا يمكن حذفه</span>
+                <span>{t('admin.whitelist.messages.permanent_warning')}</span>
               </div>
             )}
             <div className="whitelist-management-page__delete-actions">
               <Button variant="ghost" onClick={deleteModal.close}>
-                إلغاء
+                {t('admin.whitelist.form.cancel')}
               </Button>
               <Button
                 variant="danger"
                 onClick={handleConfirmDelete}
                 disabled={deleteModal.selectedData?.is_permanent}
               >
-                حذف
+                {t('admin.whitelist.actions.delete')}
               </Button>
             </div>
           </div>

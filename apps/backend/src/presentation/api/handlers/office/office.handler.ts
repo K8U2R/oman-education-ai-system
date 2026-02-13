@@ -68,7 +68,9 @@ export class OfficeHandler extends BaseHandler {
       res,
       async () => {
         const type = req.query.type as string | undefined;
-        const templates = await this.officeGenerationService.getTemplates(type as string || "all");
+        const templates = await this.officeGenerationService.getTemplates(
+          (type as string) || "all",
+        );
         this.ok(res, {
           templates,
           count: templates.length,

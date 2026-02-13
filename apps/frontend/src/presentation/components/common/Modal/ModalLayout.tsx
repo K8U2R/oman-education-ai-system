@@ -2,6 +2,8 @@ import React from 'react'
 import { motion, AnimatePresence, Variants } from 'framer-motion'
 import { X } from 'lucide-react'
 import { NotificationDock } from '@/presentation/components/common/NotificationDock/NotificationDock'
+import { useTranslation } from 'react-i18next'
+import styles from './ModalLayout.module.scss'
 
 interface ModalLayoutProps {
     isOpen: boolean
@@ -32,18 +34,20 @@ export const ModalLayout: React.FC<ModalLayoutProps> = ({
     children,
     title
 }) => {
+    const { t } = useTranslation()
+
     return (
         <AnimatePresence>
             {isOpen && (
                 <motion.div
-                    className="fixed inset-0 z-50 flex items-center justify-center p-4"
+                    className={styles.overlay}
                     initial="hidden"
                     animate="visible"
                     exit="hidden"
                 >
                     {/* Notification Dock - Attached to the Modal System */}
-                    <div className="absolute top-0 right-0 h-full w-full pointer-events-none z-[60]">
-                        <div className="relative w-full h-full max-w-lg mx-auto flex items-start justify-end">
+                    <div className={styles.notificationDock}>
+                        <div className={styles.dockContainer}>
                             {/* Positioning handled by Dock itself usually, but this container helps alignment */}
                         </div>
                     </div>
@@ -52,31 +56,31 @@ export const ModalLayout: React.FC<ModalLayoutProps> = ({
 
                     {/* Backdrop with Blur - OKLCH */}
                     <motion.div
-                        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+                        className={styles.backdrop}
                         variants={backdropVariants}
                         onClick={onClose}
                     />
 
                     {/* Modal Content container - OKLCH Theme-aware */}
                     <motion.div
-                        className="relative w-full max-w-lg pointer-events-auto bg-bg-surface rounded-2xl shadow-xl border border-border-primary overflow-hidden"
+                        className={styles.modal}
                         variants={modalVariants}
                     >
                         {/* Header */}
-                        <div className="flex items-center justify-between px-6 py-4 border-b border-border-secondary bg-bg-surface">
-                            <h3 className="text-xl font-bold text-text-primary">
-                                {title || 'Oman AI System'}
+                        <div className={styles.header}>
+                            <h3 className={styles.title}>
+                                {title || t('common.default_modal_title')}
                             </h3>
                             <button
                                 onClick={onClose}
-                                className="text-text-secondary hover:text-error transition-colors p-1 rounded-md hover:bg-bg-tertiary"
+                                className={styles.closeButton}
                             >
                                 <X size={20} />
                             </button>
                         </div>
 
                         {/* Scrollable Content */}
-                        <div className="p-6 overflow-y-auto max-h-[80vh] text-text-primary">
+                        <div className={styles.content}>
                             {children}
                         </div>
                     </motion.div>

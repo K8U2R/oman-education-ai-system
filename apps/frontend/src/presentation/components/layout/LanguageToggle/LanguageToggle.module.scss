@@ -1,0 +1,31 @@
+@use '@/styles/abstracts/liquid-variables' as *;
+
+.toggle {
+    display: flex;
+    align-items: center;
+    gap: liquid.$spacing-fluid-2;
+    padding: liquid.$spacing-fluid-2 liquid.$spacing-fluid-3;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: liquid.$radius-fluid-full;
+    color: var(--color-text-secondary);
+    font-size: $font-size-sm;
+    transition: all liquid.$transition-fast ease-out;
+    cursor: pointer;
+
+    &:hover {
+        background-color: var(--color-surface-hover);
+        color: var(--color-primary);
+        border-color: var(--color-primary-200);
+    }
+
+    &__icon {
+        width: 1rem;
+        height: 1rem;
+    }
+
+    &__text {
+        font-weight: $font-weight-medium;
+        font-family: var(--font-mono); // For AR/EN text
+    }
+}

@@ -1,14 +1,18 @@
 /**
- * UI Services - خدمات واجهة المستخدم
+ * UI Services - خدمات الواجهة
  */
 
-export { themeService } from './theme.service'
-export type { ThemeMode, AgeTheme, ThemeConfig } from './theme.service'
+// Design
+export { themeService } from './design/theme.service'
+export type { ThemeConfig, AgeTheme, ThemeMode } from './design/theme.service'
 
-export { i18nService } from './i18n.service'
-export type { Language, Direction } from './i18n.service'
+// Localization
+export { i18nService } from './localization/i18n.service'
+export type { Language, Direction } from './localization/i18n.service'
 
-export { ValidationService } from './validation.service'
-export type { ValidationRule, ValidationResult } from './validation.service'
+// Interaction
+export { validationService, ValidationService } from './interaction/validation.service'
+export type { ValidationRule, ValidationResult } from './interaction/validation.service'
 
-export * from './search.service'
+export { searchService } from './interaction/search.service'
+export type { SearchOptions, SearchResult } from './interaction/search.service'

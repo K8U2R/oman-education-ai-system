@@ -8,6 +8,7 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Network, Plus } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { Card, Input, DeleteConfirmModal, LoadingWrapper } from '../../components/common'
 import { AdminPageWrapper } from '../../components/admin'
 import { DataTable, type DataTableColumn } from '../../components/data'
@@ -22,6 +23,7 @@ import { PageHeader } from '../components'
 import type { LearningPath, Subject, GradeLevel } from '@/application/types/content.types'
 
 const LearningPathsManagementPage: React.FC = () => {
+  const { t } = useTranslation()
   const navigate = useNavigate()
 
   // استخدام hooks موحدة لجلب البيانات
@@ -64,7 +66,7 @@ const LearningPathsManagementPage: React.FC = () => {
       // Rollback في حالة الفشل
       setPaths(previousPaths)
       handleError(error, {
-        message: 'فشل حذف المسار التعليمي',
+        message: t('content_management.learning_paths.delete_error'),
         context: 'LearningPathsManagementPage',
       })
     }
@@ -92,26 +94,27 @@ const LearningPathsManagementPage: React.FC = () => {
         getGradeLevelName,
         navigate,
         onDelete: path => deleteModal.open(path),
+        t, // Pass translation function
       }),
-    [getSubjectName, getGradeLevelName, navigate, deleteModal]
+    [getSubjectName, getGradeLevelName, navigate, deleteModal, t]
   )
 
   return (
     <AdminPageWrapper
       requiredPermissions={['lessons.view']}
-      loadingMessage="جاري تحميل صفحة إدارة المسارات التعليمية..."
+      loadingMessage={t('loading')} // Simplified loading message
     >
       <div className="learning-paths-management-page">
         <PageHeader
-          title="إدارة المسارات التعليمية"
-          description="إنشاء وتعديل وإدارة المسارات التعليمية"
+          title={t('content_management.learning_paths.title')}
+          description={t('content_management.learning_paths.description')}
           icon={<Network />}
         />
 
         <div className="learning-paths-management-page__toolbar">
           <div className="learning-paths-management-page__search">
             <Input
-              placeholder="بحث في المسارات..."
+              placeholder={t('content_management.learning_paths.search_placeholder')}
               value={searchTerm}
               onChange={e => setSearchTerm(e.target.value)}
             />
@@ -122,11 +125,11 @@ const LearningPathsManagementPage: React.FC = () => {
             leftIcon={<Plus />}
             requiredPermissions={['lessons.create', 'lessons.manage']}
           >
-            إضافة مسار جديد
+            {t('content_management.learning_paths.add_new')}
           </ProtectedButton>
         </div>
 
-        <LoadingWrapper isLoading={pathsLoading} message="جاري تحميل المسارات التعليمية...">
+        <LoadingWrapper isLoading={pathsLoading} message={t('loading')}>
           <Card className="learning-paths-management-page__table-card">
             <DataTable
               data={filteredPaths as unknown as Record<string, unknown>[]}
@@ -134,7 +137,7 @@ const LearningPathsManagementPage: React.FC = () => {
               searchable={false}
               pagination
               pageSize={10}
-              emptyMessage="لا توجد مسارات تعليمية"
+              emptyMessage={t('content_management.learning_paths.empty')}
             />
           </Card>
         </LoadingWrapper>
@@ -144,7 +147,7 @@ const LearningPathsManagementPage: React.FC = () => {
           onClose={deleteModal.close}
           onConfirm={handleDelete}
           itemTitle={deleteModal.selectedData?.name || ''}
-          itemType="مسار تعليمي"
+          itemType={t('content_management.learning_paths.item_type')}
         />
       </div>
     </AdminPageWrapper>

@@ -1,12 +1,7 @@
-/**
- * Admin Dashboard Page - لوحة تحكم المسؤول
- *
- * لوحة تحكم شاملة للمسؤولين والمالكين لإدارة النظام
- */
-
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Users, Shield, BarChart3, Activity, Server, FileText } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { useRole } from '@/features/user-authentication-management'
 import { adminService } from '@/application'
 import { ROUTES } from '@/domain/constants/routes.constants'
@@ -17,6 +12,7 @@ import { PageHeader } from '../components'
 import type { DashboardStats } from '@/application/types/admin.types'
 
 const AdminDashboardPage: React.FC = () => {
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const { isAdmin } = useRole()
   const [stats, setStats] = useState<DashboardStats>({
@@ -46,7 +42,7 @@ const AdminDashboardPage: React.FC = () => {
         })
       } catch (error) {
         handleError(error, {
-          message: 'فشل تحميل إحصائيات لوحة التحكم',
+          message: 'Failed to load admin stats', // Internal error mainly
           context: 'AdminDashboardPage',
         })
       } finally {
@@ -58,12 +54,12 @@ const AdminDashboardPage: React.FC = () => {
   }, [isAdmin])
 
   return (
-    <AdminPageWrapper requiredRole="admin" loadingMessage="جاري تحميل لوحة التحكم...">
-      <LoadingWrapper isLoading={loadingStats} message="جاري تحميل الإحصائيات...">
+    <AdminPageWrapper requiredRole="admin" loadingMessage={t('loading')}>
+      <LoadingWrapper isLoading={loadingStats} message={t('loading')}>
         <div className="admin-dashboard-page">
           <PageHeader
-            title="لوحة تحكم المسؤول"
-            description="إدارة شاملة للنظام والمستخدمين"
+            title={t('admin.dashboard.title')}
+            description={t('admin.dashboard.description')}
             icon={<Shield />}
           />
 
@@ -74,7 +70,7 @@ const AdminDashboardPage: React.FC = () => {
                 <Users className="w-8 h-8" />
               </div>
               <div className="admin-dashboard-page__stat-content">
-                <h3 className="admin-dashboard-page__stat-label">إجمالي المستخدمين</h3>
+                <h3 className="admin-dashboard-page__stat-label">{t('admin.dashboard.stats.total_users')}</h3>
                 <p className="admin-dashboard-page__stat-value">{stats.totalUsers}</p>
               </div>
             </Card>
@@ -84,7 +80,7 @@ const AdminDashboardPage: React.FC = () => {
                 <Activity className="w-8 h-8" />
               </div>
               <div className="admin-dashboard-page__stat-content">
-                <h3 className="admin-dashboard-page__stat-label">المستخدمين النشطين</h3>
+                <h3 className="admin-dashboard-page__stat-label">{t('admin.dashboard.stats.active_users')}</h3>
                 <p className="admin-dashboard-page__stat-value">{stats.activeUsers}</p>
               </div>
             </Card>
@@ -94,7 +90,7 @@ const AdminDashboardPage: React.FC = () => {
                 <FileText className="w-8 h-8" />
               </div>
               <div className="admin-dashboard-page__stat-content">
-                <h3 className="admin-dashboard-page__stat-label">إجمالي الدروس</h3>
+                <h3 className="admin-dashboard-page__stat-label">{t('admin.dashboard.stats.total_lessons')}</h3>
                 <p className="admin-dashboard-page__stat-value">{stats.totalLessons}</p>
               </div>
             </Card>
@@ -104,13 +100,13 @@ const AdminDashboardPage: React.FC = () => {
                 <Server className="w-8 h-8" />
               </div>
               <div className="admin-dashboard-page__stat-content">
-                <h3 className="admin-dashboard-page__stat-label">حالة النظام</h3>
+                <h3 className="admin-dashboard-page__stat-label">{t('admin.dashboard.stats.system_health')}</h3>
                 <p className="admin-dashboard-page__stat-value">
                   {stats.systemHealth === 'healthy'
-                    ? 'سليم'
+                    ? t('admin.dashboard.stats.healthy')
                     : stats.systemHealth === 'warning'
-                      ? 'تحذير'
-                      : 'خطأ'}
+                      ? t('admin.dashboard.stats.warning')
+                      : t('admin.dashboard.stats.error')}
                 </p>
               </div>
             </Card>
@@ -118,7 +114,7 @@ const AdminDashboardPage: React.FC = () => {
 
           {/* Quick Actions */}
           <div className="admin-dashboard-page__section">
-            <h2 className="admin-dashboard-page__section-title">إجراءات سريعة</h2>
+            <h2 className="admin-dashboard-page__section-title">{t('admin.dashboard.actions.title')}</h2>
             <div className="admin-dashboard-page__quick-actions">
               <Card
                 className="admin-dashboard-page__action-card"
@@ -126,9 +122,9 @@ const AdminDashboardPage: React.FC = () => {
                 hoverable
               >
                 <Users className="admin-dashboard-page__action-icon" />
-                <h3 className="admin-dashboard-page__action-title">إدارة المستخدمين</h3>
+                <h3 className="admin-dashboard-page__action-title">{t('admin.dashboard.actions.manage_users')}</h3>
                 <p className="admin-dashboard-page__action-description">
-                  عرض وإدارة جميع المستخدمين و
+                  {t('admin.dashboard.actions.manage_users_desc')}
                 </p>
               </Card>
 
@@ -138,52 +134,52 @@ const AdminDashboardPage: React.FC = () => {
                 hoverable
               >
                 <FileText className="admin-dashboard-page__action-icon" />
-                <h3 className="admin-dashboard-page__action-title">إدارة المحتوى</h3>
+                <h3 className="admin-dashboard-page__action-title">{t('admin.dashboard.actions.manage_content')}</h3>
                 <p className="admin-dashboard-page__action-description">
-                  إدارة الدروس والمسارات التعليمية
+                  {t('admin.dashboard.actions.manage_content_desc')}
                 </p>
               </Card>
 
+              {/* Analytics Placeholder */}
               <Card
                 className="admin-dashboard-page__action-card"
                 onClick={() => {
-                  // Analytics - يمكن إضافة صفحة لاحقاً
-                  // TODO: Navigate to analytics page
+                  // Analytics
                 }}
                 hoverable
               >
                 <BarChart3 className="admin-dashboard-page__action-icon" />
-                <h3 className="admin-dashboard-page__action-title">التحليلات والإحصائيات</h3>
+                <h3 className="admin-dashboard-page__action-title">{t('admin.dashboard.actions.analytics')}</h3>
                 <p className="admin-dashboard-page__action-description">
-                  عرض تقارير مفصلة عن استخدام النظام
+                  {t('admin.dashboard.actions.analytics_desc')}
                 </p>
               </Card>
             </div>
           </div>
 
-          {/* System Health */}
+          {/* System Health Detailed */}
           <div className="admin-dashboard-page__section">
-            <h2 className="admin-dashboard-page__section-title">صحة النظام</h2>
+            <h2 className="admin-dashboard-page__section-title">{t('admin.dashboard.health.title')}</h2>
             <Card className="admin-dashboard-page__health-card">
               <div className="admin-dashboard-page__health-status">
                 <div className="admin-dashboard-page__health-indicator admin-dashboard-page__health-indicator--healthy"></div>
-                <span className="admin-dashboard-page__health-text">النظام يعمل بشكل طبيعي</span>
+                <span className="admin-dashboard-page__health-text">{t('admin.dashboard.health.status_ok')}</span>
               </div>
               <div className="admin-dashboard-page__health-details">
                 <div className="admin-dashboard-page__health-item">
-                  <span className="admin-dashboard-page__health-label">قاعدة البيانات:</span>
+                  <span className="admin-dashboard-page__health-label">{t('admin.dashboard.health.db')}:</span>
                   <span className="admin-dashboard-page__health-value admin-dashboard-page__health-value--healthy">
-                    متصل
+                    {t('admin.dashboard.health.connected')}
                   </span>
                 </div>
                 <div className="admin-dashboard-page__health-item">
-                  <span className="admin-dashboard-page__health-label">الخادم:</span>
+                  <span className="admin-dashboard-page__health-label">{t('admin.dashboard.health.server')}:</span>
                   <span className="admin-dashboard-page__health-value admin-dashboard-page__health-value--healthy">
-                    نشط
+                    {t('admin.dashboard.health.active')}
                   </span>
                 </div>
                 <div className="admin-dashboard-page__health-item">
-                  <span className="admin-dashboard-page__health-label">الذاكرة:</span>
+                  <span className="admin-dashboard-page__health-label">{t('admin.dashboard.health.memory')}:</span>
                   <span className="admin-dashboard-page__health-value">75%</span>
                 </div>
               </div>
@@ -194,5 +190,4 @@ const AdminDashboardPage: React.FC = () => {
     </AdminPageWrapper>
   )
 }
-
 export default AdminDashboardPage

@@ -9,6 +9,7 @@ import {
     Zap
 } from 'lucide-react'
 import { motion } from 'framer-motion'
+import { useTranslation } from 'react-i18next'
 import { useAuth } from '@/features/user-authentication-management'
 import { Button } from '@/presentation/components/common'
 import { educationApiService } from '@/infrastructure/services/api/EducationApiService'
@@ -17,29 +18,28 @@ import { educationApiService } from '@/infrastructure/services/api/EducationApiS
  * StudentDashboard - لوحة تحكم الطالب (Gold Standard)
  */
 export const StudentDashboard: React.FC = () => {
+    const { t } = useTranslation()
     const { user } = useAuth()
-    const firstName = (user as any)?.firstName || (user as any)?.name?.split(' ')[0] || 'طالبنا المتميز'
+    const firstName = (user as any)?.firstName || (user as any)?.name?.split(' ')[0] || t('app_name')
 
     // Mock Data for Vitality
     const stats = [
-        { icon: BookOpen, label: 'الدروس المكتملة', value: '12', trend: '+2 هذا الأسبوع', trendDir: 'up' },
-        { icon: Clock, label: 'ساعات التعلم', value: '24.5', trend: 'نشط جداً', trendDir: 'neutral' },
-        { icon: Trophy, label: 'النقاط', value: '850', trend: 'أفضل 10%', trendDir: 'up' },
-        { icon: Target, label: 'المستوى الحالي', value: 'مبتدئ', trend: 'اقتربت من المتوسط', trendDir: 'up' },
+        { icon: BookOpen, label: t('dashboard.stats.completed_lessons'), value: '12', trend: t('dashboard.stats.trend_week'), trendDir: 'up' },
+        { icon: Clock, label: t('dashboard.stats.learning_hours'), value: '24.5', trend: t('dashboard.stats.active'), trendDir: 'neutral' },
+        { icon: Trophy, label: t('dashboard.stats.points'), value: '850', trend: t('dashboard.stats.top_10'), trendDir: 'up' },
+        { icon: Target, label: t('dashboard.stats.level'), value: t('dashboard.stats.near_avg'), trend: t('dashboard.stats.near_avg'), trendDir: 'up' }, // Mock value adjusted
     ]
 
     const quickActions = [
         {
             icon: Play,
-            title: 'بدء درس جديد',
-            desc: 'أكمل رحلتك التعليمية من حيث توقفت',
+            title: t('dashboard.actions.start_lesson'),
+            desc: t('dashboard.actions.start_lesson_desc'),
             action: async () => {
                 try {
                     console.log('Initiating Lesson Generation...');
                     const result = await educationApiService.generateLesson("Introduction to AI");
                     console.log('Lesson Generation Success:', result);
-                    // In a real app, we would navigate to the lesson page here
-                    // navigate(/lesson/${result.data.id})
                 } catch (error) {
                     console.error('Lesson Generation Failed:', error);
                 }
@@ -47,23 +47,23 @@ export const StudentDashboard: React.FC = () => {
         },
         {
             icon: Code,
-            title: 'توليد كود',
-            desc: 'استخدم المساعد الذكي لكتابة الكود',
+            title: t('dashboard.actions.gen_code'),
+            desc: t('dashboard.actions.gen_code_desc'),
             action: () => console.log('Generate Code')
         },
         {
             icon: Zap,
-            title: 'تحدي يومي',
-            desc: 'اختبر مهاراتك في تحدي سريع',
+            title: t('dashboard.actions.daily_challenge'),
+            desc: t('dashboard.actions.daily_challenge_desc'),
             action: () => console.log('Daily Challenge')
         },
     ]
 
     const activeCourse = {
-        title: 'مقدمة في الذكاء الاصطناعي',
+        title: t('dashboard.course.current'), // Placeholder title replacement
         progress: 65,
-        lastLesson: 'الشبكات العصبية ببساطة',
-        image: 'https://placehold.co/600x400/2637050/ffffff?text=AI+Course' // Placeholder
+        lastLesson: 'Neural Networks 101', // Content can remain hardcoded or dynamic
+        image: 'https://placehold.co/600x400/2637050/ffffff?text=AI+Course'
     }
 
     return (
@@ -71,10 +71,10 @@ export const StudentDashboard: React.FC = () => {
             {/* 1. Welcome Section */}
             <section className="mb-10">
                 <h1 className="text-3xl md:text-4xl font-bold mb-2">
-                    مرحباً بك، <span className="gradient-text">{firstName}</span> 👋
+                    {t('dashboard.welcome_back', { name: firstName })}
                 </h1>
                 <p className="text-muted-foreground text-lg">
-                    جاهز لمواصلة رحلة التعلم اليوم؟
+                    {t('dashboard.ready_message')}
                 </p>
             </section>
 
@@ -118,11 +118,11 @@ export const StudentDashboard: React.FC = () => {
                         <div className="flex flex-col md:flex-row gap-6 items-center">
                             <div className="flex-1">
                                 <div className="flex items-center gap-2 mb-2">
-                                    <span className="px-2 py-1 rounded-full bg-primary/10 text-primary text-xs font-bold">دورة حالية</span>
-                                    <span className="text-muted-foreground text-xs">آخر نشاط: قبل ساعتين</span>
+                                    <span className="px-2 py-1 rounded-full bg-primary/10 text-primary text-xs font-bold">{t('dashboard.course.current')}</span>
+                                    <span className="text-muted-foreground text-xs">{t('dashboard.course.last_activity')}</span>
                                 </div>
                                 <h2 className="text-2xl font-bold mb-2">{activeCourse.title}</h2>
-                                <p className="text-muted-foreground mb-4">الدرس الحالي: {activeCourse.lastLesson}</p>
+                                <p className="text-muted-foreground mb-4">{t('dashboard.course.continue')}: {activeCourse.lastLesson}</p>
 
                                 {/* Progress Bar */}
                                 <div className="w-full h-3 bg-secondary rounded-full overflow-hidden mb-2">
@@ -132,13 +132,13 @@ export const StudentDashboard: React.FC = () => {
                                     />
                                 </div>
                                 <div className="flex justify-between text-sm text-muted-foreground mb-6">
-                                    <span>التقدم العام</span>
+                                    <span>{t('dashboard.course.general_progress')}</span>
                                     <span>{activeCourse.progress}%</span>
                                 </div>
 
                                 <Button variant="primary" className="btn-gradient w-full md:w-auto gap-2">
                                     <Play size={18} />
-                                    متابعة الدرس
+                                    {t('dashboard.course.continue')}
                                 </Button>
                             </div>
 
@@ -151,8 +151,8 @@ export const StudentDashboard: React.FC = () => {
 
                     {/* Quick Actions Grid */}
                     <div>
-                        <h3 className="text-xl font-bold mb-4">إجراءات سريعة</h3>
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <h3 className="text-xl font-bold mb-4">{t('dashboard.actions.title')}</h3>
+                        <div className="quick-actions-grid">
                             {quickActions.map((action, index) => (
                                 <motion.div
                                     key={index}
@@ -179,14 +179,14 @@ export const StudentDashboard: React.FC = () => {
                 <div className="col-span-12 lg:col-span-4">
                     {/* Placeholder for Schedule or Notifications */}
                     <div className="glass-card p-6 h-full min-h-[400px]">
-                        <h3 className="text-xl font-bold mb-4">النشاط الأخير</h3>
+                        <h3 className="text-xl font-bold mb-4">{t('dashboard.activity.title')}</h3>
                         <div className="space-y-4">
                             {[1, 2, 3].map((_, i) => (
                                 <div key={i} className="flex gap-4 items-start p-3 rounded-lg hover:bg-muted/50 transition-colors">
                                     <div className="w-2 h-2 mt-2 rounded-full bg-primary" />
                                     <div>
-                                        <p className="text-sm font-medium">أكملت درس "المتغيرات في بايثون"</p>
-                                        <span className="text-xs text-muted-foreground">أمس، 10:30 ص</span>
+                                        <p className="text-sm font-medium">{t('dashboard.activity.completed_lesson')} "Python Variables"</p>
+                                        <span className="text-xs text-muted-foreground">Yesterday, 10:30 AM</span>
                                     </div>
                                 </div>
                             ))}

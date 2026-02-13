@@ -101,7 +101,7 @@ export const Default: Story = {
  */
 export const Variants: Story = {
   render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', maxWidth: '400px' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', maxWidth: 'min(25rem, 90vw)' }}>
       <Input label="افتراضي" placeholder="حقل إدخال افتراضي" variant="default" />
       <Input label="مع إطار" placeholder="حقل إدخال مع إطار" variant="outlined" />
       <Input label="مملوء" placeholder="حقل إدخال مملوء" variant="filled" />
@@ -122,7 +122,7 @@ export const Variants: Story = {
  */
 export const Sizes: Story = {
   render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', maxWidth: '400px' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', maxWidth: 'min(25rem, 90vw)' }}>
       <Input label="صغير" placeholder="حقل إدخال صغير" size="sm" />
       <Input label="متوسط" placeholder="حقل إدخال متوسط" size="md" />
       <Input label="كبير" placeholder="حقل إدخال كبير" size="lg" />
@@ -142,7 +142,7 @@ export const Sizes: Story = {
  */
 export const WithIcons: Story = {
   render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', maxWidth: '400px' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', maxWidth: 'min(25rem, 90vw)' }}>
       <Input label="البحث" placeholder="ابحث..." leftIcon={<Search size={18} />} />
       <Input
         label="البريد الإلكتروني"
@@ -173,7 +173,7 @@ export const WithIcons: Story = {
  */
 export const WithError: Story = {
   render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', maxWidth: '400px' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', maxWidth: 'min(25rem, 90vw)' }}>
       <Input
         label="البريد الإلكتروني"
         placeholder="example@email.com"
@@ -203,7 +203,7 @@ export const WithError: Story = {
  */
 export const WithHelperText: Story = {
   render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', maxWidth: '400px' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', maxWidth: 'min(25rem, 90vw)' }}>
       <Input
         label="اسم المستخدم"
         placeholder="username"
@@ -231,7 +231,7 @@ export const WithHelperText: Story = {
  */
 export const Disabled: Story = {
   render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', maxWidth: '400px' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', maxWidth: 'min(25rem, 90vw)' }}>
       <Input label="معطل" placeholder="هذا الحقل معطل" disabled />
       <Input label="معطل مع قيمة" defaultValue="قيمة معطلة" disabled />
     </div>
@@ -250,7 +250,7 @@ export const Disabled: Story = {
  */
 export const InputTypes: Story = {
   render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', maxWidth: '400px' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', maxWidth: 'min(25rem, 90vw)' }}>
       <Input label="نص" type="text" placeholder="أدخل النص" />
       <Input label="بريد إلكتروني" type="email" placeholder="example@email.com" />
       <Input label="رقم" type="number" placeholder="أدخل رقماً" />
@@ -275,7 +275,7 @@ export const InteractivePassword: Story = {
     const [showPassword, setShowPassword] = useState(false)
 
     return (
-      <div style={{ maxWidth: '400px' }}>
+      <div style={{ maxWidth: 'min(25rem, 90vw)' }}>
         <Input
           label="كلمة المرور"
           type={showPassword ? 'text' : 'password'}
@@ -315,7 +315,7 @@ export const InteractivePassword: Story = {
  */
 export const Examples: Story = {
   render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem', maxWidth: '500px' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem', maxWidth: 'min(31.25rem, 90vw)' }}>
       <div>
         <h3 style={{ marginBottom: '1rem' }}>نموذج تسجيل الدخول</h3>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>

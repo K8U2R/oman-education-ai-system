@@ -1,0 +1,43 @@
+{
+  "validation": {
+    "required": "This field is required",
+    "email": "Invalid email address",
+    "minLength": "Must be at least {{min}} characters",
+    "maxLength": "Must be at most {{max}} characters",
+    "invalid_input": "Invalid input data",
+    "invalid_email": "Invalid email address",
+    "password_required": "Password is required",
+    "field_required": "Field is required",
+    "password_min_length": "Password must be at least 8 characters",
+    "refresh_token_required": "Refresh Token is required",
+    "invalid_token": "Invalid Token"
+  },
+  "auth": {
+    "login_failed": "Login failed",
+    "user_not_found": "User not found",
+    "password_invalid": "Invalid password",
+    "unauthorized": "Unauthorized access",
+    "forbidden": "Access forbidden",
+    "login_success": "Login successful",
+    "logout_success": "Logout successful",
+    "token_refresh_success": "Token refreshed successfully",
+    "token_refresh_failed": "Token refresh failed",
+    "logout_failed": "Logout failed",
+    "registration_success": "Registration successful",
+    "registration_failed": "Registration failed",
+    "verification_email_sent": "Verification email sent successfully",
+    "verification_email_failed": "Verification email failed to send",
+    "email_verified": "Email verified successfully",
+    "email_verification_failed": "Email verification failed",
+    "password_updated": "Password updated successfully",
+    "password_update_failed": "Password update failed",
+    "password_reset_sent": "Password reset link sent",
+    "password_reset_request_failed": "Password reset request failed",
+    "password_reset_success": "Password reset successfully",
+    "password_reset_failed": "Password reset failed"
+  },
+  "server": {
+    "internal_error": "Internal server error",
+    "timeout": "Request timed out"
+  }
+}

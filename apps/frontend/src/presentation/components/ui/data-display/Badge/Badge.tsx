@@ -4,8 +4,8 @@
  * مكون شارة قابلة لإعادة الاستخدام
  */
 
-import React from 'react'
-import { cn } from '../../utils/classNames'
+import React, { useMemo } from 'react'
+import styles from './Badge.module.scss'
 
 export type BadgeVariant =
   | 'default'
@@ -32,12 +32,19 @@ export const Badge: React.FC<BadgeProps> = ({
   dot = false,
   className = '',
 }) => {
+  const badgeClass = useMemo(() => {
+    return [
+      styles.badge,
+      styles[`badge--${variant}`],
+      styles[`badge--${size}`],
+      className
+    ].filter(Boolean).join(' ')
+  }, [variant, size, className])
+
   return (
-    <span
-      className={cn('badge', `badge--${variant}`, `badge--${size}`, dot && 'badge--dot', className)}
-    >
-      {dot && <span className="badge__dot" />}
-      <span className="badge__content">{children}</span>
+    <span className={badgeClass}>
+      {dot && <span className={styles.dot} />}
+      <span className={styles.content}>{children}</span>
     </span>
   )
 }

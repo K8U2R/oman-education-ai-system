@@ -5,7 +5,7 @@
  * تستخدم BaseErrorPage و useErrorPageSetup لتقليل التكرار
  */
 
-import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { ShieldX } from 'lucide-react'
 import { BaseErrorPage } from '../BaseErrorPage'
 import { ErrorDetailsPanel } from '../components/ErrorDetailsPanel'
@@ -14,6 +14,7 @@ import { useErrorPageSetup } from '../hooks/useErrorPageSetup'
 import { formatSecondaryMessage } from '../utils/error-formatter'
 
 export const ForbiddenPage: React.FC = () => {
+  const { t } = useTranslation('common')
   const {
     user,
     userRole,
@@ -36,14 +37,14 @@ export const ForbiddenPage: React.FC = () => {
   const secondaryMessage = formatSecondaryMessage(
     apiError || null,
     errorDetails || null,
-    'يرجى التواصل مع المسؤول إذا كنت تعتقد أن هذا خطأ.'
+    t('errors.forbidden.contact_admin')
   )
 
   return (
     <BaseErrorPage
       type="forbidden"
-      title="غير مصرح بالوصول"
-      message="عذراً، ليس لديك  اللازمة للوصول إلى هذه الصفحة."
+      title={t('errors.forbidden.title')}
+      message={t('errors.forbidden.message')}
       secondaryMessage={secondaryMessage}
       icon={ShieldX}
       iconColor="error"

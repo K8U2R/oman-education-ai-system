@@ -4,18 +4,21 @@
  */
 
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { LegalDocumentPage } from './LegalDocumentPage'
 
 const TermsPage: React.FC = () => {
+  const { t } = useTranslation('common')
+
   return (
     <LegalDocumentPage
       type="terms"
-      title="الشروط والأحكام"
+      title={t('public.legal.terms.title')}
       apiEndpoint="/api/v1/legal/terms/current"
       acceptEndpoint="/api/v1/legal/terms/accept"
-      loadingMessage="جارٍ تحميل الشروط والأحكام..."
-      errorMessage="فشل تحميل الشروط والأحكام"
-      acceptButtonText="أوافق على الشروط والأحكام"
+      loadingMessage={t('public.legal.terms.loading')}
+      errorMessage={t('public.legal.terms.error')}
+      acceptButtonText={t('public.legal.terms.accept')}
     />
   )
 }

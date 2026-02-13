@@ -20,6 +20,7 @@ const LearningPathsManagementPage = lazy(
 )
 const CodeGeneratorPage = lazy(() => import('@/presentation/pages/tools/CodeGeneratorPage'))
 const OfficeGeneratorPage = lazy(() => import('@/presentation/pages/tools/OfficeGeneratorPage'))
+const LessonGeneratorPage = lazy(() => import('@/presentation/features/ai/pages/LessonGeneratorPage').then(module => ({ default: module.LessonGeneratorPage })))
 
 export const teacherRoutes: RouteConfig[] = [
   {
@@ -60,6 +61,19 @@ export const teacherRoutes: RouteConfig[] = [
       </ProtectedRoute>
     ),
     metadata: teacherMetadata[ROUTES.LESSON_EDIT_PATTERN],
+  },
+  {
+    path: ROUTES.LESSON_GENERATOR,
+    element: (
+      <ProtectedRoute requiredPermissions={['lessons.create']}>
+        <DashboardLayout>
+          <React.Suspense fallback={<DefaultRouteLoader />}>
+            <LessonGeneratorPage />
+          </React.Suspense>
+        </DashboardLayout>
+      </ProtectedRoute>
+    ),
+    metadata: teacherMetadata[ROUTES.LESSON_GENERATOR],
   },
   {
     path: ROUTES.LEARNING_PATHS_MANAGEMENT,

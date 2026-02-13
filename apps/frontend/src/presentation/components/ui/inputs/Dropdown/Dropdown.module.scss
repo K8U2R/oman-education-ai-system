@@ -1,0 +1,166 @@
+@use '@/styles/abstracts/liquid-variables' as liquid;
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+    width: fit-content; // Default to content width unless fullWidth
+
+    &--full-width {
+        width: 100%;
+    }
+
+    &--disabled {
+        opacity: 0.6;
+        pointer-events: none;
+    }
+}
+
+.trigger {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: liquid.$spacing-fluid-3 liquid.$spacing-fluid-4;
+    background-color: var(--bg-surface, #ffffff);
+    border: 1px solid var(--border-primary, #e5e7eb);
+    border-radius: liquid.$radius-fluid-md;
+    cursor: pointer;
+    transition: all liquid.$transition-fast;
+    min-height: 2.5rem; // md size default
+
+    &:hover {
+        border-color: var(--primary-300, #93c5fd);
+    }
+
+    &:focus {
+        outline: none;
+        border-color: var(--primary-500, #3b82f6);
+        box-shadow: 0 0 0 3px var(--primary-100, #dbeafe);
+    }
+}
+
+.triggerContent {
+    display: flex;
+    align-items: center;
+    gap: liquid.$spacing-fluid-3;
+    overflow: hidden;
+}
+
+.triggerLabel {
+    font-size: liquid.$font-fluid-sm;
+    color: var(--text-primary, #111827);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.triggerPlaceholder {
+    font-size: liquid.$font-fluid-sm;
+    color: var(--text-tertiary, #9ca3af);
+}
+
+.arrow {
+    width: 1rem;
+    height: 1rem;
+    color: var(--text-secondary, #6b7280);
+    transition: transform liquid.$transition-fast;
+
+    &--open {
+        transform: rotate(180deg);
+    }
+}
+
+.menu {
+    position: absolute;
+    z-index: liquid.$z-index-dropdown; // Popover
+    z-index: 50; // Popover
+    min-width: 100%;
+    width: max-content;
+    max-width: 20rem; // Cap width if needed
+    margin-top: liquid.$spacing-fluid-2;
+    padding: liquid.$spacing-fluid-2;
+    background-color: var(--bg-surface, #ffffff);
+    border: 1px solid var(--border-primary, #e5e7eb);
+    border-radius: liquid.$radius-fluid-lg;
+    box-shadow: liquid.$shadow-fluid-lg;
+    animation: fadeIn 0.1s ease-out;
+
+    // Position variants handled via JS logic for classes usually,
+    // but here we can define logical anchors
+    &--bottom-left {
+        top: 100%;
+        inset-inline-start: 0;
+    }
+
+    &--bottom-right {
+        top: 100%;
+        inset-inline-end: 0;
+    }
+
+    &--top-left {
+        bottom: 100%;
+        inset-inline-start: 0;
+        margin-bottom: liquid.$spacing-fluid-2;
+        margin-top: 0;
+    }
+
+    &--top-right {
+        bottom: 100%;
+        inset-inline-end: 0;
+        margin-bottom: liquid.$spacing-fluid-2;
+        margin-top: 0;
+    }
+}
+
+.option {
+    display: flex;
+    align-items: center;
+    gap: liquid.$spacing-fluid-3;
+    width: 100%;
+    padding: liquid.$spacing-fluid-3 liquid.$spacing-fluid-4;
+    border: none;
+    background: none;
+    text-align: start; // Logical
+    cursor: pointer;
+    border-radius: liquid.$radius-fluid-md;
+    font-size: liquid.$font-fluid-sm;
+    color: var(--text-primary, #374151);
+    transition: background-color liquid.$transition-fast;
+
+    &:hover {
+        background-color: var(--bg-secondary, #f3f4f6);
+    }
+
+    &--selected {
+        background-color: var(--primary-50, #eff6ff);
+        color: var(--primary-700, #1d4ed8);
+        font-weight: 500;
+    }
+
+    &--disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+
+        &:hover {
+            background: none;
+        }
+    }
+}
+
+.divider {
+    height: 1px;
+    background-color: var(--border-secondary, #f3f4f6);
+    margin: liquid.$spacing-fluid-2 0;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-0.25rem);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

@@ -15,7 +15,7 @@ import {
   sendValidationError,
   handleError,
 } from "../../utils/response.helper.js";
-import { APIErrorCode } from "@/domain/types/index.js";
+import { APIErrorCode } from "../../../../domain/types/index.js";
 
 export abstract class BaseHandler {
   /**
@@ -29,11 +29,12 @@ export abstract class BaseHandler {
     res: Response,
     operation: () => Promise<void>,
     errorMessage: string = "حدث خطأ أثناء معالجة الطلب",
+    language: string = "en",
   ): Promise<void> {
     try {
       await operation();
     } catch (error) {
-      handleError(res, error, errorMessage);
+      handleError(res, error, errorMessage, "INTERNAL_SERVER_ERROR", language);
     }
   }
 

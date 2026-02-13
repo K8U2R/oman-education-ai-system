@@ -1,0 +1,76 @@
+/**
+ * HeaderNavigation - SCSS Module
+ * 
+ * تطبيق Fluid Design System على القائمة الأفقية
+ */
+
+@import '../../styles/variables';
+@import '../../styles/mixins';
+
+.navigation {
+    display: flex;
+    align-items: center;
+    gap: $nav-gap;
+
+    @include mobile-only {
+        display: none;
+    }
+
+    @include responsive('mobile') {
+        display: flex;
+    }
+}
+
+.navLink {
+    @include nav-link;
+
+    &:hover {
+        @include nav-link-hover;
+    }
+
+    &--active {
+        @include nav-link-active;
+    }
+}
+
+.icon {
+    flex-shrink: 0;
+    width: clamp(1rem, 1.2vw, 1.125rem);
+    height: clamp(1rem, 1.2vw, 1.125rem);
+}
+
+.divider {
+    @include divider-vertical;
+}
+
+.button {
+    @include nav-link;
+    border: none;
+    background: transparent;
+
+    &--login {
+        color: $header-text-secondary;
+
+        &:hover {
+            color: $nav-link-hover-color;
+            background: transparent;
+        }
+    }
+
+    &--register {
+        background-color: $nav-link-active-color;
+        color: white;
+        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+        font-weight: 600;
+
+        &:hover {
+            background-color: var(--primary-700);
+            box-shadow: 0 6px 16px rgba(59, 130, 246, 0.3);
+            transform: translateY(-1px);
+        }
+
+        &:active {
+            transform: translateY(0);
+        }
+    }
+}

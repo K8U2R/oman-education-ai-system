@@ -84,7 +84,9 @@ export interface IAIProvider {
   /**
    * Check Health (Rich)
    */
-  healthCheck(): Promise<{ status: "healthy" | "unhealthy"; message?: string } | string>;
+  healthCheck(): Promise<
+    { status: "healthy" | "unhealthy"; message?: string } | string
+  >;
 
   /**
    * Generate Text (Legacy/Simple)
@@ -94,7 +96,11 @@ export interface IAIProvider {
   /**
    * Generate JSON
    */
-  generateJson<T>(prompt: string, schema: object, options?: AICompletionOptions): Promise<T>;
+  generateJson<T>(
+    prompt: string,
+    schema: object,
+    options?: AICompletionOptions,
+  ): Promise<T>;
 
   /**
    * اسم المزود

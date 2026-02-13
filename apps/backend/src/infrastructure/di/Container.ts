@@ -36,11 +36,16 @@ export class Container {
   /**
    * Register a singleton service
    */
-  registerSingleton<T>(key: string, constructorOrFactory: { new(...args: unknown[]): T } | ServiceFactory<T>): void {
+  registerSingleton<T>(
+    key: string,
+    constructorOrFactory: { new (...args: unknown[]): T } | ServiceFactory<T>,
+  ): void {
     let factory: ServiceFactory<T>;
 
     if (this.isConstructor(constructorOrFactory)) {
-      const Constructor = constructorOrFactory as { new(...args: unknown[]): T };
+      const Constructor = constructorOrFactory as {
+        new (...args: unknown[]): T;
+      };
       factory = () => new Constructor();
     } else {
       factory = constructorOrFactory as ServiceFactory<T>;
@@ -57,7 +62,8 @@ export class Container {
   }
 
   private isConstructor(obj: unknown): boolean {
-    return !!(obj as { prototype?: { constructor?: { name?: string } } })?.prototype?.constructor?.name;
+    return !!(obj as { prototype?: { constructor?: { name?: string } } })
+      ?.prototype?.constructor?.name;
   }
 
   /**

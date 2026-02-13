@@ -10,7 +10,7 @@ import { OfficeGenerationRequest } from "@/domain/types/features/productivity/of
 import { ISkill } from "@/core/ai-kernel/skills/ISkill";
 
 export class OfficeAgent {
-  constructor(_aiProvider: IAIProvider) { }
+  constructor(_aiProvider: IAIProvider) {}
 
   public async process(
     context: UserContext,

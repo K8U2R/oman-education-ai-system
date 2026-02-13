@@ -1,10 +1,5 @@
-﻿/**
- * Whitelist Entry Form Component - نموذج إدخال القائمة البيضاء
- *
- * مكون نموذج لإضافة/تعديل إدخالات القائمة البيضاء
- */
-
-import React, { useState, useEffect } from 'react'
+﻿import React, { useState, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Input, Button } from '../../common'
 import type {
   WhitelistEntry,
@@ -31,6 +26,7 @@ export const WhitelistEntryForm: React.FC<WhitelistEntryFormProps> = ({
   loading = false,
   allPermissions = [],
 }) => {
+  const { t } = useTranslation()
   const [formData, setFormData] = useState<WhitelistEntryFormData>({
     email: entry?.email || '',
     permission_level: entry?.permission_level || 'developer',
@@ -59,17 +55,17 @@ export const WhitelistEntryForm: React.FC<WhitelistEntryFormProps> = ({
     const newErrors: Record<string, string> = {}
 
     if (!formData.email) {
-      newErrors.email = 'البريد الإلكتروني مطلوب'
+      newErrors.email = t('admin.whitelist.validation.email_required')
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = 'البريد الإلكتروني غير صحيح'
+      newErrors.email = t('admin.whitelist.validation.email_invalid')
     }
 
     if (formData.permissions.length === 0) {
-      newErrors.permissions = 'يجب تحديد صلاحية واحدة على الأقل'
+      newErrors.permissions = t('admin.whitelist.validation.permissions_required')
     }
 
     if (formData.expires_at && new Date(formData.expires_at) < new Date()) {
-      newErrors.expires_at = 'تاريخ الانتهاء يجب أن يكون في المستقبل'
+      newErrors.expires_at = t('admin.whitelist.validation.future_date')
     }
 
     setErrors(newErrors)
@@ -100,22 +96,22 @@ export const WhitelistEntryForm: React.FC<WhitelistEntryFormProps> = ({
   }
 
   const permissionLevels: { value: PermissionLevel; label: string }[] = [
-    { value: 'developer', label: 'مطور' },
-    { value: 'admin', label: 'مسؤول' },
-    { value: 'super_admin', label: 'مسؤول رئيسي' },
+    { value: 'developer', label: t('admin.whitelist.levels.developer') },
+    { value: 'admin', label: t('admin.whitelist.levels.admin') },
+    { value: 'super_admin', label: t('admin.whitelist.levels.super_admin') },
   ]
 
   return (
     <form className="whitelist-entry-form" onSubmit={handleSubmit}>
       <div className="whitelist-entry-form__group">
         <label className="whitelist-entry-form__label">
-          البريد الإلكتروني <span className="whitelist-entry-form__required">*</span>
+          {t('admin.whitelist.form.email_label')} <span className="whitelist-entry-form__required">*</span>
         </label>
         <Input
           type="email"
           value={formData.email}
           onChange={e => setFormData(prev => ({ ...prev, email: e.target.value }))}
-          placeholder="example@domain.com"
+          placeholder={t('admin.whitelist.form.email_placeholder')}
           disabled={!!entry || loading}
           error={errors.email}
         />
@@ -123,7 +119,7 @@ export const WhitelistEntryForm: React.FC<WhitelistEntryFormProps> = ({
 
       <div className="whitelist-entry-form__group">
         <label className="whitelist-entry-form__label">
-          مستوى <span className="whitelist-entry-form__required">*</span>
+          {t('admin.whitelist.form.level_label')} <span className="whitelist-entry-form__required">*</span>
         </label>
         <select
           className="whitelist-entry-form__select"
@@ -146,7 +142,7 @@ export const WhitelistEntryForm: React.FC<WhitelistEntryFormProps> = ({
 
       <div className="whitelist-entry-form__group">
         <label className="whitelist-entry-form__label">
-          <span className="whitelist-entry-form__required">*</span>
+          {t('admin.whitelist.form.permissions_label')} <span className="whitelist-entry-form__required">*</span>
         </label>
         <div className="whitelist-entry-form__permissions">
           {allPermissions.map(permission => (
@@ -167,7 +163,7 @@ export const WhitelistEntryForm: React.FC<WhitelistEntryFormProps> = ({
       </div>
 
       <div className="whitelist-entry-form__group">
-        <label className="whitelist-entry-form__label">تاريخ الانتهاء (اختياري)</label>
+        <label className="whitelist-entry-form__label">{t('admin.whitelist.form.expires_at_label')}</label>
         <Input
           type="datetime-local"
           value={
@@ -198,17 +194,17 @@ export const WhitelistEntryForm: React.FC<WhitelistEntryFormProps> = ({
             }
             disabled={loading || (entry?.is_permanent && entry.permission_level === 'super_admin')}
           />
-          <span>صلاحيات دائمة (لا يمكن إزالتها)</span>
+          <span>{t('admin.whitelist.form.permanent_label')}</span>
         </label>
       </div>
 
       <div className="whitelist-entry-form__group">
-        <label className="whitelist-entry-form__label">ملاحظات (اختياري)</label>
+        <label className="whitelist-entry-form__label">{t('admin.whitelist.form.notes_label')}</label>
         <textarea
           className="whitelist-entry-form__textarea"
           value={formData.notes || ''}
           onChange={e => setFormData(prev => ({ ...prev, notes: e.target.value || null }))}
-          placeholder="ملاحظات إضافية..."
+          placeholder={t('admin.whitelist.form.notes_placeholder')}
           disabled={loading}
           rows={3}
         />
@@ -216,10 +212,10 @@ export const WhitelistEntryForm: React.FC<WhitelistEntryFormProps> = ({
 
       <div className="whitelist-entry-form__actions">
         <Button type="button" variant="ghost" onClick={onCancel} disabled={loading}>
-          إلغاء
+          {t('admin.whitelist.form.cancel')}
         </Button>
         <Button type="submit" variant="primary" isLoading={loading}>
-          {entry ? 'تحديث' : 'إنشاء'}
+          {entry ? t('admin.whitelist.form.update') : t('admin.whitelist.form.create')}
         </Button>
       </div>
     </form>

@@ -1,6 +1,6 @@
 /**
  * MFA Routes (Future) - مسارات المصادقة الثنائية
- * 
+ *
  * @law Law-4 (Future Addition) - Security Domain
  */
 

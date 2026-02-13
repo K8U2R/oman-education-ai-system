@@ -1,0 +1,171 @@
+@use 'sass:math';
+
+/**
+ * Liquid Variables - متغيرات سائلة
+ * Dynamic spacing and typography using clamp()
+ * 
+ * @law Law-14 (Package Sovereignty) - Fluid system prevents layout leaks
+ */
+
+// ==================================================
+// Fluid Spacing Scale (clamp-based)
+// ==================================================
+
+// Small Spacing (for tight layouts, borders, gaps)
+$spacing-fluid-1: clamp(0.125rem, 0.1rem + 0.125vw, 0.25rem); // ~2-4px
+$spacing-fluid-2: clamp(0.25rem, 0.2rem + 0.25vw, 0.5rem); // ~4-8px
+$spacing-fluid-3: clamp(0.5rem, 0.4rem + 0.5vw, 0.75rem); // ~8-12px
+
+// Medium Spacing (standard UI elements)
+$spacing-fluid-4: clamp(0.75rem, 0.5rem + 1.25vw, 1rem); // ~12-16px
+$spacing-fluid-5: clamp(1rem, 0.75rem + 1.25vw, 1.25rem); // ~16-20px
+$spacing-fluid-6: clamp(1.25rem, 1rem + 1.25vw, 1.5rem); // ~20-24px
+
+// Large Spacing (cards, sections, major gaps)
+$spacing-fluid-8: clamp(1.5rem, 1rem + 2.5vw, 2rem); // ~24-32px
+$spacing-fluid-10: clamp(2rem, 1.5rem + 2.5vw, 2.5rem); // ~32-40px
+$spacing-fluid-12: clamp(2.5rem, 2rem + 2.5vw, 3rem); // ~40-48px
+$spacing-fluid-16: clamp(3rem, 2.5rem + 2.5vw, 4rem); // ~48-64px
+
+// ==================================================
+// Fluid Typography Scale
+// ==================================================
+
+// Using fluid type scale with optimal line height
+$font-fluid-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem); // ~12-14px
+$font-fluid-sm: clamp(0.875rem, 0.8rem + 0.375vw, 1rem); // ~14-16px
+$font-fluid-base: clamp(1rem, 0.9rem + 0.5vw, 1.125rem); // ~16-18px
+$font-fluid-md: $font-fluid-base; // Alias for backward compatibility
+$font-fluid-lg: clamp(1.125rem, 1rem + 0.625vw, 1.25rem); // ~18-20px
+$font-fluid-xl: clamp(1.25rem, 1.1rem + 0.75vw, 1.5rem); // ~20-24px
+$font-fluid-2xl: clamp(1.5rem, 1.25rem + 1.25vw, 1.875rem); // ~24-30px
+$font-fluid-3xl: clamp(1.875rem, 1.5rem + 1.875vw, 2.25rem); // ~30-36px
+$font-fluid-4xl: clamp(2.25rem, 1.75rem + 2.5vw, 3rem); // ~36-48px
+
+// ==================================================
+// Fluid Dimensions
+// ==================================================
+
+// Sidebar (Shell Component)
+$sidebar-fluid-width: clamp(14rem, 20vw, 16rem); // ~224-256px
+$sidebar-fluid-collapsed: clamp(3rem, 5vw, 4rem); // ~48-64px
+$sidebar-fluid-transition-point: 1024px; // Switch to mobile at lg
+
+// Content Containers
+$content-fluid-max: min(80rem, 95vw); // ~1280px
+$content-fluid-normal: min(60rem, 90vw); // ~960px
+$content-fluid-compact: min(48rem, 90vw); // ~768px
+$content-fluid-narrow: min(40rem, 90vw); // ~640px
+$content-fluid-text: $content-fluid-compact; // Alias for text-heavy pages
+
+// Modals & Overlays
+$modal-fluid-width-sm: min(24rem, 90vw); // ~384px or 90vw
+$modal-fluid-width-md: min(32rem, 90vw); // ~512px or 90vw
+$modal-fluid-width-lg: min(48rem, 90vw); // ~768px or 90vw
+$modal-fluid-width-xl: min(64rem, 95vw); // ~1024px or 95vw
+$modal-fluid-padding: clamp(1rem, 3vw, 2rem); // ~16-32px
+
+// Cards & Panels
+$card-fluid-min-width: min(18rem, 100%); // ~288px or 100%
+$card-fluid-padding-sm: clamp(0.75rem, 2vw, 1rem); // ~12-16px
+$card-fluid-padding-md: clamp(1rem, 2.5vw, 1.5rem); // ~16-24px
+$card-fluid-padding-lg: clamp(1.5rem, 3vw, 2rem); // ~24-32px
+
+// Bottom Navigation (Mobile)
+$bottom-nav-fluid-height: clamp(3.5rem, 8vh, 4.5rem); // ~56-72px
+$bottom-nav-fluid-padding: clamp(0.5rem, 2vw, 1rem); // ~8-16px
+
+// ==================================================
+// Fluid Border Radius
+// ==================================================
+
+$radius-fluid-sm: clamp(0.25rem, 0.2rem + 0.25vw, 0.375rem); // ~4-6px
+$radius-fluid-md: clamp(0.375rem, 0.3rem + 0.375vw, 0.5rem); // ~6-8px
+$radius-fluid-lg: clamp(0.5rem, 0.4rem + 0.5vw, 0.75rem); // ~8-12px
+$radius-fluid-xl: clamp(0.75rem, 0.6rem + 0.75vw, 1rem); // ~12-16px
+$radius-fluid-2xl: clamp(1rem, 0.8rem + 1vw, 1.5rem); // ~16-24px
+$radius-fluid-full: 9999px; // Fully rounded pill/circle
+
+// ==================================================
+// Fluid Line Heights & Letter Spacing
+// ==================================================
+
+// Line heights are unitless and should remain static for consistency
+$line-height-fluid-tight: 1.2;
+$line-height-fluid-normal: 1.5;
+$line-height-fluid-relaxed: 1.75;
+
+$letter-spacing-fluid-tight: -0.015em;
+$letter-spacing-fluid-normal: 0.005em;
+$letter-spacing-fluid-wide: 0.025em;
+
+// ==================================================
+// Fluid Gaps (for Flexbox/Grid)
+// ==================================================
+
+$gap-fluid-xs: clamp(0.25rem, 0.5vw, 0.5rem); // ~4-8px
+$gap-fluid-sm: clamp(0.5rem, 1vw, 0.75rem); // ~8-12px
+$gap-fluid-md: clamp(0.75rem, 1.5vw, 1rem); // ~12-16px
+$gap-fluid-lg: clamp(1rem, 2vw, 1.5rem); // ~16-24px
+$gap-fluid-xl: clamp(1.5rem, 3vw, 2rem); // ~24-32px
+$gap-fluid-6: $gap-fluid-xl; // Alias
+$gap-fluid-4: $gap-fluid-lg; // Alias
+$gap-fluid-3: $gap-fluid-md; // Alias
+$gap-fluid-2: $gap-fluid-sm; // Alias
+$gap-fluid-1: $gap-fluid-xs; // Alias
+
+// ==================================================
+// Fluid Shadow Offsets
+// ==================================================
+
+$shadow-fluid-offset-sm: clamp(1px, 0.1vw, 2px);
+$shadow-fluid-offset-md: clamp(4px, 0.25vw, 6px);
+$shadow-fluid-offset-lg: clamp(8px, 0.5vw, 12px);
+$shadow-fluid-blur-sm: clamp(2px, 0.15vw, 4px);
+$shadow-fluid-blur-md: clamp(6px, 0.4vw, 10px);
+$shadow-fluid-blur-lg: clamp(15px, 1vw, 25px);
+
+// Composite Shadows
+$shadow-fluid-sm: 0 $shadow-fluid-offset-sm $shadow-fluid-blur-sm rgba(0, 0, 0, 0.1);
+$shadow-fluid-md: 0 $shadow-fluid-offset-md $shadow-fluid-blur-md rgba(0, 0, 0, 0.1);
+$shadow-fluid-lg: 0 $shadow-fluid-offset-lg $shadow-fluid-blur-lg rgba(0, 0, 0, 0.1);
+$shadow-fluid-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+$shadow-fluid-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+
+// ==================================================
+// Z-Index Scale (Standardized)
+// ==================================================
+
+$z-index-dropdown: 1000;
+$z-index-sticky: 1020;
+$z-index-fixed: 1030;
+$z-index-modal-backdrop: 1040;
+$z-index-modal: 1050;
+$z-index-popover: 1060;
+$z-index-tooltip: 1070;
+$z-index-toast: 1080;
+
+// ==================================================
+// Fluid Transitions
+// ==================================================
+
+$transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+$transition-base: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+$transition-normal: $transition-base; // Alias for backward compatibility
+$transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+$transition-bounce: 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+// ==================================================
+// Fluid Blurs
+// ==================================================
+
+$blur-fluid-sm: 4px;
+$blur-fluid-md: 8px;
+$blur-fluid-lg: 12px;
+$blur-fluid-xl: 16px;
+$blur-fluid-2xl: 24px;
+
+// Aliases for legacy compatibility
+$blur-sm: $blur-fluid-sm;
+$blur-md: $blur-fluid-md;
+$blur-lg: $blur-fluid-lg;

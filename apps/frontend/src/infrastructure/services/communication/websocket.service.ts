@@ -75,6 +75,22 @@ export class WebSocketService {
 
         this.ws.onerror = error => {
           this.isConnecting = false
+
+          // Check for 401 Unauthorized or 429 Too Many Requests
+          const isCriticalError =
+            (error as any)?.code === 401 ||
+            (error as any)?.message?.includes('401') ||
+            (error as any)?.code === 429 ||
+            (error as any)?.message?.includes('429')
+
+          if (isCriticalError) {
+            // Set max attempts to stop onclose from reconnecting
+            this.reconnectAttempts = this.maxReconnectAttempts
+            if (import.meta.env.DEV) console.error('[WebSocket] Critical Error (401/429), disconnecting permanentely')
+            this.disconnect()
+            return
+          }
+
           // في development mode، لا نعرض أخطاء للاتصالات الفاشلة
           // ولا نرفض الـ promise لتجنب console errors
           if (!import.meta.env.DEV) {
@@ -98,10 +114,16 @@ export class WebSocketService {
           if (!import.meta.env.DEV) {
             this.emit('disconnected', { type: 'disconnected', timestamp: new Date().toISOString() })
           }
-          // فقط حاول إعادة الاتصال إذا لم يكن إغلاق طبيعي (code 1000)
-          // وفي development mode، لا نحاول إعادة الاتصال على الإطلاق
-          if (event.code !== 1000 && !import.meta.env.DEV) {
+          // Prevent reconnect if 401/429 or manually disconnected
+          const isNormalClose = event.code === 1000
+          const shouldReconnect = !isNormalClose && !import.meta.env.DEV && this.reconnectAttempts < this.maxReconnectAttempts
+
+          if (shouldReconnect) {
             this.attemptReconnect(token)
+          } else if (!isNormalClose) {
+            import('@/infrastructure/services').then(({ loggingService }) => {
+              loggingService.warn(`WebSocket closed without reconnect (Code: ${event.code})`)
+            })
           }
         }
       } catch (error) {

@@ -1,6 +1,6 @@
 /**
  * Cockpit Routes - مسارات قمرة القيادة
- * 
+ *
  * الوصف: تعريف نقاط النهاية البثيةSSE والحالة لمنصة المطور.
  * السلطة الدستورية: القانون 01 والقانون 11.
  */
@@ -20,25 +20,25 @@ router.use(devWhitelistMiddleware);
  * بث السجلات في الوقت الفعلي
  */
 router.get("/logs", (req: Request, res: Response) => {
-    // إعداد رؤوس SSE
-    res.setHeader("Content-Type", "text/event-stream");
-    res.setHeader("Cache-Control", "no-cache");
-    res.setHeader("Connection", "keep-alive");
-    res.flushHeaders(); // إرسال الرؤوس فوراً
+  // إعداد رؤوس SSE
+  res.setHeader("Content-Type", "text/event-stream");
+  res.setHeader("Cache-Control", "no-cache");
+  res.setHeader("Connection", "keep-alive");
+  res.flushHeaders(); // إرسال الرؤوس فوراً
 
-    logger.info(`🛰️ New Log Stream subscriber from IP: ${req.ip}`);
+  logger.info(`🛰️ New Log Stream subscriber from IP: ${req.ip}`);
 
-    // الاشتراك في البث
-    const unsubscribe = logStreamer.subscribe((log) => {
-        res.write(`data: ${JSON.stringify(log)}\n\n`);
-    });
+  // الاشتراك في البث
+  const unsubscribe = logStreamer.subscribe((log) => {
+    res.write(`data: ${JSON.stringify(log)}\n\n`);
+  });
 
-    // التعاطي مع إغلاق الاتصال
-    req.on("close", () => {
-        logger.info(`🔌 Log Stream subscriber disconnected: ${req.ip}`);
-        unsubscribe();
-        res.end();
-    });
+  // التعاطي مع إغلاق الاتصال
+  req.on("close", () => {
+    logger.info(`🔌 Log Stream subscriber disconnected: ${req.ip}`);
+    unsubscribe();
+    res.end();
+  });
 });
 
 /**
@@ -46,16 +46,16 @@ router.get("/logs", (req: Request, res: Response) => {
  * جلب بيانات الحالة (Prometheus / JSON)
  */
 router.get("/health", async (_req: Request, res: Response) => {
-    // سيتم توسيع هذا لاحقاً لجلب بيانات Prometheus
-    res.json({
-        success: true,
-        timestamp: new Date().toISOString(),
-        metrics: {
-            uptime: process.uptime(),
-            memory: process.memoryUsage(),
-            cpu: process.cpuUsage()
-        }
-    });
+  // سيتم توسيع هذا لاحقاً لجلب بيانات Prometheus
+  res.json({
+    success: true,
+    timestamp: new Date().toISOString(),
+    metrics: {
+      uptime: process.uptime(),
+      memory: process.memoryUsage(),
+      cpu: process.cpuUsage(),
+    },
+  });
 });
 
 export default router;

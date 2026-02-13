@@ -1,0 +1,80 @@
+@use '@/styles/abstracts/liquid-variables' as liquid;
+
+.avatar {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 50%;
+    background-color: var(--bg-tertiary, #f3f4f6);
+    color: var(--text-secondary, #6b7280);
+    border: 1px solid var(--border-primary, #e5e7eb);
+    user-select: none;
+
+    &.clickable {
+        cursor: pointer;
+        transition: opacity liquid.$transition-fast;
+
+        &:hover {
+            opacity: 0.8;
+        }
+    }
+
+    // Sizes
+    &--xs {
+        width: 1.5rem;
+        height: 1.5rem;
+        font-size: 0.625rem;
+    }
+
+    &--sm {
+        width: 2rem;
+        height: 2rem;
+        font-size: 0.75rem;
+    }
+
+    &--md {
+        width: 2.5rem;
+        height: 2.5rem;
+        font-size: 0.875rem;
+    }
+
+    &--lg {
+        width: 3rem;
+        height: 3rem;
+        font-size: 1rem;
+    }
+
+    &--xl {
+        width: 4rem;
+        height: 4rem;
+        font-size: 1.25rem;
+    }
+}
+
+.image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.fallback {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    background-color: var(--bg-tertiary, #f3f4f6);
+}
+
+.initials {
+    font-weight: 600;
+    color: var(--text-secondary, #6b7280);
+}
+
+.icon {
+    width: 60%;
+    height: 60%;
+    color: var(--text-tertiary, #9ca3af);
+}

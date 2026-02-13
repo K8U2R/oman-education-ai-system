@@ -1,13 +1,9 @@
-﻿/**
- * AI Assistant Panel - لوحة المساعد الذكي
- *
- * لوحة جانبية للمساعد الذكي مع خيارات سريعة
- */
-
-import React, { useState } from 'react'
+﻿import React, { useState } from 'react'
 import { Bot, X, Lightbulb, BookOpen, Code2, HelpCircle } from 'lucide-react'
 import { Button } from '../common'
 import { AIChatComponent, ChatMessage } from './AIChatComponent'
+import { useTranslation } from 'react-i18next'
+import styles from './AIAssistantPanel.module.scss'
 
 interface AIAssistantPanelProps {
   isOpen: boolean
@@ -20,37 +16,6 @@ interface AIAssistantPanelProps {
   }
 }
 
-// ... (Quick Actions Logic)
-
-
-
-const QUICK_ACTIONS = [
-  {
-    id: 'explain',
-    label: 'شرح الدرس',
-    icon: BookOpen,
-    prompt: 'اشرح لي هذا الدرس بطريقة مبسطة',
-  },
-  {
-    id: 'examples',
-    label: 'أمثلة عملية',
-    icon: Lightbulb,
-    prompt: 'أعطني أمثلة عملية على هذا الموضوع',
-  },
-  {
-    id: 'code',
-    label: 'شرح الكود',
-    icon: Code2,
-    prompt: 'اشرح لي هذا الكود خطوة بخطوة',
-  },
-  {
-    id: 'help',
-    label: 'مساعدة',
-    icon: HelpCircle,
-    prompt: 'كيف يمكنني استخدام هذه الميزة؟',
-  },
-]
-
 export const AIAssistantPanel: React.FC<AIAssistantPanelProps> = ({
   isOpen,
   onClose,
@@ -58,7 +23,35 @@ export const AIAssistantPanel: React.FC<AIAssistantPanelProps> = ({
   onStreamMessage,
   context: _context,
 }) => {
+  const { t } = useTranslation()
   const [messages, setMessages] = useState<ChatMessage[]>([])
+
+  const QUICK_ACTIONS = [
+    {
+      id: 'explain',
+      label: t('ai.actions.explain'),
+      icon: BookOpen,
+      prompt: t('ai.actions.explain_prompt'),
+    },
+    {
+      id: 'examples',
+      label: t('ai.actions.examples'),
+      icon: Lightbulb,
+      prompt: t('ai.actions.examples_prompt'),
+    },
+    {
+      id: 'code',
+      label: t('ai.actions.code'),
+      icon: Code2,
+      prompt: t('ai.actions.code_prompt'),
+    },
+    {
+      id: 'help',
+      label: t('ai.actions.help'),
+      icon: HelpCircle,
+      prompt: t('ai.actions.help_prompt'),
+    },
+  ]
 
   const handleQuickAction = async (prompt: string) => {
     if (!onSendMessage) return
@@ -86,27 +79,25 @@ export const AIAssistantPanel: React.FC<AIAssistantPanelProps> = ({
     }
   }
 
-
-
   if (!isOpen) return null
 
   return (
-    <div className="ai-assistant-panel">
-      <div className="ai-assistant-panel__overlay" onClick={onClose} />
-      <div className="ai-assistant-panel__content">
-        <div className="ai-assistant-panel__header">
-          <div className="ai-assistant-panel__title">
-            <Bot className="ai-assistant-panel__icon" />
-            <h2>المساعد الذكي</h2>
+    <div className={styles.panel}>
+      <div className={styles.overlay} onClick={onClose} />
+      <div className={styles.content}>
+        <div className={styles.header}>
+          <div className={styles.title}>
+            <Bot className={styles.icon} />
+            <h2>{t('ai.assistant_title')}</h2>
           </div>
           <Button variant="ghost" size="sm" onClick={onClose} leftIcon={<X />}>
-            إغلاق
+            {t('ai.close')}
           </Button>
         </div>
 
-        <div className="ai-assistant-panel__quick-actions">
-          <h3 className="ai-assistant-panel__section-title">إجراءات سريعة</h3>
-          <div className="ai-assistant-panel__actions-grid">
+        <div className={styles.quickActions}>
+          <h3 className={styles.sectionTitle}>{t('ai.quick_actions')}</h3>
+          <div className={styles.actionsGrid}>
             {QUICK_ACTIONS.map(action => {
               const Icon = action.icon
               return (
@@ -116,7 +107,7 @@ export const AIAssistantPanel: React.FC<AIAssistantPanelProps> = ({
                   size="sm"
                   onClick={() => handleQuickAction(action.prompt)}
                   leftIcon={<Icon />}
-                  className="ai-assistant-panel__action-button"
+                  className={styles.actionButton}
                 >
                   {action.label}
                 </Button>
@@ -125,13 +116,13 @@ export const AIAssistantPanel: React.FC<AIAssistantPanelProps> = ({
           </div>
         </div>
 
-        <div className="ai-assistant-panel__chat">
+        <div className={styles.chat}>
           <AIChatComponent
             onSendMessage={onSendMessage}
             onStreamMessage={onStreamMessage}
             initialMessages={messages}
-            title=""
-            placeholder="اسأل المساعد الذكي..."
+            title={t('ai.chat_title')}
+            placeholder={t('ai.input_placeholder')}
           />
         </div>
       </div>

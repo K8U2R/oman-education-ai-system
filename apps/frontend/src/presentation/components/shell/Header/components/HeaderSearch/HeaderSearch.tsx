@@ -8,6 +8,7 @@ import React, { useEffect, useRef } from 'react'
 import SearchBar from '@/presentation/components/layout/SearchBar/SearchBar'
 import type { HeaderSearchProps } from '../../types'
 import { cn } from '@/presentation/components/ui/utils/classNames'
+import styles from './HeaderSearch.module.scss'
 
 /**
  * HeaderSearch Component
@@ -41,19 +42,16 @@ export const HeaderSearch: React.FC<HeaderSearchProps> = React.memo(
       }
     }, [onToggle])
 
-    const searchClasses = React.useMemo(
-      () =>
-        cn(
-          'header-search',
-          expandable && 'header-search--expandable',
-          isExpanded && 'header-search--expanded',
-          className
-        ),
-      [expandable, isExpanded, className]
-    )
-
     return (
-      <div ref={searchRef} className={searchClasses}>
+      <div
+        ref={searchRef}
+        className={cn(
+          styles.search,
+          expandable && styles['search--expandable'],
+          isExpanded && styles['search--expanded'],
+          className
+        )}
+      >
         <SearchBar />
       </div>
     )

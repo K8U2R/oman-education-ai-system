@@ -134,6 +134,14 @@ export interface IAuthRepository {
   updatePasswordHash(userId: string, newPasswordHash: string): Promise<void>;
 
   /**
+   * تحديث وقت آخر ظهور للمستخدم
+   *
+   * @param userId - معرف المستخدم
+   * @returns void
+   */
+  updateLastLogin(userId: string): Promise<void>;
+
+  /**
    * إنشاء رمز التحقق
    *
    * @param userId - معرف المستخدم

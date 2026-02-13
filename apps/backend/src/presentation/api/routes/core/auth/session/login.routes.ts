@@ -1,6 +1,6 @@
 /**
  * Login Routes - مسارات تسجيل الدخول
- * 
+ *
  * @law Law-1 (Modularity) - Domain Encapsulation
  */
 
@@ -42,12 +42,12 @@ const router = RouteFactory.createFeatureRouter();
  *         description: تم تجاوز الحد الأقصى للمحاولات
  */
 router.post(
-    "/login",
-    ...RouteFactory.createRoute<LoginHandler>(
-        "LoginHandler",
-        "login",
-        ...MiddlewareChains.rateLimited(loginRateLimitMiddleware),
-    ),
+  "/login",
+  ...RouteFactory.createRoute<LoginHandler>(
+    "LoginHandler",
+    "login",
+    ...MiddlewareChains.rateLimited(loginRateLimitMiddleware),
+  ),
 );
 
 /**
@@ -58,8 +58,8 @@ router.post(
  *     tags: [Authentication - Session]
  */
 router.post(
-    "/refresh",
-    ...RouteFactory.createRoute<LoginHandler>("LoginHandler", "refreshToken"),
+  "/refresh",
+  ...RouteFactory.createRoute<LoginHandler>("LoginHandler", "refreshToken"),
 );
 
 export default router;

@@ -8,7 +8,7 @@
 import type {
   LearningLesson,
   ContentLesson,
-} from '../features/education/index.js';
+} from "../features/education/index.js";
 import type {
   BaseLog,
   LogLevel,

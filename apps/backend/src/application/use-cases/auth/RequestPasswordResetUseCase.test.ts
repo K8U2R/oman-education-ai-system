@@ -5,7 +5,7 @@
 import { describe, it, expect, beforeEach, vi } from "vitest";
 import { RequestPasswordResetUseCase } from "./RequestPasswordResetUseCase";
 import { IAuthRepository } from "@/domain/interfaces/repositories";
-import { EmailService } from "@/application/services/email";
+import { EmailService } from "@/application/services/communication/index.js";
 import { User } from "@/domain/entities/User";
 import { Email } from "@/domain/value-objects/Email";
 import { UserNotFoundError } from "@/domain/exceptions";

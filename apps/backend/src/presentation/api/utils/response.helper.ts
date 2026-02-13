@@ -3,7 +3,8 @@
  *
  * دوال مساعدة لاستخدام API Types في Handlers
  */
-
+import { ZodError } from "zod";
+import { t } from "../middleware/i18n/translation.service.js";
 import type { Response } from "express";
 import {
   APISuccessResponse,
@@ -13,7 +14,7 @@ import {
   APIError,
   APIStatusCode,
   ErrorHandlerHelper,
-} from "@/domain/types";
+} from "../../../domain/types/index.js";
 
 /**
  * إرسال استجابة نجاح
@@ -117,8 +118,36 @@ export function handleError(
   error: unknown,
   _defaultMessage: string = "حدث خطأ غير متوقع",
   defaultCode: APIError["code"] = "INTERNAL_SERVER_ERROR",
+  language: string = "en",
 ): Response {
+  // Handle Zod Validation Errors
+  if (error instanceof ZodError) {
+    const errors = error.errors.map((err) => ({
+      field: err.path.join("."),
+      message:
+        t(`validation.${err.message}`, language) !== `validation.${err.message}`
+          ? t(`validation.${err.message}`, language)
+          : err.message, // Fallback to raw Zod message if translation missing
+      value: undefined,
+    }));
+
+    return sendValidationError(
+      res,
+      t("validation.invalid_input", language),
+      errors,
+    );
+  }
+
   const apiError = ErrorHandlerHelper.toAPIError(error, defaultCode);
+
+  // Translate main error message if possible
+  // Check if message is a key (no spaces, maybe dots)
+  if (!apiError.message.includes(" ")) {
+    const translated = t(apiError.message, language);
+    if (translated !== apiError.message) {
+      apiError.message = translated;
+    }
+  }
 
   // تحديد status code حسب نوع الخطأ
   let statusCode: APIStatusCode = 500;

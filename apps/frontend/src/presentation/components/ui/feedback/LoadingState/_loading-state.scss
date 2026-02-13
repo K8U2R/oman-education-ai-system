@@ -1,0 +1,54 @@
+@use '@/styles/abstracts/liquid-variables' as liquid;
+
+/**
+ * Loading State Component Styles
+ * @law Law-6 (Visual Sovereign) - Liquid SCSS
+ * @law Law-14 (Package Sovereignty) - Localized Styles
+ */
+
+.loading-state {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: liquid.$spacing-fluid-6;
+    text-align: center;
+    gap: liquid.$spacing-fluid-4;
+
+    &__spinner {
+        width: liquid.$spacing-fluid-10;
+        height: liquid.$spacing-fluid-10;
+        color: var(--color-primary);
+        animation: spin 1s linear infinite;
+    }
+
+    &__message {
+        font-size: liquid.$font-fluid-base;
+        color: var(--color-muted-foreground);
+        max-width: 400px;
+        line-height: liquid.$line-height-fluid-normal;
+    }
+
+    &--fullscreen {
+        position: fixed;
+        inset: 0;
+        z-index: 9998; // Below DevOverlay (9999)
+        background: color-mix(in srgb, var(--color-bg-app), transparent 20%);
+        backdrop-filter: blur(8px);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}

@@ -1,6 +1,6 @@
 /**
  * Register Routes - مسارات التسجيل
- * 
+ *
  * @law Law-1 (Modularity) - Domain Encapsulation
  * @law Law-2 (Gatekeeper) - Restricted registration inputs (No role selection)
  */
@@ -48,12 +48,12 @@ const router = RouteFactory.createFeatureRouter();
  *         description: المستخدم موجود بالفعل
  */
 router.post(
-    "/register",
-    ...RouteFactory.createRoute<RegistrationHandler>(
-        "RegistrationHandler",
-        "register",
-        ...MiddlewareChains.rateLimited(loginRateLimitMiddleware),
-    ),
+  "/register",
+  ...RouteFactory.createRoute<RegistrationHandler>(
+    "RegistrationHandler",
+    "register",
+    ...MiddlewareChains.rateLimited(loginRateLimitMiddleware),
+  ),
 );
 
 export default router;

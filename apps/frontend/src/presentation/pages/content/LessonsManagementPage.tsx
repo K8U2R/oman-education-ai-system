@@ -8,6 +8,7 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { BookOpen, Plus, Search } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { Card, Input, DeleteConfirmModal, LoadingWrapper } from '../../components/common'
 import { AdminPageWrapper } from '../../components/admin'
 import { DataTable, type DataTableColumn } from '../../components/data'
@@ -22,6 +23,7 @@ import { PageHeader } from '../components'
 import type { Lesson, Subject, GradeLevel } from '@/application/types/content.types'
 
 const LessonsManagementPage: React.FC = () => {
+  const { t } = useTranslation()
   const navigate = useNavigate()
 
   // استخدام hooks موحدة لجلب البيانات
@@ -55,7 +57,7 @@ const LessonsManagementPage: React.FC = () => {
       deleteModal.close()
     } catch (error) {
       handleError(error, {
-        message: 'فشل حذف الدرس',
+        message: t('content_management.lessons.delete_error'),
         context: 'LessonsManagementPage',
       })
     }
@@ -83,26 +85,27 @@ const LessonsManagementPage: React.FC = () => {
         getGradeLevelName,
         navigate,
         onDelete: lesson => deleteModal.open(lesson),
+        t, // Pass translation function
       }),
-    [getSubjectName, getGradeLevelName, navigate, deleteModal]
+    [getSubjectName, getGradeLevelName, navigate, deleteModal, t]
   )
 
   return (
     <AdminPageWrapper
       requiredPermissions={['lessons.view', 'lessons.manage']}
-      loadingMessage="جاري تحميل الدروس..."
+      loadingMessage={t('loading')}
     >
       <div className="lessons-management-page">
         <PageHeader
-          title="إدارة الدروس"
-          description="إنشاء وتعديل وإدارة الدروس التعليمية"
+          title={t('content_management.lessons.title')}
+          description={t('content_management.lessons.description')}
           icon={<BookOpen />}
         />
 
         <div className="lessons-management-page__toolbar">
           <div className="lessons-management-page__search">
             <Input
-              placeholder="بحث في الدروس..."
+              placeholder={t('content_management.lessons.search_placeholder')}
               value={searchTerm}
               onChange={e => setSearchTerm(e.target.value)}
               leftIcon={<Search />}
@@ -114,11 +117,11 @@ const LessonsManagementPage: React.FC = () => {
             leftIcon={<Plus />}
             requiredPermissions={['lessons.create', 'lessons.manage']}
           >
-            إضافة درس جديد
+            {t('content_management.lessons.add_new')}
           </ProtectedButton>
         </div>
 
-        <LoadingWrapper isLoading={lessonsLoading} message="جاري تحميل الدروس...">
+        <LoadingWrapper isLoading={lessonsLoading} message={t('loading')}>
           <Card className="lessons-management-page__table-card">
             <DataTable
               data={filteredLessons as unknown as Record<string, unknown>[]}
@@ -126,7 +129,7 @@ const LessonsManagementPage: React.FC = () => {
               searchable={false}
               pagination
               pageSize={10}
-              emptyMessage="لا توجد دروس"
+              emptyMessage={t('content_management.lessons.empty')}
             />
           </Card>
         </LoadingWrapper>
@@ -136,7 +139,7 @@ const LessonsManagementPage: React.FC = () => {
           onClose={deleteModal.close}
           onConfirm={handleDelete}
           itemTitle={deleteModal.selectedData?.title || ''}
-          itemType="درس"
+          itemType={t('content_management.lessons.item_type')}
         />
       </div>
     </AdminPageWrapper>

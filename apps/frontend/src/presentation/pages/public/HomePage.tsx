@@ -2,6 +2,7 @@ import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
+import { useTranslation } from 'react-i18next'
 import {
   Sparkles,
   Code,
@@ -16,6 +17,7 @@ import { Button, Card } from '../../components/common'
 import { useAuth } from '@/features/user-authentication-management'
 import { ROUTES } from '@/domain/constants/routes.constants'
 import { useModalStore } from '@/stores/useModalStore'
+import styles from './HomePage.module.scss'
 
 
 // Animation variants
@@ -46,6 +48,7 @@ const scaleOnHover = {
 }
 
 const HomePage: React.FC = () => {
+  const { t } = useTranslation('common')
   const { isAuthenticated, user, isLoading } = useAuth()
   const navigate = useNavigate()
 
@@ -57,84 +60,81 @@ const HomePage: React.FC = () => {
 
   const features = [
     {
-      icon: <Code className="w-8 h-8 text-primary-500" />,
-      title: 'توليد الكود',
-      description: 'استخدم الذكاء الاصطناعي لتوليد كود احترافي بسرعة',
+      icon: <Code className={styles.iconFeature} />,
+      title: t('public.home.features.items.code_gen.title'),
+      description: t('public.home.features.items.code_gen.desc'),
     },
     {
-      icon: <BookOpen className="w-8 h-8 text-primary-500" />,
-      title: 'مساعد التعلم',
-      description: 'احصل على مساعدة ذكية في فهم المفاهيم البرمجية',
+      icon: <BookOpen className={styles.iconFeature} />,
+      title: t('public.home.features.items.learning_assistant.title'),
+      description: t('public.home.features.items.learning_assistant.desc'),
     },
     {
-      icon: <Rocket className="w-8 h-8 text-primary-500" />,
-      title: 'بناء المشاريع',
-      description: 'أنشئ مشاريع كاملة من الصفر باستخدام AI',
+      icon: <Rocket className={styles.iconFeature} />,
+      title: t('public.home.features.items.project_builder.title'),
+      description: t('public.home.features.items.project_builder.desc'),
     },
     {
-      icon: <Sparkles className="w-8 h-8 text-primary-500" />,
-      title: 'تصميم الويب',
-      description: ' صمم واجهات ويب احترافية بمساعدة الذكاء الاصطناعي',
+      icon: <Sparkles className={styles.iconFeature} />,
+      title: t('public.home.features.items.web_design.title'),
+      description: t('public.home.features.items.web_design.desc'),
     },
   ]
 
   const whyUsReasons = [
     {
-      icon: <Shield className="w-12 h-12 text-secondary-500 mb-4" />,
-      title: 'آمن وموثوق',
-      description: 'نستخدم أحدث تقنيات الأمان مع Supabase Authentication',
+      icon: <Shield className={styles.iconWhyUs} />,
+      title: t('public.home.why_us.items.secure.title'),
+      description: t('public.home.why_us.items.secure.desc'),
     },
     {
-      icon: <Zap className="w-12 h-12 text-secondary-500 mb-4" />,
-      title: 'سريع وفعال',
-      description: 'أداء عالي وتجربة مستخدم سلسة وسريعة',
+      icon: <Zap className={styles.iconWhyUs} />,
+      title: t('public.home.why_us.items.fast.title'),
+      description: t('public.home.why_us.items.fast.desc'),
     },
     {
-      icon: <Sparkles className="w-12 h-12 text-secondary-500 mb-4" />,
-      title: 'ذكاء اصطناعي متقدم',
-      description: 'أحدث تقنيات AI لتحسين تجربة التعلم',
+      icon: <Sparkles className={styles.iconWhyUs} />,
+      title: t('public.home.why_us.items.ai.title'),
+      description: t('public.home.why_us.items.ai.desc'),
     },
   ]
 
   // Authenticated user view
   if (!isLoading && isAuthenticated && user) {
     return (
-      <div className="flex-grow bg-bg-app text-text-primary">
-        {/* Hero Section للمستخدمين المسجلين */}
+      <div className={styles.page}>
+        {/* Hero Section for Users */}
         <motion.section
           ref={heroRef}
-          className="relative py-20 px-6 overflow-hidden md:py-32"
+          className={styles.hero}
           initial="hidden"
           animate={heroInView ? 'visible' : 'hidden'}
           variants={staggerContainer}
         >
-          {/* Background Gradient Blob */}
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-primary-500/10 rounded-full blur-3xl -z-10" />
+          <div className={styles.heroBlob} />
 
-          <div className="max-w-5xl mx-auto text-center relative z-10">
-            <motion.h1 className="text-4xl md:text-6xl font-bold mb-6 text-text-primary" variants={fadeInUp}>
-              مرحباً بك، {user.fullName}
+          <div className={styles.heroContent}>
+            <motion.h1 className={styles.heroTitle} variants={fadeInUp}>
+              {t('public.home.hero.welcome_user', { name: user.fullName })}
               <br />
-              <span className="text-primary-600">
-                في نظام التعليم الذكي
+              <span className={styles.heroTitleHighlight}>
+                {t('public.home.hero.welcome_title')}
               </span>
             </motion.h1>
-            <motion.p className="text-xl md:text-2xl text-text-secondary mb-10 max-w-3xl mx-auto" variants={fadeInUp}>
-              ابدأ رحلتك التعليمية واستكشف جميع الميزات المتاحة لك
-              <br />
-              يمكنك الوصول إلى الدروس، المشاريع، التقييمات، والمزيد...
+            <motion.p className={styles.heroDescription} variants={fadeInUp}>
+              {t('public.home.hero.description_user')}
             </motion.p>
-            <motion.div className="flex flex-col sm:flex-row gap-4 justify-center" variants={fadeInUp}>
+            <motion.div className={styles.heroActions} variants={fadeInUp}>
               <motion.div whileHover="hover" whileTap={{ scale: 0.95 }} variants={scaleOnHover}>
                 <Button
                   variant="primary"
                   size="lg"
-                  className="w-full sm:w-auto gap-2"
+                  className={styles.heroButton}
                   onClick={() => navigate(ROUTES.DASHBOARD)}
                 >
-                  <LayoutDashboard className="w-5 h-5" />
-                  الانتقال إلى لوحة التحكم
-                  <ArrowRight className="w-5 h-5" />
+                  <LayoutDashboard className={styles.iconButton} />
+                  {t('public.home.hero.actions.dashboard')}
+                  <ArrowRight className={styles.iconButton} />
                 </Button>
               </motion.div>
               <Link to={ROUTES.LESSONS}>
@@ -142,10 +142,10 @@ const HomePage: React.FC = () => {
                   <Button
                     variant="outline"
                     size="lg"
-                    className="w-full sm:w-auto gap-2"
+                    className={styles.heroButton}
                   >
-                    <BookOpen className="w-5 h-5" />
-                    استكشف الدروس
+                    <BookOpen className={styles.iconButton} />
+                    {t('public.home.hero.actions.explore_lessons')}
                   </Button>
                 </motion.div>
               </Link>
@@ -154,18 +154,18 @@ const HomePage: React.FC = () => {
         </motion.section>
 
         {/* Quick Access Section */}
-        <section className="py-16 px-6 bg-bg-surface/50">
-          <div className="max-w-7xl mx-auto">
-            <motion.h2
-              className="text-3xl font-bold text-center mb-12 text-text-primary"
+        <section className={`${styles.section} ${styles['section--alt']}`}>
+          <div className={styles.sectionContainer}>
+            <motion.div
+              className={styles.sectionHeader}
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
             >
-              الوصول السريع
-            </motion.h2>
+              <h2 className={styles.sectionTitle}>{t('public.home.quick_access.title')}</h2>
+            </motion.div>
             <motion.div
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
+              className={`${styles.grid} ${styles['grid--cols-4']}`}
               variants={staggerContainer}
               initial="hidden"
               animate="visible"
@@ -173,36 +173,36 @@ const HomePage: React.FC = () => {
               {[
                 {
                   icon: LayoutDashboard,
-                  title: 'لوحة التحكم',
-                  desc: 'عرض إحصائياتك وتتبع تقدمك',
+                  title: t('public.home.quick_access.items.dashboard.title'),
+                  desc: t('public.home.quick_access.items.dashboard.desc'),
                   route: ROUTES.DASHBOARD,
                 },
                 {
                   icon: BookOpen,
-                  title: 'الدروس',
-                  desc: 'استكشف الدروس المتاحة',
+                  title: t('public.home.quick_access.items.lessons.title'),
+                  desc: t('public.home.quick_access.items.lessons.desc'),
                   route: ROUTES.LESSONS,
                 },
                 {
                   icon: Rocket,
-                  title: 'المشاريع',
-                  desc: 'أنشئ مشاريع جديدة',
+                  title: t('public.home.quick_access.items.projects.title'),
+                  desc: t('public.home.quick_access.items.projects.desc'),
                   route: ROUTES.PROJECTS,
                 },
-                { icon: Shield, title: 'الملف الشخصي', desc: 'إدارة حسابك', route: ROUTES.PROFILE },
+                { icon: Shield, title: t('public.home.quick_access.items.profile.title'), desc: t('public.home.quick_access.items.profile.desc'), route: ROUTES.PROFILE },
               ].map((item, index) => (
                 <motion.div key={index} variants={fadeInUp}>
                   <Card
-                    className="h-full border-border-secondary hover:border-primary-500/50 transition-colors bg-bg-surface"
+                    className={styles.accessCard}
                     hoverable
                     onClick={() => navigate(item.route)}
                   >
-                    <div className="p-6 flex flex-col items-center text-center">
-                      <div className="p-4 bg-primary-100/10 rounded-full text-primary-600 mb-4">
-                        <item.icon className="w-8 h-8" />
+                    <div className={`${styles.cardContent} ${styles['cardContent--center']}`}>
+                      <div className={`${styles.cardIconWrapper} ${styles['cardIconWrapper--bg']}`}>
+                        <item.icon className={styles.iconAccess} />
                       </div>
-                      <h3 className="text-xl font-bold mb-2 text-text-primary">{item.title}</h3>
-                      <p className="text-text-secondary">{item.desc}</p>
+                      <h3 className={styles.cardTitle}>{item.title}</h3>
+                      <p className={styles.cardDesc}>{item.desc}</p>
                     </div>
                   </Card>
                 </motion.div>
@@ -214,27 +214,27 @@ const HomePage: React.FC = () => {
         {/* Features Section */}
         <motion.section
           ref={featuresRef}
-          className="py-16 px-6"
+          className={styles.section}
           initial="hidden"
           animate={featuresInView ? 'visible' : 'hidden'}
           variants={staggerContainer}
         >
-          <div className="max-w-7xl mx-auto">
-            <motion.div className="text-center mb-16" variants={fadeInUp}>
-              <h2 className="text-3xl font-bold mb-4 text-text-primary">الميزات الرئيسية</h2>
-              <p className="text-xl text-text-secondary">
-                اكتشف القوة الكاملة للذكاء الاصطناعي في التعليم
+          <div className={styles.sectionContainer}>
+            <motion.div className={styles.sectionHeader} variants={fadeInUp}>
+              <h2 className={styles.sectionTitle}>{t('public.home.features.title')}</h2>
+              <p className={styles.sectionSubtitle}>
+                {t('public.home.features.subtitle')}
               </p>
             </motion.div>
 
-            <motion.div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8" variants={staggerContainer}>
+            <motion.div className={`${styles.grid} ${styles['grid--cols-4']}`} variants={staggerContainer}>
               {features.map((feature, index) => (
                 <motion.div key={index} variants={fadeInUp}>
-                  <Card className="h-full border-border-secondary hover:border-primary-500/50 transition-colors bg-bg-surface" hoverable>
-                    <div className="p-6">
-                      <div className="mb-4">{feature.icon}</div>
-                      <h3 className="text-lg font-bold mb-2 text-text-primary">{feature.title}</h3>
-                      <p className="text-text-secondary">{feature.description}</p>
+                  <Card className={styles.featureCard} hoverable>
+                    <div className={styles.cardContent}>
+                      <div className={styles.cardIconWrapper}>{feature.icon}</div>
+                      <h3 className={styles.cardTitle}>{feature.title}</h3>
+                      <p className={styles.cardDesc}>{feature.description}</p>
                     </div>
                   </Card>
                 </motion.div>
@@ -248,31 +248,29 @@ const HomePage: React.FC = () => {
 
   // Public user view
   return (
-    <div className="flex-grow bg-bg-app text-text-primary">
+    <div className={styles.page}>
       {/* Hero Section */}
       <motion.section
         ref={heroRef}
-        className="relative py-20 px-6 overflow-hidden md:py-32"
+        className={styles.hero}
         initial="hidden"
         animate={heroInView ? 'visible' : 'hidden'}
         variants={staggerContainer}
       >
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-primary-500/10 rounded-full blur-3xl -z-10" />
+        <div className={styles.heroBlob} />
 
-        <div className="max-w-5xl mx-auto text-center relative z-10">
-          <motion.h1 className="text-5xl md:text-7xl font-bold mb-8 text-text-primary tracking-tight" variants={fadeInUp}>
-            نظام التعليم الذكي
+        <div className={styles.heroContent}>
+          <motion.h1 className={styles.heroTitle} variants={fadeInUp}>
+            {t('public.home.hero.title')}
             <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-500 to-secondary-500">
-              Oman Education AI System
+            <span className={styles.heroTitleHighlight}>
+              {t('public.home.hero.title_highlight')}
             </span>
           </motion.h1>
-          <motion.p className="text-xl md:text-2xl text-text-secondary mb-12 max-w-3xl mx-auto leading-relaxed" variants={fadeInUp}>
-            نظام تعليمي متكامل يعتمد على الذكاء الاصطناعي لتطوير المهارات التقنية
-            <br />
-            يدعم توليد الكود، مساعدة التعلم، بناء المشاريع، تصميم الويب، وأكثر...
+          <motion.p className={styles.heroDescription} variants={fadeInUp}>
+            {t('public.home.hero.description')}
           </motion.p>
-          <motion.div className="flex flex-col sm:flex-row gap-4 justify-center" variants={fadeInUp}>
+          <motion.div className={styles.heroActions} variants={fadeInUp}>
             <motion.div
               whileHover="hover"
               whileTap={{ scale: 0.95 }}
@@ -282,9 +280,9 @@ const HomePage: React.FC = () => {
               <Button
                 variant="primary"
                 size="lg"
-                className="w-full sm:w-auto px-8 py-6 text-lg"
+                className={styles.heroButton}
               >
-                ابدأ الآن مجاناً
+                {t('public.home.hero.actions.start_free')}
               </Button>
             </motion.div>
             <motion.div
@@ -296,9 +294,9 @@ const HomePage: React.FC = () => {
               <Button
                 variant="outline"
                 size="lg"
-                className="w-full sm:w-auto px-8 py-6 text-lg"
+                className={styles.heroButton}
               >
-                تسجيل الدخول
+                {t('public.home.hero.actions.login')}
               </Button>
             </motion.div>
           </motion.div>
@@ -308,27 +306,27 @@ const HomePage: React.FC = () => {
       {/* Features Section */}
       <motion.section
         ref={featuresRef}
-        className="py-20 px-6 bg-bg-surface/50"
+        className={`${styles.section} ${styles['section--alt']}`}
         initial="hidden"
         animate={featuresInView ? 'visible' : 'hidden'}
         variants={staggerContainer}
       >
-        <div className="max-w-7xl mx-auto">
-          <motion.div className="text-center mb-16" variants={fadeInUp}>
-            <h2 className="text-3xl font-bold mb-4 text-text-primary">الميزات الرئيسية</h2>
-            <p className="text-xl text-text-secondary">
-              اكتشف القوة الكاملة للذكاء الاصطناعي في التعليم
+        <div className={styles.sectionContainer}>
+          <motion.div className={styles.sectionHeader} variants={fadeInUp}>
+            <h2 className={styles.sectionTitle}>{t('public.home.features.title')}</h2>
+            <p className={styles.sectionSubtitle}>
+              {t('public.home.features.subtitle')}
             </p>
           </motion.div>
 
-          <motion.div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8" variants={staggerContainer}>
+          <motion.div className={`${styles.grid} ${styles['grid--cols-4']}`} variants={staggerContainer}>
             {features.map((feature, index) => (
               <motion.div key={index} variants={fadeInUp}>
-                <Card className="h-full border-border-secondary hover:border-primary-500/50 transition-colors bg-bg-surface" hoverable>
-                  <div className="p-6">
-                    <div className="mb-4">{feature.icon}</div>
-                    <h3 className="text-lg font-bold mb-2 text-text-primary">{feature.title}</h3>
-                    <p className="text-text-secondary">{feature.description}</p>
+                <Card className={styles.featureCard} hoverable>
+                  <div className={styles.cardContent}>
+                    <div className={styles.cardIconWrapper}>{feature.icon}</div>
+                    <h3 className={styles.cardTitle}>{feature.title}</h3>
+                    <p className={styles.cardDesc}>{feature.description}</p>
                   </div>
                 </Card>
               </motion.div>
@@ -340,23 +338,25 @@ const HomePage: React.FC = () => {
       {/* Why Choose Us Section */}
       <motion.section
         ref={whyUsRef}
-        className="py-20 px-6"
+        className={styles.section}
         initial="hidden"
         animate={whyUsInView ? 'visible' : 'hidden'}
         variants={staggerContainer}
       >
-        <div className="max-w-7xl mx-auto">
-          <motion.h2 className="text-3xl font-bold text-center mb-16 text-text-primary" variants={fadeInUp}>
-            لماذا نحن؟
-          </motion.h2>
+        <div className={styles.sectionContainer}>
+          <motion.div className={styles.sectionHeader} variants={fadeInUp}>
+            <h2 className={styles.sectionTitle}>{t('public.home.why_us.title')}</h2>
+          </motion.div>
 
-          <motion.div className="grid grid-cols-1 md:grid-cols-3 gap-8" variants={staggerContainer}>
+          <motion.div className={`${styles.grid} ${styles['grid--cols-3']}`} variants={staggerContainer}>
             {whyUsReasons.map((reason, index) => (
               <motion.div key={index} variants={fadeInUp}>
-                <Card className="h-full p-8 text-center border-border-secondary bg-bg-surface" hoverable>
-                  <div className="flex justify-center">{reason.icon}</div>
-                  <h3 className="text-xl font-bold mb-4 text-text-primary">{reason.title}</h3>
-                  <p className="text-text-secondary">{reason.description}</p>
+                <Card className={`${styles.featureCard} ${styles.cardContent}`} hoverable>
+                  <div className={`${styles.cardContent} ${styles['cardContent--center']}`}>
+                    <div className={styles.cardIconWrapper}>{reason.icon}</div>
+                    <h3 className={styles.cardTitle}>{reason.title}</h3>
+                    <p className={styles.cardDesc}>{reason.description}</p>
+                  </div>
                 </Card>
               </motion.div>
             ))}
@@ -367,28 +367,30 @@ const HomePage: React.FC = () => {
       {/* CTA Section */}
       <motion.section
         ref={ctaRef}
-        className="py-24 px-6 bg-gradient-to-b from-bg-app to-primary-900/10"
+        className={`${styles.section} ${styles['section--gradient']}`}
         initial="hidden"
         animate={ctaInView ? 'visible' : 'hidden'}
         variants={staggerContainer}
       >
-        <div className="max-w-4xl mx-auto text-center">
-          <motion.h2 className="text-4xl font-bold mb-6 text-text-primary" variants={fadeInUp}>
-            ابدأ رحلتك التعليمية اليوم
-          </motion.h2>
-          <motion.p className="text-xl text-text-secondary mb-10" variants={fadeInUp}>
-            انضم إلى آلاف الطلاب والمطورين الذين يستخدمون نظامنا
-          </motion.p>
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            variants={fadeInUp}
-            onClick={() => useModalStore.getState().open('register')}
-          >
-            <Button variant="primary" size="lg" className="px-10 py-6 text-lg shadow-xl shadow-primary-500/20">
-              إنشاء حساب مجاني
-            </Button>
-          </motion.div>
+        <div className={styles.sectionContainer}>
+          <div className="text-center">
+            <motion.h2 className={styles.heroTitle} variants={fadeInUp}>
+              {t('public.home.cta.title')}
+            </motion.h2>
+            <motion.p className={styles.heroDescription} variants={fadeInUp}>
+              {t('public.home.cta.description')}
+            </motion.p>
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              variants={fadeInUp}
+              onClick={() => useModalStore.getState().open('register')}
+            >
+              <Button variant="primary" size="lg" className={styles.heroButtonCta}>
+                {t('public.home.hero.actions.create_account')}
+              </Button>
+            </motion.div>
+          </div>
         </div>
       </motion.section>
     </div>

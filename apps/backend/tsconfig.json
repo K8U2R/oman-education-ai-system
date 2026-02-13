@@ -63,7 +63,8 @@
   },
   "include": [
     "src/**/*",
-    "tests/**/*"
+    "tests/**/*",
+    "env/**/*"
   ],
   "exclude": [
     "node_modules",

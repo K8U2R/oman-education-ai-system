@@ -1,6 +1,6 @@
 /**
  * Social Domain Barrel - بوابة تصدير الـ OAuth
- * 
+ *
  * @law Law-1 (Barrel Law) - Encapsulation gateway
  */
 

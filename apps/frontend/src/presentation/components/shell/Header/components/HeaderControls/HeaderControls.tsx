@@ -9,6 +9,8 @@ import { Menu, PanelLeftClose, PanelLeftOpen } from 'lucide-react'
 import type { HeaderControlsProps } from '../../types'
 import { cn } from '../../../../common/utils/classNames'
 
+import styles from './HeaderControls.module.scss'
+
 /**
  * HeaderControls Component
  *
@@ -23,33 +25,31 @@ import { cn } from '../../../../common/utils/classNames'
  */
 export const HeaderControls: React.FC<HeaderControlsProps> = React.memo(
   ({ onSidebarToggle, isSidebarCollapsed = false, onMobileMenuOpen, className }) => {
-    const controlsClasses = React.useMemo(() => cn('header-controls', className), [className])
-
     return (
-      <div className={controlsClasses}>
+      <div className={cn(styles.controls, className)}>
         {/* Mobile Menu Button - Shown only when onMobileMenuOpen is provided */}
         {onMobileMenuOpen && (
           <button
-            className="header-controls__mobile-button"
+            className={cn(styles.button, styles['button--mobile'])}
             onClick={onMobileMenuOpen}
             aria-label="فتح القائمة"
           >
-            <Menu className="header-controls__mobile-icon" />
+            <Menu className={styles.icon} />
           </button>
         )}
 
         {/* Sidebar Toggle Button - Desktop only */}
         {onSidebarToggle && (
           <button
-            className="header-controls__sidebar-toggle"
+            className={cn(styles.button, styles['button--sidebar'])}
             onClick={onSidebarToggle}
             aria-label={isSidebarCollapsed ? 'إظهار القائمة الجانبية' : 'إخفاء القائمة الجانبية'}
             title={isSidebarCollapsed ? 'إظهار القائمة الجانبية' : 'إخفاء القائمة الجانبية'}
           >
             {isSidebarCollapsed ? (
-              <PanelLeftOpen className="header-controls__sidebar-icon" />
+              <PanelLeftOpen className={styles.icon} />
             ) : (
-              <PanelLeftClose className="header-controls__sidebar-icon" />
+              <PanelLeftClose className={styles.icon} />
             )}
           </button>
         )}

@@ -33,8 +33,8 @@ export const AssessmentCard: React.FC<AssessmentCardProps> = ({ assessment, onCl
       <div className="assessment-card__header">
         <h3 className="assessment-card__title">{assessment.title}</h3>
         <div className="assessment-card__badges">
-          <span className={`badge badge--${assessment.type}`}>{getTypeLabel(assessment.type)}</span>
-          <span className={`badge badge--${assessment.status}`}>
+          <span className={`assessment-card__badge assessment-card__badge--${assessment.type}`}>{getTypeLabel(assessment.type)}</span>
+          <span className={`assessment-card__badge assessment-card__badge--${assessment.status}`}>
             {getStatusLabel(assessment.status)}
           </span>
         </div>

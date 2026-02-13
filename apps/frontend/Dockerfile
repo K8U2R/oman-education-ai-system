@@ -10,6 +10,19 @@ RUN npm install --ignore-scripts
 # Copy source code
 COPY . .
 
+# Build args
+ARG VITE_API_BASE_URL
+ARG VITE_API_URL
+ARG VITE_WS_URL
+ARG VITE_SSE_URL
+ARG VITE_APP_URL
+
+ENV VITE_API_BASE_URL=$VITE_API_BASE_URL \
+    VITE_API_URL=$VITE_API_URL \
+    VITE_WS_URL=$VITE_WS_URL \
+    VITE_SSE_URL=$VITE_SSE_URL \
+    VITE_APP_URL=$VITE_APP_URL
+
 # Build the application (type-check bypassed for rapid deployment)
 RUN npx vite build
 

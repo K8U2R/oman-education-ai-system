@@ -10,6 +10,8 @@ import { Button, Card } from '../common'
 import { CodePreviewComponent } from './CodePreviewComponent'
 import { apiClient } from '@/infrastructure/services/api'
 import { API_ENDPOINTS } from '@/domain/constants'
+import { useTranslation } from 'react-i18next'
+import styles from './CodeGeneratorComponent.module.scss'
 
 export interface CodeGenerationRequest {
   prompt: string
@@ -41,6 +43,7 @@ export const CodeGeneratorComponent: React.FC<CodeGeneratorComponentProps> = ({
   onCodeGenerated,
   initialPrompt = '',
 }) => {
+  const { t } = useTranslation()
   const [prompt, setPrompt] = useState(initialPrompt)
   const [language, setLanguage] = useState('')
   const [framework, setFramework] = useState('')
@@ -54,7 +57,7 @@ export const CodeGeneratorComponent: React.FC<CodeGeneratorComponentProps> = ({
 
   const handleGenerate = async () => {
     if (!prompt.trim()) {
-      setError('الرجاء إدخال وصف للكود المطلوب')
+      setError(t('ai.generator.errors.description_required'))
       return
     }
 
@@ -81,12 +84,12 @@ export const CodeGeneratorComponent: React.FC<CodeGeneratorComponentProps> = ({
         setResult(response.data)
         onCodeGenerated?.(response.data)
       } else {
-        setError('فشل توليد الكود. الرجاء المحاولة مرة أخرى.')
+        setError(t('ai.generator.errors.generation_failed'))
       }
     } catch (err: unknown) {
       const errorMessage =
         (err as { response?: { data?: { error?: { message?: string } } } })?.response?.data?.error
-          ?.message || 'حدث خطأ أثناء توليد الكود'
+          ?.message || t('ai.generator.errors.generation_failed')
       setError(errorMessage)
       console.error('Code generation error:', err)
     } finally {
@@ -149,41 +152,41 @@ export const CodeGeneratorComponent: React.FC<CodeGeneratorComponentProps> = ({
   ]
 
   return (
-    <div className="code-generator">
-      <Card className="code-generator__card">
-        <div className="code-generator__header">
-          <div className="code-generator__title">
-            <Code2 className="code-generator__icon" />
-            <h2>توليد الكود الذكي</h2>
+    <div className={styles.generator}>
+      <Card className={styles.card}>
+        <div className={styles.header}>
+          <div className={styles.title}>
+            <Code2 className={styles.icon} />
+            <h2>{t('ai.generator.title')}</h2>
           </div>
-          <p className="code-generator__subtitle">
-            اكتب وصفاً للكود الذي تريده وسيقوم الذكاء الاصطناعي بتوليده لك
+          <p className={styles.subtitle}>
+            {t('ai.generator.subtitle')}
           </p>
         </div>
 
-        <div className="code-generator__form">
-          <div className="code-generator__field">
-            <label className="code-generator__label">وصف الكود المطلوب *</label>
+        <div className={styles.form}>
+          <div className={styles.field}>
+            <label className={styles.label}>{t('ai.generator.description_label')} *</label>
             <textarea
-              className="code-generator__textarea"
+              className={styles.textarea}
               value={prompt}
               onChange={e => setPrompt(e.target.value)}
-              placeholder="مثال: أنشئ دالة لحساب مجموع الأرقام في مصفوفة..."
+              placeholder={t('ai.generator.description_placeholder')}
               rows={4}
               disabled={isGenerating}
             />
           </div>
 
-          <div className="code-generator__row">
-            <div className="code-generator__field code-generator__field--half">
-              <label className="code-generator__label">اللغة البرمجية</label>
+          <div className={styles.row}>
+            <div className={`${styles.field} ${styles['field--half']}`}>
+              <label className={styles.label}>{t('ai.generator.language_label')}</label>
               <select
-                className="code-generator__select"
+                className={styles.select}
                 value={language}
                 onChange={e => setLanguage(e.target.value)}
                 disabled={isGenerating}
               >
-                <option value="">اختر اللغة (اختياري)</option>
+                <option value="">{t('ai.generator.language_placeholder')}</option>
                 {languages.map(lang => (
                   <option key={lang} value={lang}>
                     {lang}
@@ -192,15 +195,15 @@ export const CodeGeneratorComponent: React.FC<CodeGeneratorComponentProps> = ({
               </select>
             </div>
 
-            <div className="code-generator__field code-generator__field--half">
-              <label className="code-generator__label">الإطار البرمجي</label>
+            <div className={`${styles.field} ${styles['field--half']}`}>
+              <label className={styles.label}>{t('ai.generator.framework_label')}</label>
               <select
-                className="code-generator__select"
+                className={styles.select}
                 value={framework}
                 onChange={e => setFramework(e.target.value)}
                 disabled={isGenerating}
               >
-                <option value="">اختر الإطار (اختياري)</option>
+                <option value="">{t('ai.generator.framework_placeholder')}</option>
                 {frameworks.map(fw => (
                   <option key={fw} value={fw}>
                     {fw}
@@ -210,50 +213,50 @@ export const CodeGeneratorComponent: React.FC<CodeGeneratorComponentProps> = ({
             </div>
           </div>
 
-          <div className="code-generator__row">
-            <div className="code-generator__field code-generator__field--half">
-              <label className="code-generator__label">نمط الكود</label>
+          <div className={styles.row}>
+            <div className={`${styles.field} ${styles['field--half']}`}>
+              <label className={styles.label}>{t('ai.generator.style_label')}</label>
               <select
-                className="code-generator__select"
+                className={styles.select}
                 value={style}
                 onChange={e =>
                   setStyle(e.target.value as 'simple' | 'detailed' | 'commented' | 'minimal')
                 }
                 disabled={isGenerating}
               >
-                <option value="simple">بسيط</option>
-                <option value="detailed">مفصل</option>
-                <option value="commented">مع تعليقات</option>
-                <option value="minimal">مختصر</option>
+                <option value="simple">{t('ai.generator.styles.simple')}</option>
+                <option value="detailed">{t('ai.generator.styles.detailed')}</option>
+                <option value="commented">{t('ai.generator.styles.commented')}</option>
+                <option value="minimal">{t('ai.generator.styles.minimal')}</option>
               </select>
             </div>
 
-            <div className="code-generator__field code-generator__field--half">
-              <div className="code-generator__checkboxes">
-                <label className="code-generator__checkbox">
+            <div className={`${styles.field} ${styles['field--half']}`}>
+              <div className={styles.checkboxes}>
+                <label className={styles.checkbox}>
                   <input
                     type="checkbox"
                     checked={includeTests}
                     onChange={e => setIncludeTests(e.target.checked)}
                     disabled={isGenerating}
                   />
-                  <span>تضمين اختبارات</span>
+                  <span>{t('ai.generator.include_tests')}</span>
                 </label>
-                <label className="code-generator__checkbox">
+                <label className={styles.checkbox}>
                   <input
                     type="checkbox"
                     checked={includeDocs}
                     onChange={e => setIncludeDocs(e.target.checked)}
                     disabled={isGenerating}
                   />
-                  <span>تضمين توثيق</span>
+                  <span>{t('ai.generator.include_docs')}</span>
                 </label>
               </div>
             </div>
           </div>
 
           {error && (
-            <div className="code-generator__error">
+            <div className={styles.error}>
               <span>{error}</span>
             </div>
           )}
@@ -267,22 +270,22 @@ export const CodeGeneratorComponent: React.FC<CodeGeneratorComponentProps> = ({
             leftIcon={<Sparkles />}
             disabled={!prompt.trim() || isGenerating}
           >
-            {isGenerating ? 'جاري التوليد...' : 'توليد الكود'}
+            {isGenerating ? t('ai.generator.generating') : t('ai.generator.generate_btn')}
           </Button>
         </div>
 
         {result && (
-          <div className="code-generator__result">
-            <div className="code-generator__result-header">
-              <h3>الكود المولد</h3>
-              <div className="code-generator__actions">
+          <div className={styles.result}>
+            <div className={styles.resultHeader}>
+              <h3>{t('ai.generator.result_title')}</h3>
+              <div className={styles.actions}>
                 <Button
                   variant="secondary"
                   size="sm"
                   onClick={handleCopy}
                   leftIcon={copied ? <Check /> : <Copy />}
                 >
-                  {copied ? 'تم النسخ' : 'نسخ'}
+                  {copied ? t('ai.generator.copied') : t('ai.generator.copy')}
                 </Button>
                 <Button
                   variant="secondary"
@@ -290,14 +293,14 @@ export const CodeGeneratorComponent: React.FC<CodeGeneratorComponentProps> = ({
                   onClick={handleDownload}
                   leftIcon={<Download />}
                 >
-                  تحميل
+                  {t('ai.generator.download')}
                 </Button>
               </div>
             </div>
 
             {result.explanation && (
-              <div className="code-generator__explanation">
-                <h4>شرح الكود:</h4>
+              <div className={styles.explanation}>
+                <h4>{t('ai.generator.explanation_title')}</h4>
                 <p>{result.explanation}</p>
               </div>
             )}

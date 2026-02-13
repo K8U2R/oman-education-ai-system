@@ -1,6 +1,6 @@
 /**
  * Verification Routes - مسارات التحقق
- * 
+ *
  * @law Law-1 (Modularity) - Domain Encapsulation
  */
 
@@ -29,8 +29,11 @@ const router = RouteFactory.createFeatureRouter();
  *         description: تم التحقق بنجاح
  */
 router.post(
-    "/verify-email",
-    ...RouteFactory.createRoute<RegistrationHandler>("RegistrationHandler", "verifyEmail"),
+  "/verify-email",
+  ...RouteFactory.createRoute<RegistrationHandler>(
+    "RegistrationHandler",
+    "verifyEmail",
+  ),
 );
 
 /**
@@ -53,11 +56,11 @@ router.post(
  *         description: تم إرسال البريد
  */
 router.post(
-    "/send-verification",
-    ...RouteFactory.createRoute<RegistrationHandler>(
-        "RegistrationHandler",
-        "sendVerificationEmail",
-    ),
+  "/send-verification",
+  ...RouteFactory.createRoute<RegistrationHandler>(
+    "RegistrationHandler",
+    "sendVerificationEmail",
+  ),
 );
 
 export default router;

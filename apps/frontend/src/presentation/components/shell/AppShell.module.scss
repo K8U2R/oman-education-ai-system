@@ -1,0 +1,97 @@
+/**
+ * AppShell - SCSS Module
+ * 
+ * النظام الرئيسي لربط Header + Sidebar + Content
+ * تطبيق Fluid Design System
+ */
+
+@use './Header/styles/variables' as header;
+@use './Header/styles/mixins' as header-mixins;
+@use './Sidebar/styles/variables' as sidebar;
+
+.appShell {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background: var(--bg-primary);
+}
+
+// Layout Container (Header + Sidebar + Main)
+.layout {
+    display: grid;
+    // Desktop: Sidebar (var width) | Main (1fr)
+    grid-template-columns: var(--sidebar-width-current, #{sidebar.$sidebar-width-expanded}) 1fr;
+    transition: grid-template-columns sidebar.$width-transition;
+    min-height: calc(100vh - header.$header-height);
+    position: relative;
+    overflow-x: hidden; // Prevent horizontal scroll
+
+    // Mobile: Single column (Sidebar is overlay)
+    @media (max-width: (sidebar.$mobile-breakpoint - 1px)) {
+        display: flex; // Switch to flex column for mobile
+        flex-direction: column;
+        grid-template-columns: none; // Reset grid
+    }
+}
+
+// Sidebar Section (handled via Sidebar.module.scss mostly, but positioning here helps)
+.sidebar {
+    // Desktop: Sticky in grid column
+    position: sticky;
+    top: header.$header-height;
+    height: calc(100vh - header.$header-height);
+    width: 100%;
+    z-index: sidebar.$sidebar-z-index;
+
+    // Mobile: handled by Sidebar component styles (fixed overlay)
+    // We just ensure it doesn't take up flow space here
+    @media (max-width: (sidebar.$mobile-breakpoint - 1px)) {
+        position: fixed;
+        width: 0; // Don't take flow space
+        height: 0;
+        top: 0;
+        left: 0;
+        // Visibility handled by internal component class
+    }
+}
+
+// Main Content Area
+.main {
+    flex: 1;
+    min-width: 0; // Prevent grid blowout
+    padding: clamp(1rem, 2vw, 1.5rem);
+    width: 100%; // Ensure full width
+
+    // Desktop padding
+    @media (min-width: header.$mobile) {
+        padding: clamp(1.5rem, 3vw, 2rem);
+    }
+}
+
+// AppShell State Modifiers (updates variable for Grid)
+.appShell {
+    --sidebar-width-current: #{sidebar.$sidebar-width-expanded};
+
+    &--collapsed {
+        --sidebar-width-current: #{sidebar.$sidebar-width-collapsed};
+    }
+
+    &--authenticated {
+        // Just context
+    }
+}
+
+// RTL Support (handled securely via logical properties & grid)
+// CSS Grid is direction-aware by default.
+// border-inline-end handles RTL border.
+
+// Animations
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}

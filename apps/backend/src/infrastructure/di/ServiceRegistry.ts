@@ -1,7 +1,7 @@
 /**
  * Service Registry - Orchestrator
  * Constitutional Authority: LAWS.md - Law 3 (Cluster Sovereignty)
- * 
+ *
  * This file acts ONLY as an orchestrator. Direct service imports are BANNED here.
  */
 

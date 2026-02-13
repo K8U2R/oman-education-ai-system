@@ -4,9 +4,9 @@
  * Interface لـ Repository operations المتعلقة بـ Google OAuth
  */
 
-import { User } from "@/domain/entities/User";
-import { GoogleUserInfo } from "@/domain/value-objects/GoogleUserInfo";
-import { OAuthState } from "@/domain/entities/OAuthState";
+import { User } from "../../../../entities/User.js";
+import { GoogleUserInfo } from "../../../../value-objects/GoogleUserInfo.js";
+import { OAuthState } from "../../../../entities/OAuthState.js";
 
 export interface IGoogleOAuthRepository {
   /**

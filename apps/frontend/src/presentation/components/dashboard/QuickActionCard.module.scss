@@ -1,0 +1,81 @@
+@use '@/styles/abstracts/liquid-variables' as liquid;
+
+.card {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    cursor: pointer;
+
+    &:hover {
+        box-shadow: liquid.$shadow-fluid-lg;
+        border-color: rgba(37, 99, 235, 0.5); // Primary with opacity
+
+        .arrow {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .iconWrapper {
+            background-color: var(--primary-600, #2563eb);
+            color: #ffffff;
+        }
+
+        .title {
+            color: var(--primary-600, #2563eb);
+        }
+    }
+}
+
+.content {
+    display: flex;
+    align-items: flex-start;
+    gap: liquid.$spacing-fluid-4;
+}
+
+.iconWrapper {
+    padding: liquid.$spacing-fluid-3;
+    border-radius: liquid.$radius-fluid-xl;
+    background-color: var(--bg-tertiary, #f3f4f6);
+    color: var(--primary-600, #2563eb);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.details {
+    flex: 1;
+}
+
+.title {
+    font-size: liquid.$font-fluid-lg;
+    font-weight: 700;
+    color: var(--text-primary, #111827);
+    margin: 0;
+    transition: color 0.3s ease;
+}
+
+.description {
+    font-size: liquid.$font-fluid-sm;
+    color: var(--text-secondary, #6b7280);
+    margin-block-start: liquid.$spacing-fluid-2;
+    line-height: 1.5;
+}
+
+.arrow {
+    position: absolute;
+    top: liquid.$spacing-fluid-4;
+    inset-inline-start: liquid.$spacing-fluid-4; // Logical positioning
+    padding: liquid.$spacing-fluid-6;
+    gap: liquid.$spacing-fluid-4;
+    margin-bottom: liquid.$spacing-fluid-4;
+    gap: liquid.$spacing-fluid-2;
+    opacity: 0;
+    transform: translateX(calc(#{liquid.$spacing-fluid-2} * -1));
+    transition: all 0.3s ease;
+    color: var(--primary-600, #2563eb);
+
+    [dir="rtl"] & {
+        transform: translateX(liquid.$spacing-fluid-2);
+    }
+}

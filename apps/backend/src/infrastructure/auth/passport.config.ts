@@ -8,7 +8,10 @@
 import passport from "passport";
 import { createGoogleStrategy } from "./strategies/google.strategy.js";
 import { logger } from "../../shared/utils/logger.js";
-import { UserData, ROLE_PERMISSIONS } from "../../domain/types/auth/auth.types.js";
+import {
+  UserData,
+  ROLE_PERMISSIONS,
+} from "../../domain/types/auth/auth.types.js";
 
 // Safe Registration: Only use strategy if it was successfully created
 const strategy = createGoogleStrategy();
@@ -45,6 +48,7 @@ passport.deserializeUser(async (id: string, done) => {
       is_active: true,
       role: "student",
       permissions: ROLE_PERMISSIONS["student"],
+      planTier: "FREE",
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
     };

@@ -5,7 +5,7 @@
  */
 
 import { useState, useEffect } from 'react'
-import { i18nService, Language, Direction } from '@/application/core/services/ui/i18n.service'
+import { i18nService, Language, Direction } from '@/application/core/services/ui/localization/i18n.service'
 
 export const useI18n = () => {
   const [language, setLanguage] = useState<Language>(i18nService.getLanguage())

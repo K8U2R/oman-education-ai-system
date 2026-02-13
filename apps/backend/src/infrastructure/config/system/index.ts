@@ -2,4 +2,4 @@
  * System Configuration - Barrel Export
  */
 
-export * from './structure/index.js';
+export * from "./structure/index.js";

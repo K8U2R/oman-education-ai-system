@@ -2,13 +2,13 @@
  * Not Found Middleware - معالج 404
  *
  * Catches all undefined routes and returns appropriate responses.
- * 
+ *
  * Features:
  * - Content negotiation (JSON vs HTML)
  * - Professional error pages
  * - Security-compliant (LAW_08 - No internal details)
  * - Extensible for future enhancements
- * 
+ *
  * Future enhancements ready:
  * - Analytics tracking
  * - Custom pages per route pattern
@@ -23,16 +23,16 @@ import { logger } from "@/shared/utils/logger";
  * Configuration for 404 responses
  */
 export interface NotFoundConfig {
-    logRequests?: boolean;
-    customJsonMessage?: string;
-    customHtmlTemplate?: string;
-    includePathInResponse?: boolean;
+  logRequests?: boolean;
+  customJsonMessage?: string;
+  customHtmlTemplate?: string;
+  includePathInResponse?: boolean;
 }
 
 const DEFAULT_CONFIG: NotFoundConfig = {
-    logRequests: true,
-    customJsonMessage: "المسار المطلوب غير موجود",
-    includePathInResponse: false, // Security: Don't reveal paths by default
+  logRequests: true,
+  customJsonMessage: "المسار المطلوب غير موجود",
+  includePathInResponse: false, // Security: Don't reveal paths by default
 };
 
 /**
@@ -42,64 +42,64 @@ const DEFAULT_CONFIG: NotFoundConfig = {
  * @returns Express middleware function
  */
 export function notFoundHandler(config: NotFoundConfig = DEFAULT_CONFIG) {
-    const finalConfig = { ...DEFAULT_CONFIG, ...config };
+  const finalConfig = { ...DEFAULT_CONFIG, ...config };
 
-    return (req: Request, res: Response): void => {
-        // Optional logging for analytics and debugging
-        if (finalConfig.logRequests) {
-            logger.warn(`404 Not Found: ${req.method} ${req.path}`, {
-                ip: req.ip,
-                userAgent: req.get("user-agent"),
-                method: req.method,
-                path: req.path,
-            });
-        }
+  return (req: Request, res: Response): void => {
+    // Optional logging for analytics and debugging
+    if (finalConfig.logRequests) {
+      logger.warn(`404 Not Found: ${req.method} ${req.path}`, {
+        ip: req.ip,
+        userAgent: req.get("user-agent"),
+        method: req.method,
+        path: req.path,
+      });
+    }
 
-        // Content negotiation: Detect what client expects
-        const acceptsJson = req.accepts("json");
-        const acceptsHtml = req.accepts("html");
+    // Content negotiation: Detect what client expects
+    const acceptsJson = req.accepts("json");
+    const acceptsHtml = req.accepts("html");
 
-        if (acceptsJson && !acceptsHtml) {
-            // API request - Return JSON response
-            sendJsonNotFound(req, res, finalConfig);
-        } else {
-            // Browser request - Return HTML page
-            sendHtmlNotFound(req, res, finalConfig);
-        }
-    };
+    if (acceptsJson && !acceptsHtml) {
+      // API request - Return JSON response
+      sendJsonNotFound(req, res, finalConfig);
+    } else {
+      // Browser request - Return HTML page
+      sendHtmlNotFound(req, res, finalConfig);
+    }
+  };
 }
 
 /**
  * Send JSON 404 response for API requests
  */
 function sendJsonNotFound(
-    req: Request,
-    res: Response,
-    config: NotFoundConfig
+  req: Request,
+  res: Response,
+  config: NotFoundConfig,
 ): void {
-    const response: Record<string, unknown> = {
-        success: false,
-        message: config.customJsonMessage || DEFAULT_CONFIG.customJsonMessage,
-    };
+  const response: Record<string, unknown> = {
+    success: false,
+    message: config.customJsonMessage || DEFAULT_CONFIG.customJsonMessage,
+  };
 
-    // Optionally include path (disabled by default for security)
-    if (config.includePathInResponse) {
-        response.path = req.path;
-    }
+  // Optionally include path (disabled by default for security)
+  if (config.includePathInResponse) {
+    response.path = req.path;
+  }
 
-    res.status(404).json(response);
+  res.status(404).json(response);
 }
 
 /**
  * Send HTML 404 response for browser requests
  */
 function sendHtmlNotFound(
-    req: Request,
-    res: Response,
-    config: NotFoundConfig
+  _req: Request,
+  res: Response,
+  config: NotFoundConfig,
 ): void {
-    const html = config.customHtmlTemplate || getDefault404Html();
-    res.status(404).send(html);
+  const html = config.customHtmlTemplate || getDefault404Html();
+  res.status(404).send(html);
 }
 
 /**
@@ -112,7 +112,7 @@ function sendHtmlNotFound(
  * - No technical details (LAW_08 compliant)
  */
 function getDefault404Html(): string {
-    return `<!DOCTYPE html>
+  return `<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">

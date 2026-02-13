@@ -66,6 +66,7 @@ export function createGoogleStrategy() {
           is_active: true,
           role: "student",
           permissions: ROLE_PERMISSIONS["student"],
+          planTier: "FREE",
           created_at: new Date().toISOString(),
           updated_at: new Date().toISOString(),
         };

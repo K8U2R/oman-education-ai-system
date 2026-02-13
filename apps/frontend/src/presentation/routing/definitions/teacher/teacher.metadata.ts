@@ -6,7 +6,7 @@
 
 import { RouteMetadata } from '../../types'
 import { ROUTES } from '@/domain/constants/routes.constants'
-import { BookOpen, Code, FileText } from 'lucide-react'
+import { BookOpen, Code, FileText, Sparkles } from 'lucide-react'
 
 export const teacherMetadata: Record<string, RouteMetadata> = {
   [ROUTES.LESSONS_MANAGEMENT]: {
@@ -14,7 +14,7 @@ export const teacherMetadata: Record<string, RouteMetadata> = {
     description: 'إدارة وإنشاء وتعديل الدروس',
     requiresAuth: true,
     requiredPermissions: ['lessons.manage'],
-    breadcrumb: 'إدارة الدروس',
+    breadcrumb: 'breadcrumbs.manage_lessons',
     icon: BookOpen,
     layout: 'main',
     showInNav: false,
@@ -28,16 +28,30 @@ export const teacherMetadata: Record<string, RouteMetadata> = {
     description: 'إنشاء درس جديد',
     requiresAuth: true,
     requiredPermissions: ['lessons.create', 'lessons.manage'],
-    breadcrumb: 'إنشاء درس',
+    breadcrumb: 'breadcrumbs.create_lesson',
     layout: 'main',
     showInNav: false,
+  },
+  [ROUTES.LESSON_GENERATOR]: {
+    title: 'مولد الدروس الذكي',
+    description: 'إنشاء خطط دروس باستخدام الذكاء الاصطناعي',
+    requiresAuth: true,
+    requiredPermissions: ['lessons.create'],
+    breadcrumb: 'breadcrumbs.ai_lesson_planner',
+    icon: Sparkles,
+    layout: 'main',
+    showInNav: true,
+    analytics: {
+      category: 'AI',
+      action: 'View Lesson Generator',
+    },
   },
   [ROUTES.LESSON_EDIT_PATTERN]: {
     title: 'تعديل الدرس',
     description: 'تعديل درس موجود',
     requiresAuth: true,
     requiredPermissions: ['lessons.update', 'lessons.manage'],
-    breadcrumb: 'تعديل الدرس',
+    breadcrumb: 'breadcrumbs.edit_lesson',
     layout: 'main',
     showInNav: false,
   },
@@ -46,7 +60,7 @@ export const teacherMetadata: Record<string, RouteMetadata> = {
     description: 'إدارة وإنشاء وتعديل مسارات التعلم',
     requiresAuth: true,
     requiredPermissions: ['lessons.manage'],
-    breadcrumb: 'إدارة مسارات التعلم',
+    breadcrumb: 'breadcrumbs.manage_learning_paths',
     icon: BookOpen,
     layout: 'main',
     showInNav: false,
@@ -60,7 +74,7 @@ export const teacherMetadata: Record<string, RouteMetadata> = {
     description: 'إنشاء كود برمجي باستخدام الذكاء الاصطناعي',
     requiresAuth: true,
     requiredPermissions: ['lessons.create', 'lessons.manage'],
-    breadcrumb: 'مولد الكود',
+    breadcrumb: 'breadcrumbs.code_generator',
     icon: Code,
     layout: 'main',
     showInNav: false,
@@ -74,7 +88,7 @@ export const teacherMetadata: Record<string, RouteMetadata> = {
     description: 'إنشاء ملفات Excel و Word و PowerPoint باستخدام الذكاء الاصطناعي',
     requiresAuth: true,
     requiredPermissions: ['lessons.create', 'lessons.manage'],
-    breadcrumb: 'مولد ملفات Office',
+    breadcrumb: 'breadcrumbs.office_generator',
     icon: FileText,
     layout: 'main',
     showInNav: false,

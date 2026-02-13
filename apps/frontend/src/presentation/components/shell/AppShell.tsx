@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
 import { Header } from './Header'
-import { Sidebar } from './Sidebar'
-import Footer from './Footer'
+import { Sidebar } from './Sidebar/Sidebar.index'
+import { useAdsSystemHalt } from '@/application/core/services/system/diagnostics/ads-halt.service'
+import { appMetadataService } from '@/application/core/services/system/metadata/app-metadata.service'
 
 import { LayoutContainer } from './LayoutContainer/LayoutContainer'
 import { ProfessionalErrorPanel } from '@/presentation/features/diagnostic-system-ads/components/ProfessionalErrorPanel/ProfessionalErrorPanel'
@@ -12,7 +13,10 @@ import { PWAInstallPrompt } from '@/presentation/components/common/PWAInstallPro
 import { SettingsModal } from '@/presentation/components/layout/SettingsModal'
 import { useAuth } from '@/features/user-authentication-management'
 import { useUIStore } from '@/application/shared/store/uiStore'
+import { BottomNav } from '@/presentation/layouts/BottomNav'
 import { ROUTES } from '@/domain/constants/routes.constants'
+import { cn } from '../common/utils/classNames'
+import styles from './AppShell.module.scss'
 
 interface AppShellProps {
   children?: React.ReactNode
@@ -24,34 +28,12 @@ export const AppShell: React.FC<AppShellProps> = ({ children }) => {
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
-  // Sidebar persistence
-  useEffect(() => {
-    const savedState = localStorage.getItem('sidebarCollapsed')
-    if (savedState !== null) {
-      setIsSidebarCollapsed(JSON.parse(savedState))
-    }
-  }, [])
+  // ADS System Halt Listener (Sovereign Service)
+  const adsSystemHalt = useAdsSystemHalt()
 
+  // Head Management (Title/Meta) (Sovereign Service)
   useEffect(() => {
-    localStorage.setItem('sidebarCollapsed', JSON.stringify(isSidebarCollapsed))
-  }, [isSidebarCollapsed])
-
-  // Head Management (Title/Meta)
-  useEffect(() => {
-    if (metadata?.title) {
-      document.title = `${metadata.title} - Oman Education AI System`
-    }
-    if (metadata?.description) {
-      const metaDescription = document.querySelector('meta[name="description"]')
-      if (metaDescription) {
-        metaDescription.setAttribute('content', metadata.description)
-      } else {
-        const meta = document.createElement('meta')
-        meta.name = 'description'
-        meta.content = metadata.description
-        document.head.appendChild(meta)
-      }
-    }
+    appMetadataService.updateMetadata(metadata)
   }, [metadata])
 
   const location = useLocation()
@@ -69,7 +51,7 @@ export const AppShell: React.FC<AppShellProps> = ({ children }) => {
   const content = (
     <>
       <Breadcrumbs />
-      <div className="app-shell__content-inner">
+      <div className={styles.contentInner}>
         {children ? (
           <React.Suspense fallback={<div>Loading page...</div>}>{children}</React.Suspense>
         ) : (
@@ -83,10 +65,14 @@ export const AppShell: React.FC<AppShellProps> = ({ children }) => {
 
   return (
     <div
-      className={`app-shell ${isAuthenticated ? 'app-shell--authenticated' : ''} ${isSidebarCollapsed ? 'app-shell--collapsed' : ''}`}
+      className={cn(
+        styles.appShell,
+        isAuthenticated && styles['appShell--authenticated'],
+        isSidebarCollapsed && styles['appShell--collapsed']
+      )}
     >
       {/* Global Diagnostic Layer (ADS) */}
-      <ProfessionalErrorPanel error={null} />
+      <ProfessionalErrorPanel error={adsSystemHalt} />
 
       <Header
         onSidebarToggle={isAuthenticated ? handleSidebarToggle : undefined}
@@ -94,9 +80,9 @@ export const AppShell: React.FC<AppShellProps> = ({ children }) => {
         onMenuClick={() => setIsMobileMenuOpen(true)}
       />
 
-      <div className="app-shell__layout">
+      <div className={styles.layout}>
         {isAuthenticated && (
-          <aside className={`app-shell__sidebar ${isMobileMenuOpen ? 'is-open' : ''}`}>
+          <aside className={cn(styles.sidebar, isMobileMenuOpen && styles['sidebar--open'])}>
             <Sidebar
               isOpen={true}
               isCollapsed={isSidebarCollapsed}
@@ -105,12 +91,12 @@ export const AppShell: React.FC<AppShellProps> = ({ children }) => {
           </aside>
         )}
 
-        <main className="app-shell__main">
+        <main className={styles.main}>
           {useContainer ? <LayoutContainer>{content}</LayoutContainer> : content}
         </main>
       </div>
 
-      <Footer />
+      <BottomNav />
       <PWAInstallPrompt />
 
       <SettingsModal
@@ -121,7 +107,7 @@ export const AppShell: React.FC<AppShellProps> = ({ children }) => {
 
       {/* Mobile Overlay */}
       {isAuthenticated && isMobileMenuOpen && (
-        <div className="app-shell__overlay" onClick={() => setIsMobileMenuOpen(false)} />
+        <div className={styles.overlay} onClick={() => setIsMobileMenuOpen(false)} />
       )}
     </div>
   )

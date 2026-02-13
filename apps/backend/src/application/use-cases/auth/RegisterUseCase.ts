@@ -46,7 +46,7 @@ export class RegisterUseCase {
     private readonly authRepository: IAuthRepository,
     private readonly emailService?: EmailService,
     private readonly verificationTokenRepository?: IVerificationTokenRepository,
-  ) { }
+  ) {}
 
   /**
    * تنفيذ التسجيل

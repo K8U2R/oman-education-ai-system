@@ -4,10 +4,10 @@
  * مكون صورة المستخدم قابلة لإعادة الاستخدام
  */
 
-import React from 'react'
+import React, { useMemo } from 'react'
 import { User } from 'lucide-react'
-import { cn } from '../../utils/classNames'
 import { OptimizedImage } from '../../../common/OptimizedImage/OptimizedImage'
+import styles from './Avatar.module.scss'
 
 export type AvatarSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 
@@ -42,9 +42,18 @@ export const Avatar: React.FC<AvatarProps> = ({
 
   const displayName = name || alt || 'User'
 
+  const containerClass = useMemo(() => {
+    return [
+      styles.avatar,
+      styles[`avatar--${size}`],
+      onClick ? styles.clickable : '',
+      className
+    ].filter(Boolean).join(' ')
+  }, [size, onClick, className])
+
   return (
     <div
-      className={cn('avatar', `avatar--${size}`, onClick && 'avatar--clickable', className)}
+      className={containerClass}
       onClick={onClick}
       role={onClick ? 'button' : undefined}
       tabIndex={onClick ? 0 : undefined}
@@ -59,17 +68,17 @@ export const Avatar: React.FC<AvatarProps> = ({
         <OptimizedImage
           src={src}
           alt={alt || displayName}
-          className="avatar__image"
+          className={styles.image}
           loading="lazy"
           objectFit="cover"
           fallback="/logo.png"
         />
       ) : (
-        <div className="avatar__fallback">
+        <div className={styles.fallback}>
           {name ? (
-            <span className="avatar__initials">{getInitials(name)}</span>
+            <span className={styles.initials}>{getInitials(name)}</span>
           ) : (
-            <User className="avatar__icon" />
+            <User className={styles.icon} />
           )}
         </div>
       )}

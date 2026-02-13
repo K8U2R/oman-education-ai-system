@@ -16,6 +16,7 @@ import { serviceWorkerService } from '@/infrastructure/services/core/service-wor
 import { indexedDBService } from '@/infrastructure/services/storage/indexeddb.service'
 import './index.css'
 import './styles/main.scss'
+import '@/presentation/i18n/config'; // Initialize i18n
 import App from './App'
 
 // Initialize Service Worker

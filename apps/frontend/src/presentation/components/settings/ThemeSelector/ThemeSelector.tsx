@@ -1,7 +1,7 @@
 ﻿import React from 'react'
 import { Moon, Sun, Monitor, Baby, Users, GraduationCap, School } from 'lucide-react'
 import { useTheme } from '@/presentation/providers/ThemeProvider'
-import type { ThemeMode, AgeTheme } from '@/application'
+import type { ThemeMode, AgeTheme } from '@/application/core/services/ui/design/theme.service'
 
 const ThemeSelector: React.FC = () => {
   const { theme, setMode, setAgeTheme, effectiveMode } = useTheme()
@@ -12,25 +12,25 @@ const ThemeSelector: React.FC = () => {
     icon: React.ReactNode
     description: string
   }[] = [
-    {
-      value: 'system',
-      label: 'نظام',
-      icon: <Monitor className="w-5 h-5" />,
-      description: 'يتبع إعدادات النظام',
-    },
-    {
-      value: 'light',
-      label: 'فاتح',
-      icon: <Sun className="w-5 h-5" />,
-      description: 'الوضع النهاري',
-    },
-    {
-      value: 'dark',
-      label: 'داكن',
-      icon: <Moon className="w-5 h-5" />,
-      description: 'الوضع الليلي',
-    },
-  ]
+      {
+        value: 'system',
+        label: 'نظام',
+        icon: <Monitor className="w-5 h-5" />,
+        description: 'يتبع إعدادات النظام',
+      },
+      {
+        value: 'light',
+        label: 'فاتح',
+        icon: <Sun className="w-5 h-5" />,
+        description: 'الوضع النهاري',
+      },
+      {
+        value: 'dark',
+        label: 'داكن',
+        icon: <Moon className="w-5 h-5" />,
+        description: 'الوضع الليلي',
+      },
+    ]
 
   const ageThemeOptions: {
     value: AgeTheme
@@ -38,31 +38,31 @@ const ThemeSelector: React.FC = () => {
     icon: React.ReactNode
     description: string
   }[] = [
-    {
-      value: 'kids',
-      label: 'أطفال',
-      icon: <Baby className="w-5 h-5" />,
-      description: 'من الصف الأول إلى السادس',
-    },
-    {
-      value: 'teens',
-      label: 'مراهقين',
-      icon: <Users className="w-5 h-5" />,
-      description: 'من الصف السابع إلى الثاني عشر',
-    },
-    {
-      value: 'adults',
-      label: 'بالغين',
-      icon: <GraduationCap className="w-5 h-5" />,
-      description: 'للمعلمين والبالغين',
-    },
-    {
-      value: 'university',
-      label: 'جامعات',
-      icon: <School className="w-5 h-5" />,
-      description: 'للتعليم العالي',
-    },
-  ]
+      {
+        value: 'child',
+        label: 'أطفال',
+        icon: <Baby className="w-5 h-5" />,
+        description: 'من الصف الأول إلى السادس',
+      },
+      {
+        value: 'youth',
+        label: 'مراهقين',
+        icon: <Users className="w-5 h-5" />,
+        description: 'من الصف السابع إلى الثاني عشر',
+      },
+      {
+        value: 'adult',
+        label: 'بالغين',
+        icon: <GraduationCap className="w-5 h-5" />,
+        description: 'للمعلمين والبالغين',
+      },
+      {
+        value: 'adult',
+        label: 'جامعات',
+        icon: <School className="w-5 h-5" />,
+        description: 'للتعليم العالي',
+      },
+    ]
 
   return (
     <div className="theme-selector">

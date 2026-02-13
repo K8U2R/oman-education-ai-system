@@ -1,0 +1,416 @@
+@use 'sass:math';
+@use './liquid-variables' as liquid;
+@use './variables' as vars;
+
+/**
+ * Liquid Layout Mixins - خلطات التخطيط السائل
+ * Advanced responsive layout system with Grid/Flexbox
+ * 
+ * @law Law-14 (Package Sovereignty) - Encapsulated layout logic
+ */
+
+// ==================================================
+// Fluid Grid System
+// ==================================================
+
+/**
+ * Fluid Grid Container
+ * Creates responsive grid with automatic column adjustment
+ * 
+ * @param $columns - Number of columns (default: 12)
+ * @param $gap - Gap between columns
+ * @param $max-width - Maximum container width
+ */
+@mixin fluid-grid($columns: 12,
+    $gap: liquid.$gap-fluid-md,
+    $max-width: liquid.$content-fluid-max) {
+    display: grid;
+    grid-template-columns: repeat($columns, 1fr);
+    gap: $gap;
+    max-width: $max-width;
+    margin-inline: auto;
+    padding-inline: clamp(1rem, 3vw, 2rem);
+
+    // Responsive columns
+    @media (max-width: calc(vars.$breakpoint-lg - 1px)) {
+        grid-template-columns: repeat(math.min($columns, 6), 1fr);
+    }
+
+    @media (max-width: calc(vars.$breakpoint-md - 1px)) {
+        grid-template-columns: repeat(math.min($columns, 4), 1fr);
+    }
+
+    @media (max-width: calc(vars.$breakpoint-sm - 1px)) {
+        grid-template-columns: 1fr;
+    }
+}
+
+/**
+ * Fluid Auto-fit Grid
+ * Automatically adjusts columns based on min-width
+ * Perfect for card grids and responsive layouts
+ * 
+ * @param $min-column-width - Minimum width for each column
+ * @param $gap - Gap between columns
+ */
+@mixin fluid-auto-grid($min-column-width: 250px,
+    $gap: liquid.$gap-fluid-md) {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,
+            minmax(min($min-column-width, 100%), 1fr));
+    gap: $gap;
+}
+
+/**
+ * Fluid Auto-fill Grid
+ * Creates as many columns as can fit
+ */
+@mixin fluid-auto-fill-grid($min-column-width: 250px,
+    $gap: liquid.$gap-fluid-md) {
+    display: grid;
+    grid-template-columns: repeat(auto-fill,
+            minmax(min($min-column-width, 100%), 1fr));
+    gap: $gap;
+}
+
+// ==================================================
+// Fluid Flexbox
+// ==================================================
+
+/**
+ * Fluid Flex Container
+ * Base flexbox with fluid gap
+ */
+@mixin fluid-flex($direction: row,
+    $gap: liquid.$gap-fluid-md,
+    $justify: flex-start,
+    $align: stretch,
+    $wrap: wrap) {
+    display: flex;
+    flex-direction: $direction;
+    gap: $gap;
+    justify-content: $justify;
+    align-items: $align;
+    flex-wrap: $wrap;
+}
+
+/**
+ * Fluid Flex Center
+ * Centers content both horizontally and vertically
+ */
+@mixin fluid-flex-center($gap: liquid.$gap-fluid-md) {
+    display: flex;
+    flex-direction: row;
+    gap: $gap;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+/**
+ * Fluid Flex Between
+ * Space-between with centered items
+ */
+@mixin fluid-flex-between($gap: liquid.$gap-fluid-md) {
+    display: flex;
+    flex-direction: row;
+    gap: $gap;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+/**
+ * Fluid Flex Column
+ * Vertical flex layout
+ */
+@mixin fluid-flex-column($gap: liquid.$gap-fluid-md) {
+    display: flex;
+    flex-direction: column;
+    gap: $gap;
+}
+
+// ==================================================
+// Fluid Container Mixins
+// ==================================================
+
+/**
+ * Fluid Page Container
+ * Standard page wrapper with max-width
+ */
+@mixin fluid-page-container($max-width: liquid.$content-fluid-max) {
+    max-width: $max-width;
+    margin-inline: auto;
+    padding-inline: liquid.$spacing-fluid-6;
+    padding-block: liquid.$spacing-fluid-8;
+
+    @media (max-width: calc(vars.$breakpoint-md - 1px)) {
+        padding-inline: liquid.$spacing-fluid-4;
+        padding-block: liquid.$spacing-fluid-6;
+    }
+}
+
+/**
+ * Fluid Section Container
+ * Section wrapper with vertical spacing
+ */
+@mixin fluid-section($padding-block: liquid.$spacing-fluid-12) {
+    padding-block: $padding-block;
+
+    @media (max-width: calc(vars.$breakpoint-md - 1px)) {
+        padding-block: liquid.$spacing-fluid-8;
+    }
+}
+
+// ==================================================
+// Fluid Spacing Helpers
+// ==================================================
+
+/**
+ * Fluid Padding
+ * Applies responsive padding
+ */
+@mixin fluid-padding($size: 'md') {
+    @if $size =='xs' {
+        padding: liquid.$spacing-fluid-2;
+    }
+
+    @else if $size =='sm' {
+        padding: liquid.$spacing-fluid-4;
+    }
+
+    @else if $size =='md' {
+        padding: liquid.$spacing-fluid-6;
+    }
+
+    @else if $size =='lg' {
+        padding: liquid.$spacing-fluid-8;
+    }
+
+    @else if $size =='xl' {
+        padding: liquid.$spacing-fluid-12;
+    }
+}
+
+/**
+ * Fluid Padding Inline
+ */
+@mixin fluid-padding-inline($size: 'md') {
+    @if $size =='sm' {
+        padding-inline: liquid.$spacing-fluid-4;
+    }
+
+    @else if $size =='md' {
+        padding-inline: liquid.$spacing-fluid-6;
+    }
+
+    @else if $size =='lg' {
+        padding-inline: liquid.$spacing-fluid-8;
+    }
+}
+
+/**
+ * Fluid Padding Block
+ */
+@mixin fluid-padding-block($size: 'md') {
+    @if $size =='sm' {
+        padding-block: liquid.$spacing-fluid-4;
+    }
+
+    @else if $size =='md' {
+        padding-block: liquid.$spacing-fluid-6;
+    }
+
+    @else if $size =='lg' {
+        padding-block: liquid.$spacing-fluid-8;
+    }
+}
+
+/**
+ * Fluid Margin
+ */
+@mixin fluid-margin($size: 'md') {
+    @if $size =='sm' {
+        margin: liquid.$spacing-fluid-4;
+    }
+
+    @else if $size =='md' {
+        margin: liquid.$spacing-fluid-6;
+    }
+
+    @else if $size =='lg' {
+        margin: liquid.$spacing-fluid-8;
+    }
+}
+
+// ==================================================
+// Fluid Typography
+// ==================================================
+
+/**
+ * Fluid Font Size
+ * Custom clamp() generator for any size range
+ */
+@mixin fluid-font($min-size,
+    $max-size,
+    $min-viewport: 320px,
+    $max-viewport: 1920px) {
+    $slope: math.div(($max-size - $min-size), ($max-viewport - $min-viewport));
+    $y-intercept: -1 * $min-viewport * $slope + $min-size;
+
+    font-size: clamp($min-size,
+            $y-intercept + ($slope * 100vw),
+            $max-size );
+}
+
+/**
+ * Fluid Line Height
+ */
+@mixin fluid-line-height($variant: 'normal') {
+    @if $variant =='tight' {
+        line-height: liquid.$line-height-fluid-tight;
+    }
+
+    @else if $variant =='normal' {
+        line-height: liquid.$line-height-fluid-normal;
+    }
+
+    @else if $variant =='relaxed' {
+        line-height: liquid.$line-height-fluid-relaxed;
+    }
+}
+
+/**
+ * Fluid Heading
+ * Complete heading style with responsive typography
+ */
+@mixin fluid-heading($level: 2) {
+    @if $level ==1 {
+        font-size: liquid.$font-fluid-4xl;
+    }
+
+    @else if $level ==2 {
+        font-size: liquid.$font-fluid-3xl;
+    }
+
+    @else if $level ==3 {
+        font-size: liquid.$font-fluid-2xl;
+    }
+
+    @else if $level ==4 {
+        font-size: liquid.$font-fluid-xl;
+    }
+
+    @else if $level ==5 {
+        font-size: liquid.$font-fluid-lg;
+    }
+
+    @else if $level ==6 {
+        font-size: liquid.$font-fluid-base;
+    }
+
+    @include fluid-line-height('tight');
+    font-weight: vars.$font-weight-bold;
+}
+
+// ==================================================
+// Fluid Card Mixins
+// ==================================================
+
+/**
+ * Fluid Card
+ * Responsive card with fluid padding and radius
+ */
+@mixin fluid-card($padding: 'md') {
+    background: var(--color-bg-primary);
+    border-radius: liquid.$radius-fluid-lg;
+    border: 1px solid var(--color-border);
+
+    @if $padding =='sm' {
+        padding: liquid.$card-fluid-padding-sm;
+    }
+
+    @else if $padding =='md' {
+        padding: liquid.$card-fluid-padding-md;
+    }
+
+    @else if $padding =='lg' {
+        padding: liquid.$card-fluid-padding-lg;
+    }
+
+    transition: all vars.$transition-base;
+}
+
+/**
+ * Fluid Glass Card
+ * Card with glass panel effect
+ */
+@mixin fluid-glass-card($padding: 'md', $blur: 16px) {
+    @include fluid-card($padding);
+    backdrop-filter: blur($blur);
+    -webkit-backdrop-filter: blur($blur);
+    background: color-mix(in srgb, var(--color-bg-surface), transparent 30%);
+}
+
+// ==================================================
+// Fluid Modal/Overlay
+// ==================================================
+
+/**
+ * Fluid Modal
+ * Responsive modal with fluid dimensions
+ */
+@mixin fluid-modal($size: 'md') {
+    @if $size =='sm' {
+        max-width: liquid.$modal-fluid-width-sm;
+    }
+
+    @else if $size =='md' {
+        max-width: liquid.$modal-fluid-width-md;
+    }
+
+    @else if $size =='lg' {
+        max-width: liquid.$modal-fluid-width-lg;
+    }
+
+    @else if $size =='xl' {
+        max-width: liquid.$modal-fluid-width-xl;
+    }
+
+    width: 100%;
+    padding: liquid.$modal-fluid-padding;
+    border-radius: liquid.$radius-fluid-xl;
+}
+
+// ==================================================
+// Responsive Visibility Helpers
+// ==================================================
+
+/**
+ * Show only on mobile
+ */
+@mixin mobile-only {
+    @media (min-width: vars.$breakpoint-lg) {
+        display: none !important;
+    }
+}
+
+/**
+ * Hide on mobile
+ */
+@mixin desktop-only {
+    @media (max-width: calc(vars.$breakpoint-lg - 1px)) {
+        display: none !important;
+    }
+}
+
+/**
+ * Show only on tablet
+ */
+@mixin tablet-only {
+
+    @media (max-width: calc(vars.$breakpoint-md - 1px)),
+    (min-width: vars.$breakpoint-lg) {
+        display: none !important;
+    }
+}

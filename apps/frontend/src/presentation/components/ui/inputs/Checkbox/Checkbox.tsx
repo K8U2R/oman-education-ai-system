@@ -6,6 +6,7 @@
 
 import React from 'react'
 import { Check } from 'lucide-react'
+import styles from './Checkbox.module.scss'
 
 export interface CheckboxProps {
   /**
@@ -44,20 +45,6 @@ export interface CheckboxProps {
   name?: string
 }
 
-/**
- * Checkbox Component
- *
- * مكون صندوق الاختيار الموحد
- *
- * @example
- * ```tsx
- * <Checkbox
- *   checked={isChecked}
- *   onChange={setIsChecked}
- *   label="موافق على الشروط"
- * />
- * ```
- */
 export const Checkbox: React.FC<CheckboxProps> = ({
   checked,
   onChange,
@@ -74,7 +61,7 @@ export const Checkbox: React.FC<CheckboxProps> = ({
   }
 
   return (
-    <label className={`checkbox ${className} ${disabled ? 'checkbox--disabled' : ''}`}>
+    <label className={`${styles.label} ${disabled ? styles['label--disabled'] : ''} ${className}`}>
       <input
         type="checkbox"
         checked={checked}
@@ -82,12 +69,12 @@ export const Checkbox: React.FC<CheckboxProps> = ({
         disabled={disabled}
         id={id}
         name={name}
-        className="checkbox__input"
+        className={styles.input}
       />
-      <span className={`checkbox__checkmark ${checked ? 'checkbox__checkmark--checked' : ''}`}>
-        {checked && <Check size={14} className="checkbox__icon" />}
+      <span className={`${styles.checkmark} ${checked ? styles['checkmark--checked'] : ''}`}>
+        {checked && <Check size={14} />}
       </span>
-      {label && <span className="checkbox__label">{label}</span>}
+      {label && <span className={styles.labelText}>{label}</span>}
     </label>
   )
 }

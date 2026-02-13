@@ -4,7 +4,7 @@
  * أنواع موحدة لتوليد التقارير (PDF, Excel, CSV)
  */
 
-import type { BaseEntity, Metadata } from "./common.types";
+import type { BaseEntity, Metadata } from "../../shared/common.types.js";
 
 /**
  * Report Type - نوع التقرير

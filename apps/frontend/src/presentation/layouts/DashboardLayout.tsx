@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Outlet } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { Header } from '../components/shell/Header/Header'
 import { Sidebar } from '../components/shell/Sidebar/Sidebar'
 import Footer from '../components/shell/Footer'
@@ -21,6 +22,7 @@ interface DashboardLayoutProps {
  * Includes Sidebar, Header (with toggle), and Footer.
  */
 export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
+    const { i18n } = useTranslation()
     const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false)
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
     const { isSettingsModalOpen, settingsSection, closeSettings } = useUIStore()
@@ -51,7 +53,10 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) =>
     )
 
     return (
-        <div className={`layout-dashboard ${isSidebarCollapsed ? 'layout-dashboard--collapsed' : ''}`}>
+        <div
+            className={`layout-dashboard ${isSidebarCollapsed ? 'layout-dashboard--collapsed' : ''}`}
+            dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}
+        >
             <ProfessionalErrorPanel error={null} />
 
             <Header

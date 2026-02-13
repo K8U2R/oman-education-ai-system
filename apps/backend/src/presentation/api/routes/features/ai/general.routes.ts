@@ -6,7 +6,10 @@
 
 import { RouteFactory } from "../../shared/route-factory.js";
 import { AIHandler } from "../../../handlers/ai/ai.handler.js";
-import { authMiddleware, validateBody } from "../../../middleware/security/index.js";
+import {
+  authMiddleware,
+  validateBody,
+} from "../../../middleware/security/index.js";
 import { TokenizeRequestSchema } from "../../../dto/ai/ai.dto.js";
 
 const router = RouteFactory.createFeatureRouter();

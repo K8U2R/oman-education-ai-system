@@ -1,6 +1,6 @@
 /**
  * User Preferences Routes - مسارات التفضيلات
- * 
+ *
  * @law Law-10 (Scalability) - Preferences Domain
  */
 

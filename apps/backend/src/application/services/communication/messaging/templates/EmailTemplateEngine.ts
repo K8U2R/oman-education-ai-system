@@ -1,4 +1,3 @@
-
 /**
  * Email Template Engine - محرك قوالب البريد الإلكتروني
  *
@@ -6,14 +5,14 @@
  * Enforces Law 05 (Single Responsibility).
  */
 export class EmailTemplateEngine {
-    /**
-     * Generate Verification Email HTML
-     */
-    static generateVerificationEmailHtml(
-        userName: string,
-        verificationUrl: string,
-    ): string {
-        return `
+  /**
+   * Generate Verification Email HTML
+   */
+  static generateVerificationEmailHtml(
+    userName: string,
+    verificationUrl: string,
+  ): string {
+    return `
 <!DOCTYPE html>
 <html dir="rtl" lang="ar">
 <head>
@@ -61,16 +60,16 @@ export class EmailTemplateEngine {
 </body>
 </html>
     `.trim();
-    }
+  }
 
-    /**
-     * Generate Verification Email Text
-     */
-    static generateVerificationEmailText(
-        userName: string,
-        verificationUrl: string,
-    ): string {
-        return `
+  /**
+   * Generate Verification Email Text
+   */
+  static generateVerificationEmailText(
+    userName: string,
+    verificationUrl: string,
+  ): string {
+    return `
 مرحباً ${userName}!
 
 شكراً لتسجيلك في منصة عمان التعليمية للذكاء الاصطناعي.
@@ -83,16 +82,16 @@ ${verificationUrl}
 ---
 © 2026 Oman AI Education System
     `.trim();
-    }
+  }
 
-    /**
-     * Generate Password Reset Email HTML
-     */
-    static generatePasswordResetEmailHtml(
-        userName: string,
-        resetUrl: string,
-    ): string {
-        return `
+  /**
+   * Generate Password Reset Email HTML
+   */
+  static generatePasswordResetEmailHtml(
+    userName: string,
+    resetUrl: string,
+  ): string {
+    return `
 <!DOCTYPE html>
 <html dir="rtl" lang="ar">
 <head>
@@ -143,16 +142,16 @@ ${verificationUrl}
 </body>
 </html>
     `.trim();
-    }
+  }
 
-    /**
-     * Generate Password Reset Email Text
-     */
-    static generatePasswordResetEmailText(
-        userName: string,
-        resetUrl: string,
-    ): string {
-        return `
+  /**
+   * Generate Password Reset Email Text
+   */
+  static generatePasswordResetEmailText(
+    userName: string,
+    resetUrl: string,
+  ): string {
+    return `
 مرحباً ${userName}!
 
 لقد تلقينا طلباً لإعادة تعيين كلمة المرور الخاصة بك.
@@ -167,5 +166,5 @@ ${resetUrl}
 ---
 © 2026 Oman AI Education System
     `.trim();
-    }
+  }
 }

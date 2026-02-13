@@ -378,4 +378,3 @@ export interface WhitelistEntryResponse {
   entries: WhitelistEntryDto[];
   total: number;
 }
-

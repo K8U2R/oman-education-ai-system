@@ -1,12 +1,8 @@
-﻿/**
- * AI Chat Component - مكون محادثة AI
- *
- * مكون تفاعلي للمحادثة مع الذكاء الاصطناعي
- */
-
-import React, { useState, useRef, useEffect } from 'react'
+﻿import React, { useState, useRef, useEffect } from 'react'
 import { Send, Bot, User, Loader2 } from 'lucide-react'
 import { Button, Card } from '../common'
+import { useTranslation } from 'react-i18next'
+import styles from './AIChatComponent.module.scss'
 
 export interface ChatMessage {
   id: string
@@ -27,14 +23,18 @@ export const AIChatComponent: React.FC<AIChatComponentProps> = ({
   onSendMessage,
   onStreamMessage,
   initialMessages = [],
-  placeholder = 'اكتب رسالتك هنا...',
-  title = 'محادثة مع المساعد الذكي',
+  placeholder,
+  title,
 }) => {
+  const { t } = useTranslation()
   const [messages, setMessages] = useState<ChatMessage[]>(initialMessages)
   const [input, setInput] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLTextAreaElement>(null)
+
+  const effectivePlaceholder = placeholder || t('ai.input_placeholder')
+  const effectiveTitle = title || t('ai.chat_title')
 
   useEffect(() => {
     scrollToBottom()
@@ -91,7 +91,7 @@ export const AIChatComponent: React.FC<AIChatComponentProps> = ({
         const assistantMessage: ChatMessage = {
           id: (Date.now() + 1).toString(),
           role: 'assistant',
-          content: 'شكراً لرسالتك. أنا هنا لمساعدتك!',
+          content: t('ai.default_response'),
           timestamp: new Date(),
         }
         setMessages(prev => [...prev, assistantMessage])
@@ -101,7 +101,7 @@ export const AIChatComponent: React.FC<AIChatComponentProps> = ({
       const errorMessage: ChatMessage = {
         id: (Date.now() + 2).toString(),
         role: 'assistant',
-        content: 'عذراً، حدث خطأ أثناء معالجة رسالتك.',
+        content: t('ai.error_response'),
         timestamp: new Date(),
       }
       setMessages(prev => [...prev, errorMessage])
@@ -119,29 +119,29 @@ export const AIChatComponent: React.FC<AIChatComponentProps> = ({
   }
 
   return (
-    <Card className="ai-chat">
-      <div className="ai-chat__header">
-        <div className="ai-chat__title">
-          <Bot className="ai-chat__icon" />
-          <h3>{title}</h3>
+    <Card className={styles.container}>
+      <div className={styles.header}>
+        <div className={styles.title}>
+          <Bot className={styles.icon} />
+          <h3>{effectiveTitle}</h3>
         </div>
       </div>
 
-      <div className="ai-chat__messages">
+      <div className={styles.messages}>
         {messages.length === 0 ? (
-          <div className="ai-chat__empty">
-            <Bot className="ai-chat__empty-icon" />
-            <p>ابدأ محادثة مع المساعد الذكي</p>
+          <div className={styles.empty}>
+            <Bot className={styles.emptyIcon} />
+            <p>{t('ai.start_chat')}</p>
           </div>
         ) : (
           messages.map(message => (
-            <div key={message.id} className={`ai-chat__message ai-chat__message--${message.role}`}>
-              <div className="ai-chat__message-avatar">
+            <div key={message.id} className={`${styles.message} ${message.role === 'user' ? styles['message--user'] : styles['message--assistant']}`}>
+              <div className={styles.avatar}>
                 {message.role === 'user' ? <User /> : <Bot />}
               </div>
-              <div className="ai-chat__message-content">
-                <div className="ai-chat__message-text">{message.content}</div>
-                <div className="ai-chat__message-time">
+              <div className={styles.contentWrapper}>
+                <div className={styles.text}>{message.content}</div>
+                <div className={styles.time}>
                   {message.timestamp.toLocaleTimeString('ar-SA', {
                     hour: '2-digit',
                     minute: '2-digit',
@@ -152,14 +152,14 @@ export const AIChatComponent: React.FC<AIChatComponentProps> = ({
           ))
         )}
         {isLoading && (
-          <div className="ai-chat__message ai-chat__message--assistant">
-            <div className="ai-chat__message-avatar">
+          <div className={`${styles.message} ${styles['message--assistant']}`}>
+            <div className={styles.avatar}>
               <Bot />
             </div>
-            <div className="ai-chat__message-content">
-              <div className="ai-chat__message-text ai-chat__message-text--loading">
-                <Loader2 className="ai-chat__loader" />
-                <span>جاري الكتابة...</span>
+            <div className={styles.contentWrapper}>
+              <div className={`${styles.text} ${styles['text--loading']}`}>
+                <Loader2 className={styles.loader} />
+                <span>{t('ai.typing')}</span>
               </div>
             </div>
           </div>
@@ -167,14 +167,14 @@ export const AIChatComponent: React.FC<AIChatComponentProps> = ({
         <div ref={messagesEndRef} />
       </div>
 
-      <div className="ai-chat__input-container">
+      <div className={styles.inputContainer}>
         <textarea
           ref={inputRef}
-          className="ai-chat__input"
+          className={styles.input}
           value={input}
           onChange={e => setInput(e.target.value)}
           onKeyPress={handleKeyPress}
-          placeholder={placeholder}
+          placeholder={effectivePlaceholder}
           rows={1}
           disabled={isLoading}
         />
@@ -184,9 +184,9 @@ export const AIChatComponent: React.FC<AIChatComponentProps> = ({
           onClick={handleSend}
           disabled={!input.trim() || isLoading}
           leftIcon={isLoading ? <Loader2 /> : <Send />}
-          className="ai-chat__send-button"
+          className={styles.sendButton}
         >
-          إرسال
+          {t('ai.send')}
         </Button>
       </div>
     </Card>

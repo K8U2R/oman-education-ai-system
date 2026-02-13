@@ -4,8 +4,6 @@ import { enhancedLogger } from "../../../../shared/utils/EnhancedLogger.js";
 import { ContextRequest } from "./context.middleware.js";
 import { PerformanceOptimizer } from "../../../../infrastructure/performance/PerformanceOptimizer.js";
 
-
-
 export interface EnhancedPerformanceRequest extends ContextRequest {
   requestSize?: number;
   performanceOptimizer?: PerformanceOptimizer;

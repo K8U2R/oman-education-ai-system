@@ -1,118 +1,95 @@
 /**
- * Main Entry Point - API Gateway (Algorithmic Traffic Coordinator)
- * Updated with Anti-Zombie Protection & Connection Timeouts
+ * Main Server Entry Point
+ * Production-ready API Gateway with Redis support
  */
 
-import "reflect-metadata"; // Required for tsyringe
-import "dotenv/config"; // Must be first (after metadata)
+import "reflect-metadata";
 import express from "express";
 import type { Express } from "express";
-import { ENV_CONFIG } from "./infrastructure/config/env.config.js";
-import { validateEnvironment } from "./infrastructure/config/env.validator.js";
-import { logger } from "./shared/utils/logger.js";
-
-// ============================================================================
-// Environment Validation (CRITICAL - Run before anything else)
-// ============================================================================
-validateEnvironment();
-
-// ============================================================================
-// Application Setup
-// ============================================================================
 import http from "http";
+import { logger } from "./shared/utils/logger.js";
 import { bootstrap } from "./bootstrap.js";
 import { setupAuthMiddleware } from "./infrastructure/auth/auth.middleware.js";
-import {
-  setupPreRouteMiddleware,
-  setupPostRouteMiddleware,
-} from "./presentation/api/middleware/pipeline.js";
+import { Pipeline } from "./presentation/api/middleware/index.js";
 import coreRouter from "./presentation/api/routes/index.js";
 
 const app: Express = express();
 
-/**
- * 🛡️ Anti-Hang Middleware (Law 1: 10-Second Sovereignty)
- * يقتل أي طلب لا يستجيب خلال 10 ثوانٍ لمنع تراكم الاتصالات المعلقة
- */
+// Request timeout middleware (10 seconds)
 app.use((req, res, next) => {
   res.setTimeout(10000, () => {
-    logger.error(`❌ [TIMEOUT] Request to ${req.method} ${req.url} timed out > 10s`);
-    res.status(408).send("Request Timeout - Server took too long");
+    logger.error(`Request timeout: ${req.method} ${req.url}`);
+    res.status(408).send("Request Timeout");
   });
   next();
 });
 
 async function startServer() {
   try {
-    // ════════════════════════════════════════════════════════════════════════
-    // STEP 0: Priority Health Check (No Middleware Blocking)
-    // ════════════════════════════════════════════════════════════════════════
-    app.get("/api/health", (_req, res) => {
+    // Health check endpoint (before middleware)
+    app.get("/api/health", async (_req, res) => {
+      let redisStatus = "not_initialized";
+      try {
+        const { redisClient } = await import("./infrastructure/cache/RedisClient.js");
+        redisStatus = (await redisClient.isHealthy()) ? "connected" : "disconnected";
+      } catch {
+        redisStatus = "unavailable";
+      }
+
       res.status(200).json({
-        status: "ok"
+        status: "ok",
+        redis: redisStatus,
+        timestamp: new Date().toISOString(),
       });
     });
 
-    // ════════════════════════════════════════════════════════════════════════
-    // STEP 2: Strict System Bootstrap (Kernel & Database)
-    // ════════════════════════════════════════════════════════════════════════
-    logger.info("⏳ [1/4] Starting Sovereign System Kernel...");
+    // Bootstrap system (database, config)
+    logger.info("Starting system bootstrap...");
     const settings = await bootstrap();
-    logger.info("✅ [2/4] Kernel Bootstrap Successful.");
+    logger.info("✅ Bootstrap complete");
 
-    // ════════════════════════════════════════════════════════════════════════
-    // STEP 3: Middleware Pipeline Setup
-    // ════════════════════════════════════════════════════════════════════════
-    logger.info("⏳ [3/4] Initializing Middleware Pipelines...");
-    setupPreRouteMiddleware(app, settings);
-    // Authentication middleware (Session + Passport)
+    // Connect to Redis
+    logger.info("Connecting to Redis...");
+    try {
+      const { redisClient } = await import("./infrastructure/cache/RedisClient.js");
+      await redisClient.connect();
+      logger.info("✅ Redis connected");
+    } catch (error) {
+      logger.warn("Redis connection failed (non-fatal):", error);
+    }
+
+    // Setup middleware pipeline
+    logger.info("Initializing middleware...");
+    Pipeline.setupPreRouteMiddleware(app, settings);
     await setupAuthMiddleware(app, settings);
 
-    // Sovereign App Routes
-    // app.use("/api/v1", oauthRoutes);
+    // Register routes
     app.use("/api/v1", coreRouter);
+    Pipeline.setupPostRouteMiddleware(app);
 
-    // Finalize Pipeline (404 and Error handling)
-    setupPostRouteMiddleware(app);
-
-    // ════════════════════════════════════════════════════════════════════════
-    // STEP 3: Safe Server Binding
-    // ════════════════════════════════════════════════════════════════════════
+    // Start HTTP server
     const { ENV_CONFIG } = await import("./infrastructure/config/env.config.js");
     const PORT = ENV_CONFIG.PORT || 3000;
 
-    logger.info(`⏳ [4/4] Attempting to bind to PORT: ${PORT}`);
-
-    // Create Server Instance explicitly to control timeouts
     const server = http.createServer(app);
-
-    // Hard Timeout for TCP Connections (Kill zombies at TCP level)
     server.timeout = 10000;
     server.keepAliveTimeout = 5000;
 
     server.listen(PORT, () => {
-      logger.info(`
-╔══════════════════════════════════════════════════════════════════════════════╗
-║                    🚀 SERVER READY                                           ║
-╚══════════════════════════════════════════════════════════════════════════════╝
-`);
-      logger.info(`📡 URL: http://localhost:${PORT}`);
-      logger.info(`🩺 Health: http://localhost:${PORT}/health`);
-      logger.info(`🚀 Sovereign System Ready on Port ${PORT}`);
+      logger.info(`🚀 Server ready on port ${PORT}`);
+      logger.info(`📡 Health: http://localhost:${PORT}/api/health`);
     });
 
-    // Handle Port Collision Errors
-    server.on('error', (e: NodeJS.ErrnoException) => {
-      if (e.code === 'EADDRINUSE') {
-        logger.error(`❌ FATAL: Port ${PORT} is already in use! Kill the zombie process.`);
+    server.on("error", (e: NodeJS.ErrnoException) => {
+      if (e.code === "EADDRINUSE") {
+        logger.error(`Port ${PORT} is already in use`);
         process.exit(1);
       } else {
-        logger.error("❌ Server Error:", e);
+        logger.error("Server error:", e);
       }
     });
-
   } catch (error) {
-    logger.error("❌ CRITICAL FAILURE:", error);
+    logger.error("Critical startup failure:", error);
     process.exit(1);
   }
 }

@@ -1,0 +1,25 @@
+@use '@/styles/abstracts/liquid-variables' as liquid;
+
+.footer-social {
+    display: flex;
+    gap: liquid.$spacing-fluid-2; // sm
+    margin-block-start: liquid.$spacing-fluid-4; // md
+
+    @media (min-width: 768px) {
+        margin-block-start: 0;
+    }
+
+    &__link {
+        color: var(--color-muted-foreground);
+        transition: color 0.2s ease;
+        min-height: 2.75rem; // ~44px Touch Target
+        min-width: 2.75rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &:hover {
+            color: var(--color-primary);
+        }
+    }
+}

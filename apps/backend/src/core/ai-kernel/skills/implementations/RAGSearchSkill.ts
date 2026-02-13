@@ -30,7 +30,10 @@ export class RAGSearchSkill implements ISkill<SearchInput, unknown> {
       container.resolve<KnowledgeBaseService>("KnowledgeBaseService");
   }
 
-  public async execute(input: SearchInput, _context: unknown): Promise<unknown> {
+  public async execute(
+    input: SearchInput,
+    _context: unknown,
+  ): Promise<unknown> {
     logger.info(`[RAGSkill] Searching for: ${input.query}`);
     // Assuming KnowledgeBaseService has a 'search' or 'retrieve' method.
     // Based on previous view, it had ingestDocument. I need to check if it has search.

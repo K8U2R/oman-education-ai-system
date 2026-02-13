@@ -6,7 +6,10 @@
 
 import { RouteFactory } from "../shared/route-factory.js";
 import { SessionHandler } from "../../handlers/system/session.handler.js";
-import { authMiddleware, requireAdmin } from "../../middleware/security/index.js";
+import {
+  authMiddleware,
+  requireAdmin,
+} from "../../middleware/security/index.js";
 
 const router = RouteFactory.createFeatureRouter();
 

@@ -1,0 +1,55 @@
+// ===================================
+// Lessons Page Styles (Sovereign Compliant)
+// ===================================
+
+.lessons-page {
+    padding-bottom: var(--space-xl);
+
+    // Header (PageHeader) handled mostly by shared component, but wrapper adjustments here
+
+    // Search & Filter
+    &__search {
+        margin-bottom: var(--space-xl);
+    }
+
+    &__search-container {
+        display: flex;
+        gap: var(--space-md);
+        align-items: center;
+        max-width: 800px;
+        margin: 0 auto;
+
+        @media (max-width: 640px) {
+            flex-direction: column;
+            align-items: stretch;
+        }
+    }
+
+    &__search-input {
+        flex: 1;
+    }
+
+    // Grid Layout
+    &__grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: var(--space-lg);
+    }
+}
+
+// Lesson Card (if not shared, define here, but ideally should be in component styles)
+// We assume LessonCard might need scoped styles if not using global classes
+.lesson-card {
+    // Ensuring card matches system
+    background: hsl(var(--card));
+    border: 1px solid hsl(var(--border));
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    transition: all var(--transition-base);
+
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-lg);
+        border-color: hsl(var(--primary));
+    }
+}

@@ -1,0 +1,67 @@
+@use '@/styles/abstracts/liquid-variables' as liquid;
+
+/**
+ * Empty State Component Styles
+ * @law Law-6 (Visual Sovereign)
+ * @law Law-14 (Package Sovereignty)
+ */
+
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: liquid.$spacing-fluid-8;
+    text-align: center;
+    gap: liquid.$spacing-fluid-4;
+
+    // Style Variant: Clean & Minimal
+    background: transparent;
+    border: 1px dashed var(--color-border);
+    border-radius: liquid.$radius-fluid-lg;
+    min-height: 200px;
+
+    &__icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: clamp(3rem, 8vw, 4rem);
+        height: clamp(3rem, 8vw, 4rem);
+        background: var(--color-bg-subtle);
+        border-radius: 50%;
+        color: var(--color-muted-foreground);
+        margin-bottom: liquid.$spacing-fluid-2;
+
+        svg {
+            width: 50%;
+            height: 50%;
+        }
+    }
+
+    &__content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: liquid.$spacing-fluid-2;
+        width: 100%;
+        max-width: 400px;
+    }
+
+    &__title {
+        font-size: liquid.$font-fluid-base;
+        font-weight: 600;
+        color: var(--color-foreground);
+        margin: 0;
+    }
+
+    &__description {
+        font-size: liquid.$font-fluid-sm;
+        color: var(--color-muted-foreground);
+        line-height: liquid.$line-height-fluid-relaxed;
+        margin: 0;
+    }
+
+    &__actions {
+        margin-top: liquid.$spacing-fluid-4;
+    }
+}

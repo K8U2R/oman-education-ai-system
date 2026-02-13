@@ -1,6 +1,6 @@
 /**
  * Discovery Sub-domain Barrel - بوابة تصدير الاكتشاف
- * 
+ *
  * @law Law-1 (Barrel Law)
  */
 

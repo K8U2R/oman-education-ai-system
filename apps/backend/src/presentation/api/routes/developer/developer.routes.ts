@@ -6,7 +6,10 @@
 
 import { RouteFactory } from "../shared/route-factory.js";
 import { DeveloperController } from "@/modules/user/controllers/developer.controller.js";
-import { authMiddleware, requireDeveloper } from "../../middleware/security/index.js";
+import {
+  authMiddleware,
+  requireDeveloper,
+} from "../../middleware/security/index.js";
 
 const router = RouteFactory.createFeatureRouter();
 

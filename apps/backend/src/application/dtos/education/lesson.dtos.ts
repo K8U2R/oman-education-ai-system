@@ -6,11 +6,11 @@ import { EducationLevel } from "@/domain/types/education-types.js";
  * Input data required to trigger lesson generation
  */
 export interface GenerateLessonRequest {
-    trackId: string;
-    unitId: string;
-    topic: string;
-    level: EducationLevel;
-    additionalContext?: string; // Optional context for the AI
+  trackId: string;
+  unitId: string;
+  topic: string;
+  level: EducationLevel;
+  additionalContext?: string; // Optional context for the AI
 }
 
 /**
@@ -18,12 +18,12 @@ export interface GenerateLessonRequest {
  * The result returned to the controller
  */
 export interface GenerateLessonResponse {
-    lesson: EducationalLesson;
-    usage: {
-        tokensConsumed: number;
-        model: string;
-        processingTimeMs?: number;
-    };
+  lesson: EducationalLesson;
+  usage: {
+    tokensConsumed: number;
+    model: string;
+    processingTimeMs?: number;
+  };
 }
 
 /**
@@ -31,13 +31,13 @@ export interface GenerateLessonResponse {
  * Defines the expected structure of the AI's JSON response
  */
 export interface AILessonSchema {
-    title: string;
-    summary: string;
-    contentMarkdown: string; // The main educational content
-    keywords: string[];
-    quiz: {
-        question: string;
-        options: string[];
-        correctOptionIndex: number;
-    }[];
+  title: string;
+  summary: string;
+  contentMarkdown: string; // The main educational content
+  keywords: string[];
+  quiz: {
+    question: string;
+    options: string[];
+    correctOptionIndex: number;
+  }[];
 }

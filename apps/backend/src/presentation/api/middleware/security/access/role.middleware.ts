@@ -8,7 +8,10 @@ import { Request, Response, NextFunction } from "express";
 import { AuthService } from "@/modules/auth/services/identity/AuthService.js";
 import { WhitelistService } from "@/modules/auth/services/account/WhitelistService.js";
 import { container } from "../../../../../infrastructure/di/index.js";
-import { UserRole, Permission } from "../../../../../domain/types/auth/index.js";
+import {
+  UserRole,
+  Permission,
+} from "../../../../../domain/types/auth/index.js";
 import { RoleService } from "../../../../../domain/services/role.service.js";
 import { logger } from "../../../../../shared/utils/logger.js";
 
@@ -242,7 +245,12 @@ export function requirePermission(requiredPermission: Permission) {
             user.whitelistEntryId,
           );
 
-          if (whitelistEntry && whitelistEntry.is_active && (!whitelistEntry.expires_at || new Date(whitelistEntry.expires_at) > new Date())) {
+          if (
+            whitelistEntry &&
+            whitelistEntry.is_active &&
+            (!whitelistEntry.expires_at ||
+              new Date(whitelistEntry.expires_at) > new Date())
+          ) {
             userPermissions = whitelistEntry.permissions as Permission[];
           } else {
             // Whitelist entry is invalid, fall back to default
@@ -371,7 +379,12 @@ export function requireAllPermissions(requiredPermissions: Permission[]) {
             user.whitelistEntryId,
           );
 
-          if (whitelistEntry && whitelistEntry.is_active && (!whitelistEntry.expires_at || new Date(whitelistEntry.expires_at) > new Date())) {
+          if (
+            whitelistEntry &&
+            whitelistEntry.is_active &&
+            (!whitelistEntry.expires_at ||
+              new Date(whitelistEntry.expires_at) > new Date())
+          ) {
             userPermissions = whitelistEntry.permissions as Permission[];
           } else {
             // Whitelist entry is invalid, fall back to default

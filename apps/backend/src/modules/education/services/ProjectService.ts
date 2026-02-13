@@ -3,35 +3,41 @@ import { DatabaseCoreAdapter } from "@/infrastructure/adapters/db/DatabaseCoreAd
 import { CreateProjectDTO, UpdateProjectDTO } from "../dto/project.dto.js";
 
 export class ProjectService extends EnhancedBaseService {
-    constructor(databaseAdapter: DatabaseCoreAdapter) {
-        super(databaseAdapter);
-    }
+  constructor(databaseAdapter: DatabaseCoreAdapter) {
+    super(databaseAdapter);
+  }
 
-    protected getServiceName(): string {
-        return "ProjectService";
-    }
+  protected getServiceName(): string {
+    return "ProjectService";
+  }
 
-    async createProject(data: CreateProjectDTO): Promise<any> {
-        return { id: "new-project", ...data };
-    }
+  async createProject(data: CreateProjectDTO): Promise<any> {
+    return { id: "new-project", ...data };
+  }
 
-    async getProjects(_filters: { created_by?: string }): Promise<{ projects: any[] }> {
-        return { projects: [] };
-    }
+  async getProjects(_filters: {
+    created_by?: string;
+  }): Promise<{ projects: any[] }> {
+    return { projects: [] };
+  }
 
-    async getProject(id: string): Promise<any> {
-        return { id, title: "Placeholder Project", created_by: "system" };
-    }
+  async getProject(id: string): Promise<any> {
+    return { id, title: "Placeholder Project", created_by: "system" };
+  }
 
-    async updateProject(_id: string, data: UpdateProjectDTO, _userId: string): Promise<any> {
-        return { updated: true, ...data };
-    }
+  async updateProject(
+    _id: string,
+    data: UpdateProjectDTO,
+    _userId: string,
+  ): Promise<any> {
+    return { updated: true, ...data };
+  }
 
-    async deleteProject(_id: string, _userId: string): Promise<void> {
-        return;
-    }
+  async deleteProject(_id: string, _userId: string): Promise<void> {
+    return;
+  }
 
-    async getProjectProgress(_id: string): Promise<any> {
-        return { progress: 0 };
-    }
+  async getProjectProgress(_id: string): Promise<any> {
+    return { progress: 0 };
+  }
 }

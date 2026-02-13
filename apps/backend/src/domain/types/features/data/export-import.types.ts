@@ -4,7 +4,7 @@
  * أنواع موحدة لعمليات التصدير والاستيراد
  */
 
-import type { BaseEntity, Metadata } from "./common.types";
+import type { BaseEntity, Metadata } from "../../shared/common.types.js";
 
 /**
  * Export Format - تنسيق التصدير

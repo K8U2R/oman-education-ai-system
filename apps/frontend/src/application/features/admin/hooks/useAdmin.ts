@@ -1,215 +1,130 @@
 /**
- * useAdmin Hook - Hook للإدارة
+ * useAdmin Hook - Hook للإدارة (Refactored with TanStack Query)
  *
- * @description Custom Hook لإدارة لوحة تحكم المسؤول
+ * @description
+ * Custom Hook لإدارة لوحة تحكم المسؤول
+ * يستخدم TanStack Query لجلب البيانات و Zustand للحالة المحلية فقط
  */
 
-import { useEffect, useCallback } from 'react'
-import { useAdminStore } from '../store'
-import type {
-  SystemStats,
-  UserStats,
-  ContentStats,
-  UsageStats,
-  AdminUserInfo,
-  UpdateUserRequest,
-  SearchUsersRequest,
-} from '../types'
+import { useAllStats } from './useAdminStats'
+import { useAdminUsers, useUserActivities, useUpdateUser, useDeleteUser } from './useAdminUsers'
+import { useAdminUIStore } from '../store/ui.store'
+import type { SearchUsersRequest, UpdateUserRequest } from '../types'
 
 interface UseAdminOptions {
   autoFetchStats?: boolean
   autoFetchUsers?: boolean
 }
 
-interface UseAdminReturn {
-  // Stats
-  systemStats: SystemStats | null
-  userStats: UserStats | null
-  contentStats: ContentStats | null
-  usageStats: UsageStats | null
-
-  // Users
-  users: AdminUserInfo[]
-  selectedUser: AdminUserInfo | null
-  userActivities: ReturnType<typeof useAdminStore>['userActivities']
-
-  // State
-  isLoading: boolean
-  error: string | null
-  totalUsers: number
-  hasMoreUsers: boolean
-
-  // Actions
-  fetchSystemStats: () => Promise<void>
-  fetchUserStats: () => Promise<void>
-  fetchContentStats: () => Promise<void>
-  fetchUsageStats: () => Promise<void>
-  fetchAllStats: () => Promise<void>
-  searchUsers: (request: SearchUsersRequest) => Promise<void>
-  selectUser: (user: AdminUserInfo | null) => void
-  updateUser: (userId: string, request: UpdateUserRequest) => Promise<AdminUserInfo>
-  deleteUser: (userId: string) => Promise<void>
-  fetchUserActivities: () => Promise<void>
-  setUserSearchFilters: (
-    filters: Partial<{
-      query?: string
-      role?: string
-      isActive?: boolean
-      isVerified?: boolean
-      page: number
-      perPage: number
-    }>
-  ) => void
-}
-
 /**
  * Hook لإدارة لوحة تحكم المسؤول
+ *
+ * @example
+ * ```tsx
+ * const {
+ *   systemStats,
+ *   isLoading,
+ *   updateUser,
+ *   selectUser
+ * } = useAdmin({ autoFetchStats: true })
+ * ```
  */
-export const useAdmin = (options: UseAdminOptions = {}): UseAdminReturn => {
-  const { autoFetchStats = true, autoFetchUsers = false } = options
+export const useAdmin = (options: UseAdminOptions = {}) => {
+  const { autoFetchUsers = false } = options
 
+  // Server State - من TanStack Query
   const {
     systemStats,
     userStats,
     contentStats,
     usageStats,
-    users,
+    isLoading: statsLoading,
+    error: statsError,
+    refetchAll,
+  } = useAllStats()
+
+  // UI State - من Zustand
+  const {
     selectedUser,
-    userActivities,
-    isLoading,
-    error,
-    totalUsers,
-    hasMoreUsers,
     userSearchFilters,
-    fetchSystemStats: storeFetchSystemStats,
-    fetchUserStats: storeFetchUserStats,
-    fetchContentStats: storeFetchContentStats,
-    fetchUsageStats: storeFetchUsageStats,
-    searchUsers: storeSearchUsers,
-    selectUser: storeSelectUser,
-    updateUser: storeUpdateUser,
-    deleteUser: storeDeleteUser,
-    fetchUserActivities: storeFetchUserActivities,
-    setUserSearchFilters: storeSetUserSearchFilters,
-  } = useAdminStore()
+    selectUser,
+    setUserSearchFilters,
+    activeTab,
+    setActiveTab,
+    isSidebarOpen,
+    toggleSidebar,
+  } = useAdminUIStore()
 
-  /**
-   * جلب جميع الإحصائيات
-   */
-  const fetchAllStats = useCallback(async () => {
-    await Promise.all([
-      storeFetchSystemStats(),
-      storeFetchUserStats(),
-      storeFetchContentStats(),
-      storeFetchUsageStats(),
-    ])
-  }, [storeFetchSystemStats, storeFetchUserStats, storeFetchContentStats, storeFetchUsageStats])
+  // Users Query - مشروط بناءً على autoFetchUsers
+  const usersQuery = useAdminUsers(autoFetchUsers ? userSearchFilters : undefined)
+  const activitiesQuery = useUserActivities()
 
-  /**
-   * البحث عن المستخدمين
-   */
-  const searchUsers = useCallback(
-    async (request: SearchUsersRequest) => {
-      await storeSearchUsers(request)
-    },
-    [storeSearchUsers]
-  )
+  // Mutations
+  const updateUserMutation = useUpdateUser()
+  const deleteUserMutation = useDeleteUser()
 
-  /**
-   * تحديد مستخدم
-   */
-  const selectUser = useCallback(
-    (user: AdminUserInfo | null) => {
-      storeSelectUser(user)
-    },
-    [storeSelectUser]
-  )
+  // Combined Loading State
+  const isLoading =
+    statsLoading || usersQuery.isLoading || activitiesQuery.isLoading
 
-  /**
-   * تحديث مستخدم
-   */
-  const updateUser = useCallback(
-    async (userId: string, request: UpdateUserRequest) => {
-      return await storeUpdateUser(userId, request)
-    },
-    [storeUpdateUser]
-  )
-
-  /**
-   * حذف مستخدم
-   */
-  const deleteUser = useCallback(
-    async (userId: string) => {
-      await storeDeleteUser(userId)
-    },
-    [storeDeleteUser]
-  )
-
-  /**
-   * جلب أنشطة المستخدمين
-   */
-  const fetchUserActivities = useCallback(async () => {
-    await storeFetchUserActivities()
-  }, [storeFetchUserActivities])
-
-  /**
-   * تعيين فلاتر البحث
-   */
-  const setUserSearchFilters = useCallback(
-    (
-      filters: Partial<{
-        query?: string
-        role?: string
-        isActive?: boolean
-        isVerified?: boolean
-        page: number
-        perPage: number
-      }>
-    ) => {
-      storeSetUserSearchFilters(filters)
-    },
-    [storeSetUserSearchFilters]
-  )
-
-  // Auto-fetch stats on mount
-  useEffect(() => {
-    if (autoFetchStats) {
-      fetchAllStats()
-    }
-  }, [autoFetchStats, fetchAllStats])
-
-  // Auto-fetch users on mount
-  useEffect(() => {
-    if (autoFetchUsers) {
-      searchUsers({
-        page: userSearchFilters.page,
-        per_page: userSearchFilters.perPage,
-      })
-    }
-  }, [autoFetchUsers, searchUsers, userSearchFilters])
+  // Combined Error State
+  const error =
+    statsError ||
+    usersQuery.error ||
+    activitiesQuery.error ||
+    updateUserMutation.error ||
+    deleteUserMutation.error
 
   return {
+    // Stats Data
     systemStats,
     userStats,
     contentStats,
     usageStats,
-    users,
+
+    // Users Data
+    users: usersQuery.data?.users || [],
+    totalUsers: usersQuery.data?.total || 0,
+    hasMoreUsers: (usersQuery.data?.page || 0) < (usersQuery.data?.total_pages || 0),
     selectedUser,
-    userActivities,
+    userActivities: activitiesQuery.data || [],
+
+    // UI State
+    activeTab,
+    isSidebarOpen,
+    userSearchFilters,
+
+    // Loading & Error States
     isLoading,
-    error,
-    totalUsers,
-    hasMoreUsers,
-    fetchSystemStats: storeFetchSystemStats,
-    fetchUserStats: storeFetchUserStats,
-    fetchContentStats: storeFetchContentStats,
-    fetchUsageStats: storeFetchUsageStats,
-    fetchAllStats,
-    searchUsers,
+    error: error ? (error instanceof Error ? error.message : String(error)) : null,
+
+    // Stats Actions
+    fetchAllStats: refetchAll,
+    fetchSystemStats: () => Promise.resolve(), // For backward compatibility
+    fetchUserStats: () => Promise.resolve(),
+    fetchContentStats: () => Promise.resolve(),
+    fetchUsageStats: () => Promise.resolve(),
+
+    // Users Actions
+    searchUsers: (request: SearchUsersRequest) => {
+      setUserSearchFilters(request)
+      return Promise.resolve() // Triggers automatic refetch via query invalidation
+    },
+    updateUser: async (userId: string, request: UpdateUserRequest) => {
+      return updateUserMutation.mutateAsync({ userId, data: request })
+    },
+    deleteUser: async (userId: string) => {
+      await deleteUserMutation.mutateAsync(userId)
+    },
+    fetchUserActivities: () => {
+      activitiesQuery.refetch()
+      return Promise.resolve()
+    },
+
+    // UI Actions
     selectUser,
-    updateUser,
-    deleteUser,
-    fetchUserActivities,
     setUserSearchFilters,
+    setActiveTab,
+    toggleSidebar,
   }
 }

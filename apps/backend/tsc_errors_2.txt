@@ -1,0 +1,27 @@
+src/application/use-cases/auth/RequestPasswordResetUseCase.test.ts(8,30): error TS2307: Cannot find module '@/application/services/email' or its corresponding type declarations.
+src/infrastructure/adapters/email/NodemailerAdapter.ts(10,14): error TS2420: Class 'NodemailerAdapter' incorrectly implements interface 'IEmailProvider'.
+  Property 'validate' is missing in type 'NodemailerAdapter' but required in type 'IEmailProvider'.
+src/infrastructure/adapters/email/NodemailerAdapter.ts(37,31): error TS2339: Property 'htmlBody' does not exist on type 'EmailOptions'.
+src/infrastructure/adapters/email/NodemailerAdapter.ts(38,31): error TS2339: Property 'textBody' does not exist on type 'EmailOptions'.
+src/infrastructure/config/environment/index.ts(7,15): error TS2307: Cannot find module './schema.js' or its corresponding type declarations.
+src/infrastructure/config/index.ts(24,15): error TS2307: Cannot find module './environment/schema.js' or its corresponding type declarations.
+src/infrastructure/di/modules/communication.module.ts(5,37): error TS2307: Cannot find module '../../../../presentation/api/handlers/communication/NotificationHandler.js' or its corresponding type declarations.
+src/infrastructure/di/modules/education.module.ts(61,47): error TS2554: Expected 1 arguments, but got 3.
+src/infrastructure/repositories/GoogleOAuthRepository.ts(69,11): error TS2300: Duplicate identifier 'google_email'.
+src/infrastructure/repositories/GoogleOAuthRepository.ts(70,11): error TS2300: Duplicate identifier 'google_email'.
+src/modules/education/interfaces/http/controllers/EducationController.ts(68,50): error TS2554: Expected 3-4 arguments, but got 1.
+src/modules/education/services/AssessmentService.test.ts(9,5): error TS2305: Module '"@/domain/types/shared"' has no exported member 'Assessment'.
+src/modules/education/services/AssessmentService.test.ts(10,5): error TS2305: Module '"@/domain/types/shared"' has no exported member 'CreateAssessmentRequest'.
+src/modules/education/services/AssessmentService.test.ts(11,5): error TS2305: Module '"@/domain/types/shared"' has no exported member 'UpdateAssessmentRequest'.
+src/modules/education/services/AssessmentService.test.ts(12,5): error TS2305: Module '"@/domain/types/shared"' has no exported member 'SubmitAssessmentRequest'.
+src/modules/education/services/AssessmentService.test.ts(13,5): error TS2305: Module '"@/domain/types/shared"' has no exported member 'AssessmentSubmission'.
+src/modules/education/services/AssessmentService.test.ts(65,51): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/modules/education/services/AssessmentService.test.ts(65,54): error TS7006: Parameter 'index' implicitly has an 'any' type.
+src/modules/learning/CourseService.ts(9,36): error TS2304: Cannot find name 'courses'.
+src/modules/learning/learning.service.ts(69,17): error TS2322: Type '{ content: string; threadId: string; }' is not assignable to type 'string'.
+src/presentation/api/middleware/diagnostics/not-found.middleware.ts(97,5): error TS6133: 'req' is declared but its value is never read.
+src/presentation/api/middleware/subscription/usage-limit.middleware.ts(53,27): error TS6133: 'res' is declared but its value is never read.
+src/presentation/api/middleware/subscription/usage-limit.middleware.ts(71,13): error TS6133: 'req' is declared but its value is never read.
+src/presentation/api/middleware/subscription/usage-limit.middleware.ts(71,27): error TS6133: 'res' is declared but its value is never read.
+src/presentation/middleware/TierGuard.ts(11,15): error TS2451: Cannot redeclare block-scoped variable 'user'.
+src/presentation/middleware/TierGuard.ts(21,15): error TS2451: Cannot redeclare block-scoped variable 'user'.

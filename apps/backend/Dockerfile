@@ -12,9 +12,10 @@ COPY . .
 RUN npm install
 
 # Generate Prisma
+# Generate Prisma
 RUN npx prisma generate
 
-# Expose the API port
+# Expose the API portن
 EXPOSE 30000
 
 # Start directly via tsx to avoid bundling issues

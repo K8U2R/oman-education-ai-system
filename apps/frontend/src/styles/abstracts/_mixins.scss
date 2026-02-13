@@ -1,4 +1,6 @@
 @use 'sass:string';
+@use 'variables' as *;
+@use 'liquid-variables' as liquid;
 
 /**
  * SCSS Mixins - خلطات التصميم
@@ -218,6 +220,60 @@
 }
 
 // ============================================================================
+// Typography Mixins
+// ============================================================================
+
+@mixin typography-h1 {
+  font-size: liquid.$font-fluid-4xl;
+  font-weight: $font-weight-bold;
+  line-height: liquid.$line-height-fluid-tight;
+}
+
+@mixin typography-h2 {
+  font-size: liquid.$font-fluid-3xl;
+  font-weight: $font-weight-bold;
+  line-height: liquid.$line-height-fluid-tight;
+}
+
+@mixin typography-h3 {
+  font-size: liquid.$font-fluid-2xl;
+  font-weight: $font-weight-bold;
+  line-height: liquid.$line-height-fluid-tight;
+}
+
+@mixin typography-h4 {
+  font-size: liquid.$font-fluid-xl;
+  font-weight: $font-weight-bold;
+  line-height: liquid.$line-height-fluid-normal;
+}
+
+@mixin typography-body-lg {
+  font-size: liquid.$font-fluid-lg;
+  line-height: liquid.$line-height-fluid-relaxed;
+}
+
+@mixin typography-body-md {
+  font-size: liquid.$font-fluid-base;
+  line-height: liquid.$line-height-fluid-relaxed;
+}
+
+@mixin typography-body-sm {
+  font-size: liquid.$font-fluid-sm;
+  line-height: liquid.$line-height-fluid-normal;
+}
+
+@mixin typography-body-xs {
+  font-size: liquid.$font-fluid-xs;
+  line-height: liquid.$line-height-fluid-normal;
+}
+
+@mixin truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+// ============================================================================
 // Responsive Mixins
 // ============================================================================
 
@@ -259,6 +315,33 @@
   }
 }
 
+// Responsive Shortcuts
+@mixin mobile {
+  @include respond-to(sm, max) {
+    @content;
+  }
+}
+
+@mixin mobile-only {
+
+  // Alias for sm, max
+  @include respond-to(sm, max) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @include respond-to(md) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @include respond-to(lg) {
+    @content;
+  }
+}
+
 // ============================================================================
 // Animation Mixins
 // ============================================================================
@@ -294,6 +377,20 @@
 // ============================================================================
 // Comfort Mixins - ميكسينز الراحة
 // ============================================================================
+
+/**
+ * Loading Spinner Mixin
+ * Creates a rotating spinner
+ */
+@mixin loading-spinner($size: 1.5rem, $color: var(--color-primary), $border-width: 2px) {
+  width: $size;
+  height: $size;
+  border: $border-width solid color-mix(in srgb, #{$color}, transparent 80%);
+  border-top-color: $color;
+  border-radius: 50%;
+  @include spin;
+}
+
 
 /**
  * Comfortable Card - بطاقة مريحة
@@ -529,16 +626,16 @@
 
   &::before {
     top: 0;
-    left: 0;
+    inset-inline-start: 0;
     border-bottom: none;
-    border-right: none;
+    border-inline-end: none;
   }
 
   &::after {
     bottom: 0;
-    right: 0;
+    inset-inline-end: 0;
     border-top: none;
-    border-left: none;
+    border-inline-start: none;
   }
 
   // Animating scanline

@@ -1,11 +1,6 @@
-﻿/**
- * Whitelist Entry Table Component - جدول إدخالات القائمة البيضاء
- *
- * مكون متخصص لعرض إدخالات القائمة البيضاء
- */
-
-import React from 'react'
+﻿import React from 'react'
 import { Edit, Trash2, Power, PowerOff, Shield, ShieldCheck, ShieldAlert } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { DataTable, DataTableColumn } from '../../data'
 import { Button } from '../../common'
 import type { WhitelistEntry } from '@/application/features/whitelist'
@@ -34,11 +29,13 @@ export const WhitelistEntryTable: React.FC<WhitelistEntryTableProps> = ({
   onDeactivate,
   className = '',
 }) => {
+  const { t } = useTranslation()
+
   const getPermissionLevelBadge = (level: string) => {
     const badges = {
-      developer: { icon: Shield, label: 'مطور', color: 'blue' },
-      admin: { icon: ShieldCheck, label: 'مسؤول', color: 'purple' },
-      super_admin: { icon: ShieldAlert, label: 'مسؤول رئيسي', color: 'red' },
+      developer: { icon: Shield, label: t('admin.whitelist.levels.developer'), color: 'blue' },
+      admin: { icon: ShieldCheck, label: t('admin.whitelist.levels.admin'), color: 'purple' },
+      super_admin: { icon: ShieldAlert, label: t('admin.whitelist.levels.super_admin'), color: 'red' },
     }
     const badge = badges[level as keyof typeof badges] || badges.developer
     const Icon = badge.icon
@@ -52,7 +49,7 @@ export const WhitelistEntryTable: React.FC<WhitelistEntryTableProps> = ({
   }
 
   const formatDate = (dateString: string | null) => {
-    if (!dateString) return 'لا ينتهي'
+    if (!dateString) return t('admin.whitelist.table.never_expires')
     const date = new Date(dateString)
     return date.toLocaleDateString('ar-SA', {
       year: 'numeric',
@@ -64,40 +61,39 @@ export const WhitelistEntryTable: React.FC<WhitelistEntryTableProps> = ({
   const columns: DataTableColumn<WhitelistEntry>[] = [
     {
       key: 'email',
-      label: 'البريد الإلكتروني',
+      label: t('admin.whitelist.table.email'),
       render: (_, entry) => (
         <div className="whitelist-entry-table__email">
           <strong>{entry.email}</strong>
           {entry.is_permanent && (
-            <span className="whitelist-entry-table__permanent-badge">دائم</span>
+            <span className="whitelist-entry-table__permanent-badge">{t('admin.whitelist.table.permanent')}</span>
           )}
         </div>
       ),
     },
     {
       key: 'permission_level',
-      label: 'مستوى ',
+      label: t('admin.whitelist.table.level'),
       render: (_, entry) => getPermissionLevelBadge(entry.permission_level),
     },
     {
       key: 'permissions',
-      label: 'عدد ',
+      label: t('admin.whitelist.table.permissions_count'),
       render: (_, entry) => (
         <span className="whitelist-entry-table__permissions-count">
-          {entry.permissions.length} صلاحية
+          {entry.permissions.length} {t('admin.whitelist.table.permission_unit')}
         </span>
       ),
     },
     {
       key: 'expires_at',
-      label: 'تاريخ الانتهاء',
+      label: t('admin.whitelist.table.expires_at'),
       render: (_, entry) => (
         <span
-          className={`whitelist-entry-table__expires ${
-            entry.expires_at && new Date(entry.expires_at) < new Date()
+          className={`whitelist-entry-table__expires ${entry.expires_at && new Date(entry.expires_at) < new Date()
               ? 'whitelist-entry-table__expires--expired'
               : ''
-          }`}
+            }`}
         >
           {formatDate(entry.expires_at)}
         </span>
@@ -105,52 +101,51 @@ export const WhitelistEntryTable: React.FC<WhitelistEntryTableProps> = ({
     },
     {
       key: 'is_active',
-      label: 'الحالة',
+      label: t('admin.whitelist.table.status'),
       render: (_, entry) => (
         <span
-          className={`whitelist-entry-table__status ${
-            entry.is_active
+          className={`whitelist-entry-table__status ${entry.is_active
               ? 'whitelist-entry-table__status--active'
               : 'whitelist-entry-table__status--inactive'
-          }`}
+            }`}
         >
-          {entry.is_active ? 'نشط' : 'معطل'}
+          {entry.is_active ? t('admin.whitelist.filters.active') : t('admin.whitelist.filters.inactive')}
         </span>
       ),
     },
     {
       key: 'actions',
-      label: 'الإجراءات',
+      label: t('admin.whitelist.table.actions'),
       render: (_, entry) => (
         <div className="whitelist-entry-table__actions">
           {onEdit && (
-            <Button variant="ghost" size="sm" onClick={() => onEdit(entry)} title="تعديل">
+            <Button variant="ghost" size="sm" onClick={() => onEdit(entry)} title={t('admin.whitelist.actions.edit')}>
               <Edit size={16} />
             </Button>
           )}
           {entry.is_active
             ? onDeactivate && (
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => onDeactivate(entry)}
-                  title="تعطيل"
-                  disabled={entry.is_permanent}
-                >
-                  <PowerOff size={16} />
-                </Button>
-              )
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => onDeactivate(entry)}
+                title={t('admin.whitelist.actions.deactivate')}
+                disabled={entry.is_permanent}
+              >
+                <PowerOff size={16} />
+              </Button>
+            )
             : onActivate && (
-                <Button variant="ghost" size="sm" onClick={() => onActivate(entry)} title="تفعيل">
-                  <Power size={16} />
-                </Button>
-              )}
+              <Button variant="ghost" size="sm" onClick={() => onActivate(entry)} title={t('admin.whitelist.actions.activate')}>
+                <Power size={16} />
+              </Button>
+            )}
           {onDelete && (
             <Button
               variant="ghost"
               size="sm"
               onClick={() => onDelete(entry)}
-              title="حذف"
+              title={t('admin.whitelist.actions.delete')}
               disabled={entry.is_permanent}
               className="whitelist-entry-table__delete-btn"
             >
@@ -165,7 +160,7 @@ export const WhitelistEntryTable: React.FC<WhitelistEntryTableProps> = ({
   if (loading && entries.length === 0) {
     return (
       <div className={`whitelist-entry-table ${className}`}>
-        <div className="whitelist-entry-table__loading">جاري التحميل...</div>
+        <div className="whitelist-entry-table__loading">{t('loading')}...</div>
       </div>
     )
   }
@@ -174,7 +169,7 @@ export const WhitelistEntryTable: React.FC<WhitelistEntryTableProps> = ({
     return (
       <div className={`whitelist-entry-table ${className}`}>
         <div className="whitelist-entry-table__error">
-          <span>خطأ: {error.message}</span>
+          <span>{t('error')}: {error.message}</span>
         </div>
       </div>
     )
@@ -185,7 +180,7 @@ export const WhitelistEntryTable: React.FC<WhitelistEntryTableProps> = ({
       <DataTable
         data={entries as unknown as Record<string, unknown>[]}
         columns={columns as unknown as DataTableColumn<Record<string, unknown>>[]}
-        emptyMessage="لا توجد إدخالات في القائمة البيضاء"
+        emptyMessage={t('common.no_data')}
       />
     </div>
   )

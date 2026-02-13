@@ -1,6 +1,6 @@
 /**
  * Security Domain Barrel - بوابة تصدير الأمان
- * 
+ *
  * @law Law-1 (Barrel Law) - Encapsulation gateway
  */
 

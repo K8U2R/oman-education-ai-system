@@ -5,8 +5,9 @@ import { ValidationService, ErrorBoundaryService } from '@/application'
 import { authService } from '@/features/user-authentication-management'
 import { Button, Input } from '../common'
 import { OAuthButtons } from '@/features/user-authentication-management/components/OAuthButtons'
-
 import { LoadingOverlay } from '@/presentation/routing/guards/components/LoadingOverlay'
+import { useTranslation } from 'react-i18next'
+import styles from './LoginForm.module.scss'
 
 interface LoginFormProps {
     onSuccess?: () => void
@@ -15,6 +16,7 @@ interface LoginFormProps {
 }
 
 export const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, isModal = false, onForgotPassword }) => {
+    const { t } = useTranslation()
     const navigate = useNavigate()
     const location = useLocation()
     const [email, setEmail] = useState('')
@@ -23,20 +25,20 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, isModal = false
     const [success, setSuccess] = useState('')
     const [isLoading, setIsLoading] = useState(false)
 
-    // Handle OAuth errors from URL if present (mostly for Page view, but safe to keep)
+    // Handle OAuth errors from URL if present
     useEffect(() => {
         const urlParams = new URLSearchParams(window.location.search)
         const oauthError = urlParams.get('error_description')
         if (oauthError) {
             const decodedError = decodeURIComponent(oauthError.replace(/\+/g, ' '))
-            setError(`فشل تسجيل الدخول عبر OAuth: ${decodedError}`)
+            setError(`${t('auth.login_failed')}: ${decodedError}`)
         }
 
         const state = location.state as { message?: string } | null
         if (state?.message) {
             setSuccess(state.message)
         }
-    }, [location])
+    }, [location, t])
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
@@ -45,13 +47,13 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, isModal = false
         setIsLoading(true)
 
         if (!email || !password) {
-            setError('يرجى إدخال البريد الإلكتروني وكلمة المرور')
+            setError(t('auth.validation.enter_email_password'))
             setIsLoading(false)
             return
         }
 
         if (!ValidationService.validateEmail(email)) {
-            setError('البريد الإلكتروني غير صحيح')
+            setError(t('auth.validation.email_invalid'))
             setIsLoading(false)
             return
         }
@@ -73,38 +75,36 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, isModal = false
     }
 
     return (
-        <div className={!isModal ? "login-page__form-container" : ""}>
-            {isLoading && <LoadingOverlay message="جاري تسجيل الدخول..." context="Auth" />}
+        <div className={!isModal ? styles.container : ""}>
+            {isLoading && <LoadingOverlay message={t('auth.loading_login')} context="Auth" />}
             {!isModal && (
-                <div className="login-page__header">
-                    <div className="login-page__icon-wrapper">
-                        <LogIn className="login-page__icon" />
+                <div className={styles.header}>
+                    <div className={styles.iconWrapper}>
+                        <LogIn className={styles.icon} />
                     </div>
-                    <h1 className="login-page__title">تسجيل الدخول</h1>
-                    <p className="login-page__description">مرحباً بعودتك! سجل دخولك للوصول إلى حسابك</p>
+                    <h1 className={styles.title}>{t('auth.login_title')}</h1>
+                    <p className={styles.description}>{t('auth.login_subtitle')}</p>
                 </div>
             )}
 
             {error && (
-                <div className="login-page__error mb-4">
-                    <div className="login-page__error-content flex items-start gap-2 p-3 bg-red-50 text-red-700 rounded-lg">
-                        <AlertCircle className="w-5 h-5 flex-shrink-0" />
-                        <span>{error}</span>
-                    </div>
+                <div className={styles.error}>
+                    <AlertCircle size={20} className="flex-shrink-0" />
+                    <span>{error}</span>
                 </div>
             )}
 
             {success && (
-                <div className="login-page__success mb-4 p-3 bg-green-50 text-green-700 rounded-lg">
+                <div className={styles.success}>
                     {success}
                 </div>
             )}
 
-            <form onSubmit={handleSubmit} className="login-page__form space-y-4">
+            <form onSubmit={handleSubmit} className={styles.form}>
                 <Input
                     type="email"
-                    label="البريد الإلكتروني"
-                    placeholder="example@email.com"
+                    label={t('auth.email_label')}
+                    placeholder={t('auth.email_placeholder')}
                     value={email}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
                     autoComplete="email"
@@ -114,8 +114,8 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, isModal = false
 
                 <Input
                     type="password"
-                    label="كلمة المرور"
-                    placeholder="••••••••"
+                    label={t('auth.password_label')}
+                    placeholder={t('auth.password_placeholder')}
                     value={password}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
                     autoComplete="current-password"
@@ -123,43 +123,43 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, isModal = false
                     disabled={isLoading}
                 />
 
-                <div className="login-page__options flex justify-between items-center">
-                    <label className="login-page__remember flex items-center gap-2 cursor-pointer">
+                <div className={styles.options}>
+                    <label className="flex items-center gap-2 cursor-pointer">
                         <input type="checkbox" className="rounded border-border-primary text-primary-600 focus:ring-primary-500" />
-                        <span className="text-sm text-text-secondary">تذكرني</span>
+                        <span>{t('auth.remember_me')}</span>
                     </label>
                     {onForgotPassword ? (
                         <button
                             type="button"
                             onClick={onForgotPassword}
-                            className="text-sm text-primary-600 hover:text-primary-500 hover:underline"
+                            className={styles.forgotPassword}
                         >
-                            نسيت كلمة المرور؟
+                            {t('auth.forgot_password')}
                         </button>
                     ) : (
-                        <Link to="/forgot-password" className="text-sm text-primary-600 hover:text-primary-500 hover:underline">
-                            نسيت كلمة المرور؟
+                        <Link to="/forgot-password" className={styles.forgotPassword}>
+                            {t('auth.forgot_password')}
                         </Link>
                     )}
                 </div>
 
                 <Button type="submit" variant="primary" size="lg" isLoading={isLoading} fullWidth>
-                    تسجيل الدخول
+                    {t('auth.sign_in')}
                 </Button>
             </form>
 
-            <div className="login-page__oauth mt-6">
-                <div className="relative flex justify-center text-sm mb-4">
-                    <span className="bg-bg-surface px-2 text-text-secondary">أو</span>
+            <div className={styles.oauth}>
+                <div className={styles.divider}>
+                    <span>{t('auth.or')}</span>
                 </div>
                 <OAuthButtons isLoading={isLoading} />
             </div>
 
             {!isModal && (
-                <p className="mt-6 text-center text-sm text-text-secondary">
-                    ليس لديك حساب؟{' '}
-                    <Link to="/register" className="text-primary-600 font-medium hover:text-primary-500 hover:underline">
-                        إنشاء حساب جديد
+                <p className={styles.footer}>
+                    {t('auth.no_account')}{' '}
+                    <Link to="/register">
+                        {t('auth.create_account')}
                     </Link>
                 </p>
             )}

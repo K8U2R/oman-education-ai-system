@@ -4,9 +4,10 @@
  * مكون إشعار سريع قابلة لإعادة الاستخدام
  */
 
-import React, { useEffect } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import { X, CheckCircle2, AlertCircle, Info, AlertTriangle } from 'lucide-react'
-import { cn } from '../../utils/classNames'
+import { useTranslation } from 'react-i18next'
+import styles from './Toast.module.scss'
 
 export type ToastType = 'success' | 'error' | 'warning' | 'info'
 
@@ -40,6 +41,8 @@ export const Toast: React.FC<ToastProps> = ({
   onClose,
   position: _position = 'top-right',
 }) => {
+  const { t } = useTranslation()
+
   useEffect(() => {
     if (duration > 0) {
       const timer = setTimeout(() => {
@@ -52,15 +55,18 @@ export const Toast: React.FC<ToastProps> = ({
   }, [duration, id, onClose])
 
   const Icon = icons[type]
-  const typeClass = `toast--${type}`
+
+  const typeClass = useMemo(() => {
+    return styles[`toast--${type}`] || styles['toast--info']
+  }, [type])
 
   return (
-    <div className={cn('toast', typeClass)} role="alert">
-      <div className="toast__icon">
+    <div className={`${styles.toast} ${typeClass}`} role="alert">
+      <div className={styles.icon}>
         <Icon className="w-5 h-5" />
       </div>
-      <p className="toast__message">{message}</p>
-      <button className="toast__close" onClick={() => onClose(id)} aria-label="إغلاق">
+      <p className={styles.message}>{message}</p>
+      <button className={styles.close} onClick={() => onClose(id)} aria-label={t('common.close')}>
         <X className="w-4 h-4" />
       </button>
     </div>

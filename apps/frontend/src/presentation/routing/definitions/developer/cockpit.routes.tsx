@@ -10,6 +10,7 @@ import CockpitPage from '@/presentation/pages/developer/cockpit/CockpitPage';
 import { DeveloperLayout } from '@/presentation/layouts/developer/DeveloperLayout';
 import AILabPage from '@/presentation/pages/developer/ai/AILabPage';
 import DatabasePage from '@/presentation/pages/developer/database/DatabasePage';
+import { SystemDiagnosticsPage } from '@/presentation/pages/developer/cockpit/SystemDiagnosticsPage';
 
 export const cockpitRoutes: RouteConfig[] = [
     {
@@ -32,6 +33,11 @@ export const cockpitRoutes: RouteConfig[] = [
             {
                 path: 'database',
                 element: <DatabasePage />,
+                metadata: { requiresAuth: false }
+            },
+            {
+                path: 'diagnostics',
+                element: <SystemDiagnosticsPage />,
                 metadata: { requiresAuth: false }
             },
             {

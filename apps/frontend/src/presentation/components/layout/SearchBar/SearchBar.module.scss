@@ -1,0 +1,242 @@
+@use '@/styles/abstracts/liquid-variables' as liquid;
+@use '@/styles/abstracts/variables' as *;
+@use '@/styles/abstracts/mixins' as *;
+
+.container {
+    position: relative;
+    z-index: liquid.$z-index-modal;
+    transition: all liquid.$transition-fast ease-in-out;
+
+    &--expanded {
+        width: 100%;
+    }
+}
+
+.mobileTrigger {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: liquid.$spacing-fluid-8;
+    height: liquid.$spacing-fluid-8;
+    border-radius: liquid.$radius-fluid-full;
+    color: var(--color-text-secondary);
+    transition: color liquid.$transition-fast;
+
+    &:hover {
+        color: var(--color-primary);
+        background-color: var(--color-bg-secondary);
+    }
+}
+
+.searchBar {
+    display: none;
+    align-items: center;
+    width: 320px;
+    height: liquid.$spacing-fluid-8;
+    padding: 0 liquid.$spacing-fluid-3;
+    background-color: var(--color-bg-secondary);
+    border: 1px solid transparent;
+    border-radius: liquid.$radius-fluid-full;
+    transition: all liquid.$transition-normal cubic-bezier(0.4, 0, 0.2, 1);
+
+    @include desktop {
+        display: flex;
+    }
+
+    &--open {
+        display: flex;
+        width: 100%;
+        background-color: var(--color-surface);
+        border-color: var(--color-primary-200);
+        box-shadow: 0 0 0 4px var(--color-primary-50);
+
+        @include mobile {
+            position: fixed;
+            top: liquid.$spacing-fluid-3;
+            left: liquid.$spacing-fluid-3;
+            right: liquid.$spacing-fluid-3;
+            width: auto;
+            z-index: liquid.$z-index-modal + 1;
+        }
+
+        .icon {
+            color: var(--color-primary);
+        }
+    }
+}
+
+.icon {
+    width: 18px;
+    height: 18px;
+    color: var(--color-text-tertiary);
+    flex-shrink: 0;
+    transition: color liquid.$transition-fast;
+}
+
+.input {
+    flex: 1;
+    border: none;
+    background: none;
+    padding: 0 liquid.$spacing-fluid-3;
+    color: var(--color-text-primary);
+    font-size: $font-size-sm;
+    min-width: 0;
+
+    &::placeholder {
+        color: var(--color-text-disabled);
+    }
+
+    &:focus {
+        outline: none;
+    }
+}
+
+.clearButton,
+.closeButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: liquid.$radius-fluid-full;
+    color: var(--color-text-tertiary);
+    transition: all liquid.$transition-fast;
+
+    &:hover {
+        background-color: var(--color-bg-tertiary);
+        color: var(--color-text-secondary);
+    }
+}
+
+.results {
+    position: absolute;
+    top: calc(100% + liquid.$spacing-fluid-2);
+    left: 0;
+    right: 0;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: liquid.$radius-fluid-lg;
+    box-shadow: $shadow-lg;
+    overflow: hidden;
+    max-height: 400px;
+    overflow-y: auto;
+    animation: slideDown liquid.$transition-fast ease-out;
+
+    @include mobile {
+        position: fixed;
+        top: calc(#{liquid.$spacing-fluid-8} * 2);
+        left: liquid.$spacing-fluid-3;
+        right: liquid.$spacing-fluid-3;
+        z-index: liquid.$z-index-modal;
+    }
+}
+
+.emptyState {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: liquid.$spacing-fluid-8;
+    text-align: center;
+    color: var(--color-text-secondary);
+    @include typography-body-sm;
+
+    svg {
+        margin-bottom: liquid.$spacing-fluid-2;
+        color: var(--color-text-tertiary);
+    }
+}
+
+.loadingSpinner {
+    @include loading-spinner;
+    width: 24px;
+    height: 24px;
+    margin-bottom: liquid.$spacing-fluid-2;
+}
+
+.resultsHeader {
+    padding: liquid.$spacing-fluid-2 liquid.$spacing-fluid-4;
+    @include typography-body-xs;
+    font-weight: $font-weight-semibold;
+    color: var(--color-text-secondary);
+    border-bottom: 1px solid var(--color-border-light);
+    background-color: var(--color-bg-tertiary);
+}
+
+.resultsList {
+    padding: liquid.$spacing-fluid-2 0;
+}
+
+.resultItem {
+    display: flex;
+    align-items: flex-start;
+    gap: liquid.$spacing-fluid-4;
+    padding: liquid.$spacing-fluid-3 liquid.$spacing-fluid-4;
+    cursor: pointer;
+    transition: background-color liquid.$transition-fast;
+
+    &:hover {
+        background-color: var(--color-bg-secondary);
+    }
+}
+
+.resultIcon {
+    font-size: $font-size-lg;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+}
+
+.resultContent {
+    flex: 1;
+    min-width: 0;
+}
+
+.resultTitle {
+    @include typography-body-sm;
+    font-weight: $font-weight-medium;
+    color: var(--color-text-primary);
+    margin: 0 0 2px;
+}
+
+.resultDesc {
+    @include typography-body-xs;
+    color: var(--color-text-secondary);
+    margin: 0;
+    @include truncate;
+}
+
+.historyHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: liquid.$spacing-fluid-2 liquid.$spacing-fluid-4;
+    margin-bottom: liquid.$spacing-fluid-2;
+
+    span {
+        @include typography-body-xs;
+        color: var(--color-text-secondary);
+    }
+
+    button {
+        color: var(--color-text-tertiary);
+
+        &:hover {
+            color: var(--color-error);
+        }
+    }
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(calc(#{liquid.$spacing-fluid-2} * -1));
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

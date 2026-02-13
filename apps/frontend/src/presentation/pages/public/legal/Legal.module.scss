@@ -1,0 +1,111 @@
+@use '@/styles/abstracts/liquid-variables' as liquid;
+
+.container {
+    flex-grow: 1;
+    background-color: var(--bg-app);
+    color: var(--text-primary);
+    padding: liquid.$spacing-fluid-6 liquid.$spacing-fluid-4;
+}
+
+.contentWrapper {
+    max-width: liquid.$content-fluid-text; // Optimized for reading
+    margin: 0 auto;
+    background-color: var(--bg-surface);
+    padding: liquid.$spacing-fluid-8;
+    border-radius: liquid.$radius-fluid-lg;
+    border: 1px solid var(--border-secondary);
+    box-shadow: liquid.$shadow-fluid-sm;
+
+    @media (max-width: 768px) {
+        padding: liquid.$spacing-fluid-4;
+    }
+}
+
+.header {
+    text-align: center;
+    margin-bottom: liquid.$spacing-fluid-8;
+    padding-bottom: liquid.$spacing-fluid-6;
+    border-bottom: 1px solid var(--border-secondary);
+}
+
+.title {
+    font-size: liquid.$font-fluid-2xl;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: liquid.$spacing-fluid-3;
+}
+
+.lastUpdated {
+    font-size: liquid.$font-fluid-sm;
+    color: var(--text-tertiary);
+}
+
+.section {
+    margin-bottom: liquid.$spacing-fluid-8;
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+}
+
+.sectionTitle {
+    font-size: liquid.$font-fluid-lg;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: liquid.$spacing-fluid-4;
+}
+
+.text {
+    font-size: liquid.$font-fluid-base;
+    color: var(--text-secondary);
+    line-height: 1.7; // Better readability
+    margin-bottom: liquid.$spacing-fluid-3;
+}
+
+.list {
+    list-style-type: disc;
+    padding-inline-start: liquid.$spacing-fluid-8;
+    margin-bottom: liquid.$spacing-fluid-4;
+    color: var(--text-secondary);
+
+    li {
+        margin-bottom: liquid.$spacing-fluid-2;
+        line-height: 1.6;
+    }
+}
+
+.contactBox {
+    background-color: color-mix(in srgb, var(--primary-100), transparent 95%);
+    padding: liquid.$spacing-fluid-6;
+    border-radius: liquid.$radius-fluid-md;
+    border: 1px solid color-mix(in srgb, var(--primary-200), transparent 80%);
+    margin-top: liquid.$spacing-fluid-10;
+    text-align: center;
+}
+
+.contactTitle {
+    font-size: liquid.$font-fluid-lg;
+    font-weight: 600;
+    color: var(--primary-700);
+    margin-bottom: liquid.$spacing-fluid-2;
+}
+
+.contactEmail {
+    font-size: liquid.$font-fluid-base;
+    color: var(--primary-600);
+    font-weight: 500;
+    text-decoration: none;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+.actions {
+    display: flex;
+    gap: liquid.$spacing-fluid-4;
+    justify-content: flex-end;
+    margin-top: liquid.$spacing-fluid-8;
+    border-top: 1px solid var(--border-secondary);
+    padding-top: liquid.$spacing-fluid-6;
+}

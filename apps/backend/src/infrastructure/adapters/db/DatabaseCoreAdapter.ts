@@ -16,13 +16,13 @@ import axios, { AxiosInstance } from "axios";
 import http from "http";
 
 import https from "https";
-import { getSettings } from "@/shared/configuration";
-import { logger } from "@/shared/utils/logger";
+import { getSettings } from "../../../shared/configuration/index.js";
+import { logger } from "../../../shared/utils/logger.js";
 import {
   DatabaseConnectionError,
   DatabaseQueryError,
   DatabaseTimeoutError,
-} from "@/domain/exceptions";
+} from "../../../domain/exceptions/index.js";
 import { queryOptimizerService } from "../../database/query-optimizer.service.js";
 
 export interface DatabaseOperation {

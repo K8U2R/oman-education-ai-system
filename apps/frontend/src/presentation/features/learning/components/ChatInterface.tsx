@@ -2,8 +2,15 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { learningService, Message } from '../services/learning.service';
 import { Button, Input, Card } from '@/components/ui';
+import { FeatureGate } from '@/presentation/components/common/FeatureGate';
 
-export const ChatInterface: React.FC<{ context?: string }> = ({ context }) => {
+/**
+ * ChatInterface - واجهة المحادثة مع الذكاء الاصطناعي
+ * 
+ * ✅ Protected with ai.content-generation.use permission
+ * ✅ Shows UpgradePrompt for users without permission
+ */
+const ChatInterfaceCore: React.FC<{ context?: string }> = ({ context }) => {
     const [messages, setMessages] = useState<Message[]>([]);
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
@@ -87,5 +94,21 @@ export const ChatInterface: React.FC<{ context?: string }> = ({ context }) => {
                 </Button>
             </div>
         </Card>
+    );
+};
+
+/**
+ * ChatInterface with Permission Protection
+ * 
+ * Wraps the core interface with FeatureGate to enforce ai.content-generation.use permission
+ */
+export const ChatInterface: React.FC<{ context?: string }> = (props) => {
+    return (
+        <FeatureGate
+            permission="ai.content-generation.use"
+            featureName="AI Content Generation"
+        >
+            <ChatInterfaceCore {...props} />
+        </FeatureGate>
     );
 };

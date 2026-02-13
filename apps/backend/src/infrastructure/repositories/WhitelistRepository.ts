@@ -36,7 +36,8 @@ interface WhitelistEntryDBData {
 
 export class WhitelistRepository
   extends BaseRepository
-  implements IWhitelistRepository {
+  implements IWhitelistRepository
+{
   constructor(databaseAdapter: DatabaseCoreAdapter) {
     super(databaseAdapter);
   }

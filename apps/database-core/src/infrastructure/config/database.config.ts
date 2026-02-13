@@ -52,8 +52,8 @@ export function getDatabaseConfig(): DatabaseConfig {
   const connections: DatabaseConnectionConfig[] = []
 
   // إضافة PostgreSQL connection أولاً (الأولوية للتنمية المحلية)
-  const pgHost = process.env.POSTGRES_HOST || 'localhost'
-  const pgPort = process.env.POSTGRES_PORT || '5432'
+  const pgHost = process.env.POSTGRES_HOST
+  const pgPort = process.env.POSTGRES_PORT
   const pgDatabase = process.env.POSTGRES_DATABASE || 'oman_education_db'
   const pgUsername = process.env.POSTGRES_USERNAME || 'postgres'
   const pgPassword = process.env.POSTGRES_PASSWORD || 'postgres'
@@ -65,8 +65,8 @@ export function getDatabaseConfig(): DatabaseConfig {
     provider: DatabaseProvider.POSTGRESQL,
     type: DatabaseType.INTERNAL,
     config: {
-      host: pgHost,
-      port: parseInt(pgPort, 10),
+      host: pgHost || '',
+      port: pgPort ? parseInt(pgPort, 10) : 5432,
       database: pgDatabase,
       username: pgUsername,
       password: pgPassword,
@@ -108,9 +108,9 @@ export function getDatabaseConfig(): DatabaseConfig {
     supabase:
       enableSupabase && supabaseUrl && supabaseServiceKey
         ? {
-            url: supabaseUrl,
-            serviceRoleKey: supabaseServiceKey,
-          }
+          url: supabaseUrl,
+          serviceRoleKey: supabaseServiceKey,
+        }
         : undefined,
     server: {
       port,

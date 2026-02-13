@@ -10,6 +10,7 @@ import axios, {
   AxiosRequestConfig,
   AxiosResponse,
   InternalAxiosRequestConfig,
+  AxiosError,
 } from 'axios'
 
 export interface HttpClientConfig {
@@ -30,6 +31,13 @@ export interface ResponseInterceptor {
     response: AxiosResponse<T>
   ) => AxiosResponse<T> | Promise<AxiosResponse<T>>
   onRejected?: (error: unknown) => Promise<never> | Promise<AxiosResponse>
+}
+
+// Define compatible types to fix export errors
+export type HttpClientResponseInterceptor = ResponseInterceptor
+export type ApiRequestConfig = InternalAxiosRequestConfig & { __startTime?: number }
+export interface ApiError extends AxiosError {
+  config?: ApiRequestConfig
 }
 
 /**

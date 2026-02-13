@@ -14,6 +14,7 @@ import { moderatorRoutes } from '../../definitions/moderator/moderator.routes'
 import { sharedRoutes } from '../../definitions/shared/shared.routes'
 import { errorRoutes } from '../../definitions/error/error.routes'
 import { learningRoutes } from '../../definitions/learning/learning.routes'
+import { docsRoutes } from '../../definitions/docs/docs.routes'
 
 // Actually I should just use the previous imports as context.
 import { mastermindRoutes } from '../../definitions/mastermind/mastermind.routes'
@@ -29,6 +30,7 @@ import { moderatorMetadata } from '../../definitions/moderator/moderator.metadat
 import { sharedMetadata } from '../../definitions/shared/shared.metadata'
 import { errorMetadata } from '../../definitions/error/error.metadata'
 import { cockpitMetadata } from '../../definitions/developer/cockpit.routes'
+import { docsMetadata } from '../../definitions/docs/docs.metadata'
 
 /**
  * All Routes - جميع المسارات
@@ -45,6 +47,7 @@ export const allRoutes: RouteConfig[] = [
   ...mastermindRoutes,
   ...cockpitRoutes,
   ...learningRoutes,
+  ...docsRoutes,
 ]
 
 /**
@@ -60,4 +63,5 @@ export const routeMetadata = {
   ...sharedMetadata,
   ...errorMetadata,
   ...cockpitMetadata,
+  ...docsMetadata,
 }

@@ -65,7 +65,7 @@ class AssessmentService {
   async getSubmission(id: string): Promise<AssessmentSubmission> {
     const response = await apiClient.get<AssessmentSubmission>(
       // Assuming there's an endpoint for getting a submission by ID
-      `/learning/assessments/submissions/${id}`
+      `/assessments/${id}/results`
     )
     return response
   }

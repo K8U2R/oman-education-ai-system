@@ -1,0 +1,113 @@
+@use '@/styles/abstracts/liquid-variables' as liquid;
+
+.button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: liquid.$spacing-fluid-3;
+    border-radius: liquid.$radius-fluid-md;
+    font-weight: 500;
+    transition: all liquid.$transition-fast;
+    cursor: pointer;
+    border: 1px solid transparent; // Consistent sizing
+    white-space: nowrap;
+
+    &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+
+    // Sizes
+    &--sm {
+        height: 2rem; // 32px
+        padding: 0 liquid.$spacing-fluid-3;
+        font-size: liquid.$font-fluid-xs;
+    }
+
+    &--md {
+        height: 2.5rem; // 40px
+        padding: 0 liquid.$spacing-fluid-4;
+        font-size: liquid.$font-fluid-sm;
+    }
+
+    &--lg {
+        height: 3rem; // 48px
+        padding: 0 liquid.$spacing-fluid-6;
+        font-size: liquid.$font-fluid-md;
+    }
+
+    // Variants
+    &--primary {
+        background-color: var(--primary-600, #2563eb);
+        color: #ffffff;
+
+        &:hover:not(:disabled) {
+            background-color: var(--primary-700, #1d4ed8);
+        }
+    }
+
+    &--secondary {
+        background-color: var(--bg-surface, #ffffff);
+        border-color: var(--border-primary, #d1d5db);
+        color: var(--text-primary, #374151);
+
+        &:hover:not(:disabled) {
+            background-color: var(--bg-secondary, #f9fafb);
+            border-color: var(--primary-300, #93c5fd);
+            color: var(--primary-700, #1d4ed8);
+        }
+    }
+
+    &--outline {
+        background-color: transparent;
+        border-color: var(--primary-600, #2563eb);
+        color: var(--primary-600, #2563eb);
+
+        &:hover:not(:disabled) {
+            background-color: var(--primary-50, #eff6ff);
+        }
+    }
+
+    &--ghost {
+        background-color: transparent;
+        color: var(--text-secondary, #6b7280);
+
+        &:hover:not(:disabled) {
+            background-color: var(--bg-secondary, #f3f4f6);
+            color: var(--text-primary, #111827);
+        }
+    }
+
+    &--danger {
+        background-color: var(--error-600, #dc2626);
+        color: #ffffff;
+
+        &:hover:not(:disabled) {
+            background-color: var(--error-700, #b91c1c);
+        }
+    }
+
+    &--full-width {
+        width: 100%;
+    }
+
+    &--loading {
+        cursor: wait;
+    }
+}
+
+.loader {
+    width: 1em;
+    height: 1em;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}

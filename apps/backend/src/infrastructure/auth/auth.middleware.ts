@@ -3,7 +3,7 @@
  *
  * Configures session and Passport.js for OAuth.
  * Uses Redis Session Store in production for stateless sessions.
- * 
+ *
  * @compliance LAW_01 - Iron Firewall (Constructor Injection)
  * @compliance LAW_11 - Root Sovereignty (Stateless with Redis)
  */
@@ -23,39 +23,49 @@ let sessionStore: ISessionStore | undefined;
 /**
  * Configure authentication middleware
  * Must be called BEFORE routes.
- * 
+ *
  * @param app Express application
  * @param settings Application settings
  */
-export async function setupAuthMiddleware(app: Express, settings: Settings): Promise<void> {
+export async function setupAuthMiddleware(
+  app: Express,
+  settings: Settings,
+): Promise<void> {
   // Initialize Redis Session Store for Production
-  if (ENV_CONFIG.NODE_ENV === 'production') {
+  if (ENV_CONFIG.NODE_ENV === "production") {
     try {
-      logger.info('Initializing Redis Session Store for production...');
+      logger.info("Initializing Redis Session Store for production...");
 
       sessionStore = new RedisSessionStore({
-        host: ENV_CONFIG.REDIS_HOST || 'localhost',
+        host: ENV_CONFIG.REDIS_HOST || "localhost",
         port: ENV_CONFIG.REDIS_PORT || 6379,
         password: ENV_CONFIG.REDIS_PASSWORD,
-        prefix: 'session:',
-        ttl: 86400 // 24 hours
+        prefix: "session:",
+        ttl: 86400, // 24 hours
       });
 
       await sessionStore.connect();
 
-      logger.info('✅ Redis Session Store connected successfully');
+      logger.info("✅ Redis Session Store connected successfully");
     } catch (error) {
-      const errorMsg = error instanceof Error ? error.message : 'Unknown error';
-      logger.error('❌ Failed to initialize Redis Session Store', { error: errorMsg });
-      logger.warn('⚠️  Falling back to MemoryStore (NOT RECOMMENDED FOR PRODUCTION)');
+      const errorMsg = error instanceof Error ? error.message : "Unknown error";
+      logger.error("❌ Failed to initialize Redis Session Store", {
+        error: errorMsg,
+      });
+      logger.warn(
+        "⚠️  Falling back to MemoryStore (NOT RECOMMENDED FOR PRODUCTION)",
+      );
       sessionStore = undefined;
     }
   } else {
-    logger.info('Using MemoryStore for development');
+    logger.info("Using MemoryStore for development");
   }
 
   // Session configuration (BEFORE Passport)
-  app.use((_req, _res, next) => { console.log("  ➡️ Entering: Session Layer"); next(); });
+  app.use((_req, _res, next) => {
+    console.log("  ➡️ Entering: Session Layer");
+    next();
+  });
   app.use(
     session({
       store: sessionStore?.getStore(), // Redis in production, Memory in dev
@@ -70,13 +80,22 @@ export async function setupAuthMiddleware(app: Express, settings: Settings): Pro
       },
     }),
   );
-  app.use((_req, _res, next) => { console.log("  ✅ Exiting: Session Layer"); next(); });
+  app.use((_req, _res, next) => {
+    console.log("  ✅ Exiting: Session Layer");
+    next();
+  });
 
   // Passport initialization (AFTER Session)
-  app.use((_req, _res, next) => { console.log("  ➡️ Entering: Passport Initialization"); next(); });
+  app.use((_req, _res, next) => {
+    console.log("  ➡️ Entering: Passport Initialization");
+    next();
+  });
   app.use(passport.initialize());
   app.use(passport.session());
-  app.use((_req, _res, next) => { console.log("  ✅ Exiting: Passport Initialization"); next(); });
+  app.use((_req, _res, next) => {
+    console.log("  ✅ Exiting: Passport Initialization");
+    next();
+  });
 }
 
 /**
@@ -100,7 +119,7 @@ export async function getSessionStoreHealth(): Promise<boolean> {
  */
 export async function shutdownSessionStore(): Promise<void> {
   if (sessionStore) {
-    logger.info('Shutting down session store...');
+    logger.info("Shutting down session store...");
     await sessionStore.disconnect();
   }
 }

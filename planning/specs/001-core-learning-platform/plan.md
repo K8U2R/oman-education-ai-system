@@ -68,7 +68,7 @@ apps/frontend/src/
 3. **بحث التكامل**: أفضل طريقة لدمج OpenAI API مع تدفق البيانات المحلي لضمان الخصوصية.
 
 ### المرحلة 1: التصميم والعقود
-1. **تحديث schema.prisma**: إضافة جداول `Subscription`, `Assessment`, `Question`.
+1. **تحديث schema.prisma**: إضافة جداول `Subscription`, `Assessment`, `Question`, `Certificate` (GAP-001).
 2. **تعريف API Contracts**: تحديد نقاط النهاية (Endpoints) لخدمات التعلم والتقييم.
 3. **تحديث السياق**: تشغيل `update-agent-context.sh`.
 

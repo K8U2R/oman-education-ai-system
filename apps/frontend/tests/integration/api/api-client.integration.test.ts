@@ -132,14 +132,14 @@ describe('API Client Integration Tests', () => {
 
       // First request
       const response1 = await apiClient.get(API_ENDPOINTS.AUTH.ME, {
-        // @ts-ignore - Testing extended config in integration
+        // @ts-expect-error - Testing extended config in integration
         useCache: true,
         cacheTTL: 5000,
       })
 
       // Second request (should use cache, but MSW will still intercept)
       const response2 = await apiClient.get(API_ENDPOINTS.AUTH.ME, {
-        // @ts-ignore - Testing extended config in integration
+        // @ts-expect-error - Testing extended config in integration
         useCache: true,
       })
 

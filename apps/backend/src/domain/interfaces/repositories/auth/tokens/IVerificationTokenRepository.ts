@@ -1,4 +1,4 @@
-import { VerificationTokenData } from "@/domain/types/auth";
+import { VerificationTokenData } from "../../../../types/auth/index.js";
 
 export interface IVerificationTokenRepository {
   /**

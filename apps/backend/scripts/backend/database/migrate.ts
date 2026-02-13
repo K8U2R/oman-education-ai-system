@@ -5,6 +5,7 @@
  * Runs SQL migrations from migrations/ folder
  */
 
+import 'dotenv/config';
 import { getDbClient } from './utils/db-client.js';
 import { scriptLogger } from './utils/logger.js';
 import { readdir, readFile } from 'fs/promises';

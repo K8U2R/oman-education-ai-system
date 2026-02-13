@@ -6,7 +6,7 @@
 
 export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api/v1'
 
-const PREFIX = '/api/v1'
+const PREFIX = ''
 
 export const API_ENDPOINTS = {
   // Auth
@@ -20,7 +20,7 @@ export const API_ENDPOINTS = {
     UPDATE_USER: `${PREFIX}/auth/me`,
     FORGOT_PASSWORD: `${PREFIX}/auth/forgot-password`,
     RESET_PASSWORD: `${PREFIX}/auth/reset-password`,
-    OAUTH: (provider: string) => `${PREFIX}/auth/${provider}`,
+    OAUTH: (provider: string) => `${PREFIX}/auth/oauth/${provider}`,
     SEND_VERIFICATION_EMAIL: `${PREFIX}/auth/verify/send`,
     VERIFY_EMAIL: `${PREFIX}/auth/verify/confirm`,
   },

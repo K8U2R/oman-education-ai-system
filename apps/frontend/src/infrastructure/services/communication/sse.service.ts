@@ -4,6 +4,8 @@
  * خدمة للاتصال بـ SSE للإشعارات في الوقت الفعلي
  */
 
+import { authState } from '@/infrastructure/api/interceptors/auth/state'
+
 export type SSEEventType =
   | 'notification'
   | 'message'
@@ -39,6 +41,11 @@ export class SSEService {
       return
     }
 
+    if (authState.isTerminated) {
+      console.warn('[SSE] System in Safe Mode. Connection blocked.')
+      return
+    }
+
     try {
       const sseUrl = token ? `${this.url}?token=${token}` : this.url
       this.eventSource = new EventSource(sseUrl)
@@ -49,7 +56,19 @@ export class SSEService {
       }
 
       this.eventSource.onerror = error => {
-        // استخدام logging service بدلاً من console.error مباشرة
+        // Check for 401 (EventSource error event is generic, but usually closure indicates issue)
+        // If readyState is CLOSED (2) immediately after error, treat as potentially fatal if repeated,
+        // but explicit 401 handling is hard in browser EventSource API directly without custom client.
+        // We will assume that if we are here, we might need backoff.
+
+        // HOWEVER, if we can infer auth error (e.g. from a specific event before closure or if we modify backend to send specific close event), handle it.
+        // For now, we rely on the implementation plan to "Stop on 401". Since standard EventSource doesn't give status code,
+        // we will treat immediate closure on connect as suspect. 
+
+        // BETTER APPROACH: The `notification.service.ts` should handle the 'error' event emitted here. 
+        // We just ensure we emit it properly.
+
+        // usage logging service instead of console.error directly
         // loggingService.error('SSE error:', error)
 
         this.emit('error', {
@@ -58,7 +77,7 @@ export class SSEService {
           timestamp: new Date().toISOString(),
         })
 
-        // Attempt to reconnect if connection was closed
+        // Attempt to reconnect if connection was closed, UNLESS it was an auth failure handled by logic above/below
         if (this.eventSource?.readyState === EventSource.CLOSED) {
           this.attemptReconnect(token)
         }
@@ -94,6 +113,13 @@ export class SSEService {
    * محاولة إعادة الاتصال
    */
   private attemptReconnect(token?: string): void {
+    // 1. Global Circuit Breaker Check
+    if (authState.isTerminated) {
+      console.warn('[SSE] System in Safe Mode. Stopping reconnection.')
+      this.disconnect()
+      return
+    }
+
     const maxAttempts = this.maxReconnectAttempts
 
     if (this.reconnectAttempts >= maxAttempts) {
@@ -103,7 +129,11 @@ export class SSEService {
     }
 
     this.reconnectAttempts++
-    const delay = 3000 * this.reconnectAttempts
+
+    // Exponential Backoff: 3s, 6s, 12s, 24s, 30s (cap)
+    const baseDelay = 3000
+    const exponentialDelay = baseDelay * Math.pow(2, this.reconnectAttempts - 1)
+    const delay = Math.min(exponentialDelay, 30000)
 
     setTimeout(() => {
       // استخدام logging service

@@ -1,0 +1,129 @@
+@use '@/styles/abstracts/liquid-variables' as liquid;
+
+.overlay {
+    position: fixed;
+    inset: 0;
+    z-index: liquid.$z-index-modal; // Modal Layer
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: liquid.$spacing-fluid-4;
+    animation: fadeIn 0.2s ease-out;
+}
+
+.modal {
+    background-color: var(--bg-surface, #ffffff);
+    border-radius: liquid.$radius-fluid-xl;
+    box-shadow: liquid.$shadow-fluid-2xl;
+    width: 100%;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    border: 1px solid var(--border-primary, #e5e7eb);
+
+    // Sizes
+    &--sm {
+        max-width: 24rem;
+    }
+
+    // 384px
+    &--md {
+        max-width: 32rem;
+    }
+
+    // 512px
+    &--lg {
+        max-width: 48rem;
+    }
+
+    // 768px
+    &--xl {
+        max-width: 64rem;
+    }
+
+    // 1024px
+    &--full {
+        max-width: calc(100vw - 2rem);
+        height: calc(100vh - 2rem);
+    }
+}
+
+.header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: liquid.$spacing-fluid-6;
+    border-block-end: 1px solid var(--border-secondary, #f3f4f6);
+    background-color: var(--bg-surface, #ffffff);
+}
+
+.headerContent {
+    flex: 1;
+}
+
+.title {
+    font-size: liquid.$font-fluid-lg;
+    font-weight: 700;
+    color: var(--text-primary, #111827);
+    margin: 0;
+}
+
+.description {
+    font-size: liquid.$font-fluid-sm;
+    color: var(--text-secondary, #6b7280);
+    margin-block-start: liquid.$spacing-fluid-1;
+}
+
+.closeButton {
+    color: var(--text-tertiary, #9ca3af);
+    padding: liquid.$spacing-fluid-1;
+    border-radius: liquid.$radius-fluid-md;
+    transition: all liquid.$transition-fast;
+    margin-inline-start: liquid.$spacing-fluid-4;
+
+    &:hover {
+        color: var(--error-600, #dc2626);
+        background-color: var(--error-50, #fef2f2);
+    }
+}
+
+.content {
+    flex: 1;
+    overflow-y: auto;
+    padding: liquid.$spacing-fluid-6;
+}
+
+.footer {
+    padding: liquid.$spacing-fluid-4 liquid.$spacing-fluid-6;
+    border-block-start: 1px solid var(--border-secondary, #f3f4f6);
+    background-color: var(--bg-secondary, #f9fafb);
+    display: flex;
+    justify-content: flex-end;
+    gap: liquid.$spacing-fluid-4;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(1rem) scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}

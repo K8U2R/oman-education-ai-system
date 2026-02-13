@@ -191,15 +191,19 @@ class AuthService implements IAuthRepository {
    * @param redirectTo - URL to redirect after OAuth (default: current page)
    */
   getOAuthUrl(provider: OAuthProvider, redirectTo?: string): string {
-    // Backend runs on port 3000, frontend on 5174
     const backendUrl = import.meta.env.VITE_API_BASE_URL || '/api/v1'
-    // Remove /api/v1 suffix if present since routes are mounted at /api/v1 in express
-    const baseUrl = backendUrl.replace(/\/api\/v1$/, '')
     const redirectUrl = redirectTo || `${window.location.origin}${ROUTES.OAUTH_CALLBACK}`
 
-    // API_ENDPOINTS.AUTH.OAUTH returns /auth/{provider}, backend expects this at /api/v1/auth/{provider}
+    // Construct OAuth URL properly - backend expects /api/v1/auth/oauth/google
+    // API_ENDPOINTS.AUTH.OAUTH returns '/auth/google' or '/auth/oauth/google'
     const oauthPath = API_ENDPOINTS.AUTH.OAUTH(provider)
-    return `${baseUrl}/api/v1${oauthPath}?redirect_to=${encodeURIComponent(redirectUrl)}`
+
+    // Ensure proper URL construction
+    const fullPath = oauthPath.startsWith('/api/v1')
+      ? oauthPath
+      : `${backendUrl}${oauthPath}`
+
+    return `${fullPath}?redirect_to=${encodeURIComponent(redirectUrl)}`
   }
 
   /**

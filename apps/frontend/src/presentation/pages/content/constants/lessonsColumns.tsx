@@ -6,6 +6,7 @@
 
 import React from 'react'
 import { Edit, Trash2, Eye } from 'lucide-react'
+import { TFunction } from 'i18next'
 import { Button } from '../../../components/common'
 import type { DataTableColumn } from '../../../components/data'
 import { ProtectedButton } from '../../../components/auth'
@@ -31,6 +32,11 @@ export interface CreateLessonsColumnsOptions {
    * دالة فتح modal الحذف
    */
   onDelete: (lesson: Lesson) => void
+
+  /**
+   * Translation function
+   */
+  t: TFunction
 }
 
 /**
@@ -42,50 +48,50 @@ export interface CreateLessonsColumnsOptions {
 export function createLessonsColumns(
   options: CreateLessonsColumnsOptions
 ): DataTableColumn<Lesson>[] {
-  const { getSubjectName, getGradeLevelName, navigate, onDelete } = options
+  const { getSubjectName, getGradeLevelName, navigate, onDelete, t } = options
 
   return [
     {
       key: 'title',
-      label: 'العنوان',
+      label: t('content_management.lessons.table.title', 'العنوان'),
       sortable: true,
       render: (value, row): React.ReactNode => (
         <div className="lessons-management-page__title-cell">
           <strong>{value as string}</strong>
-          {!row.is_published && <span className="lessons-management-page__draft-badge">مسودة</span>}
+          {!row.is_published && <span className="lessons-management-page__draft-badge">{t('content_management.common.draft', 'مسودة')}</span>}
         </div>
       ),
     },
     {
       key: 'subject_id',
-      label: 'المادة',
+      label: t('content_management.lessons.table.subject', 'المادة'),
       render: (value): React.ReactNode => getSubjectName(value as string),
     },
     {
       key: 'grade_level_id',
-      label: 'المستوى',
+      label: t('content_management.lessons.table.grade', 'المستوى'),
       render: (value): React.ReactNode => getGradeLevelName(value as string),
     },
     {
       key: 'difficulty_level',
-      label: 'الصعوبة',
+      label: t('content_management.lessons.table.difficulty', 'الصعوبة'),
       render: (value): React.ReactNode => {
         const labels: Record<string, string> = {
-          beginner: 'مبتدئ',
-          intermediate: 'متوسط',
-          advanced: 'متقدم',
+          beginner: t('difficulty.beginner', 'مبتدئ'),
+          intermediate: t('difficulty.intermediate', 'متوسط'),
+          advanced: t('difficulty.advanced', 'متقدم'),
         }
         return labels[value as string] || (value as string)
       },
     },
     {
       key: 'order',
-      label: 'الترتيب',
+      label: t('content_management.lessons.table.order', 'الترتيب'),
       sortable: true,
     },
     {
       key: 'actions',
-      label: 'الإجراءات',
+      label: t('content_management.common.actions', 'الإجراءات'),
       render: (_, row) => (
         <div className="lessons-management-page__actions">
           <Button
@@ -94,7 +100,7 @@ export function createLessonsColumns(
             onClick={() => navigate(`/lessons/${row.id}`)}
             leftIcon={<Eye />}
           >
-            عرض
+            {t('common.view', 'عرض')}
           </Button>
           <ProtectedButton
             variant="ghost"
@@ -103,7 +109,7 @@ export function createLessonsColumns(
             leftIcon={<Edit />}
             requiredPermissions={['lessons.update', 'lessons.manage']}
           >
-            تعديل
+            {t('common.edit', 'تعديل')}
           </ProtectedButton>
           <ProtectedButton
             variant="ghost"
@@ -112,7 +118,7 @@ export function createLessonsColumns(
             leftIcon={<Trash2 />}
             requiredPermissions={['lessons.delete', 'lessons.manage']}
           >
-            حذف
+            {t('common.delete', 'حذف')}
           </ProtectedButton>
         </div>
       ),

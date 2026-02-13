@@ -19,6 +19,7 @@ describe('useRole', () => {
     email: 'test@example.com',
     name: 'Test User',
     role: 'student' as UserRole,
+    planTier: 'FREE' as const,
     permissions: [] as Permission[],
   }
 

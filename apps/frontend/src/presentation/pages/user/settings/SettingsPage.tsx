@@ -14,6 +14,8 @@ import ChangePassword from '../../../components/settings/ChangePassword'
 import { NotificationPreferences } from '../../../components/layout/NotificationPreferences'
 
 
+import styles from './SettingsPage.module.scss'
+
 /**
  * SettingsPage - صفحة الإعدادات
  *
@@ -40,7 +42,7 @@ const SettingsPage: React.FC = () => {
   }
 
   return (
-    <div className="settings-page">
+    <div className={styles.container}>
       {/* رأس الصفحة */}
       <PageHeader
         title="الإعدادات"
@@ -49,7 +51,7 @@ const SettingsPage: React.FC = () => {
       />
 
       {/* المحتوى الرئيسي */}
-      <section className="settings-page__content">
+      <section className={styles.content}>
         {/* الإعدادات العامة */}
         <GeneralSettings />
 
@@ -57,14 +59,14 @@ const SettingsPage: React.FC = () => {
         <ChangePassword />
 
         {/* الإشعارات */}
-        <Card className="settings-page__card">
-          <div className="settings-page__card-header">
-            <Bell size={24} className="settings-page__card-icon" />
-            <h3 className="settings-page__card-title">الإشعارات</h3>
+        <Card className={styles.card}>
+          <div className={styles.cardHeader}>
+            <Bell size={24} className={styles.cardIcon} />
+            <h3 className={styles.cardTitle}>الإشعارات</h3>
           </div>
-          <div className="settings-page__card-content">
+          <div className={styles.cardContent}>
             <button
-              className="settings-page__action-button"
+              className={styles.actionButton}
               onClick={() => setIsNotificationPrefsOpen(true)}
             >
               إدارة تفضيلات الإشعارات
@@ -73,14 +75,14 @@ const SettingsPage: React.FC = () => {
         </Card>
 
         {/* الخصوصية */}
-        <Card className="settings-page__card">
-          <div className="settings-page__card-header">
-            <Shield size={24} className="settings-page__card-icon" />
-            <h3 className="settings-page__card-title">الخصوصية</h3>
+        <Card className={styles.card}>
+          <div className={styles.cardHeader}>
+            <Shield size={24} className={styles.cardIcon} />
+            <h3 className={styles.cardTitle}>الخصوصية</h3>
           </div>
-          <div className="settings-page__card-content">
+          <div className={styles.cardContent}>
             <button
-              className="settings-page__action-button"
+              className={styles.actionButton}
               onClick={() => navigate(ROUTES.PRIVACY ?? '/privacy')}
             >
               عرض سياسة الخصوصية
@@ -92,12 +94,12 @@ const SettingsPage: React.FC = () => {
         <LanguageSettings />
 
         {/* المظهر (الثيم) */}
-        <Card className="settings-page__card">
-          <div className="settings-page__card-header">
-            <Palette size={24} className="settings-page__card-icon" />
-            <h3 className="settings-page__card-title">المظهر</h3>
+        <Card className={styles.card}>
+          <div className={styles.cardHeader}>
+            <Palette size={24} className={styles.cardIcon} />
+            <h3 className={styles.cardTitle}>المظهر</h3>
           </div>
-          <div className="settings-page__card-content">
+          <div className={styles.cardContent}>
             <ThemeSelector />
           </div>
         </Card>

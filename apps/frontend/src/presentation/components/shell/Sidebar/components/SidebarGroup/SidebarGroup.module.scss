@@ -1,0 +1,92 @@
+@use '../../core/theme' as *;
+
+.group {
+    margin-bottom: $group-margin-bottom;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-inline: 12px; // Logical
+    padding-block: 8px; // Logical
+    margin-bottom: $group-title-margin-bottom;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: $sidebar-text-secondary;
+    font-size: $group-title-font-size;
+    font-weight: $group-title-font-weight;
+    cursor: default;
+    user-select: none;
+    transition: color 0.2s;
+
+    &--clickable {
+        cursor: pointer;
+
+        &:hover {
+            color: $sidebar-text;
+        }
+    }
+}
+
+.icon {
+    width: 16px;
+    height: 16px;
+    color: inherit;
+    opacity: 0.8;
+}
+
+.label {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.toggle {
+    width: 14px;
+    height: 14px;
+    transition: transform $transition-speed;
+    opacity: 0.6;
+
+    &--open {
+        transform: rotate(180deg);
+    }
+}
+
+.items {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    overflow: hidden;
+    transition: max-height $transition-speed $transition-easing, opacity $transition-speed;
+
+    &--collapsed {
+        max-height: 0;
+        opacity: 0;
+    }
+
+    &--expanded {
+        max-height: 1000px; // Arbitrary safe height
+        opacity: 1;
+    }
+}
+
+// Collapsed Sidebar State
+:global(.sidebar--collapsed) .header {
+    justify-content: center;
+    padding: 12px 0;
+    margin-bottom: 4px;
+
+    // Hide text labels, show icon if present
+    .label,
+    .toggle {
+        display: none;
+    }
+
+    .icon {
+        width: 20px;
+        height: 20px;
+        opacity: 0.5;
+    }
+}

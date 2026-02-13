@@ -1,0 +1,108 @@
+@use '@/styles/abstracts/liquid-variables' as *;
+
+.container {
+    position: relative;
+}
+
+.trigger {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: liquid.$spacing-fluid-8;
+    height: liquid.$spacing-fluid-8;
+    border-radius: liquid.$radius-fluid-full;
+    background-color: var(--color-surface);
+    color: var(--color-text-secondary);
+    border: 1px solid var(--color-border);
+    transition: all liquid.$transition-fast ease-out;
+    cursor: pointer;
+
+    &:hover {
+        background-color: var(--color-surface-hover);
+        color: var(--color-primary);
+        border-color: var(--color-primary-200);
+    }
+
+    &--open {
+        background-color: var(--color-primary-50);
+        color: var(--color-primary);
+        border-color: var(--color-primary-200);
+    }
+}
+
+.menu {
+    position: absolute;
+    top: calc(100% + liquid.$spacing-fluid-3);
+    inset-inline-end: 0; // RTL support
+    width: 240px;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: liquid.$radius-fluid-lg;
+    box-shadow: $shadow-lg;
+    padding: liquid.$spacing-fluid-2;
+    z-index: $z-dropdown;
+    transform-origin: top right;
+    animation: scaleIn liquid.$transition-fast ease-out;
+
+    [dir="ltr"] & {
+        transform-origin: top left;
+    }
+}
+
+.item {
+    display: flex;
+    align-items: center;
+    gap: liquid.$spacing-fluid-4;
+    width: 100%;
+    padding: liquid.$spacing-fluid-3 liquid.$spacing-fluid-4;
+    border: none;
+    background: none;
+    border-radius: liquid.$radius-fluid-md;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    transition: all liquid.$transition-fast;
+    text-align: start;
+
+    &:hover {
+        background-color: var(--color-bg-secondary);
+        color: var(--color-text-primary);
+
+        .itemIcon {
+            color: var(--color-primary);
+        }
+    }
+
+    &Icon {
+        width: 18px;
+        height: 18px;
+        color: var(--color-text-tertiary);
+        transition: color liquid.$transition-fast;
+    }
+
+    &Label {
+        flex: 1;
+        @include typography-body-sm;
+        font-weight: $font-weight-medium;
+    }
+
+    &Shortcut {
+        @include typography-body-xs;
+        color: var(--color-text-disabled);
+        font-family: var(--font-mono);
+        background-color: var(--color-bg-tertiary);
+        padding: 2px 4px;
+        border-radius: $radius-sm;
+    }
+}
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}

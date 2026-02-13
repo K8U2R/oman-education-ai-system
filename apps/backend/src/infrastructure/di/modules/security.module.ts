@@ -9,25 +9,25 @@ import { prisma } from "@/infrastructure/database/client.js";
  * Registers security services and strategies.
  */
 export function registerSecurityModule(): void {
-    container.register(
-        "SecurityService",
-        (_c) => {
-            return new SecurityService(prisma);
-        },
-        "singleton"
-    );
+  container.register(
+    "SecurityService",
+    (_c) => {
+      return new SecurityService(prisma);
+    },
+    "singleton",
+  );
 
-    container.register(
-        "SecurityAnalyticsService",
-        () => new SecurityAnalyticsService(),
-        "singleton"
-    );
+  container.register(
+    "SecurityAnalyticsService",
+    () => new SecurityAnalyticsService(),
+    "singleton",
+  );
 
-    container.register(
-        "SecurityMonitoringService",
-        () => new SecurityMonitoringService(),
-        "singleton"
-    );
+  container.register(
+    "SecurityMonitoringService",
+    () => new SecurityMonitoringService(),
+    "singleton",
+  );
 
-    console.log("🔒 Security Module Registered");
+  console.log("🔒 Security Module Registered");
 }

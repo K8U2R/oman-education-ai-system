@@ -1,0 +1,122 @@
+@use '@/styles/abstracts/liquid-variables' as liquid;
+
+.container {
+    position: fixed;
+    top: 4rem; // var(--header-height) approx
+    right: liquid.$spacing-fluid-6;
+    z-index: liquid.$z-index-tooltip; // High priority for toasts
+    display: flex;
+    flex-direction: column;
+    gap: liquid.$spacing-fluid-3;
+    pointer-events: none;
+    max-width: calc(100vw - 2rem);
+
+    @media (max-width: 640px) {
+        right: liquid.$spacing-fluid-4;
+        left: liquid.$spacing-fluid-4;
+        top: 5rem;
+    }
+}
+
+.toast {
+    min-width: 320px;
+    padding: liquid.$spacing-fluid-4;
+    background: var(--bg-surface, #ffffff);
+    border: 1px solid var(--border-primary, #e5e7eb);
+    border-radius: liquid.$radius-fluid-lg;
+    box-shadow: liquid.$shadow-fluid-lg;
+    pointer-events: auto;
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    gap: liquid.$spacing-fluid-4;
+    animation: slideIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: all liquid.$transition-fast;
+
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: liquid.$shadow-fluid-xl;
+    }
+
+    // Variants
+    &--success {
+        border-left: 4px solid var(--success-500, #22c55e);
+
+        .icon {
+            color: var(--success-500, #22c55e);
+            background: color-mix(in srgb, var(--success-500, #22c55e), transparent 90%);
+        }
+    }
+
+    &--error {
+        border-left: 4px solid var(--error-500, #ef4444);
+
+        .icon {
+            color: var(--error-500, #ef4444);
+            background: color-mix(in srgb, var(--error-500, #ef4444), transparent 90%);
+        }
+    }
+
+    &--warning {
+        border-left: 4px solid var(--warning-500, #eab308);
+
+        .icon {
+            color: var(--warning-500, #eab308);
+            background: color-mix(in srgb, var(--warning-500, #eab308), transparent 90%);
+        }
+    }
+
+    &--info {
+        border-left: 4px solid var(--info-500, #3b82f6);
+
+        .icon {
+            color: var(--info-500, #3b82f6);
+            background: color-mix(in srgb, var(--info-500, #3b82f6), transparent 90%);
+        }
+    }
+}
+
+.icon {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: liquid.$radius-fluid-md;
+}
+
+.message {
+    flex: 1;
+    font-size: liquid.$font-fluid-sm;
+    font-weight: 500;
+    color: var(--text-primary, #111827);
+    margin: 0;
+}
+
+.close {
+    color: var(--text-primary, #111827);
+    opacity: 0.3;
+    transition: opacity liquid.$transition-fast;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+
+    &:hover {
+        opacity: 1;
+    }
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(2rem);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}

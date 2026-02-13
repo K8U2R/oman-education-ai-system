@@ -41,7 +41,7 @@ function initializeHealthChecks(): void {
  */
 router.get("/health", (_req: Request, res: Response) => {
   res.status(200).json({
-    status: "ok"
+    status: "ok",
   });
 });
 
@@ -94,13 +94,14 @@ router.get("/health/live", (_req: Request, res: Response) => {
 /**
  * GET /health/redis
  * Redis Session Store health check
- * 
+ *
  * يتحقق من اتصال Redis Session Store
  */
 router.get("/health/redis", async (_req: Request, res: Response) => {
   try {
     // Dynamically import to avoid circular dependency
-    const authModule = await import("../../../infrastructure/auth/auth.middleware.js");
+    const authModule =
+      await import("../../../infrastructure/auth/auth.middleware.js");
 
     const isHealthy = await authModule.getSessionStoreHealth();
 

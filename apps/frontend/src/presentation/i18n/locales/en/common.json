@@ -1,0 +1,846 @@
+{
+    "ai_status": {
+        "connection_status": "Connection Status",
+        "consumed": "Consumed:",
+        "click_details": "Click for details",
+        "command_center": "AI Command Center",
+        "refresh_data": "Refresh Data",
+        "daily_quota": "Daily Quota",
+        "tier": "Tier:",
+        "tier_enterprise": "Enterprise",
+        "tier_professional": "Professional",
+        "tier_free": "Free",
+        "resets_at": "Resets at:"
+    },
+    "breadcrumbs": {
+        "home": "Home",
+        "terms": "Terms of Use",
+        "privacy": "Privacy Policy",
+        "login": "Login",
+        "register": "Register",
+        "verify_email": "Verify Email",
+        "dashboard": "Dashboard",
+        "lessons": "Lessons",
+        "lesson_details": "Lesson Details",
+        "assessments": "Assessments",
+        "assessment_details": "Assessment Details",
+        "solve_assessment": "Solve Assessment",
+        "assessment_results": "Assessment Results",
+        "new_assessment": "New Assessment",
+        "edit_assessment": "Edit Assessment",
+        "projects": "Projects",
+        "project_details": "Project Details",
+        "new_project": "New Project",
+        "edit_project": "Edit Project",
+        "storage": "Storage",
+        "storage_browser": "Storage Browser",
+        "quick_actions": "Quick Actions",
+        "user_support": "User Support",
+        "manage_lessons": "Manage Lessons",
+        "create_lesson": "Create Lesson",
+        "ai_lesson_planner": "AI Lesson Planner",
+        "edit_lesson": "Edit Lesson",
+        "manage_learning_paths": "Manage Learning Paths",
+        "code_generator": "Code Generator",
+        "office_generator": "Office Generator",
+        "profile": "Profile",
+        "settings": "Settings",
+        "subscription": "Subscription",
+        "security": "Security",
+        "security_settings": "Security Settings",
+        "active_sessions": "Active Sessions",
+        "security_logs": "Security Logs",
+        "security_alerts": "Security Alerts",
+        "admin_dashboard": "Admin Dashboard",
+        "manage_users": "Manage Users",
+        "manage_whitelist": "Manage Whitelist",
+        "security_dashboard": "Security Dashboard",
+        "manage_sessions": "Manage Sessions",
+        "route_protection": "Route Protection",
+        "error_dashboard": "Error Dashboard",
+        "unauthorized": "Unauthorized",
+        "forbidden": "Forbidden",
+        "not_found": "404"
+    },
+    "errors": {
+        "forbidden": {
+            "title": "Access Denied",
+            "message": "Sorry, you do not have the necessary permissions to access this page.",
+            "contact_admin": "Please contact the administrator if you believe this is an error."
+        }
+    },
+    "app_name": "Oman Education AI",
+    "brand_short": "EduSystem",
+    "brand_initial": "E",
+    "welcome": "Welcome",
+    "login": "Login",
+    "register": "Register",
+    "logout": "Logout",
+    "language": {
+        "label": "Language",
+        "toggle": "Switch Language",
+        "current": "Current Language: {{lang}}"
+    },
+    "notifications": {
+        "preferences": {
+            "title": "Notification Preferences",
+            "subtitle": "Control the notifications you receive across different channels",
+            "section_title": "Notification Settings",
+            "section_description": "Choose the types of notifications you want to receive and your preferred channels"
+        },
+        "actions": {
+            "unmute": "Unmute Notifications",
+            "mute_all": "Mute All Notifications",
+            "default_settings": "Default Settings",
+            "reset_tooltip": "Reset to Default Settings",
+            "retry": "Retry",
+            "expand": "Expand",
+            "collapse": "Collapse",
+            "enable": "Enable",
+            "disable": "Disable",
+            "reset": "Reset",
+            "cancel": "Cancel",
+            "save": "Save"
+        },
+        "status": {
+            "loading": "Loading preferences...",
+            "error": "Error loading preferences",
+            "empty": "No preferences available",
+            "saved": "Saved successfully",
+            "saving": "Saving..."
+        },
+        "confirm": {
+            "cancel": "Are you sure you want to discard changes?",
+            "reset_all": "Are you sure you want to reset all settings to default?"
+        }
+    },
+    "quick_actions": {
+        "trigger_label": "Quick Actions",
+        "new_lesson": "New Lesson",
+        "upload_file": "Upload File",
+        "new_document": "New Document",
+        "settings": "Settings"
+    },
+    "search": {
+        "placeholder": "Search for lessons, subjects, students...",
+        "actions": {
+            "open": "Open Search",
+            "clear": "Clear Search",
+            "close": "Close Search"
+        },
+        "status": {
+            "searching": "Searching...",
+            "results_count": "{{count}} result(s)",
+            "no_results": "No results found"
+        },
+        "history": {
+            "title": "Search History",
+            "clear": "Clear History"
+        }
+    },
+    "settings": {
+        "title": "Settings",
+        "actions": {
+            "close": "Close"
+        },
+        "status": {
+            "section_unavailable": "Section unavailable"
+        },
+        "sections": {
+            "profile": {
+                "label": "Profile",
+                "description": "Manage your personal information and account data"
+            },
+            "security": {
+                "label": "Security",
+                "description": "Protect your account and change password"
+            },
+            "appearance": {
+                "label": "Appearance",
+                "description": "Customize system appearance and colors"
+            },
+            "language": {
+                "label": "Language",
+                "description": "Change system language and time zone"
+            },
+            "integrations": {
+                "label": "Integrations",
+                "description": "Connect your account with cloud services and external apps"
+            },
+            "actions": {
+                "close": "Close"
+            },
+            "status": {
+                "section_unavailable": "Section unavailable"
+            }
+        }
+    },
+    "public": {
+        "home": {
+            "hero": {
+                "welcome_user": "Welcome back, {{name}}",
+                "welcome_title": "to the Smart Education System",
+                "description_user": "Start your learning journey and explore all available features. Access lessons, projects, assessments, and more...",
+                "title": "Smart Education System",
+                "title_highlight": "Oman Education AI System",
+                "description": "An integrated educational system powered by AI to develop technical skills. Supports code generation, learning assistance, project building, web design, and more...",
+                "actions": {
+                    "dashboard": "Go to Dashboard",
+                    "explore_lessons": "Explore Lessons",
+                    "start_free": "Start for Free",
+                    "login": "Login",
+                    "create_account": "Create Free Account"
+                }
+            },
+            "features": {
+                "title": "Key Features",
+                "subtitle": "Discover the full power of AI in education",
+                "items": {
+                    "code_gen": {
+                        "title": "Code Generation",
+                        "desc": "Use AI to generate professional code quickly"
+                    },
+                    "learning_assistant": {
+                        "title": "Learning Assistant",
+                        "desc": "Get smart help understanding programming concepts"
+                    },
+                    "project_builder": {
+                        "title": "Project Building",
+                        "desc": "Create full projects from scratch using AI"
+                    },
+                    "web_design": {
+                        "title": "Web Design",
+                        "desc": "Design professional web interfaces with AI assistance"
+                    }
+                }
+            },
+            "quick_access": {
+                "title": "Quick Access",
+                "items": {
+                    "dashboard": {
+                        "title": "Dashboard",
+                        "desc": "View your stats and track progress"
+                    },
+                    "lessons": {
+                        "title": "Lessons",
+                        "desc": "Explore available lessons"
+                    },
+                    "projects": {
+                        "title": "Projects",
+                        "desc": "Create new projects"
+                    },
+                    "profile": {
+                        "title": "Profile",
+                        "desc": "Manage your account"
+                    }
+                }
+            },
+            "why_us": {
+                "title": "Why Choose Us?",
+                "items": {
+                    "secure": {
+                        "title": "Secure & Reliable",
+                        "desc": "Using latest security with Supabase Authentication"
+                    },
+                    "fast": {
+                        "title": "Fast & Efficient",
+                        "desc": "High performance and smooth user experience"
+                    },
+                    "ai": {
+                        "title": "Advanced AI",
+                        "desc": "Latest AI technologies to enhance learning"
+                    }
+                }
+            },
+            "cta": {
+                "title": "Start Your Journey Today",
+                "description": "Join thousands of students and developers using our system"
+            }
+        }
+    },
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "back": "Back",
+    "next": "Next",
+    "submit": "Submit",
+    "sidebar_loading": "Loading menu...",
+    "no_items": "No items available",
+    "sidebar": {
+        "learning": "Learning & Content",
+        "dashboard": "Dashboard",
+        "lessons": "Lessons",
+        "assessments": "Assessments",
+        "projects": "Projects",
+        "storage": "Storage",
+        "content_tools": "Content Tools",
+        "lessons_mgmt": "Lessons Management",
+        "paths_mgmt": "Learning Paths",
+        "code_gen": "Code Generator",
+        "office_gen": "Office Generator",
+        "admin": "System Administration",
+        "users_mgmt": "User Management",
+        "whitelist": "Whitelist",
+        "knowledge": "Knowledge Base",
+        "security": "Security",
+        "sessions": "Session Management",
+        "security_logs": "Security Logs",
+        "security_settings": "Security Settings",
+        "route_protection": "Route Protection",
+        "analytics": "Analytics",
+        "error_dashboard": "Error Dashboard",
+        "perf_dashboard": "Performance Dashboard",
+        "database": "Database",
+        "db_dashboard": "Dashboard",
+        "db_perf": "Performance",
+        "db_conn": "Connections",
+        "db_cache": "Cache",
+        "db_explorer": "Explorer",
+        "db_query": "Query Builder",
+        "db_trans": "Transactions",
+        "db_audit": "Audit Logs",
+        "db_backup": "Backups",
+        "db_migrations": "Migrations",
+        "dev_tools": "Developer Tools",
+        "sec_analytics": "Security Analytics",
+        "sec_monitor": "Security Monitoring",
+        "quick_actions": "Quick Actions"
+    },
+    "dashboard": {
+        "title": "Dashboard",
+        "welcome_back": "Welcome back, {{name}} 👋",
+        "ready_message": "Ready to continue your learning journey today?",
+        "stats": {
+            "completed_lessons": "Completed Lessons",
+            "learning_hours": "Learning Hours",
+            "points": "Points",
+            "level": "Current Level",
+            "trend_week": "+2 this week",
+            "active": "Very Active",
+            "top_10": "Top 10%",
+            "near_avg": "Close to Average"
+        },
+        "actions": {
+            "title": "Quick Actions",
+            "start_lesson": "Start New Lesson",
+            "start_lesson_desc": "Continue where you left off",
+            "gen_code": "Generate Code",
+            "gen_code_desc": "Use AI assistant to write code",
+            "daily_challenge": "Daily Challenge",
+            "daily_challenge_desc": "Test your skills"
+        },
+        "course": {
+            "current": "Current Course",
+            "last_activity": "Last activity: 2 hours ago",
+            "continue": "Continue Lesson",
+            "general_progress": "Overall Progress"
+        },
+        "activity": {
+            "title": "Recent Activity",
+            "completed_lesson": "Completed lesson"
+        }
+    },
+    "lessons": {
+        "title": "Lessons",
+        "subtitle": "Explore all available lessons and start your journey",
+        "search_placeholder": "Search for a lesson...",
+        "filter": "Filter",
+        "no_lessons": "No lessons found",
+        "no_lessons_desc": "Try different search terms",
+        "empty": "No lessons available yet",
+        "empty_desc": "New lessons coming soon"
+    },
+    "ai": {
+        "assistant_title": "AI Assistant",
+        "chat_title": "Chat with AI Assistant",
+        "close": "Close",
+        "quick_actions": "Quick Actions",
+        "start_chat": "Start a conversation with AI Assistant",
+        "input_placeholder": "Type your message here...",
+        "send": "Send",
+        "typing": "Typing...",
+        "default_response": "Thank you for your message. I am here to help!",
+        "error_response": "Sorry, an error occurred while processing your message.",
+        "actions": {
+            "explain": "Explain Lesson",
+            "explain_prompt": "Explain this lesson in a simple way",
+            "examples": "Practical Examples",
+            "examples_prompt": "Give me practical examples on this topic",
+            "code": "Explain Code",
+            "code_prompt": "Explain this code step by step",
+            "help": "Help",
+            "help_prompt": "How can I use this feature?"
+        },
+        "generator": {
+            "title": "Smart Code Generation",
+            "subtitle": "Describe the code you need and AI will generate it for you",
+            "description_label": "Code Requirements",
+            "description_placeholder": "Example: Create a function to calculate sum of array...",
+            "language_label": "Programming Language",
+            "language_placeholder": "Select Language (Optional)",
+            "framework_label": "Framework",
+            "framework_placeholder": "Select Framework (Optional)",
+            "style_label": "Code Style",
+            "styles": {
+                "simple": "Simple",
+                "detailed": "Detailed",
+                "commented": "Commented",
+                "minimal": "Minimal"
+            },
+            "include_tests": "Include Tests",
+            "include_docs": "Include Documentation",
+            "generate_btn": "Generate Code",
+            "generating": "Generating...",
+            "result_title": "Generated Code",
+            "explanation_title": "Code Explanation:",
+            "copy": "Copy",
+            "copied": "Copied",
+            "download": "Download",
+            "errors": {
+                "description_required": "Please enter a description for the requested code",
+                "generation_failed": "Code generation failed. Please try again."
+            }
+        },
+        "lesson_generator": {
+            "title": "AI Lesson Planner",
+            "subtitle": "Create comprehensive lesson plans in seconds using Omani AI"
+        },
+        "form": {
+            "details": "Lesson Details",
+            "topic": "Topic",
+            "topic_placeholder": "e.g. Photosynthesis",
+            "subject": "Subject",
+            "subject_placeholder": "Science",
+            "grade": "Grade Level",
+            "grade_placeholder": "Grade 5",
+            "generating": "Thinking...",
+            "generate_btn": "Generate Implementation Plan"
+        },
+        "result": {
+            "placeholder": "Your AI-generated lesson plan will appear here ready for the classroom.",
+            "objectives": "Learning Objectives",
+            "structure": "Lesson Structure"
+        },
+        "success": {
+            "title": "Generation Complete",
+            "lesson_generated": "Lesson plan generated successfully"
+        },
+        "error": {
+            "title": "Generation Failed",
+            "generation_failed": "Failed to generate lesson plan. Please try again."
+        }
+    },
+    "auth": {
+        "oauth_failed": "Authentication with Google failed. Please try again later.",
+        "unexpected_error": "An unexpected error occurred.",
+        "email_label": "Email",
+        "email_placeholder": "example@email.com",
+        "password_label": "Password",
+        "password_placeholder": "••••••••",
+        "confirm_password_label": "Confirm Password",
+        "first_name_label": "First Name",
+        "last_name_label": "Last Name",
+        "username_label": "Username",
+        "remember_me": "Remember me",
+        "forgot_password": "Forgot Password?",
+        "no_account": "Don't have an account?",
+        "create_account": "Create New Account",
+        "have_account": "Already have an account?",
+        "sign_in": "Sign In",
+        "register_btn": "Register",
+        "or": "OR",
+        "loading_login": "Logging in...",
+        "terms": "I agree to the Terms and Conditions",
+        "privacy": "I agree to the Privacy Policy",
+        "validation": {
+            "email_required": "Email is required",
+            "email_invalid": "Invalid email address",
+            "password_required": "Password is required",
+            "password_min": "Password must be at least 8 characters",
+            "password_mismatch": "Passwords do not match",
+            "first_name_required": "First name is required",
+            "last_name_required": "Last name is required",
+            "terms_required": "You must accept the terms",
+            "privacy_required": "You must accept the privacy policy",
+            "enter_email_password": "Please enter email and password"
+        },
+        "success": {
+            "account_created": "Account created successfully! ✅",
+            "check_email": "Please check your email to verify your account.",
+            "go_to_verify": "Go to Verification"
+        }
+    },
+    "diagnostics": {
+        "title": "System Diagnostics",
+        "subtitle": "Real-time health check and configuration validation.",
+        "run_checks": "Run All Checks",
+        "backend_status": "Backend API Status",
+        "frontend_env": "Frontend Environment",
+        "auth_config": "Authentication Configuration",
+        "generated_url": "Generated Google OAuth URL"
+    },
+    "legal": {
+        "version": "Version",
+        "last_updated": "Last Updated",
+        "reject": "Decline",
+        "accepting": "Accepting...",
+        "load_error": "Failed to load document",
+        "accept_error": "Failed to record acceptance",
+        "not_found": "Document not found"
+    },
+    "profile": {
+        "title": "Profile",
+        "description": "Manage your personal information and account settings",
+        "personal_info": "Personal Information",
+        "account_info": "Account Information",
+        "display_name": "Display Name",
+        "email": "Email",
+        "role": "Role",
+        "status": "Status",
+        "verified": "Verified",
+        "not_verified": "Not Verified",
+        "member_since": "Member Since",
+        "active": "Active",
+        "inactive": "Inactive"
+    },
+    "content_management": {
+        "learning_paths": {
+            "title": "Learning Paths Management",
+            "description": "Create, edit, and manage learning paths",
+            "search_placeholder": "Search paths...",
+            "add_new": "Add New Path",
+            "empty": "No learning paths found",
+            "delete_confirm": "Are you sure you want to delete this path?",
+            "delete_success": "Path deleted successfully",
+            "delete_error": "Failed to delete learning path",
+            "item_type": "Learning Path",
+            "table": {
+                "name": "Name",
+                "description": "Description",
+                "subject": "Subject",
+                "grade": "Grade",
+                "lessons_count": "Lessons Count",
+                "order": "Order"
+            }
+        },
+        "lessons": {
+            "title": "Lessons Management",
+            "description": "Create, edit, and manage educational lessons",
+            "search_placeholder": "Search lessons...",
+            "add_new": "Add New Lesson",
+            "empty": "No lessons found",
+            "delete_confirm": "Are you sure you want to delete this lesson?",
+            "delete_success": "Lesson deleted successfully",
+            "delete_error": "Failed to delete lesson",
+            "item_type": "Lesson",
+            "table": {
+                "title": "Title",
+                "subject": "Subject",
+                "grade": "Grade",
+                "difficulty": "Difficulty",
+                "order": "Order"
+            }
+        },
+        "common": {
+            "actions": "Actions",
+            "draft": "Draft"
+        }
+    },
+    "difficulty": {
+        "beginner": "Beginner",
+        "intermediate": "Intermediate",
+        "advanced": "Advanced"
+    },
+    "admin": {
+        "dashboard": {
+            "title": "Admin Dashboard",
+            "description": "Comprehensive system and user management",
+            "stats": {
+                "total_users": "Total Users",
+                "active_users": "Active Users",
+                "total_lessons": "Total Lessons",
+                "system_health": "System Health",
+                "healthy": "Healthy",
+                "warning": "Warning",
+                "error": "Error"
+            },
+            "actions": {
+                "title": "Quick Actions",
+                "manage_users": "Manage Users",
+                "manage_users_desc": "View and manage all users",
+                "manage_content": "Manage Content",
+                "manage_content_desc": "Manage lessons and learning paths",
+                "analytics": "Analytics",
+                "analytics_desc": "View detailed system reports"
+            },
+            "health": {
+                "title": "System Health",
+                "status_ok": "System is running normally",
+                "db": "Database",
+                "server": "Server",
+                "memory": "Memory",
+                "connected": "Connected",
+                "active": "Active"
+            }
+        },
+        "users": {
+            "title": "User Management",
+            "description": "Manage users, roles and permissions",
+            "search_placeholder": "Search users...",
+            "empty": "No users found",
+            "table": {
+                "email": "Email",
+                "name": "Name",
+                "role": "Role",
+                "status": "Status",
+                "actions": "Actions"
+            },
+            "status": {
+                "active": "Active",
+                "inactive": "Inactive",
+                "verified": "Verified",
+                "unverified": "Unverified"
+            },
+            "modal": {
+                "edit_title": "Edit User",
+                "delete_title": "Delete User",
+                "role_label": "Role",
+                "permissions_label": "Permissions",
+                "grant_all": "Grant All",
+                "from_role": "Inherited from Role"
+            },
+            "roles": {
+                "student": "Student",
+                "teacher": "Teacher",
+                "admin": "Admin",
+                "developer": "Developer",
+                "parent": "Parent",
+                "moderator": "Moderator"
+            },
+            "whitelist": {
+                "title": "Whitelist Management",
+                "description": "Manage advanced permissions for authorized users",
+                "filters": {
+                    "all": "All",
+                    "active": "Active",
+                    "inactive": "Inactive",
+                    "expired": "Expired"
+                },
+                "actions": {
+                    "refresh": "Refresh",
+                    "add_new": "Add New",
+                    "clear_error": "Dismiss",
+                    "edit": "Edit",
+                    "delete": "Delete",
+                    "activate": "Activate",
+                    "deactivate": "Deactivate"
+                },
+                "table": {
+                    "email": "Email",
+                    "level": "Permission Level",
+                    "permissions_count": "Permissions Count",
+                    "expires_at": "Expires At",
+                    "status": "Status",
+                    "actions": "Actions",
+                    "permanent": "Permanent",
+                    "never_expires": "Never Expires",
+                    "permission_unit": "permission(s)"
+                },
+                "form": {
+                    "create_title": "Add New Entry",
+                    "edit_title": "Edit Whitelist Entry",
+                    "email_label": "Email",
+                    "email_placeholder": "example@domain.com",
+                    "level_label": "Permission Level",
+                    "permissions_label": "Permissions",
+                    "expires_at_label": "Expires At (Optional)",
+                    "permanent_label": "Permanent Permissions (Cannot be removed)",
+                    "notes_label": "Notes (Optional)",
+                    "notes_placeholder": "Additional notes...",
+                    "cancel": "Cancel",
+                    "save": "Save",
+                    "create": "Create",
+                    "update": "Update"
+                },
+                "messages": {
+                    "delete_title": "Delete Confirmation",
+                    "delete_confirm": "Are you sure you want to delete the entry for",
+                    "permanent_warning": "This is a permanent entry and cannot be deleted",
+                    "load_success": "{{count}} entries loaded successfully",
+                    "error_title": "Whitelist Error",
+                    "delete_fail": "Failed to delete whitelist entry",
+                    "activate_fail": "Failed to activate whitelist entry",
+                    "deactivate_fail": "Failed to deactivate whitelist entry",
+                    "save_fail": "Failed to save whitelist entry"
+                },
+                "levels": {
+                    "developer": "Developer",
+                    "admin": "Admin",
+                    "super_admin": "Super Admin"
+                },
+                "validation": {
+                    "email_required": "Email is required",
+                    "email_invalid": "Invalid email address",
+                    "permissions_required": "At least one permission must be selected",
+                    "future_date": "Expiration date must be in the future"
+                }
+            }
+        }
+    },
+    "system": {
+        "sentinel": {
+            "loading_title": "⏳ Initializing Sentinel System...",
+            "loading_desc": "Please wait while the diagnostic system initializes",
+            "title": "🛡️ Sovereign Sentinel Developer Console",
+            "subtitle": "Real-time system diagnostics and monitoring",
+            "quick_access": "📍 Quick Access",
+            "console": "Console",
+            "url": "URL",
+            "shortcut": "Shortcut",
+            "hud": {
+                "title": "Sovereign Sentinel",
+                "tabs": {
+                    "visual": "Visual",
+                    "network": "Network",
+                    "performance": "Performance"
+                },
+                "visual": {
+                    "title": "Visual Guardian Report",
+                    "no_violations": "✅ No Hex violations detected",
+                    "violations_count": "{{count}} Hex color violations",
+                    "more": "+{{count}} more violations..."
+                },
+                "coming_soon": "Coming in Phase 2",
+                "footer": {
+                    "console_hint": "Console: <kbd>sentinel.toggle()</kbd> to toggle"
+                }
+            }
+        },
+        "database": {
+            "title": "Database Inspector",
+            "description": "Raw educational data explorer",
+            "stats": {
+                "tracks": "Total Tracks",
+                "units": "Total Units",
+                "lessons": "Total Lessons"
+            },
+            "hierarchy": "Educational Graph Hierarchy",
+            "loading_schema": "Loading Data Schema...",
+            "xray": "X-Ray Inspection",
+            "db_public": "DATABASE: PUBLIC",
+            "inspect": "Inspect",
+            "lessons_count": "{{count}} Lessons",
+            "units_count": "{{count}} Units"
+        },
+        "security": {
+            "monitoring": {
+                "title": "Security Monitoring",
+                "description": "Real-time system monitoring",
+                "auto_refresh": "Auto Refresh",
+                "refresh_interval": {
+                    "5s": "Every 5s",
+                    "10s": "Every 10s",
+                    "30s": "Every 30s",
+                    "1m": "Every 1m"
+                },
+                "health": {
+                    "title": "System Health",
+                    "desc": "Core component status",
+                    "score_label": "out of 100",
+                    "uptime": "Uptime",
+                    "response_time": "Response Time",
+                    "error_rate": "Error Rate"
+                },
+                "metrics": {
+                    "active_sessions": "Active Sessions",
+                    "logins": "Logins (Last Min)",
+                    "events": "Events (Last Min)",
+                    "requests": "Requests (Last Min)",
+                    "critical": "Critical",
+                    "success_rate": "Success",
+                    "avg_time": "Avg"
+                },
+                "thresholds": {
+                    "title": "Alert Thresholds",
+                    "desc": "Manage security alert thresholds",
+                    "manage": "Manage Thresholds",
+                    "empty": "No alert thresholds"
+                }
+            },
+            "analytics": {
+                "title": "Security Analytics",
+                "description": "Advanced security analysis and patterns",
+                "export_csv": "Export CSV",
+                "export_excel": "Export Excel",
+                "period": {
+                    "label": "Time Period:",
+                    "1h": "Last Hour",
+                    "24h": "Last 24 Hours",
+                    "7d": "Last 7 Days",
+                    "30d": "Last 30 Days",
+                    "90d": "Last 90 Days",
+                    "custom": "Custom",
+                    "to": "to"
+                },
+                "metrics": {
+                    "login_success": "Login Success Rate",
+                    "total_events": "Total Events",
+                    "critical_events": "Critical Events",
+                    "unique_ips": "Unique IPs"
+                },
+                "charts": {
+                    "login_activity": "Login Activity",
+                    "events_timeline": "Events Timeline",
+                    "top_ips": "Top IPs",
+                    "top_users": "Top Users",
+                    "requests": "Requests",
+                    "sessions": "Sessions",
+                    "risk": {
+                        "high": "High",
+                        "medium": "Medium",
+                        "low": "Low"
+                    }
+                }
+            }
+        }
+    },
+    "footer": {
+        "brand": {
+            "title": "Oman Education AI",
+            "description": "An integrated smart educational system powered by AI to develop technical skills and build the future of education in Oman."
+        },
+        "columns": {
+            "product": {
+                "title": "Product",
+                "links": {
+                    "home": "Home",
+                    "features": "Features",
+                    "pricing": "Pricing",
+                    "roadmap": "Roadmap"
+                }
+            },
+            "resources": {
+                "title": "Resources",
+                "links": {
+                    "docs": "Docs",
+                    "blog": "Blog",
+                    "community": "Community",
+                    "help": "Help Center"
+                }
+            },
+            "legal": {
+                "title": "Legal",
+                "links": {
+                    "privacy": "Privacy",
+                    "terms": "Terms",
+                    "security": "Security"
+                }
+            }
+        },
+        "copyright": "© {{year}} Oman Education AI System. All rights reserved."
+    }
+}

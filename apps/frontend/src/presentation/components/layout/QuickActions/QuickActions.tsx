@@ -1,15 +1,11 @@
-﻿/**
- * Quick Actions Menu - قائمة الإجراءات السريعة
- *
- * قائمة إجراءات سريعة مع اختصارات
- */
-
-import React, { useState, useRef, useEffect, useMemo } from 'react'
+﻿import React, { useState, useRef, useEffect, useMemo } from 'react'
 import { FileText, BookOpen, Upload, Settings, Zap } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { ROUTES } from '@/domain/constants/routes.constants'
 import { useUIStore } from '@/application/shared/store'
 import { cn } from '../../common/utils/classNames'
+import styles from './QuickActions.module.scss'
 
 interface QuickAction {
   id: string
@@ -24,6 +20,7 @@ interface QuickActionsProps {
 }
 
 export const QuickActions: React.FC<QuickActionsProps> = ({ className = '' }) => {
+  const { t } = useTranslation('common')
   const [isOpen, setIsOpen] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
   const navigate = useNavigate()
@@ -34,7 +31,7 @@ export const QuickActions: React.FC<QuickActionsProps> = ({ className = '' }) =>
     () => [
       {
         id: 'new-lesson',
-        label: 'درس جديد',
+        label: t('quick_actions.new_lesson'),
         icon: BookOpen,
         action: () => {
           navigate(ROUTES.LESSONS)
@@ -44,7 +41,7 @@ export const QuickActions: React.FC<QuickActionsProps> = ({ className = '' }) =>
       },
       {
         id: 'upload-file',
-        label: 'رفع ملف',
+        label: t('quick_actions.upload_file'),
         icon: Upload,
         action: () => {
           navigate(ROUTES.STORAGE)
@@ -54,7 +51,7 @@ export const QuickActions: React.FC<QuickActionsProps> = ({ className = '' }) =>
       },
       {
         id: 'new-document',
-        label: 'مستند جديد',
+        label: t('quick_actions.new_document'),
         icon: FileText,
         action: () => {
           navigate(ROUTES.STORAGE)
@@ -64,7 +61,7 @@ export const QuickActions: React.FC<QuickActionsProps> = ({ className = '' }) =>
       },
       {
         id: 'settings',
-        label: 'الإعدادات',
+        label: t('quick_actions.settings'),
         icon: Settings,
         action: () => {
           openSettings()
@@ -73,7 +70,7 @@ export const QuickActions: React.FC<QuickActionsProps> = ({ className = '' }) =>
         shortcut: 'S',
       },
     ],
-    [navigate, openSettings]
+    [navigate, openSettings, t]
   )
 
   // Close menu when clicking outside
@@ -110,26 +107,26 @@ export const QuickActions: React.FC<QuickActionsProps> = ({ className = '' }) =>
   }, [actions])
 
   return (
-    <div ref={menuRef} className={cn('quick-actions', className)}>
+    <div ref={menuRef} className={cn(styles.container, className)}>
       <button
-        className={cn('quick-actions__trigger', isOpen && 'quick-actions__trigger--open')}
+        className={cn(styles.trigger, isOpen && styles['trigger--open'])}
         onClick={() => setIsOpen(!isOpen)}
-        aria-label="الإجراءات السريعة"
+        aria-label={t('quick_actions.trigger_label')}
         aria-expanded={isOpen}
       >
-        <Zap className="w-5 h-5" />
+        <Zap size={20} />
       </button>
 
       {isOpen && (
-        <div className="quick-actions__menu">
+        <div className={styles.menu}>
           {actions.map(action => {
             const Icon = action.icon
             return (
-              <button key={action.id} className="quick-actions__item" onClick={action.action}>
-                <Icon className="quick-actions__item-icon" />
-                <span className="quick-actions__item-label">{action.label}</span>
+              <button key={action.id} className={styles.item} onClick={action.action}>
+                <Icon className={styles.itemIcon} />
+                <span className={styles.itemLabel}>{action.label}</span>
                 {action.shortcut && (
-                  <span className="quick-actions__item-shortcut">
+                  <span className={styles.itemShortcut}>
                     {navigator.platform.includes('Mac') ? '⌘' : 'Ctrl'}+{action.shortcut}
                   </span>
                 )}

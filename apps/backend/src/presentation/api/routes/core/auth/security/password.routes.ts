@@ -1,6 +1,6 @@
 /**
  * Password Security Routes - مسارات أمان كلمة المرور
- * 
+ *
  * @law Law-1 (Modularity) - Domain Encapsulation
  * @law Law-2 (Gatekeeper) - Rate limiting for recovery routes
  */
@@ -34,12 +34,12 @@ const router = RouteFactory.createFeatureRouter();
  *         description: تم إرسال بريد الاستعادة
  */
 router.post(
-    "/forgot-password",
-    ...RouteFactory.createRoute<PasswordHandler>(
-        "PasswordHandler",
-        "requestPasswordReset",
-        ...MiddlewareChains.rateLimited(loginRateLimitMiddleware),
-    ),
+  "/forgot-password",
+  ...RouteFactory.createRoute<PasswordHandler>(
+    "PasswordHandler",
+    "requestPasswordReset",
+    ...MiddlewareChains.rateLimited(loginRateLimitMiddleware),
+  ),
 );
 
 /**
@@ -64,12 +64,12 @@ router.post(
  *         description: تم تغيير كلمة المرور بنجاح
  */
 router.post(
-    "/reset-password",
-    ...RouteFactory.createRoute<PasswordHandler>(
-        "PasswordHandler",
-        "resetPassword",
-        ...MiddlewareChains.rateLimited(loginRateLimitMiddleware),
-    ),
+  "/reset-password",
+  ...RouteFactory.createRoute<PasswordHandler>(
+    "PasswordHandler",
+    "resetPassword",
+    ...MiddlewareChains.rateLimited(loginRateLimitMiddleware),
+  ),
 );
 
 /**
@@ -96,12 +96,12 @@ router.post(
  *         description: تم تحديث كلمة المرور
  */
 router.put(
-    "/update-password",
-    ...RouteFactory.createAuthenticatedRoute<PasswordHandler>(
-        "PasswordHandler",
-        "updatePassword",
-        authMiddleware.authenticate,
-    ),
+  "/update-password",
+  ...RouteFactory.createAuthenticatedRoute<PasswordHandler>(
+    "PasswordHandler",
+    "updatePassword",
+    authMiddleware.authenticate,
+  ),
 );
 
 export default router;

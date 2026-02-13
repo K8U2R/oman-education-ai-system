@@ -1,0 +1,176 @@
+@use '@/styles/abstracts/liquid-variables' as liquid;
+
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    border-radius: 0; // Reset card radius if used inside panel
+    border: none;
+    box-shadow: none;
+}
+
+.header {
+    display: none; // Hidden when embedded in panel as it has its own header
+}
+
+.messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: liquid.$spacing-fluid-4;
+    display: flex;
+    flex-direction: column;
+    gap: liquid.$spacing-fluid-4;
+
+    // Custom Scrollbar
+    &::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: var(--border-secondary, #e5e7eb);
+        border-radius: 3px;
+    }
+}
+
+.empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: var(--text-tertiary, #9ca3af);
+    gap: liquid.$spacing-fluid-3;
+
+    &-icon {
+        width: 3rem;
+        height: 3rem;
+        opacity: 0.5;
+    }
+}
+
+.message {
+    display: flex;
+    gap: liquid.$spacing-fluid-3;
+    max-width: 85%;
+
+    &--user {
+        flex-direction: row-reverse; // RTL aware natural flip? No, user usually on one side.
+        align-self: flex-end;
+
+        // In RTL, row-reverse puts icon on left. 
+        // We want user on 'start' side relative to direction?
+        // Usually Chat UI: User Right (LTR) / Left (RTL)? 
+        // Or User always 'trailing'.
+    }
+
+    &--assistant {
+        align-self: flex-start;
+    }
+}
+
+.avatar {
+    width: 2rem;
+    height: 2rem;
+    border-radius: liquid.$radius-fluid-full;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
+    .message--user & {
+        background-color: var(--primary-100, #dbeafe);
+        color: var(--primary-700, #1d4ed8);
+    }
+
+    .message--assistant & {
+        background-color: var(--secondary-100, #f3f4f6);
+        color: var(--secondary-700, #374151);
+    }
+}
+
+.contentWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: liquid.$spacing-fluid-1;
+}
+
+.text {
+    padding: liquid.$spacing-fluid-3;
+    border-radius: liquid.$radius-fluid-lg;
+    font-size: liquid.$font-fluid-sm;
+    line-height: 1.5;
+
+    .message--user & {
+        background-color: var(--primary-600, #2563eb);
+        color: #fff;
+        border-end-end-radius: liquid.$radius-fluid-sm;
+    }
+
+    .message--assistant & {
+        background-color: var(--bg-secondary, #f3f4f6);
+        color: var(--text-primary, #111827);
+        border-end-start-radius: liquid.$radius-fluid-sm;
+    }
+
+    &--loading {
+        display: flex;
+        align-items: center;
+        gap: liquid.$spacing-fluid-2;
+        color: var(--text-secondary, #6b7280);
+        background-color: transparent !important;
+        padding: 0;
+    }
+}
+
+.loader {
+    animation: spin 1s linear infinite;
+}
+
+.time {
+    font-size: liquid.$font-fluid-xs; // 10px approx -> 12px min
+    color: var(--text-tertiary, #9ca3af);
+    margin-inline-start: liquid.$spacing-fluid-2;
+}
+
+.inputContainer {
+    padding: liquid.$spacing-fluid-4;
+    border-block-start: 1px solid var(--border-primary, #e5e7eb);
+    display: flex;
+    gap: liquid.$spacing-fluid-3;
+    background-color: var(--bg-surface, #ffffff);
+}
+
+.input {
+    flex: 1;
+    border: 1px solid var(--border-primary, #d1d5db);
+    border-radius: liquid.$radius-fluid-md;
+    padding: liquid.$spacing-fluid-2 liquid.$spacing-fluid-3;
+    resize: none;
+    font-family: inherit;
+    font-size: liquid.$font-fluid-sm;
+
+    &:focus {
+        outline: none;
+        border-color: var(--primary-500, #3b82f6);
+        box-shadow: 0 0 0 2px var(--primary-100, #dbeafe);
+    }
+
+    &:disabled {
+        background-color: var(--bg-secondary, #f9fafb);
+        cursor: not-allowed;
+    }
+}
+
+.sendButton {
+    align-self: flex-end;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}

@@ -1,0 +1,89 @@
+openapi: 3.0.0
+info:
+  title: AI Soul API
+  version: 1.0.0
+paths:
+  /api/v1/ai/lessons/generate:
+    post:
+      summary: Generate a Lesson Plan
+      tags: [Education, AI]
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [topic, subject, gradeLevel]
+              properties:
+                topic:
+                  type: string
+                subject:
+                  type: string
+                gradeLevel:
+                  type: string
+                language:
+                  type: string
+                  enum: [ar, en]
+                  default: ar
+      responses:
+        201:
+          description: Lesson generated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LessonPlanPayload'
+
+  /api/v1/ai/code/review:
+    post:
+      summary: Review Code Snippet
+      tags: [Development, AI]
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [code, language]
+              properties:
+                code:
+                  type: string
+                language:
+                  type: string
+                  example: "python"
+                context:
+                  type: string
+                  enum: [debug, optimize, explain]
+      responses:
+        200:
+          description: Code review complete
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  review:
+                    type: string
+                    description: Markdown formatted review
+
+components:
+  schemas:
+    LessonPlanPayload:
+      type: object
+      properties:
+        content:
+          type: object
+          properties:
+            objectives:
+              type: array
+              items:
+                type: string
+            introduction:
+              type: string
+            mainActivity:
+              type: string
+            assessment:
+              type: string

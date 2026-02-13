@@ -1,0 +1,23 @@
+@use '@/styles/abstracts/liquid-variables' as liquid;
+
+.footer-brand {
+    display: flex;
+    flex-direction: column;
+    gap: liquid.$spacing-fluid-2; // sm (~4-8px)
+
+    &__logo {
+        font-size: clamp(1.5rem, 5vw, 2rem); // Fluid typography
+        font-weight: 700;
+        margin-block-end: liquid.$spacing-fluid-1; // xs (~2-4px)
+        background-clip: text;
+        color: transparent;
+        background-image: linear-gradient(to right, var(--color-primary), var(--color-accent)); // Fallback if liquid vars missing for colors
+    }
+
+    &__desc {
+        color: var(--color-muted-foreground);
+        font-size: 0.875rem;
+        line-height: 1.6;
+        max-width: 30ch; // Optimal reading width
+    }
+}

@@ -1,6 +1,6 @@
 /**
  * Preferences Sub-domain Barrel - بوابة تصدير التفضيلات
- * 
+ *
  * @law Law-1 (Barrel Law)
  */
 

@@ -1,0 +1,57 @@
+@use '@/styles/abstracts/liquid-variables' as liquid;
+@use '@/styles/abstracts/mixins' as *;
+
+.container {
+    padding: liquid.$spacing-fluid-6;
+    display: flex;
+    flex-direction: column;
+    gap: liquid.$spacing-fluid-6;
+    max-width: liquid.$content-fluid-max;
+    margin: 0 auto;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    gap: liquid.$spacing-fluid-8;
+
+    @include desktop {
+        flex-direction: row;
+        align-items: flex-start;
+    }
+}
+
+.sidebar {
+    width: 100%;
+
+    @include desktop {
+        width: 320px;
+        flex-shrink: 0;
+        position: sticky;
+        top: liquid.$spacing-fluid-6;
+    }
+}
+
+.main {
+    flex-grow: 1;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: liquid.$spacing-fluid-6;
+}
+
+.section {
+    background-color: var(--bg-surface);
+    border-radius: liquid.$radius-fluid-lg;
+    border: 1px solid var(--border-secondary);
+    padding: liquid.$spacing-fluid-6;
+}
+
+.sectionTitle {
+    font-size: liquid.$font-fluid-lg;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: liquid.$spacing-fluid-4;
+    border-bottom: 1px solid var(--border-secondary);
+    padding-bottom: liquid.$spacing-fluid-3;
+}

@@ -2,7 +2,6 @@
  * Header - تصدير Header
  */
 
-export { default } from './Header'
 export { Header } from './Header'
 export type { HeaderProps } from './types'
 

@@ -65,18 +65,18 @@
 
     // Shadows
     &--shadow-sm {
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        box-shadow: 0 2px 8px -2px hsl(var(--foreground) / 0.05);
     }
 
     &--shadow-md {
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 4px 12px -4px hsl(var(--foreground) / 0.1);
     }
 
     &--shadow-lg {
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        box-shadow: 0 12px 24px -8px hsl(var(--foreground) / 0.15);
     }
 
     &--shadow-xl {
-        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 20px 40px -12px hsl(var(--foreground) / 0.2);
     }
 }

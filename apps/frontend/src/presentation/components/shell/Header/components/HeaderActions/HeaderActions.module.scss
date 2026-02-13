@@ -1,0 +1,22 @@
+/**
+ * HeaderActions - SCSS Module
+ * 
+ * تنسيق حاوية الإجراءات (التنبيهات، الملف الشخصي، اللغة، الثيم)
+ * Fluid Design System Applied
+ */
+
+@import '../../styles/variables';
+@import '../../styles/mixins';
+
+.actions {
+    display: flex;
+    align-items: center;
+    gap: clamp(0.5rem, 0.5vw, 0.75rem);
+    height: 100%;
+}
+
+// Ensure children have consistent height/alignment if needed
+:global(.header-actions)>* {
+    display: flex;
+    align-items: center;
+}

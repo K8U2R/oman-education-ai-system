@@ -1,0 +1,191 @@
+@use '@/styles/abstracts/liquid-variables' as liquid;
+
+.page {
+    flex-grow: 1;
+    background-color: var(--bg-app);
+    color: var(--text-primary);
+    display: flex;
+    flex-direction: column;
+}
+
+// Hero Section
+.hero {
+    position: relative;
+    padding: liquid.$spacing-fluid-16 liquid.$spacing-fluid-4;
+    overflow: hidden;
+    text-align: center;
+
+    @media (min-width: 768px) {
+        padding-block: calc(#{liquid.$spacing-fluid-16} * 1.5);
+    }
+}
+
+.heroBlob {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: clamp(300px, 60vw, 800px);
+    height: clamp(300px, 60vw, 800px);
+    background-color: color-mix(in srgb, var(--primary-500), transparent 90%);
+    border-radius: liquid.$radius-fluid-full;
+    filter: blur(60px);
+    z-index: -1;
+    pointer-events: none;
+}
+
+.heroContent {
+    max-width: liquid.$content-fluid-normal;
+    margin: 0 auto;
+    position: relative;
+    z-index: 10;
+}
+
+.heroTitle {
+    font-size: liquid.$font-fluid-3xl;
+    font-weight: 700;
+    margin-bottom: liquid.$spacing-fluid-6;
+    line-height: liquid.$line-height-fluid-tight;
+
+    &Highlight {
+        color: var(--primary-600);
+        background: linear-gradient(to right, var(--primary-500), var(--secondary-500));
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        display: block;
+        margin-top: liquid.$spacing-fluid-2;
+    }
+}
+
+.heroDescription {
+    font-size: liquid.$font-fluid-lg;
+    color: var(--text-secondary);
+    margin-bottom: liquid.$spacing-fluid-8;
+    max-width: 48rem;
+    margin-inline: auto;
+    line-height: liquid.$line-height-fluid-relaxed;
+}
+
+.heroActions {
+    display: flex;
+    flex-direction: column;
+    gap: liquid.$spacing-fluid-4;
+    justify-content: center;
+    align-items: center;
+
+    @media (min-width: 640px) {
+        flex-direction: row;
+    }
+}
+
+// Section Base
+.section {
+    padding: liquid.$spacing-fluid-12 liquid.$spacing-fluid-4;
+
+    &--alt {
+        background-color: color-mix(in srgb, var(--bg-surface), transparent 50%);
+    }
+
+    &--gradient {
+        background: linear-gradient(to bottom, var(--bg-app), color-mix(in srgb, var(--primary-900), transparent 90%));
+    }
+}
+
+.sectionContainer {
+    max-width: liquid.$content-fluid-max;
+    margin: 0 auto;
+}
+
+.sectionHeader {
+    text-align: center;
+    margin-bottom: liquid.$spacing-fluid-16;
+}
+
+.sectionTitle {
+    font-size: liquid.$font-fluid-2xl;
+    font-weight: 700;
+    margin-bottom: liquid.$spacing-fluid-4;
+    color: var(--text-primary);
+}
+
+.sectionSubtitle {
+    font-size: liquid.$font-fluid-lg;
+    color: var(--text-secondary);
+}
+
+// Grid Layouts
+// Grid Layouts (Fluid & Sovereign)
+.grid {
+    display: grid;
+    gap: liquid.$gap-fluid-4; // Adjusted to fluid-4 as requested
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+
+    // Remove legacy modifiers if they conflict with fluid, but user only asked to fix containers.
+    // We can keep them as specific overrides if needed, but auto-fit is preferred.
+}
+
+// Card Styles Override
+.featureCard,
+.accessCard {
+    height: 100%;
+    transition: all liquid.$transition-base;
+    border: 1px solid var(--border-secondary);
+    background-color: var(--bg-surface);
+
+    &:hover {
+        border-color: color-mix(in srgb, var(--primary-500), transparent 50%);
+        transform: translateY(-2px);
+    }
+}
+
+.cardContent {
+    padding: liquid.$spacing-fluid-6;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: right; // RTL default
+    height: 100%;
+
+    &--center {
+        align-items: center;
+        text-align: center;
+    }
+}
+
+.cardIconWrapper {
+    margin-bottom: liquid.$spacing-fluid-4;
+
+    &--bg {
+        padding: liquid.$spacing-fluid-4;
+        background-color: color-mix(in srgb, var(--primary-100), transparent 90%);
+        border-radius: liquid.$radius-fluid-full;
+        color: var(--primary-600);
+    }
+}
+
+.cardTitle {
+    font-size: liquid.$font-fluid-lg;
+    font-weight: 700;
+    margin-bottom: liquid.$spacing-fluid-2;
+    color: var(--text-primary);
+}
+
+.cardDesc {
+    color: var(--text-secondary);
+    font-size: liquid.$font-fluid-sm;
+    line-height: liquid.$line-height-fluid-normal;
+}
+
+// Icons
+.icon {
+    width: 2rem;
+    height: 2rem;
+    color: var(--primary-500);
+
+    &--lg {
+        width: 3rem;
+        height: 3rem;
+        color: var(--secondary-500);
+    }
+}

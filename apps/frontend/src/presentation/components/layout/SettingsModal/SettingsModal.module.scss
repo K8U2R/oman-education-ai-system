@@ -1,0 +1,165 @@
+@use '@/styles/abstracts/liquid-variables' as liquid;
+@use '@/styles/abstracts/variables' as *;
+@use '@/styles/abstracts/mixins' as *;
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.container {
+    display: flex;
+    height: 100%;
+    overflow: hidden;
+
+    @include mobile {
+        flex-direction: column;
+    }
+}
+
+.closeButton {
+    position: absolute;
+    top: liquid.$spacing-fluid-4;
+    inset-inline-end: liquid.$spacing-fluid-4; // RTL support
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: liquid.$radius-fluid-full;
+    color: var(--color-text-tertiary);
+    transition: all liquid.$transition-fast;
+    z-index: 10;
+
+    &:hover {
+        background-color: var(--color-bg-secondary);
+        color: var(--color-text-secondary);
+    }
+}
+
+.sidebar {
+    width: 240px;
+    flex-shrink: 0;
+    border-inline-end: 1px solid var(--color-border); // RTL support
+    background-color: var(--color-bg-secondary);
+    display: flex;
+    flex-direction: column;
+
+    @include mobile {
+        width: 100%;
+        height: auto;
+        border-inline-end: none;
+        border-bottom: 1px solid var(--color-border);
+    }
+
+    &Header {
+        padding: liquid.$spacing-fluid-6 liquid.$spacing-fluid-4 liquid.$spacing-fluid-4;
+    }
+
+    &Nav {
+        padding: liquid.$spacing-fluid-2 liquid.$spacing-fluid-4 liquid.$spacing-fluid-4;
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        overflow-y: auto;
+
+        @include mobile {
+            flex-direction: row;
+            overflow-x: auto;
+            padding-bottom: liquid.$spacing-fluid-4;
+
+            // Hide scrollbar
+            &::-webkit-scrollbar {
+                display: none;
+            }
+
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    }
+}
+
+.title {
+    @include typography-h4;
+    color: var(--color-text-primary);
+    margin: 0;
+}
+
+.navItem {
+    display: flex;
+    align-items: center;
+    gap: liquid.$spacing-fluid-3;
+    padding: liquid.$spacing-fluid-3 liquid.$spacing-fluid-4;
+    border-radius: liquid.$radius-fluid-md;
+    color: var(--color-text-secondary);
+    transition: all liquid.$transition-fast;
+    text-align: start;
+    white-space: nowrap;
+
+    &:hover {
+        background-color: var(--color-surface-hover);
+        color: var(--color-text-primary);
+    }
+
+    &--active {
+        background-color: var(--color-primary-50);
+        color: var(--color-primary);
+        font-weight: $font-weight-medium;
+
+        .navIcon {
+            color: var(--color-primary);
+        }
+    }
+}
+
+.navIcon {
+    width: 20px;
+    height: 20px;
+    color: var(--color-text-tertiary);
+    transition: color liquid.$transition-fast;
+}
+
+.content {
+    flex: 1;
+    overflow-y: auto;
+    padding: liquid.$spacing-fluid-8;
+    background-color: var(--color-surface);
+
+    // Custom scrollbar
+    @include custom-scrollbar;
+
+    @include mobile {
+        padding: liquid.$spacing-fluid-6;
+    }
+}
+
+.sectionHeader {
+    margin-bottom: liquid.$spacing-fluid-8;
+}
+
+.sectionTitle {
+    @include typography-h3;
+    color: var(--color-text-primary);
+    margin: 0 0 liquid.$spacing-fluid-2;
+}
+
+.sectionDescription {
+    @include typography-body-md;
+    color: var(--color-text-secondary);
+    margin: 0;
+}
+
+.sectionBody {
+    width: 100%;
+}
+
+.unavailable {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    padding: liquid.$spacing-fluid-8;
+    color: var(--color-text-tertiary);
+    @include typography-body-lg;
+}

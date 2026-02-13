@@ -33,6 +33,7 @@
 
 - [القانون 11: التشغيل المركزي (Root Sovereignty)](file:///a:/oman-education-ai-system/.ai_governance/LAWS/LAW_11_ROOT_SOVEREIGNTY.md)
 - [القانون 13: نزاهة الحقن (DI Integrity)](file:///a:/oman-education-ai-system/.ai_governance/LAWS/LAW_13_DI_INTEGRITY.md)
+- [القانون 14: سيادة الباقة (Tier Sovereignty)](file:///a:/oman-education-ai-system/.ai_governance/LAWS/LAW_14_TIER_SOVEREIGNTY.md)
 
 ---
 

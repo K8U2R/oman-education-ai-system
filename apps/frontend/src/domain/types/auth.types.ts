@@ -70,13 +70,34 @@ export type Permission =
   // Role Simulation
   | 'role-simulation.enable'
   | 'role-simulation.manage'
+  // AI & Recommendations - الذكاء الاصطناعي والتوصيات
+  | 'ai.recommendations.view'           // عرض التوصيات
+  | 'ai.recommendations.generate'       // توليد توصيات جديدة
+  | 'ai.personalization.view'           // عرض الشخصنة
+  | 'ai.personalization.manage'         // إدارة الشخصنة
+  | 'ai.content-generation.use'         // استخدام توليد المحتوى
+  | 'ai.content-generation.manage'      // إدارة توليد المحتوى
+  | 'ai.analytics.view'                 // عرض تحليلات AI
+  | 'ai.analytics.advanced'             // تحليلات AI متقدمة
+  | 'ai.models.view'                    // عرض نماذج AI
+  | 'ai.models.configure'               // تكوين نماذج AI
+  | 'ai.training.view'                  // عرض بيانات التدريب
+  | 'ai.training.manage'                // إدارة التدريب
 
 /**
  * Role Permissions - صلاحيات الأدوار
  */
 export const ROLE_PERMISSIONS: Record<UserRole, Permission[]> = {
   guest: [],
-  student: ['lessons.view', 'storage.view', 'storage.upload', 'notifications.view'],
+  student: [
+    'lessons.view',
+    'storage.view',
+    'storage.upload',
+    'notifications.view',
+    'ai.recommendations.view',
+    'ai.personalization.view',
+    'ai.content-generation.use',
+  ],
   parent: ['lessons.view', 'storage.view', 'notifications.view'],
   admin: [
     // All permissions
@@ -104,6 +125,10 @@ export const ROLE_PERMISSIONS: Record<UserRole, Permission[]> = {
     'admin.users',
     'admin.settings',
     'admin.reports',
+    'ai.recommendations.generate',
+    'ai.personalization.manage',
+    'ai.content-generation.manage',
+    'ai.analytics.view',
   ],
   developer: [
     // Developer permissions - All admin permissions + additional dev permissions
@@ -136,6 +161,11 @@ export const ROLE_PERMISSIONS: Record<UserRole, Permission[]> = {
     'whitelist.manage',
     'role-simulation.enable',
     'role-simulation.manage',
+    'ai.analytics.advanced',
+    'ai.models.view',
+    'ai.models.configure',
+    'ai.training.view',
+    'ai.training.manage',
   ],
   moderator: [
     'users.view',
@@ -162,6 +192,9 @@ export const ROLE_PERMISSIONS: Record<UserRole, Permission[]> = {
     'storage.upload',
     'notifications.view',
     'notifications.create',
+    'ai.recommendations.view',
+    'ai.content-generation.use',
+    'ai.analytics.view',
   ],
 }
 
@@ -211,7 +244,7 @@ export interface UserData {
   avatar_url?: string
   is_verified?: boolean
   role?: UserRole
-  planTier?: PlanTier
+  planTier: PlanTier // ✅ إلزامي - Required for Liquid Sovereignty
   permissions?: Permission[]
   is_active?: boolean
   created_at?: string

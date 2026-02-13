@@ -1,6 +1,6 @@
 /**
  * Device & Session Management Routes - مسارات إدارة الأجهزة والجلسات
- * 
+ *
  * @law Law-1 (Modularity) - Domain Encapsulation
  */
 
@@ -24,12 +24,12 @@ const router = RouteFactory.createFeatureRouter();
  *         description: قائمة الجلسات
  */
 router.get(
-    "/sessions",
-    ...RouteFactory.createAuthenticatedRoute<SessionHandler>(
-        "SessionHandler",
-        "getUserSessions",
-        authMiddleware.authenticate,
-    ),
+  "/sessions",
+  ...RouteFactory.createAuthenticatedRoute<SessionHandler>(
+    "SessionHandler",
+    "getUserSessions",
+    authMiddleware.authenticate,
+  ),
 );
 
 /**
@@ -52,12 +52,12 @@ router.get(
  *         description: تم إنهاء الجلسة
  */
 router.delete(
-    "/sessions/:sessionId",
-    ...RouteFactory.createAuthenticatedRoute<SessionHandler>(
-        "SessionHandler",
-        "terminateSession",
-        authMiddleware.authenticate,
-    ),
+  "/sessions/:sessionId",
+  ...RouteFactory.createAuthenticatedRoute<SessionHandler>(
+    "SessionHandler",
+    "terminateSession",
+    authMiddleware.authenticate,
+  ),
 );
 
 export default router;

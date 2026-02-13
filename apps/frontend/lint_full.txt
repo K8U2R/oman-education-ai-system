@@ -1,0 +1,302 @@
+
+> oman-education-ai-frontend@1.0.0 lint
+> eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0 --no-cache
+
+
+/root/oman-education-ai-system/apps/frontend/env/schema.ts
+  24:49  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/root/oman-education-ai-system/apps/frontend/scripts/scan_styles.ts
+  42:1  warning  Unexpected console statement  no-console
+  43:1  warning  Unexpected console statement  no-console
+  56:5  warning  Unexpected console statement  no-console
+  59:5  warning  Unexpected console statement  no-console
+  60:5  warning  Unexpected console statement  no-console
+
+/root/oman-education-ai-system/apps/frontend/src/application/core/orchestrator/system.orchestrator.ts
+  29:9   warning  Unexpected console statement  no-console
+  40:13  warning  Unexpected console statement  no-console
+
+/root/oman-education-ai-system/apps/frontend/src/application/core/services/system/observability/error-handling.service.ts
+  125:54  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/root/oman-education-ai-system/apps/frontend/src/application/features/notifications/services/notification.service.ts
+  231:39  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/root/oman-education-ai-system/apps/frontend/src/application/features/storage/hooks/index.ts
+  11:37  warning  Unexpected any. Specify a different type                                                                                 @typescript-eslint/no-explicit-any
+  18:58  error    The `Function` type accepts any function-like value.
+Prefer explicitly defining any function parameters and return type  @typescript-eslint/no-unsafe-function-type
+  31:39  warning  Unexpected any. Specify a different type                                                                                 @typescript-eslint/no-explicit-any
+  39:58  error    The `Function` type accepts any function-like value.
+Prefer explicitly defining any function parameters and return type  @typescript-eslint/no-unsafe-function-type
+  55:50  warning  Unexpected any. Specify a different type                                                                                 @typescript-eslint/no-explicit-any
+  86:5   warning  Unexpected console statement                                                                                             no-console
+  91:5   warning  Unexpected console statement                                                                                             no-console
+  95:5   warning  Unexpected console statement                                                                                             no-console
+
+/root/oman-education-ai-system/apps/frontend/src/application/features/storage/services/index.ts
+   43:23  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   50:23  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   64:25  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   71:25  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   85:33  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   92:33  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  134:5   warning  Unexpected console statement              no-console
+  139:5   warning  Unexpected console statement              no-console
+  152:5   warning  Unexpected console statement              no-console
+  160:5   warning  Unexpected console statement              no-console
+  164:5   warning  Unexpected console statement              no-console
+
+/root/oman-education-ai-system/apps/frontend/src/components/ui/index.tsx
+  4:117  warning  'variant' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+
+/root/oman-education-ai-system/apps/frontend/src/config/env.ts
+  32:1  warning  Unexpected console statement  no-console
+
+/root/oman-education-ai-system/apps/frontend/src/domain/security/route-encryption.ts
+  194:5  warning  Unexpected console statement  no-console
+  197:9  warning  Unexpected console statement  no-console
+  199:5  warning  Unexpected console statement  no-console
+  206:5  warning  Unexpected console statement  no-console
+  207:5  warning  Unexpected console statement  no-console
+
+/root/oman-education-ai-system/apps/frontend/src/infrastructure/diagnostics/SentinelProvider.tsx
+  31:17  warning  Unexpected console statement  no-console
+  32:17  warning  Unexpected console statement  no-console
+
+/root/oman-education-ai-system/apps/frontend/src/infrastructure/diagnostics/core/SentinelCore.ts
+   36:59  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   38:58  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  120:26  warning  Unexpected console statement              no-console
+  128:34  warning  Unexpected console statement              no-console
+  136:34  warning  Unexpected console statement              no-console
+  144:34  warning  Unexpected console statement              no-console
+  148:30  warning  Unexpected console statement              no-console
+  159:26  warning  Unexpected console statement              no-console
+  174:26  warning  Unexpected console statement              no-console
+  250:26  warning  Unexpected console statement              no-console
+  256:84  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/root/oman-education-ai-system/apps/frontend/src/infrastructure/diagnostics/hooks/useStyleScanner.ts
+   94:13  warning  Unexpected console statement                                  no-console
+  108:25  error    'sourceHint' is never reassigned. Use 'const' instead         prefer-const
+  109:25  error    'fixRecommendation' is never reassigned. Use 'const' instead  prefer-const
+  144:13  warning  Unexpected console statement                                  no-console
+
+/root/oman-education-ai-system/apps/frontend/src/infrastructure/diagnostics/modules/network/NetworkInterceptor.ts
+  17:9  warning  Unexpected console statement  no-console
+
+/root/oman-education-ai-system/apps/frontend/src/infrastructure/diagnostics/modules/performance/PerformanceVitals.ts
+  17:9  warning  Unexpected console statement  no-console
+
+/root/oman-education-ai-system/apps/frontend/src/infrastructure/diagnostics/modules/visual/VisualGuardian.ts
+  42:9  warning  Unexpected console statement  no-console
+  61:9  warning  Unexpected console statement  no-console
+
+/root/oman-education-ai-system/apps/frontend/src/infrastructure/diagnostics/ui/SentinelPage.tsx
+  28:20  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/root/oman-education-ai-system/apps/frontend/src/infrastructure/diagnostics/ui/SovereignHUD.tsx
+  60:20  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  69:9   warning  Unexpected console statement              no-console
+  70:9   warning  Unexpected console statement              no-console
+  71:9   warning  Unexpected console statement              no-console
+  72:9   warning  Unexpected console statement              no-console
+  75:31  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/root/oman-education-ai-system/apps/frontend/src/infrastructure/services/admin/KnowledgeService.ts
+  30:31  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/root/oman-education-ai-system/apps/frontend/src/infrastructure/services/api/EducationApiService.ts
+  5:11  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/root/oman-education-ai-system/apps/frontend/src/infrastructure/services/api/api-client.refactored.ts
+  137:33  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/root/oman-education-ai-system/apps/frontend/src/infrastructure/services/communication/websocket.service.ts
+  81:23  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  82:23  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  83:23  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  84:23  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/root/oman-education-ai-system/apps/frontend/src/infrastructure/services/education.service.ts
+  36:18  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  86:79  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  94:83  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/root/oman-education-ai-system/apps/frontend/src/infrastructure/services/learning.service.ts
+  10:14  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/root/oman-education-ai-system/apps/frontend/src/infrastructure/services/storage/index.ts
+   8:11  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   9:11  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  22:11  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  39:11  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/root/oman-education-ai-system/apps/frontend/src/infrastructure/services/storage/indexeddb.service.ts
+  10:11  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  11:11  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  11:73  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  59:17  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  76:17  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  76:80  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/root/oman-education-ai-system/apps/frontend/src/main.tsx
+  9:1  warning  Unexpected console statement  no-console
+
+/root/oman-education-ai-system/apps/frontend/src/presentation/components/assessment/QuizInterface.tsx
+  24:28  error  React Hook "useMutation" is called conditionally. React Hooks must be called in the exact same order in every component render  react-hooks/rules-of-hooks
+
+/root/oman-education-ai-system/apps/frontend/src/presentation/components/auth/ForgotPasswordForm.tsx
+  41:18  warning  'err' is defined but never used. Allowed unused caught errors must match /^_/u  @typescript-eslint/no-unused-vars
+  98:35  warning  Unexpected any. Specify a different type                                        @typescript-eslint/no-explicit-any
+
+/root/oman-education-ai-system/apps/frontend/src/presentation/components/auth/RegisterForm.tsx
+  126:104  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  127:102  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  130:104  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  132:113  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  133:128  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/root/oman-education-ai-system/apps/frontend/src/presentation/components/common/FeatureGate/FeatureGate.test.tsx
+  24:14  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/root/oman-education-ai-system/apps/frontend/src/presentation/components/developer/types.ts
+  5:20  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/root/oman-education-ai-system/apps/frontend/src/presentation/components/learning/ChatInterface.tsx
+  30:26  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/root/oman-education-ai-system/apps/frontend/src/presentation/components/learning/RecommendedLessons.tsx
+  53:8  warning  React Hook useEffect has a missing dependency: 'fetchRecommendations'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+/root/oman-education-ai-system/apps/frontend/src/presentation/components/shell/Header/hooks/useHeader.ts
+  28:6  warning  React Hook useCallback has a missing dependency: 'options'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+/root/oman-education-ai-system/apps/frontend/src/presentation/components/shell/Sidebar/Sidebar.tsx
+  137:63  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  137:89  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  138:64  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/root/oman-education-ai-system/apps/frontend/src/presentation/components/storage/UploadDialog.tsx
+  37:18  warning  'error' is defined but never used. Allowed unused caught errors must match /^_/u  @typescript-eslint/no-unused-vars
+
+/root/oman-education-ai-system/apps/frontend/src/presentation/features/ai/hooks/useAiGeneration.ts
+  21:23  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/root/oman-education-ai-system/apps/frontend/src/presentation/features/ai/pages/LessonGeneratorPage.tsx
+  60:43  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  69:47  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  76:47  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/root/oman-education-ai-system/apps/frontend/src/presentation/features/dashboard/WidgetRegistry.tsx
+  11:55  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/root/oman-education-ai-system/apps/frontend/src/presentation/features/interactive-learning-canvas/editor/MarkdownViewer.tsx
+  17:18  warning  'node' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+  17:65  warning  Unexpected any. Specify a different type                                @typescript-eslint/no-explicit-any
+  31:31  warning  Unexpected any. Specify a different type                                @typescript-eslint/no-explicit-any
+  34:28  warning  Unexpected any. Specify a different type                                @typescript-eslint/no-explicit-any
+  37:28  warning  Unexpected any. Specify a different type                                @typescript-eslint/no-explicit-any
+  40:33  warning  Unexpected any. Specify a different type                                @typescript-eslint/no-explicit-any
+
+/root/oman-education-ai-system/apps/frontend/src/presentation/features/learning/pages/CourseView.tsx
+  10:42  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  17:44  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  33:47  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  42:59  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/root/oman-education-ai-system/apps/frontend/src/presentation/features/learning/pages/LearningDashboard.tsx
+  9:44  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/root/oman-education-ai-system/apps/frontend/src/presentation/features/learning/pages/LessonView.tsx
+  10:42  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/root/oman-education-ai-system/apps/frontend/src/presentation/features/user-authentication-management/api/auth.service.ts
+  253:23  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/root/oman-education-ai-system/apps/frontend/src/presentation/features/user-authentication-management/components/OAuthButtons.tsx
+  32:7  warning  Unexpected console statement  no-console
+
+/root/oman-education-ai-system/apps/frontend/src/presentation/features/user-authentication-management/guards/ProtectedRoute.tsx
+  80:7  warning  Unexpected console statement  no-console
+
+/root/oman-education-ai-system/apps/frontend/src/presentation/features/user-authentication-management/hooks/useOAuth.ts
+  36:9  warning  Unexpected console statement  no-console
+  47:7  warning  Unexpected console statement  no-console
+
+/root/oman-education-ai-system/apps/frontend/src/presentation/pages/auth/callback/OAuthCallbackPage.tsx
+  50:47  warning  Unexpected any. Specify a different type                                                                      @typescript-eslint/no-explicit-any
+  61:21  warning  Unexpected any. Specify a different type                                                                      @typescript-eslint/no-explicit-any
+  72:6   warning  React Hook useEffect has a missing dependency: 'isLoading'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+/root/oman-education-ai-system/apps/frontend/src/presentation/pages/auth/callback/components/AuthDiagnosticViews.tsx
+  14:15  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/root/oman-education-ai-system/apps/frontend/src/presentation/pages/auth/callback/hooks/useOAuthExecution.ts
+  37:55  warning  Unexpected any. Specify a different type                                                                      @typescript-eslint/no-explicit-any
+  39:27  warning  Unexpected any. Specify a different type                                                                      @typescript-eslint/no-explicit-any
+  49:8   warning  React Hook useEffect has a missing dependency: 'isLoading'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+/root/oman-education-ai-system/apps/frontend/src/presentation/pages/auth/verification/AuthSuccessPage.tsx
+   37:13  warning  Unexpected console statement                                                  no-console
+   66:21  warning  Unexpected console statement                                                  no-console
+   70:25  warning  Unexpected console statement                                                  no-console
+  118:30  warning  'e' is defined but never used. Allowed unused caught errors must match /^_/u  @typescript-eslint/no-unused-vars
+  134:27  warning  Unexpected any. Specify a different type                                      @typescript-eslint/no-explicit-any
+
+/root/oman-education-ai-system/apps/frontend/src/presentation/pages/developer/ai/AILabPage.tsx
+   32:46  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   70:23  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  308:75  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/root/oman-education-ai-system/apps/frontend/src/presentation/pages/developer/cockpit/SystemDiagnosticsPage.tsx
+   13:15  warning  Unexpected any. Specify a different type                                                                         @typescript-eslint/no-explicit-any
+  124:8   warning  React Hook useEffect has a missing dependency: 'runAllChecks'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+  136:74  warning  Unexpected any. Specify a different type                                                                         @typescript-eslint/no-explicit-any
+
+/root/oman-education-ai-system/apps/frontend/src/presentation/pages/developer/database/DatabasePage.tsx
+  187:56  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/root/oman-education-ai-system/apps/frontend/src/presentation/pages/education/LessonGeneratorPage.tsx
+  12:42  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  25:23  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/root/oman-education-ai-system/apps/frontend/src/presentation/pages/education/TracksManagementPage.tsx
+  13:42  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/root/oman-education-ai-system/apps/frontend/src/presentation/pages/learning/LessonDetailPage/hooks/useLessonDetailLogic.ts
+  198:22  warning  'e' is defined but never used. Allowed unused caught errors must match /^_/u  @typescript-eslint/no-unused-vars
+
+/root/oman-education-ai-system/apps/frontend/src/presentation/pages/student/dashboard/StudentDashboard.tsx
+  23:32  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  23:60  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  40:21  warning  Unexpected console statement              no-console
+  42:21  warning  Unexpected console statement              no-console
+  52:27  warning  Unexpected console statement              no-console
+  58:27  warning  Unexpected console statement              no-console
+
+/root/oman-education-ai-system/apps/frontend/src/presentation/pages/student/learning/LearningDashboard.tsx
+  49:50  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  55:63  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/root/oman-education-ai-system/apps/frontend/src/presentation/pages/tools/StoragePage.tsx
+  34:63  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/root/oman-education-ai-system/apps/frontend/src/presentation/routing/definitions/developer/cockpit.routes.tsx
+  64:6  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/root/oman-education-ai-system/apps/frontend/src/stores/useModalStore.ts
+  8:27  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  9:52  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/root/oman-education-ai-system/apps/frontend/src/stores/useNotificationStore.ts
+  9:30  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/root/oman-education-ai-system/apps/frontend/tests/integration/api/api-client.integration.test.ts
+  345:14  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+✖ 162 problems (5 errors, 157 warnings)
+  2 errors and 0 warnings potentially fixable with the `--fix` option.
+

@@ -1,0 +1,38 @@
+@use '@/styles/abstracts/liquid-variables' as liquid;
+
+.footer-section {
+    display: flex;
+    flex-direction: column;
+
+    &__heading {
+        font-weight: 600;
+        margin-block-end: liquid.$spacing-fluid-2; // sm
+        color: var(--color-foreground);
+        font-size: 1rem;
+    }
+
+    &__list {
+        display: flex;
+        flex-direction: column;
+        gap: liquid.$spacing-fluid-1; // xs
+        padding: 0;
+        margin: 0;
+        list-style: none;
+    }
+
+    &__link {
+        color: var(--color-muted-foreground);
+        font-size: 0.875rem;
+        text-decoration: none;
+        transition: color 0.2s ease;
+        display: inline-block;
+        min-height: 2.75rem; // ~44px Touch Target
+        display: flex;
+        align-items: center;
+
+        &:hover,
+        &--active {
+            color: var(--color-primary);
+        }
+    }
+}

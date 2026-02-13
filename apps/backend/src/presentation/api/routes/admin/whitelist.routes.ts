@@ -9,7 +9,7 @@ import { WhitelistController } from "@/modules/auth/controllers/account/whitelis
 import {
   authMiddleware,
   requireAnyRole,
-  requirePermission
+  requirePermission,
 } from "../../middleware/security/index.js";
 
 const router = RouteFactory.createFeatureRouter();

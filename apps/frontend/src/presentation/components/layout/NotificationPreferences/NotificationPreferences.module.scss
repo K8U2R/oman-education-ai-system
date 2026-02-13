@@ -1,0 +1,109 @@
+@use '@/styles/abstracts/liquid-variables' as liquid;
+@use '@/styles/abstracts/variables' as *;
+@use '@/styles/abstracts/mixins' as *;
+
+.container {
+    padding: liquid.$spacing-fluid-4;
+
+    @include mobile {
+        padding: liquid.$spacing-fluid-3;
+    }
+}
+
+.header {
+    display: flex;
+    align-items: flex-start;
+    gap: liquid.$spacing-fluid-4;
+    margin-bottom: liquid.$spacing-fluid-6;
+    padding-bottom: liquid.$spacing-fluid-4;
+    border-bottom: 1px solid var(--color-border);
+
+    &Content {
+        display: flex;
+        gap: liquid.$spacing-fluid-4;
+        flex: 1;
+    }
+
+    &Icon {
+        color: var(--color-primary);
+        padding-top: liquid.$spacing-fluid-2;
+    }
+
+    &Text {
+        display: flex;
+        flex-direction: column;
+        gap: liquid.$spacing-fluid-2;
+    }
+
+    &Title {
+        @include typography-h4;
+        color: var(--color-text-primary);
+        margin: 0;
+    }
+
+    &Description {
+        @include typography-body-sm;
+        color: var(--color-text-secondary);
+        margin: 0;
+    }
+}
+
+.quickActions {
+    display: flex;
+    gap: liquid.$spacing-fluid-3;
+    margin-bottom: liquid.$spacing-fluid-6;
+    flex-wrap: wrap;
+
+    &Button {
+        display: flex;
+        align-items: center;
+        gap: liquid.$spacing-fluid-2;
+
+        &--active {
+            color: var(--color-error);
+            border-color: var(--color-error-200);
+            background-color: var(--color-error-50);
+        }
+    }
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    gap: liquid.$spacing-fluid-4;
+    min-height: 200px;
+}
+
+.loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: liquid.$spacing-fluid-4;
+    padding: liquid.$spacing-fluid-8;
+    color: var(--color-text-secondary);
+
+    &Spinner {
+        @include loading-spinner;
+    }
+}
+
+.error {
+    @include flex-center;
+    flex-direction: column;
+    gap: liquid.$spacing-fluid-4;
+    padding: liquid.$spacing-fluid-8;
+    text-align: center;
+    color: var(--color-error);
+    background-color: var(--color-error-50);
+    border-radius: liquid.$radius-fluid-md;
+}
+
+.empty {
+    @include flex-center;
+    flex-direction: column;
+    gap: liquid.$spacing-fluid-4;
+    padding: liquid.$spacing-fluid-8;
+    text-align: center;
+    color: var(--color-text-disabled);
+}

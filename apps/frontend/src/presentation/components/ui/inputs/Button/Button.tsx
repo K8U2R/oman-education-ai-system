@@ -7,7 +7,8 @@
 import React, { useMemo } from 'react'
 import { Loader2 } from 'lucide-react'
 import { ButtonProps } from '../types'
-import { cn, variantClass, sizeClass } from '../../utils/classNames'
+import styles from './Button.module.scss'
+import { useTranslation } from 'react-i18next'
 
 const Button: React.FC<ButtonProps> = React.memo(
   ({
@@ -22,34 +23,34 @@ const Button: React.FC<ButtonProps> = React.memo(
     fullWidth = false,
     ...props
   }) => {
-    const classes = useMemo(() => {
-      const baseClass = 'button'
-      const variantClassName = variantClass(baseClass, variant)
-      const sizeClassName = sizeClass(baseClass, size)
+    const { t } = useTranslation()
 
-      return cn(
-        baseClass,
-        variantClassName,
-        sizeClassName,
-        isLoading && `${baseClass}--loading`,
-        disabled && `${baseClass}--disabled`,
-        fullWidth && `${baseClass}--full-width`,
-        className
-      )
-    }, [variant, size, isLoading, disabled, fullWidth, className])
+    const classes = useMemo(() => {
+      const variantClass = styles[`button--${variant}`] || styles['button--primary']
+      const sizeClass = styles[`button--${size}`] || styles['button--md']
+
+      return [
+        styles.button,
+        variantClass,
+        sizeClass,
+        isLoading ? styles['button--loading'] : '',
+        fullWidth ? styles['button--full-width'] : '',
+        className // Allow overriding or adding utility classes if absolutely necessary (though discouraged)
+      ].filter(Boolean).join(' ')
+    }, [variant, size, isLoading, fullWidth, className])
 
     return (
       <button className={classes} disabled={disabled || isLoading} {...props}>
         {isLoading ? (
           <>
-            <Loader2 className="button__loader" />
-            <span className="button__loading-text">جاري التحميل...</span>
+            <Loader2 className={styles.loader} />
+            <span>{t('common.loading')}</span>
           </>
         ) : (
           <>
-            {leftIcon && <span className="button__left-icon">{leftIcon}</span>}
+            {leftIcon && <span className={styles.leftIcon}>{leftIcon}</span>}
             {children}
-            {rightIcon && <span className="button__right-icon">{rightIcon}</span>}
+            {rightIcon && <span className={styles.rightIcon}>{rightIcon}</span>}
           </>
         )}
       </button>

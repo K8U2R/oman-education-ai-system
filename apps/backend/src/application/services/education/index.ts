@@ -10,11 +10,11 @@
 // ═══════════════════════════════════════════════════════════════════
 // Learning & Assessment Services
 // ═══════════════════════════════════════════════════════════════════
-export * from '@/modules/education/services/LearningService.js';
-export * from '@/modules/education/services/AssessmentService.js';
-export * from '@/modules/education/services/ContentManagementService.js';
-export * from '@/modules/education/services/ProjectService.js';
-export * from '@/modules/education/services/CodeGenerationService.js';
-export * from '@/modules/education/services/KnowledgeBaseService.js';
+export * from "@/modules/education/services/LearningService.js";
+export * from "@/modules/education/services/AssessmentService.js";
+export * from "@/modules/education/services/ContentManagementService.js";
+export * from "@/modules/education/services/ProjectService.js";
+export * from "@/modules/education/services/CodeGenerationService.js";
+export * from "@/modules/education/services/KnowledgeBaseService.js";
 
 // TODO: Implement content and project services if needed

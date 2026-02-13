@@ -1,0 +1,139 @@
+@use '@/styles/abstracts/liquid-variables' as liquid;
+
+.panel {
+    position: fixed;
+    z-index: liquid.$z-index-modal;
+    inset: 0;
+    display: flex;
+    justify-content: flex-end;
+    pointer-events: none; // Allow clicks through overlay
+}
+
+.overlay {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(2px);
+    pointer-events: auto;
+    animation: fadeIn liquid.$transition-fast ease-out;
+}
+
+.content {
+    position: relative;
+    width: clamp(20rem, 85vw, 26rem); // 320px - 416px
+    height: 100%;
+    background-color: var(--bg-surface, #ffffff);
+    box-shadow: liquid.$shadow-fluid-xl;
+    display: flex;
+    flex-direction: column;
+    pointer-events: auto;
+    border-inline-start: 1px solid var(--border-primary, #e5e7eb);
+    animation: slideInRight liquid.$transition-normal cubic-bezier(0.16, 1, 0.3, 1);
+
+    // RTL Support
+    [dir="rtl"] & {
+        animation-name: slideInLeft;
+    }
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: liquid.$spacing-fluid-4;
+    border-block-end: 1px solid var(--border-primary, #e5e7eb);
+}
+
+.title {
+    display: flex;
+    align-items: center;
+    gap: liquid.$spacing-fluid-3;
+    color: var(--primary-600, #2563eb);
+
+    h2 {
+        font-size: liquid.$font-fluid-lg;
+        font-weight: 700;
+        margin: 0;
+    }
+}
+
+.icon {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.quickActions {
+    padding: liquid.$spacing-fluid-4;
+    border-block-end: 1px solid var(--border-primary, #e5e7eb);
+    background-color: var(--bg-secondary, #f9fafb);
+}
+
+.sectionTitle {
+    font-size: liquid.$font-fluid-xs;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--text-secondary, #6b7280);
+    margin-block-end: liquid.$spacing-fluid-3;
+    letter-spacing: 0.05em;
+}
+
+.actionsGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: liquid.$spacing-fluid-4;
+}
+
+.actionButton {
+    justify-content: flex-start;
+    height: auto;
+    padding: liquid.$spacing-fluid-3;
+    font-size: liquid.$font-fluid-xs;
+    background-color: var(--bg-surface, #ffffff);
+    border: 1px solid var(--border-primary, #e5e7eb);
+    color: var(--text-primary, #111827);
+    transition: all liquid.$transition-fast;
+
+    &:hover {
+        border-color: var(--primary-300, #93c5fd);
+        background-color: var(--primary-50, #eff6ff);
+        color: var(--primary-700, #1d4ed8);
+    }
+}
+
+.chat {
+    flex: 1;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--bg-surface, #ffffff);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+    }
+
+    to {
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInLeft {
+    from {
+        transform: translateX(-100%);
+    }
+
+    to {
+        transform: translateX(0);
+    }
+}

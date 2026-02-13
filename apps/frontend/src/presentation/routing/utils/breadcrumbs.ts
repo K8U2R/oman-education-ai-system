@@ -12,15 +12,15 @@ import { ROUTES } from '@/domain/constants/routes.constants'
  * خريطة ثابتة لتسميات الـ Breadcrumbs للمسارات الرئيسية
  */
 const routeBreadcrumbMap: Record<string, string> = {
-  [ROUTES.HOME]: 'الرئيسية',
-  [ROUTES.DASHBOARD]: 'لوحة التحكم',
-  [ROUTES.LESSONS]: 'الدروس',
-  [ROUTES.STORAGE]: 'التخزين السحابي',
-  [ROUTES.PROFILE]: 'الملف الشخصي',
-  [ROUTES.SETTINGS]: 'الإعدادات',
-  [ROUTES.SUBSCRIPTION]: 'الاشتراك',
+  [ROUTES.HOME]: 'breadcrumbs.home',
+  [ROUTES.DASHBOARD]: 'breadcrumbs.dashboard',
+  [ROUTES.LESSONS]: 'breadcrumbs.lessons',
+  [ROUTES.STORAGE]: 'breadcrumbs.storage',
+  [ROUTES.PROFILE]: 'breadcrumbs.profile',
+  [ROUTES.SETTINGS]: 'breadcrumbs.settings',
+  [ROUTES.SUBSCRIPTION]: 'breadcrumbs.subscription',
 
-  [ROUTES.REGISTER]: 'إنشاء حساب',
+  [ROUTES.REGISTER]: 'breadcrumbs.register',
 }
 
 /**
@@ -38,7 +38,7 @@ export const generateBreadcrumbs = (
 
   // دائماً إضافة الصفحة الرئيسية كأول عنصر
   breadcrumbs.push({
-    label: routeBreadcrumbMap[ROUTES.HOME] ?? 'الرئيسية',
+    label: routeBreadcrumbMap[ROUTES.HOME] ?? 'breadcrumbs.home',
     path: ROUTES.HOME,
   })
 

@@ -4,6 +4,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
@@ -151,6 +152,7 @@ model users {
   subscriptions                                                 subscriptions[]
   user_assessments                                              user_assessments[]
   conversation_threads                                          conversation_threads[]
+  certificates                                                  certificates[]
 
   @@index([email], map: "idx_users_email")
   @@index([permission_source], map: "idx_users_permission_source")
@@ -279,6 +281,7 @@ model courses {
   modules     modules[]
   enrollments enrollments[]
   assessments assessments[]
+  certificates certificates[]
 }
 
 model modules {
@@ -372,6 +375,8 @@ model user_assessments {
 
   @@index([user_id])
   @@index([assessment_id])
+
+  ai_grading_logs ai_grading_logs[]
 }
 
 model conversation_threads {
@@ -398,4 +403,32 @@ model chat_messages {
   thread      conversation_threads @relation(fields: [thread_id], references: [id], onDelete: Cascade)
 
   @@index([thread_id])
+}
+
+model certificates {
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  user_id     String   @db.Uuid
+  course_id   String   @db.Uuid
+  pdf_url     String
+  issued_at   DateTime @default(now()) @db.Timestamptz(6)
+
+  user        users    @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  course      courses  @relation(fields: [course_id], references: [id], onDelete: Cascade)
+
+  @@index([user_id])
+  @@index([course_id])
+}
+
+model ai_grading_logs {
+  id                 String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  user_assessment_id String   @db.Uuid
+  question_id        String?  @db.Uuid
+  prompt             String
+  ai_response        String
+  confidence         Float
+  created_at         DateTime @default(now()) @db.Timestamptz(6)
+
+  user_assessment    user_assessments @relation(fields: [user_assessment_id], references: [id], onDelete: Cascade)
+
+  @@index([user_assessment_id])
 }

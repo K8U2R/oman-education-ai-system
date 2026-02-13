@@ -1,0 +1,35 @@
+/**
+ * HeaderSearch - SCSS Module
+ * 
+ * تنسيق شريط البحث في الهيدر
+ * Fluid Design System Applied
+ */
+
+@import '../../styles/variables';
+@import '../../styles/mixins';
+
+.search {
+    position: relative;
+    display: flex;
+    align-items: center;
+    transition: all $transition-speed $transition-easing;
+    width: clamp(15rem, 25vw, 20rem); // 240px - 320px
+
+    &--expandable {
+        // Future: Expandable search logic
+        display: flex; // Placeholder to avoid empty ruleset warning
+    }
+
+    &--expanded {
+        width: clamp(20rem, 35vw, 30rem);
+    }
+
+    // Mobile
+    @include mobile-only {
+        width: 100%;
+
+        &--expanded {
+            width: 100%;
+        }
+    }
+}

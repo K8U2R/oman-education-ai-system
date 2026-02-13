@@ -1,5 +1,2 @@
-/**
- * Footer Component Export
- */
-
-export { default } from './Footer'
+export { default } from './Footer';
+export * from './Footer';

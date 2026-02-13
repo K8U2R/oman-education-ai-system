@@ -106,11 +106,11 @@ export interface EmailCampaign extends BaseEntity {
   description?: string;
   templateId: string;
   recipients:
-  | string[]
-  | {
-    type: "all" | "segment" | "list";
-    value: string | string[];
-  };
+    | string[]
+    | {
+        type: "all" | "segment" | "list";
+        value: string | string[];
+      };
   status: "draft" | "scheduled" | "sending" | "sent" | "paused" | "cancelled";
   scheduledAt?: string;
   startedAt?: string;
@@ -178,13 +178,13 @@ export interface EmailStatistics {
  */
 export interface EmailWebhookEvent {
   event:
-  | "sent"
-  | "delivered"
-  | "opened"
-  | "clicked"
-  | "bounced"
-  | "complained"
-  | "unsubscribed";
+    | "sent"
+    | "delivered"
+    | "opened"
+    | "clicked"
+    | "bounced"
+    | "complained"
+    | "unsubscribed";
   emailId: string;
   timestamp: string;
   data?: Record<string, unknown>;

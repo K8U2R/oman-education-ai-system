@@ -11,7 +11,10 @@ import { PerformanceOptimizer } from "@/infrastructure/performance/PerformanceOp
 import { DatabaseCoreAdapter } from "@/infrastructure/adapters/db/DatabaseCoreAdapter";
 import { queryOptimizerService } from "@/infrastructure/database/query-optimizer.service";
 import { enhancedLogger } from "@/shared/utils/EnhancedLogger";
-import { authMiddleware, requireDeveloper } from "../../middleware/security/index.js";
+import {
+  authMiddleware,
+  requireDeveloper,
+} from "../../middleware/security/index.js";
 
 const router = Router();
 

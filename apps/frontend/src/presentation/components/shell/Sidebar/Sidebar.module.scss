@@ -1,0 +1,460 @@
+/**
+ * Sidebar - SCSS Module
+ * 
+ * القائمة الجانبية مع دعم الطي والتوسع
+ * تطبيق Fluid Design System (Premium Dark Theme)
+ */
+
+@use '@/styles/abstracts/liquid-variables' as liquid;
+
+@use './core/theme' as *;
+
+// ==================== ANIMATIONS ====================
+@keyframes slideInLeft {
+    from {
+        transform: translateX(-100%);
+    }
+
+    to {
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideOutLeft {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(-100%);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes expandWidth {
+    from {
+        width: var(--sidebar-width-collapsed);
+    }
+
+    to {
+        width: var(--sidebar-width-expanded);
+    }
+}
+
+@keyframes collapseWidth {
+    from {
+        width: var(--sidebar-width-expanded);
+    }
+
+    to {
+        width: var(--sidebar-width-collapsed);
+    }
+}
+
+
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    // Contrast Fix: Match main background
+    background: var(--bg-primary);
+    transition: width $width-transition, transform $transition-speed $transition-easing; // Added transform
+    overflow: hidden;
+    color: $sidebar-text;
+    border-inline-end: 1px solid $sidebar-border;
+
+    // Desktop - expanded by default
+    @include desktop {
+        width: $sidebar-width-expanded;
+        position: sticky;
+        top: 0;
+        transform: none !important; // Ensure no transforms on desktop
+    }
+
+    // Collapsed state
+    &--collapsed {
+        @include sidebar-collapsed;
+        width: $sidebar-width-collapsed;
+
+        .brand,
+        .userDetails,
+        .title {
+            visibility: hidden;
+            opacity: 0;
+            width: 0;
+        }
+
+        .footer {
+            padding: $sidebar-padding-y liquid.$spacing-fluid-1;
+            justify-content: center;
+        }
+    }
+
+    // Mobile
+    @include mobile-only {
+        position: fixed;
+        top: 0;
+        inset-inline-end: auto; // Reset
+        isset-inline-start: 0; // Force left (LTR default) or logic handles it
+        left: 0; // Default LTR anchor
+        bottom: 0;
+        width: $sidebar-width-expanded;
+        box-shadow: $sidebar-shadow-mobile;
+
+        // RTL Support for Mobile Drawer
+        [dir="rtl"] & {
+            left: auto;
+            right: 0;
+            transform: translateX(100%); // Hide off-screen right
+        }
+
+        [dir="ltr"] & {
+            transform: translateX(-100%); // Hide off-screen left
+        }
+
+        background: var(--bg-primary); // Ensure contrast on mobile too
+        z-index: $sidebar-z-index;
+
+        &--open {
+            transform: translateX(0) !important;
+        }
+    }
+}
+
+// Header Section
+.header {
+    padding: liquid.$spacing-fluid-4;
+    gap: liquid.$spacing-fluid-2;
+    padding-top: liquid.$spacing-fluid-6;
+    margin-bottom: liquid.$spacing-fluid-6;
+    margin: 0 liquid.$spacing-fluid-3;
+    height: 5rem;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: $nav-item-gap;
+    transition: opacity $transition-speed $transition-easing;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #fff;
+    width: 2.5rem; // 40px -> 2.5rem
+}
+
+.title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #fff;
+    white-space: nowrap;
+}
+
+// Navigation Section
+.nav {
+    flex: 1;
+    padding: $sidebar-padding-y 0.75rem; // 12px -> 0.75rem
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: liquid.$spacing-fluid-1; // 8px -> fluid
+
+    /* Hide Scrollbar */
+    &::-webkit-scrollbar {
+        width: 0.25rem; // 4px -> 0.25rem
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 0.25rem;
+    }
+}
+
+.empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 0;
+}
+
+.emptyMessage {
+    font-size: 0.875rem;
+    color: $sidebar-text-secondary;
+    text-align: center;
+}
+
+
+// Sidebar Group Styles
+.sidebarGroup {
+    display: flex;
+    flex-direction: column;
+    gap: liquid.$spacing-fluid-1;
+
+    &__header {
+        display: flex;
+        align-items: center;
+        gap: liquid.$spacing-fluid-2;
+        padding: liquid.$spacing-fluid-1 liquid.$spacing-fluid-2;
+        color: $sidebar-text-secondary; // Use variable
+        font-size: liquid.$font-fluid-xs;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+
+        &--clickable {
+            cursor: pointer;
+            border-radius: liquid.$radius-fluid-sm;
+            transition: all $transition-speed $transition-easing;
+
+            &:hover {
+                background-color: rgba(255, 255, 255, 0.05);
+                color: $sidebar-text;
+            }
+        }
+    }
+
+    &__icon {
+        width: 1rem;
+        height: 1rem;
+        opacity: 0.7;
+    }
+
+    &__label {
+        flex: 1;
+    }
+
+    &__toggle {
+        width: 1rem;
+        height: 1rem;
+        transition: transform $transition-speed $transition-easing;
+
+        &--open {
+            transform: rotate(180deg);
+        }
+    }
+
+    &__items {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        overflow: hidden;
+        transition: all $transition-speed $transition-easing;
+
+        &--collapsed {
+            display: none;
+        }
+    }
+}
+
+// Sidebar Item Styles
+.sidebarItem {
+    display: flex;
+    align-items: center;
+    gap: liquid.$spacing-fluid-3;
+    padding: liquid.$spacing-fluid-2 liquid.$spacing-fluid-3;
+    border-radius: liquid.$radius-fluid-md;
+    color: rgba($sidebar-text, 0.8);
+    text-decoration: none;
+    transition: all $transition-speed $transition-easing;
+    min-height: 2.5rem;
+    position: relative;
+
+    &:hover {
+        background: rgba($sidebar-text, 0.1);
+        color: $sidebar-text;
+    }
+
+    &--active {
+        background: hsl(var(--primary) / 0.1);
+        color: hsl(var(--primary));
+        font-weight: 500;
+
+        // Active indicator (Logical Property)
+        &::before {
+            content: '';
+            position: absolute;
+            inset-inline-start: 0;
+            top: 25%;
+            bottom: 25%;
+            width: 3px;
+            background: hsl(var(--primary));
+            border-radius: 0 liquid.$radius-fluid-sm liquid.$radius-fluid-sm 0;
+        }
+    }
+
+    &__icon {
+        width: 1.25rem;
+        height: 1.25rem;
+        flex-shrink: 0;
+    }
+
+    &__label {
+        font-size: liquid.$font-fluid-sm;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        line-height: 1.25;
+    }
+
+    &__badge {
+        margin-inline-start: auto; // Logical Margin
+        background: hsl(var(--primary));
+        color: hsl(var(--primary-foreground));
+        padding: 0.125rem 0.375rem;
+        border-radius: 9999px;
+        font-size: 0.625rem;
+        font-weight: 700;
+        line-height: 1;
+    }
+}
+
+// Footer section
+.footer {
+    padding: liquid.$spacing-fluid-3;
+    border-top: 1px solid rgba($sidebar-border, 0.5);
+    flex-shrink: 0;
+    background: rgba($sidebar-bg, 0.5); // Slightly different from header
+    display: flex;
+    flex-direction: column;
+    gap: liquid.$spacing-fluid-2;
+}
+
+// User link in footer
+.userLink {
+    display: flex;
+    align-items: center;
+    gap: liquid.$spacing-fluid-3;
+    padding: liquid.$spacing-fluid-2;
+    border-radius: liquid.$radius-fluid-lg;
+    text-decoration: none;
+    color: rgba($sidebar-text, 0.8);
+    transition: all $transition-speed $transition-easing;
+
+    &:hover {
+        background-color: rgba($sidebar-text, 0.1);
+        color: $sidebar-text;
+    }
+}
+
+.userAvatar {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background: hsl(var(--secondary));
+    color: hsl(var(--secondary-foreground));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.userInfo {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    flex: 1;
+}
+
+.userName {
+    font-size: liquid.$font-fluid-sm;
+    font-weight: 500;
+    color: $sidebar-text;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.userEmail {
+    font-size: liquid.$font-fluid-xs;
+    color: $sidebar-text-secondary;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+// Footer actions (Settings/Logout)
+.footerActions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: liquid.$spacing-fluid-1;
+}
+
+.footerBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: liquid.$spacing-fluid-2;
+    border-radius: liquid.$radius-fluid-md;
+    background: transparent;
+    border: none;
+    color: $sidebar-text-secondary;
+    cursor: pointer;
+    transition: all $transition-speed $transition-easing;
+
+    &:hover {
+        background-color: rgba($sidebar-text, 0.1);
+        color: $sidebar-text;
+    }
+
+    &--danger:hover {
+        color: #ef4444; // Error color
+    }
+}
+
+// Overlay (for mobile)
+.overlay {
+    display: none; // Default hidden (Desktop)
+
+    @include mobile-only {
+        display: block; // Visible structurally on mobile
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(4px);
+        z-index: $sidebar-overlay-z-index;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+
+        &--visible {
+            opacity: 1;
+            visibility: visible;
+        }
+    }
+}
+
+// RTL Support Override
+[dir='ltr'] {
+    .sidebar {
+        border-inline-end: 1px solid $sidebar-border;
+        border-inline-start: none;
+
+        @include mobile-only {
+            right: auto;
+            left: 0;
+            transform: translateX(-100%);
+
+            &--open {
+                transform: translateX(0);
+            }
+        }
+    }
+}

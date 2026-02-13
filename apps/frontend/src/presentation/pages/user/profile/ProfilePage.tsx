@@ -1,15 +1,19 @@
 import React from 'react'
 import { User as UserIcon } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { LoadingState } from '@/presentation/pages/components'
 import { PageHeader } from '../../components'
 import { useProfile } from './hooks/useProfile'
 import { ProfileAvatar, PersonalInfo, AccountInfo } from './components'
 
 
+import styles from './ProfilePage.module.scss'
+
 /**
  * ProfilePage - صفحة الملف الشخصي - النسخة المطورة
  */
 const ProfilePage: React.FC = () => {
+  const { t } = useTranslation()
   const { user, canAccess, loadingState, initials, displayName, formattedCreatedAt } = useProfile()
 
   if (!canAccess || loadingState.shouldShowLoading) {
@@ -19,34 +23,38 @@ const ProfilePage: React.FC = () => {
   if (!user) return null
 
   return (
-    <div className="profile-page">
+    <div className={styles.container}>
       <PageHeader
-        title="الملف الشخصي"
-        description="إدارة معلوماتك الشخصية وإعدادات الحساب"
+        title={t('profile.title')}
+        description={t('profile.description')}
         icon={<UserIcon />}
       />
 
-      <div className="profile-page__content">
-        <ProfileAvatar
-          avatarUrl={user.avatarUrl}
-          displayName={displayName}
-          initials={initials}
-          email={user.email}
-        />
+      <div className={styles.content}>
+        <div className={styles.sidebar}>
+          <ProfileAvatar
+            avatarUrl={user.avatarUrl}
+            displayName={displayName}
+            initials={initials}
+            email={user.email}
+          />
+        </div>
 
-        <PersonalInfo
-          firstName={user.firstName}
-          lastName={user.lastName}
-          username={user.username}
-          formattedCreatedAt={formattedCreatedAt}
-        />
+        <div className={styles.main}>
+          <PersonalInfo
+            firstName={user.firstName}
+            lastName={user.lastName}
+            username={user.username}
+            formattedCreatedAt={formattedCreatedAt}
+          />
 
-        <AccountInfo
-          email={user.email}
-          role={user.role}
-          isActive={user.isActive}
-          isVerified={user.isVerified}
-        />
+          <AccountInfo
+            email={user.email}
+            role={user.role}
+            isActive={user.isActive}
+            isVerified={user.isVerified}
+          />
+        </div>
       </div>
     </div>
   )

@@ -27,7 +27,7 @@ export class SecurityAnalyticsHandler extends BaseHandler {
   private parseFilter(query: unknown): SecurityAnalyticsFilter {
     const validatedData = GetAnalyticsReportRequestSchema.parse(query);
     return {
-      period: validatedData.period as SecurityAnalyticsFilter['period'],
+      period: validatedData.period as SecurityAnalyticsFilter["period"],
       startDate: validatedData.startDate
         ? new Date(validatedData.startDate)
         : undefined,

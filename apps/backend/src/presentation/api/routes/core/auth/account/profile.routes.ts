@@ -1,6 +1,6 @@
 /**
  * Profile Routes - مسارات الملف الشخصي
- * 
+ *
  * @law Law-1 (Modularity) - Domain Encapsulation
  */
 
@@ -24,12 +24,12 @@ const router = RouteFactory.createFeatureRouter();
  *         description: معلومات المستخدم
  */
 router.get(
-    "/me",
-    ...RouteFactory.createAuthenticatedRoute<UserHandler>(
-        "UserHandler",
-        "getCurrentUser",
-        authMiddleware.authenticate,
-    ),
+  "/me",
+  ...RouteFactory.createAuthenticatedRoute<UserHandler>(
+    "UserHandler",
+    "getCurrentUser",
+    authMiddleware.authenticate,
+  ),
 );
 
 /**
@@ -58,12 +58,12 @@ router.get(
  *         description: تم تحديث البيانات
  */
 router.patch(
-    "/profile",
-    ...RouteFactory.createAuthenticatedRoute<UserHandler>(
-        "UserHandler",
-        "updateUser",
-        authMiddleware.authenticate,
-    ),
+  "/profile",
+  ...RouteFactory.createAuthenticatedRoute<UserHandler>(
+    "UserHandler",
+    "updateUser",
+    authMiddleware.authenticate,
+  ),
 );
 
 export default router;

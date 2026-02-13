@@ -1,0 +1,13 @@
+src/application/use-cases/auth/RequestPasswordResetUseCase.test.ts(8,30): error TS2307: Cannot find module '@/application/services/email' or its corresponding type declarations.
+src/infrastructure/adapters/email/NodemailerAdapter.ts(37,31): error TS2339: Property 'htmlBody' does not exist on type 'EmailOptions'.
+src/infrastructure/adapters/email/NodemailerAdapter.ts(38,31): error TS2339: Property 'textBody' does not exist on type 'EmailOptions'.
+src/infrastructure/config/environment/index.ts(7,15): error TS2307: Cannot find module './schema.js' or its corresponding type declarations.
+src/infrastructure/config/index.ts(24,15): error TS2307: Cannot find module './environment/schema.js' or its corresponding type declarations.
+src/infrastructure/di/modules/communication.module.ts(5,37): error TS2307: Cannot find module '../../../../presentation/api/handlers/communication/NotificationHandler.js' or its corresponding type declarations.
+src/infrastructure/di/modules/education.module.ts(15,32): error TS6133: 'EducationConfig' is declared but its value is never read.
+src/modules/learning/learning.service.ts(69,17): error TS2322: Type '{ content: string; threadId: string; }' is not assignable to type 'string'.
+src/presentation/api/middleware/diagnostics/not-found.middleware.ts(97,5): error TS6133: 'req' is declared but its value is never read.
+src/presentation/api/middleware/subscription/usage-limit.middleware.ts(53,27): error TS6133: 'res' is declared but its value is never read.
+src/presentation/api/middleware/subscription/usage-limit.middleware.ts(71,13): error TS6133: 'req' is declared but its value is never read.
+src/presentation/api/middleware/subscription/usage-limit.middleware.ts(71,27): error TS6133: 'res' is declared but its value is never read.
+src/presentation/middleware/TierGuard.ts(13,14): error TS2448: Block-scoped variable 'user' used before its declaration.

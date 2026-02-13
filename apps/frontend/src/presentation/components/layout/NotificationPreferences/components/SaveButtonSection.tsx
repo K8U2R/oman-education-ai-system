@@ -1,28 +1,24 @@
-﻿/**
- * SaveButtonSection Component - قسم أزرار الحفظ
- *
- * مكون لعرض أزرار الحفظ مع حالات loading و success
- */
-
-import React from 'react'
+﻿import React from 'react'
 import { Save, X, RotateCcw, Check } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { Button } from '../../../common'
 import { cn } from '../../../common/utils/classNames'
+import styles from './SaveButtonSection.module.scss'
 
 interface SaveButtonSectionProps {
-  /** هل هناك تغييرات؟ */
+  /** Has changes? */
   hasChanges: boolean
-  /** حالة الحفظ */
+  /** Saving state */
   saving: boolean
-  /** حالة النجاح */
+  /** Success state */
   success?: boolean
-  /** دالة الحفظ */
+  /** Save function */
   onSave: () => void
-  /** دالة الإلغاء */
+  /** Cancel function */
   onCancel: () => void
-  /** دالة إعادة التعيين */
+  /** Reset function */
   onReset?: () => void
-  /** Class name إضافي */
+  /** Additional class name */
   className?: string
 }
 
@@ -35,16 +31,18 @@ export const SaveButtonSection: React.FC<SaveButtonSectionProps> = ({
   onReset,
   className,
 }) => {
+  const { t } = useTranslation('common')
+
   return (
-    <div className={cn('save-button-section', className)}>
+    <div className={cn(styles.section, className)}>
       {success && (
-        <div className="save-button-section__success" role="alert" aria-live="polite">
-          <Check className="save-button-section__success-icon" size={18} />
-          <span className="save-button-section__success-text">تم الحفظ بنجاح</span>
+        <div className={styles.success} role="alert" aria-live="polite">
+          <Check className={styles.successIcon} size={18} />
+          <span className={styles.successText}>{t('notifications.status.saved')}</span>
         </div>
       )}
 
-      <div className="save-button-section__actions">
+      <div className={styles.actions}>
         {onReset && hasChanges && (
           <Button
             variant="ghost"
@@ -52,10 +50,10 @@ export const SaveButtonSection: React.FC<SaveButtonSectionProps> = ({
             onClick={onReset}
             disabled={saving}
             leftIcon={<RotateCcw size={18} />}
-            className="save-button-section__reset-button"
-            aria-label="إعادة تعيين التغييرات"
+            className={styles.resetButton}
+            aria-label={t('notifications.actions.reset_tooltip')}
           >
-            إعادة تعيين
+            {t('notifications.actions.reset')}
           </Button>
         )}
 
@@ -65,9 +63,9 @@ export const SaveButtonSection: React.FC<SaveButtonSectionProps> = ({
           onClick={onCancel}
           disabled={saving}
           leftIcon={<X size={18} />}
-          className="save-button-section__cancel-button"
+          className={styles.cancelButton}
         >
-          إلغاء
+          {t('notifications.actions.cancel')}
         </Button>
 
         <Button
@@ -77,9 +75,9 @@ export const SaveButtonSection: React.FC<SaveButtonSectionProps> = ({
           disabled={!hasChanges || saving}
           isLoading={saving}
           leftIcon={!saving ? <Save size={18} /> : undefined}
-          className="save-button-section__save-button"
+          className={styles.saveButton}
         >
-          {saving ? 'جاري الحفظ...' : 'حفظ'}
+          {saving ? t('notifications.status.saving') : t('notifications.actions.save')}
         </Button>
       </div>
     </div>

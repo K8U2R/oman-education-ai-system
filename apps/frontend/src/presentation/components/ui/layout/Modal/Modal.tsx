@@ -3,10 +3,10 @@
  * @law Law-10 (Modularity) - Under 100 lines
  */
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { createPortal } from 'react-dom';
-import { cn } from '../../utils/classNames';
 import { ModalHeader, ModalOverlay } from './ModalParts';
+import styles from './Modal.module.scss';
 
 interface ModalProps {
   isOpen: boolean;
@@ -43,14 +43,20 @@ export const Modal: React.FC<ModalProps> = ({
   const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) =>
     (closeOnOverlayClick && e.target === e.currentTarget) && onClose();
 
+  const modalClass = useMemo(() => [
+    styles.modal,
+    styles[`modal--${size}`],
+    className
+  ].filter(Boolean).join(' '), [size, className]);
+
   return createPortal(
     <ModalOverlay onClick={handleOverlayClick}>
-      <div className={cn('modal', `modal--${size}`, className)} onClick={e => e.stopPropagation()}>
+      <div className={modalClass} onClick={e => e.stopPropagation()}>
         {(title || showCloseButton) && (
           <ModalHeader title={title} description={description} showCloseButton={showCloseButton} onClose={onClose} />
         )}
-        <div className="modal__content">{children}</div>
-        {footer && <div className="modal__footer">{footer}</div>}
+        <div className={styles.content}>{children}</div>
+        {footer && <div className={styles.footer}>{footer}</div>}
       </div>
     </ModalOverlay>,
     document.body

@@ -16,6 +16,15 @@ import { UserRole } from '@/domain/types/auth.types'
  * @law Law-06 (Design Tokens): Uses grid system.
  * @desc Renders widgets based on user role configuration defined in dashboard.config.ts
  */
+import styles from './DashboardPage.module.scss'
+
+/**
+ * DashboardPage - الصفحة الرئيسية (لوحة التحكم) - النسخة الديناميكية (Dynamic Engine)
+ *
+ * @law Law-05 (Separation of Concerns): The view is now just a renderer.
+ * @law Law-06 (Design Tokens): Uses grid system.
+ * @desc Renders widgets based on user role configuration defined in dashboard.config.ts
+ */
 const DashboardPage: React.FC = () => {
   const dashboardState = useDashboard()
   const {
@@ -51,15 +60,17 @@ const DashboardPage: React.FC = () => {
   const layoutConfig: DashboardWidgetConfig[] = DASHBOARD_LAYOUTS[role] || DASHBOARD_LAYOUTS.default || [];
 
   return (
-    <div className="dashboard-page space-y-8">
-      <PageHeader
-        title={`${greeting}، ${user.fullName || 'عزيزي المستخدم'}`}
-        description="مرحباً بك في نظام التعليم الذكي - واجهتك الديناميكية للتعلم"
-        icon={pageHeaderIcon}
-      />
+    <div className={styles.container}>
+      <div className={styles.header}>
+        <PageHeader
+          title={`${greeting}، ${user.fullName || 'عزيزي المستخدم'}`}
+          description="مرحباً بك في نظام التعليم الذكي - واجهتك الديناميكية للتعلم"
+          icon={pageHeaderIcon}
+        />
+      </div>
 
       {/* Dynamic Widget Grid - The Engine 🚂 */}
-      <div className="dashboard-grid grid grid-cols-12 gap-6">
+      <div className={styles.grid}>
         {layoutConfig.map((widgetConfig) => {
           const WidgetComponent = WIDGET_REGISTRY[widgetConfig.widgetKey];
 
@@ -77,7 +88,7 @@ const DashboardPage: React.FC = () => {
           }
 
           return (
-            <div key={widgetConfig.id} className={`col-span-12 md:col-span-${widgetConfig.colSpan || 12}`}>
+            <div key={widgetConfig.id} style={{ gridColumn: `span ${widgetConfig.colSpan || 12}` }}>
               <WidgetComponent
                 {...dashboardState} // Pass all dashboard hooks/handlers (context)
                 {...widgetConfig.props} // Pass static config props

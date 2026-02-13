@@ -2,4 +2,4 @@
  * Core Configuration - Barrel Export
  */
 
-export * from './ConfigManager.js';
+export * from "./ConfigManager.js";

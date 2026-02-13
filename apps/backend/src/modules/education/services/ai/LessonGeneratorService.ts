@@ -1,143 +1,127 @@
-import { EnhancedBaseService } from "@/application/services/system/base/EnhancedBaseService.js";
-import { DatabaseCoreAdapter } from "@/infrastructure/adapters/db/DatabaseCoreAdapter.js";
+import { injectable, inject } from "tsyringe";
 import { IAIProvider } from "@/domain/interfaces/ai/IAIProvider.js";
-import { EducationConfig } from "../../config/education.config.js";
-import { LessonSchema, GeneratedLesson, GenerateLessonRequest } from "../../domain/lesson.domain.js";
-import { PlanTier } from "@/domain/types/auth/auth.types.js";
+import { MockAIProvider } from "@/modules/ai/services/MockAIProvider.js";
+import { z } from "zod";
 import { logger } from "@/shared/utils/logger.js";
 import { AppError } from "@/core/errors/AppError.js";
 
-/**
- * LessonGeneratorService - محرك توليد الدروس (Adaptive)
- * 
- * Responsible for generating tiered educational content using AI.
- * Implements Law-14 (Tier Supremacy).
- */
-export class LessonGeneratorService extends EnhancedBaseService {
-    constructor(
-        databaseAdapter: DatabaseCoreAdapter,
-        private readonly aiProvider: IAIProvider,
-        private readonly config: EducationConfig
-    ) {
-        super(databaseAdapter);
-    }
+// Validation Schema (aligned with data-model.md)
+export const LessonPlanSchema = z.object({
+  topic: z.string(),
+  subject: z.string(),
+  gradeLevel: z.string(),
+  language: z.enum(["ar", "en"]),
+  content: z.object({
+    objectives: z.array(z.string()),
+    introduction: z.string(),
+    mainActivity: z.string(),
+    assessment: z.string(),
+    homework: z.string(),
+  }),
+  metadata: z
+    .object({
+      modelUsed: z.string(),
+      generationTimeMs: z.number(),
+      promptVersion: z.string(),
+    })
+    .optional(),
+});
 
-    protected getServiceName(): string {
-        return "LessonGeneratorService";
-    }
+export type LessonPlan = z.infer<typeof LessonPlanSchema>;
 
-    /**
-     * Generate a structured lesson from a topic with adaptive quality.
-     */
-    async generateLesson(request: GenerateLessonRequest): Promise<GeneratedLesson> {
-        return this.executeWithEnhancements(
-            async () => {
-                logger.info("Generating tiered lesson", {
-                    topic: request.topic,
-                    tier: request.planTier
-                });
+@injectable()
+export class LessonGeneratorService {
+  constructor(
+    // Injecting the concrete Mock provider for now.
+    // In a real setup, we'd use a token 'AIProvider'.
+    @inject(MockAIProvider) private aiProvider: IAIProvider,
+  ) {}
 
-                // 1. Get Adaptive Prompt based on Tier (Law-14)
-                const adaptiveInstruction = this.getPromptForTier(request.planTier, request.topic);
+  async generateLesson(
+    topic: string,
+    subject: string,
+    gradeLevel: string,
+    language: "ar" | "en" = "ar",
+  ): Promise<LessonPlan> {
+    // Log the request
+    logger.info("LessonGenerator: Request received", {
+      topic,
+      subject,
+      gradeLevel,
+      language,
+    });
 
-                const systemPrompt = this.config.ai.prompts.lessonGenerator;
-                const userPrompt = `
-                    الموضوع: ${request.topic}
-                    اللغة: ${request.language === "ar" ? "العربية" : "English"}
-                    المستوى: ${request.level || "auto"}
-                    
-                    ${adaptiveInstruction}
-                    
-                    ${request.customInstructions ? `تعليمات إضافية: ${request.customInstructions}` : ""}
-                `;
+    // 1. Build the prompt
+    const prompt = this.buildPrompt(topic, subject, gradeLevel, language);
 
-                // 2. AI Generation with Zod Schema Validation
-                const aiResult = await this.aiProvider.generateJson<GeneratedLesson>(
-                    userPrompt,
-                    LessonSchema,
-                    {
-                        systemPrompt,
-                        temperature: this.getTemperatureForTier(request.planTier),
-                        maxTokens: this.getMaxTokensForTier(request.planTier)
-                    }
-                );
+    try {
+      // 2. Call AI Provider (Mock or Real)
+      const result = await this.aiProvider.generateJson<LessonPlan>(
+        prompt,
+        LessonPlanSchema,
+        { systemPrompt: "You are an expert teacher." },
+      );
 
-                // 3. Strict Output Validation
-                const validation = LessonSchema.safeParse(aiResult);
-
-                if (!validation.success) {
-                    logger.error("AI Output Validation Failed", { errors: validation.error.format() });
-                    throw new AppError(
-                        "فشل في التحقق من بنية الدرس المولّد ذكياً",
-                        "AI_VALIDATION_ERROR",
-                        500
-                    );
-                }
-
-                return validation.data;
-            },
-            {
-                retryable: true,
-                performanceTracking: true
-            },
-            {
-                operation: "generateLesson",
-                metadata: { tier: request.planTier, topic: request.topic }
-            }
+      // 3. Validate
+      const validated = LessonPlanSchema.safeParse(result);
+      if (!validated.success) {
+        logger.error("LessonGenerator: Validation failed", {
+          errors: validated.error,
+        });
+        // Fallback or retry logic could go here
+        throw new AppError(
+          "AI generated invalid lesson structure",
+          "AI_VALIDATION_ERROR",
+          500,
         );
+      }
+
+      return validated.data;
+    } catch (error) {
+      logger.error("LessonGenerator: Operation failed", { error });
+      throw new AppError(
+        "Failed to generate lesson",
+        "AI_GENERATION_FAILED",
+        500,
+      );
     }
+  }
 
-    /**
-     * Adaptive Prompting Engine
-     * Returns varied instructions based on the user's plan tier.
-     */
-    private getPromptForTier(tier: PlanTier, topic: string): string {
-        switch (tier) {
-            case "FREE":
-                return `
-                    Start Level: Beginner / General
-                    Style: Simplified, conceptual, easy to read.
-                    - Avoiding complex code examples.
-                    - Focus on "What is it?" and "Basic usage".
-                    - Keep sections short and direct.
-                    - Total length: Concise.
-                `;
-
-            case "PRO":
-                return `
-                    Start Level: Professional / Developer
-                    Style: Technical, hands-on, practical.
-                    - Provide code snippets in every section.
-                    - Explain "How it works" and "Why use it".
-                    - Include implementation steps.
-                    - Total length: Detailed.
-                `;
-
-            case "PREMIUM":
-                return `
-                    Start Level: Expert / Senior Architect
-                    Style: Deep dive, architectural, industry-standard.
-                    - Analyze Design Patterns, Security, and Scalability.
-                    - Provide advanced code scenarios and edge cases.
-                    - Discuss "Best Practices" and "Anti-patterns".
-                    - Treat this as a mini-project documentation.
-                `;
-
-            default:
-                return "Style: Standard educational content.";
+  private buildPrompt(
+    topic: string,
+    subject: string,
+    gradeLevel: string,
+    language: string,
+  ): string {
+    const langInstruction =
+      language === "ar" ? "Respond in Arabic." : "Respond in English.";
+    return `
+        You are an expert teacher. Create a comprehensive lesson plan.
+        
+        Details:
+        - Topic: ${topic}
+        - Subject: ${subject}
+        - Grade Level: ${gradeLevel}
+        
+        Instructions:
+        - ${langInstruction}
+        - The output must be valid JSON matching the specified schema.
+        - The 'content.objectives' should be actionable.
+        
+        JSON Structure:
+        {
+            "topic": "string",
+            "subject": "string",
+            "gradeLevel": "string",
+            "language": "ar|en",
+            "content": {
+                "objectives": ["string"],
+                "introduction": "string",
+                "mainActivity": "string",
+                "assessment": "string",
+                "homework": "string"
+            }
         }
-    }
-
-    private getTemperatureForTier(tier: PlanTier): number {
-        return tier === "PREMIUM" ? 0.7 : 0.5; // Creative for Premium, Stable for Free
-    }
-
-    private getMaxTokensForTier(tier: PlanTier): number {
-        switch (tier) {
-            case "FREE": return 1000;
-            case "PRO": return 2500;
-            case "PREMIUM": return 4000;
-            default: return 1000;
-        }
-    }
+        `;
+  }
 }

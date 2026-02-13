@@ -1,1 +1,1 @@
-export * from './WhitelistService.js';
+export * from "./WhitelistService.js";

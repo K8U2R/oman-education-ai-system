@@ -1,0 +1,74 @@
+@use '../abstracts/tokens' as *;
+@use '../abstracts/mixins' as *;
+
+.footer {
+    width: 100%;
+    background-color: hsl(var(--card-bg));
+    border-top: 1px solid hsl(var(--border));
+    margin-top: auto;
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, hsl(var(--primary) / 0.5), transparent);
+    }
+
+    &__container {
+        // Container styles handled by Tailwind class 'container' in JSX or we can force it here
+    }
+
+    &__col {
+        &--brand {
+            // Specific branding styles
+        }
+    }
+
+    &__logo {
+        display: inline-block;
+        // Gradient text handled by Tailwind classes in JSX
+    }
+
+    &__heading {
+        position: relative;
+        padding-bottom: var(--space-2);
+
+        &::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0; // RTL support needed via logical properties?
+            width: 24px;
+            height: 2px;
+            background-color: hsl(var(--primary));
+            border-radius: 99px;
+        }
+
+        [dir="rtl"] &::after {
+            left: auto;
+            right: 0;
+        }
+    }
+
+    &__links {
+
+        button,
+        a {
+            transition: all 0.2s ease;
+
+            &:hover {
+                transform: translateX(4px); // RTL flip needed?
+                color: hsl(var(--primary));
+            }
+
+            [dir="rtl"] &:hover {
+                transform: translateX(-4px);
+            }
+        }
+    }
+}

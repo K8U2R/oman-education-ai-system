@@ -1,43 +1,51 @@
-import { IEmailTemplateEngine, EmailTemplateResult } from "@/domain/interfaces/email/IEmailTemplateEngine";
+import {
+  IEmailTemplateEngine,
+  EmailTemplateResult,
+} from "@/domain/interfaces/email/IEmailTemplateEngine";
 
 /**
  * Standard HTML Template Engine
- * 
+ *
  * Concrete implementation of IEmailTemplateEngine using standard HTML templates.
  * internalizes the HTML generation logic and ensures proper escaping.
  */
 export class StandardHtmlTemplateEngine implements IEmailTemplateEngine {
+  generateVerificationEmail(
+    userName: string,
+    verificationUrl: string,
+  ): EmailTemplateResult {
+    const safeUserName = this.escapeHtml(userName);
+    // const safeUrl = this.escapeHtml(verificationUrl); // Verify URL usually safe but good practice
 
-    generateVerificationEmail(userName: string, verificationUrl: string): EmailTemplateResult {
-        const safeUserName = this.escapeHtml(userName);
-        // const safeUrl = this.escapeHtml(verificationUrl); // Verify URL usually safe but good practice
+    return {
+      html: this.getVerificationHtml(safeUserName, verificationUrl), // Use raw URL in href
+      text: this.getVerificationText(safeUserName, verificationUrl),
+    };
+  }
 
-        return {
-            html: this.getVerificationHtml(safeUserName, verificationUrl), // Use raw URL in href
-            text: this.getVerificationText(safeUserName, verificationUrl)
-        };
-    }
+  generatePasswordResetEmail(
+    userName: string,
+    resetUrl: string,
+  ): EmailTemplateResult {
+    const safeUserName = this.escapeHtml(userName);
 
-    generatePasswordResetEmail(userName: string, resetUrl: string): EmailTemplateResult {
-        const safeUserName = this.escapeHtml(userName);
+    return {
+      html: this.getPasswordResetHtml(safeUserName, resetUrl),
+      text: this.getPasswordResetText(safeUserName, resetUrl),
+    };
+  }
 
-        return {
-            html: this.getPasswordResetHtml(safeUserName, resetUrl),
-            text: this.getPasswordResetText(safeUserName, resetUrl)
-        };
-    }
+  private escapeHtml(unsafe: string): string {
+    return unsafe
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
 
-    private escapeHtml(unsafe: string): string {
-        return unsafe
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/"/g, "&quot;")
-            .replace(/'/g, "&#039;");
-    }
-
-    private getVerificationHtml(userName: string, url: string): string {
-        return `
+  private getVerificationHtml(userName: string, url: string): string {
+    return `
 <!DOCTYPE html>
 <html dir="rtl" lang="ar">
 <head>
@@ -84,10 +92,10 @@ export class StandardHtmlTemplateEngine implements IEmailTemplateEngine {
     </table>
 </body>
 </html>`.trim();
-    }
+  }
 
-    private getVerificationText(userName: string, url: string): string {
-        return `
+  private getVerificationText(userName: string, url: string): string {
+    return `
 مرحباً ${userName}!
 
 شكراً لتسجيلك في منصة عمان التعليمية للذكاء الاصطناعي.
@@ -100,10 +108,10 @@ ${url}
 ---
 © 2026 Oman AI Education System
 `.trim();
-    }
+  }
 
-    private getPasswordResetHtml(userName: string, url: string): string {
-        return `
+  private getPasswordResetHtml(userName: string, url: string): string {
+    return `
 <!DOCTYPE html>
 <html dir="rtl" lang="ar">
 <head>
@@ -153,10 +161,10 @@ ${url}
     </table>
 </body>
 </html>`.trim();
-    }
+  }
 
-    private getPasswordResetText(userName: string, url: string): string {
-        return `
+  private getPasswordResetText(userName: string, url: string): string {
+    return `
 مرحباً ${userName}!
 
 لقد تلقينا طلباً لإعادة تعيين كلمة المرور الخاصة بك.
@@ -171,5 +179,5 @@ ${url}
 ---
 © 2026 Oman AI Education System
 `.trim();
-    }
+  }
 }

@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Terminal } from 'lucide-react';
 import type { LogEntry } from './types';
+import { tokenManager } from '@/infrastructure/services/auth/token-manager.service';
 
 export const LiveLogTerminal: React.FC = () => {
     const [logs, setLogs] = useState<LogEntry[]>([]);
@@ -10,7 +11,9 @@ export const LiveLogTerminal: React.FC = () => {
 
     useEffect(() => {
         if (!isLive) return;
-        const eventSource = new EventSource(`${import.meta.env.VITE_API_BASE_URL}/developer/cockpit/logs`);
+        const token = tokenManager.getAccessToken();
+        const url = `${import.meta.env.VITE_API_BASE_URL}/developer/cockpit/logs` + (token ? `?token=${token}` : '');
+        const eventSource = new EventSource(url);
         eventSource.onmessage = (event) => {
             const newLog = JSON.parse(event.data);
             setLogs((prev) => [...prev.slice(-100), newLog]);

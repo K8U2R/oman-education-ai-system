@@ -4,6 +4,12 @@ services:
     build:
       context: ./apps/frontend
       dockerfile: Dockerfile
+      args:
+        - VITE_API_BASE_URL=https://k8u2r.online/api/v1
+        - VITE_API_URL=https://k8u2r.online/api/v1
+        - VITE_WS_URL=wss://k8u2r.online/ws
+        - VITE_SSE_URL=https://k8u2r.online/api/v1/notifications/stream
+        - VITE_APP_URL=https://k8u2r.online
     container_name: oman_edu_frontend
     restart: always
     ports:
@@ -28,8 +34,9 @@ services:
       - NODE_ENV=production
       - DATABASE_URL=postgresql://postgres:SecurePassword123!@postgres:5432/oman_education_db
       - DATABASE_CORE_URL=http://database-core:3001
+      - REDIS_HOST=redis
     env_file:
-      - ./apps/backend/.env.production
+      - ./apps/backend/env/.env.production
 
   # 🗄️ خدمة الـ Database Core
   database-core:

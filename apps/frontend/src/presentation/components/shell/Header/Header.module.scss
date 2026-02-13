@@ -1,0 +1,116 @@
+@use '@/styles/abstracts/liquid-variables' as liquid;
+@use '@/styles/abstracts/mixins' as *;
+
+.header {
+    position: fixed;
+    top: 0;
+    inset-inline-start: 0; // left: 0
+    inset-inline-end: 0; // right: 0
+    height: 72px; // Increased from var(--header-height) which might be small
+    background: var(--bg-primary); // Sovereign Contrast Fix
+    border-bottom: 1px solid hsl(var(--border) / 0.8);
+    backdrop-filter: blur(12px); // Explicit blur requirement
+    border-block-end: 1px solid var(--border-secondary); // border-bottom
+    z-index: liquid.$z-index-fixed; // Use map-get if z-index is map, else var
+    transition: all liquid.$transition-normal ease-out;
+
+    // Glass Effect (Native variant if needed, but default is now glassy)
+    &--glass {
+        background: hsla(var(--background), 0.6);
+        backdrop-filter: blur(liquid.$blur-lg);
+    }
+
+    // Premium Tier: Enhanced glassmorphism (Migrated from _header.scss)
+    body[data-tier="premium"] & {
+        background: hsl(var(--background) / 0.7);
+        backdrop-filter: blur(16px);
+        box-shadow: 0 8px 32px hsl(var(--foreground) / 0.05);
+        border-bottom-color: hsl(var(--primary) / 0.2);
+
+        &::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg,
+                    hsl(var(--primary) / 0.1) 0%,
+                    transparent 50%);
+            pointer-events: none;
+        }
+    }
+
+    // Pro Tier: Subtle enhancement (Migrated from _header.scss)
+    body[data-tier="pro"] & {
+        background: hsl(var(--background) / 0.85);
+        backdrop-filter: blur(10px);
+    }
+
+    // Variants
+    &--minimal {
+        border-block-end: none;
+        background: transparent;
+    }
+
+    &--compact {
+        height: clamp(3rem, 4vw, 3.5rem);
+    }
+}
+
+.container {
+    max-width: clamp(75rem, 90vw, 90rem); // 1200px - 1440px
+    height: 100%;
+    margin: 0 auto;
+    padding: 0 clamp(1rem, 2vw, 1.5rem);
+}
+
+.content {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    gap: clamp(1rem, 2vw, 2rem);
+}
+
+.controls {
+    display: flex;
+    align-items: center;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.nav {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    justify-content: space-between;
+    gap: clamp(1rem, 2vw, 2rem);
+}
+
+.search {
+    flex: 1;
+    max-width: 32rem; // 512px
+    margin: 0 auto;
+}
+
+.actions {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+// Responsive
+@include mobile-only {
+    .header {
+        height: clamp(3.5rem, 15vw, 4rem);
+    }
+
+    .nav {
+        justify-content: flex-end;
+    }
+
+    .search {
+        display: none; // Hidden on mobile, might be toggled
+    }
+}

@@ -1,0 +1,137 @@
+@use '@/styles/abstracts/liquid-variables' as liquid;
+
+.container {
+    // Default container styles if needed
+    width: 100%;
+}
+
+.header {
+    text-align: center;
+    margin-block-end: liquid.$spacing-fluid-4;
+}
+
+.iconWrapper {
+    width: clamp(3rem, 5vw, 4rem);
+    height: clamp(3rem, 5vw, 4rem);
+    background-color: var(--primary-50, #eff6ff);
+    border-radius: liquid.$radius-fluid-full;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto liquid.$spacing-fluid-3;
+}
+
+.icon {
+    width: clamp(1.5rem, 2.5vw, 2rem);
+    height: clamp(1.5rem, 2.5vw, 2rem);
+    color: var(--primary-600, #2563eb);
+}
+
+.title {
+    font-size: liquid.$font-fluid-xl;
+    font-weight: 700;
+    color: var(--text-primary, #111827);
+    margin-block-end: liquid.$spacing-fluid-1;
+}
+
+.description {
+    color: var(--text-secondary, #6b7280);
+    font-size: liquid.$font-fluid-sm;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: liquid.$spacing-fluid-4;
+}
+
+.error {
+    background-color: var(--error-50, #fef2f2);
+    color: var(--error-700, #b91c1c);
+    padding: liquid.$spacing-fluid-4;
+    border-radius: liquid.$radius-fluid-md;
+    display: flex;
+    align-items: flex-start;
+    gap: liquid.$spacing-fluid-2;
+    font-size: liquid.$font-fluid-sm;
+    margin-block-end: liquid.$spacing-fluid-6;
+
+    // Logical borders/padding supported by browser, but keeping explicit for safety if needed
+}
+
+.success {
+    background-color: var(--success-50, #ecfdf5);
+    color: var(--success-700, #047857);
+    padding: liquid.$spacing-fluid-3;
+    border-radius: liquid.$radius-fluid-md;
+    margin-block-end: liquid.$spacing-fluid-4;
+    font-size: liquid.$font-fluid-sm;
+}
+
+.options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: liquid.$font-fluid-sm;
+}
+
+.forgotPassword {
+    color: var(--primary-600, #2563eb);
+    text-decoration: none;
+    transition: color liquid.$transition-fast;
+
+    &:hover {
+        color: var(--primary-500, #3b82f6);
+        text-decoration: underline;
+    }
+}
+
+.oauth {
+    margin-block-start: liquid.$spacing-fluid-6;
+    position: relative;
+    text-align: center;
+}
+
+.divider {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    font-size: liquid.$font-fluid-xs;
+    color: var(--text-secondary, #6b7280);
+    margin-block-end: liquid.$spacing-fluid-4;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background-color: var(--border-primary, #e5e7eb);
+        z-index: 0;
+    }
+
+    span {
+        background-color: var(--bg-surface, #ffffff);
+        padding: 0 liquid.$spacing-fluid-2;
+        position: relative;
+        z-index: 1;
+    }
+}
+
+.footer {
+    margin-block-start: liquid.$spacing-fluid-6;
+    text-align: center;
+    font-size: liquid.$font-fluid-sm;
+    color: var(--text-secondary, #6b7280);
+
+    a {
+        color: var(--primary-600, #2563eb);
+        font-weight: 500;
+        text-decoration: none;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+}

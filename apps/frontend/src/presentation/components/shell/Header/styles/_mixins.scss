@@ -1,0 +1,147 @@
+/**
+ * Header Styles - Mixins
+ * 
+ * Mixins قابلة لإعادة الاستخدام عبر مكونات الـ Header
+ */
+
+@import './variables';
+
+// ==================== NAV LINK MIXIN ====================
+@mixin nav-link {
+    display: flex;
+    align-items: center;
+    gap: $nav-gap;
+    padding: $nav-item-padding-y $nav-item-padding-x;
+    border-radius: $nav-item-radius;
+    font-size: $nav-font-size;
+    font-weight: $nav-font-weight;
+    line-height: $nav-line-height;
+    color: $nav-link-color;
+    text-decoration: none;
+    transition: all $transition-speed $transition-easing;
+    cursor: pointer;
+    user-select: none;
+}
+
+@mixin nav-link-hover {
+    background-color: $nav-link-hover-bg;
+    color: $nav-link-hover-color;
+}
+
+@mixin nav-link-active {
+    background-color: $nav-link-active-bg;
+    color: $nav-link-active-color;
+    font-weight: 600;
+}
+
+// ==================== RESPONSIVE MIXINS ====================
+@mixin responsive($breakpoint) {
+    @if $breakpoint =='mobile' {
+        @media (min-width: $mobile) {
+            @content;
+        }
+    }
+
+    @else if $breakpoint =='tablet' {
+        @media (min-width: $tablet) {
+            @content;
+        }
+    }
+
+    @else if $breakpoint =='desktop' {
+        @media (min-width: $desktop) {
+            @content;
+        }
+    }
+
+    @else {
+        @media (min-width: $breakpoint) {
+            @content;
+        }
+    }
+}
+
+@mixin mobile-only {
+    @media (max-width: #{$mobile - 1px}) {
+        @content;
+    }
+}
+
+// Shorthand Mixins
+@mixin desktop {
+    @media (min-width: $desktop) {
+        @content;
+    }
+}
+
+@mixin tablet {
+    @media (min-width: $tablet) {
+        @content;
+    }
+}
+
+@mixin mobile {
+    @media (min-width: $mobile) {
+        @content;
+    }
+}
+
+// ==================== GLASS EFFECT ====================
+@mixin glass-effect {
+    background: $header-bg-glass;
+    backdrop-filter: $backdrop-filter-blur $backdrop-filter-saturate;
+    box-shadow: $header-shadow-glass;
+}
+
+// ==================== FLEX UTILITIES ====================
+@mixin flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@mixin flex-between {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+// ==================== ICON BUTTON ====================
+@mixin icon-button {
+    @include flex-center;
+    width: clamp(2rem, 3vw, 2.5rem);
+    height: clamp(2rem, 3vw, 2.5rem);
+    padding: 0;
+    border: none;
+    background: transparent;
+    border-radius: $nav-item-radius;
+    color: $header-text-secondary;
+    cursor: pointer;
+    transition: all $transition-speed-fast $transition-easing;
+
+    &:hover {
+        background-color: $nav-link-hover-bg;
+        color: $nav-link-hover-color;
+    }
+
+    &:active {
+        transform: scale(0.95);
+    }
+}
+
+// ==================== DIVIDER ====================
+@mixin divider-vertical {
+    width: 1px;
+    height: clamp(1.25rem, 2vw, 1.5rem);
+    background-color: $header-border;
+    margin: 0 clamp(0.5rem, 1vw, 0.75rem);
+}
+
+// ==================== RTL SUPPORT ====================
+@mixin rtl-support($property, $ltr-value, $rtl-value) {
+    #{$property}: $ltr-value;
+
+    [dir='rtl'] & {
+        #{$property}: $rtl-value;
+    }
+}

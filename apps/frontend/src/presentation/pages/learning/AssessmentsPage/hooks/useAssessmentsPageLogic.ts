@@ -20,7 +20,7 @@ export const useAssessmentsPageLogic = () => {
 
   // Logic
   const filteredAssessments = useMemo(() => {
-    return assessments.filter(assessment => {
+    return (assessments || []).filter(assessment => {
       const matchesSearch =
         assessment.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
         assessment.description?.toLowerCase().includes(searchTerm.toLowerCase())

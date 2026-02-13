@@ -1,3 +1,7 @@
+// 0. Liquid System (NEW! - Fluid Layout Foundation)
+@use './abstracts/liquid-variables';
+@use './abstracts/liquid-layout';
+
 // 1. Configuration & Helpers (Already injected by vite.config.ts)
 @use './abstracts/tokens';
 
@@ -6,34 +10,56 @@
 @use './base/typography';
 
 // 3. Theme
-@use './themes/theme';
+// @use './themes/theme'; // DEPRECATED: Replaced by engine/generator
 
 // 4. Tiers (Plan Sovereignty)
-@use './tiers/free';
-@use './tiers/pro';
-@use './tiers/premium';
+// DEPRECATED: Handled by engine/generator
+// @use './tiers/free';
+// @use './tiers/pro';
+// @use './tiers/premium';
 
 // 6. Components
-@use './components/button';
 @use './components/auth';
 @use './components/container';
-@use './components/error-panel';
+// @use './components/error-panel'; // DEPRECATED: Moved to feedback/ErrorState
 @use './components/home-page';
-@use './components/loading-overlay';
-@use './components/modal';
-@use './components/toast';
-@use './components/card';
+// @use './components/loading-overlay'; // DEPRECATED: Moved to feedback/LoadingState
+// @use './components/modal';
+// @use './components/toast'; // DEPRECATED: Moved to feedback/Toast
+// @use './components/card';
 @use './components/input';
+// @use './components/upgrade-prompt'; // DEPRECATED: Moved to common/FeatureGate
+@use './components/recommended-lessons';
+@use './components/developer-dashboard';
+
+// 3. Layouts (Shell Components)
+// @use './layouts/header'; // DEPRECATED: Moved to components/layout/Header
+// @use './layouts/sidebar'; // DEPRECATED: Moved to components/layout/Sidebar
+// @use './layouts/app-shell'; // DEPRECATED: Moved to components/shell/AppShell
+@use './layouts/docs-layout';
 
 // 7. Pages
 @use './pages/dashboard';
+@use './pages/assessments';
+@use './pages/lessons';
+@use './pages/profile';
+@use './pages/content_management';
+@use './pages/admin';
+@use './pages/system';
+@use './pages/security_monitoring';
+@use './pages/security_analytics';
+@use './pages/error-pages';
 
-// Call the theme generator to inject CSS variables
-@include tokens.generate-themes;
+// 3. Engine (Sovereign Style System)
+@use './engine/generator';
+
+// Call the engine to inject CSS variables
+@include generator.generate-root;
+@include generator.generate-tiers;
 
 // Global Reset for Theme
 body {
-    background-color: var(--color-bg-app);
-    color: var(--color-text-main);
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
     transition: background-color 0.3s ease, color 0.3s ease;
 }

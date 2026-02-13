@@ -1,61 +1,30 @@
 /**
  * Redis OAuth State Repository
- *
- * Production-ready management using central ENV_CONFIG engine.
+ * 
+ * Production-ready OAuth state storage using Redis with automatic TTL expiration
+ * Replaces in-memory Map for distributed deployments
  */
 
-import { IGoogleOAuthRepository } from "@/domain/interfaces/repositories/auth/social/IGoogleOAuthRepository.js";
+import { IGoogleOAuthRepository } from "../../domain/interfaces/repositories.js";
 import { OAuthState } from "../../domain/entities/OAuthState.js";
-import { RedisCacheAdapter } from "../adapters/cache/RedisCacheAdapter.js";
 import { v4 as uuidv4 } from "uuid";
 import { logger } from "../../shared/utils/logger.js";
-import { ENV_CONFIG } from "../config/env.config.js";
+import { redisClient } from "../cache/RedisClient.js";
+
+const REDIS_PREFIX = "oauth:state:";
 
 export class RedisOAuthStateRepository implements Pick<
   IGoogleOAuthRepository,
   "createState" | "findStateByToken" | "deleteState"
 > {
-  private readonly redis: RedisCacheAdapter;
-  private readonly keyPrefix = "oauth:state:";
-
-  constructor(redis?: RedisCacheAdapter) {
-    if (redis) {
-      this.redis = redis;
-    } else {
-      this.redis = new RedisCacheAdapter({
-        host: ENV_CONFIG.REDIS_HOST,
-        port: ENV_CONFIG.REDIS_PORT,
-        password: ENV_CONFIG.REDIS_PASSWORD,
-        db: 0,
-      });
-    }
-  }
-
-  async initialize(): Promise<void> {
-    if (!this.redis.isConnected()) {
-      await this.redis.connect({
-        host: ENV_CONFIG.REDIS_HOST,
-        port: ENV_CONFIG.REDIS_PORT,
-        password: ENV_CONFIG.REDIS_PASSWORD,
-        db: 0,
-      });
-    }
-  }
-
+  /**
+   * Create OAuth state and store in Redis with TTL
+   */
   async createState(
     redirectTo: string,
     codeVerifier: string,
     expiresInSeconds: number,
   ): Promise<OAuthState> {
-    try {
-      await this.initialize();
-    } catch (error) {
-      logger.error("Failed to initialize Redis connection for OAuth state", {
-        error: error instanceof Error ? error.message : String(error),
-      });
-      throw new Error("Redis is not available.");
-    }
-
     const id = uuidv4();
     const stateToken = this.generateStateToken();
     const createdAt = new Date();
@@ -70,54 +39,87 @@ export class RedisOAuthStateRepository implements Pick<
       expiresAt,
     );
 
-    const key = this.getKey(stateToken);
-    const stateData = {
+    // Store in Redis with automatic expiration
+    const key = `${REDIS_PREFIX}${stateToken}`;
+    const value = JSON.stringify({
       id: state.id,
       stateToken: state.stateToken,
       redirectTo: state.redirectTo,
       codeVerifier: state.codeVerifier,
       createdAt: state.createdAt.toISOString(),
       expiresAt: state.expiresAt.toISOString(),
-    };
+    });
 
-    try {
-      await this.redis.set(key, stateData, expiresInSeconds);
-      logger.info("OAuth state created in Redis", { stateToken });
-    } catch {
-      logger.error("Failed to store OAuth state in Redis", { stateToken });
-      throw new Error("Failed to store OAuth state in Redis.");
-    }
+    await redisClient.setex(key, expiresInSeconds, value);
+
+    logger.info("OAuth state created in Redis", {
+      stateToken,
+      expiresAt: expiresAt.toISOString(),
+      expiresInSeconds,
+    });
 
     return state;
   }
 
+  /**
+   * Find state by token from Redis
+   */
   async findStateByToken(stateToken: string): Promise<OAuthState | null> {
-    await this.initialize();
-    const key = this.getKey(stateToken);
-    const data = await this.redis.get<Record<string, unknown>>(key);
-    if (!data) return null;
+    const key = `${REDIS_PREFIX}${stateToken}`;
+    const value = await redisClient.get(key);
 
-    return new OAuthState(
-      data.id as string,
-      data.stateToken as string,
-      data.redirectTo as string,
-      data.codeVerifier as string,
-      new Date(data.createdAt as string),
-      new Date(data.expiresAt as string),
-      data.usedAt ? new Date(data.usedAt as string) : undefined,
-    );
+    if (!value) {
+      logger.debug("OAuth state not found in Redis", { stateToken });
+      return null;
+    }
+
+    try {
+      const data = JSON.parse(value);
+      const state = new OAuthState(
+        data.id,
+        data.stateToken,
+        data.redirectTo,
+        data.codeVerifier,
+        new Date(data.createdAt),
+        new Date(data.expiresAt),
+      );
+
+      // Double-check expiration (Redis TTL should handle this, but be defensive)
+      if (state.isExpired()) {
+        await this.deleteState(stateToken);
+        logger.debug("OAuth state expired (manual check)", { stateToken });
+        return null;
+      }
+
+      logger.debug("OAuth state found in Redis", {
+        stateToken,
+        redirectTo: state.redirectTo,
+        expiresAt: state.expiresAt.toISOString(),
+      });
+
+      return state;
+    } catch (error) {
+      logger.error("Failed to parse OAuth state from Redis", {
+        stateToken,
+        error: error instanceof Error ? error.message : "Unknown error",
+      });
+      await this.deleteState(stateToken);
+      return null;
+    }
   }
 
+  /**
+   * Delete state from Redis
+   */
   async deleteState(stateToken: string): Promise<void> {
-    await this.initialize();
-    const key = this.getKey(stateToken);
-    await this.redis.delete(key);
+    const key = `${REDIS_PREFIX}${stateToken}`;
+    await redisClient.del(key);
+    logger.debug("OAuth state deleted from Redis", { stateToken });
   }
 
-  private getKey(stateToken: string): string {
-    return `${this.keyPrefix}${stateToken}`;
-  }
-
+  /**
+   * Generate secure state token
+   */
   private generateStateToken(): string {
     return uuidv4() + "-" + Date.now().toString(36);
   }

@@ -73,7 +73,7 @@ export class AgentDispatcher {
       typeof agentResponse === "string"
         ? agentResponse
         : (agentResponse as { explanation?: string }).explanation ||
-        JSON.stringify(agentResponse),
+            JSON.stringify(agentResponse),
     );
 
     const updatedContext = await this.memoryManager.updateContext(

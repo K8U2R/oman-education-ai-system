@@ -4,9 +4,10 @@
  * مكون قائمة منسدلة قابلة لإعادة الاستخدام
  */
 
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef, useEffect, useMemo } from 'react'
 import { ChevronDown } from 'lucide-react'
-import { cn } from '../../utils/classNames'
+import { useTranslation } from 'react-i18next'
+import styles from './Dropdown.module.scss'
 
 export interface DropdownOption {
   value: string
@@ -34,15 +35,17 @@ export const Dropdown: React.FC<DropdownProps> = ({
   options,
   value,
   onChange,
-  placeholder = 'اختر...',
+  placeholder,
   disabled = false,
   size = 'md',
-  variant = 'default',
+  variant = 'default', // Ignored for now or mapped if needed
   fullWidth = false,
   className = '',
   trigger,
   position = 'bottom-left',
 }) => {
+  const { t } = useTranslation()
+  const displayPlaceholder = placeholder || t('common.choose')
   const [isOpen, setIsOpen] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
 
@@ -83,72 +86,74 @@ export const Dropdown: React.FC<DropdownProps> = ({
     setIsOpen(false)
   }
 
-  const positionClass = `dropdown__menu--${position}`
+  const dropdownClass = useMemo(() => {
+    return [
+      styles.dropdown,
+      styles[`dropdown--${size}`],
+      styles[`dropdown--${variant}`],
+      fullWidth ? styles['dropdown--full-width'] : '',
+      disabled ? styles['dropdown--disabled'] : '',
+      className
+    ].filter(Boolean).join(' ')
+  }, [size, variant, fullWidth, disabled, className])
+
+  const menuClass = useMemo(() => {
+    return [
+      styles.menu,
+      styles[`menu--${position}`]
+    ].filter(Boolean).join(' ')
+  }, [position])
 
   return (
-    <div
-      ref={dropdownRef}
-      className={cn(
-        'dropdown',
-        `dropdown--${size}`,
-        `dropdown--${variant}`,
-        fullWidth && 'dropdown--full-width',
-        disabled && 'dropdown--disabled',
-        className
-      )}
-    >
+    <div ref={dropdownRef} className={dropdownClass}>
       {trigger ? (
         <div onClick={() => !disabled && setIsOpen(!isOpen)}>{trigger}</div>
       ) : (
         <button
           type="button"
-          className="dropdown__trigger"
+          className={styles.trigger}
           onClick={() => !disabled && setIsOpen(!isOpen)}
           disabled={disabled}
           aria-expanded={isOpen}
           aria-haspopup="listbox"
         >
-          <span className="dropdown__trigger-content">
+          <span className={styles.triggerContent}>
             {selectedOption ? (
               <>
                 {selectedOption.icon && (
-                  <span className="dropdown__trigger-icon">{selectedOption.icon}</span>
+                  <span className={styles.triggerIcon}>{selectedOption.icon}</span>
                 )}
-                <span className="dropdown__trigger-label">{selectedOption.label}</span>
+                <span className={styles.triggerLabel}>{selectedOption.label}</span>
               </>
             ) : (
-              <span className="dropdown__trigger-placeholder">{placeholder}</span>
+              <span className={styles.triggerPlaceholder}>{displayPlaceholder}</span>
             )}
           </span>
           <ChevronDown
-            className={cn('dropdown__trigger-arrow', isOpen && 'dropdown__trigger-arrow--open')}
+            className={`${styles.arrow} ${isOpen ? styles['arrow--open'] : ''}`}
           />
         </button>
       )}
 
       {isOpen && (
-        <div className={cn('dropdown__menu', positionClass)} role="listbox">
+        <div className={menuClass} role="listbox">
           {options.map((option, index) => {
             if (option.divider) {
-              return <div key={`divider-${index}`} className="dropdown__divider" />
+              return <div key={`divider-${index}`} className={styles.divider} />
             }
 
             return (
               <button
                 key={option.value}
                 type="button"
-                className={cn(
-                  'dropdown__option',
-                  option.value === value && 'dropdown__option--selected',
-                  option.disabled && 'dropdown__option--disabled'
-                )}
+                className={`${styles.option} ${option.value === value ? styles['option--selected'] : ''} ${option.disabled ? styles['option--disabled'] : ''}`}
                 onClick={() => handleSelect(option)}
                 disabled={option.disabled}
                 role="option"
                 aria-selected={option.value === value}
               >
-                {option.icon && <span className="dropdown__option-icon">{option.icon}</span>}
-                <span className="dropdown__option-label">{option.label}</span>
+                {option.icon && <span className={styles.optionIcon}>{option.icon}</span>}
+                <span className={styles.optionLabel}>{option.label}</span>
               </button>
             )
           })}

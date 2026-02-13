@@ -1,0 +1,76 @@
+// ===================================
+// System & Diagnostics Pages Styles
+// ===================================
+
+.sentinel-page {
+    min-height: 100vh;
+    background: hsl(var(--background));
+    padding: var(--space-xl);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    &__header {
+        max-width: 1200px;
+        width: 100%;
+        text-align: center;
+        margin-bottom: var(--space-xl);
+    }
+
+    &__title {
+        font-size: 2.5rem;
+        font-weight: var(--font-weight-bold);
+        color: hsl(var(--foreground));
+        margin-bottom: var(--space-md);
+    }
+
+    &__description {
+        font-size: 1.125rem;
+        color: hsl(var(--muted-foreground));
+    }
+
+    &__quick-access {
+        margin-top: var(--space-xl);
+        padding: var(--space-lg);
+        background: hsl(var(--card));
+        border: 1px solid hsl(var(--border));
+        border-radius: var(--radius-lg);
+        max-width: 600px;
+        width: 100%;
+    }
+
+    &__quick-access-title {
+        font-size: 1rem;
+        font-weight: var(--font-weight-semibold);
+        margin-bottom: var(--space-md);
+        color: hsl(var(--foreground));
+    }
+
+    &__quick-access-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        font-size: 0.875rem;
+        color: hsl(var(--muted-foreground));
+        line-height: 1.8;
+
+        li {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+        }
+
+        code {
+            background: hsl(var(--muted));
+            padding: 0.2em 0.4em;
+            border-radius: var(--radius-sm);
+            font-family: monospace;
+            color: hsl(var(--primary));
+        }
+    }
+}
+
+.database-page {
+    /* Database Styles can be added here */
+}

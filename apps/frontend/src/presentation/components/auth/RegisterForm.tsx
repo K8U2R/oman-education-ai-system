@@ -6,6 +6,8 @@ import { Button, Input } from '../common'
 import { OAuthButtons } from '@/features/user-authentication-management/components/OAuthButtons'
 import { ROUTES } from '@/domain/constants/routes.constants'
 import { useModalStore } from '@/stores/useModalStore'
+import { useTranslation } from 'react-i18next'
+import styles from './RegisterForm.module.scss'
 
 interface RegisterFormProps {
     onSuccess?: () => void
@@ -13,6 +15,7 @@ interface RegisterFormProps {
 }
 
 export const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess, isModal = false }) => {
+    const { t } = useTranslation()
     const navigate = useNavigate()
     const openModal = useModalStore(state => state.open)
     const [formData, setFormData] = useState({
@@ -31,17 +34,17 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess, isModal =
 
     const validateForm = (): boolean => {
         const newErrors: Record<string, string> = {}
-        if (!formData.email) newErrors.email = 'البريد الإلكتروني مطلوب'
-        else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) newErrors.email = 'البريد الإلكتروني غير صحيح'
+        if (!formData.email) newErrors.email = t('auth.validation.email_required')
+        else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) newErrors.email = t('auth.validation.email_invalid')
 
-        if (!formData.password) newErrors.password = 'كلمة المرور مطلوبة'
-        else if (formData.password.length < 8) newErrors.password = 'كلمة المرور يجب أن تكون 8 أحرف على الأقل'
+        if (!formData.password) newErrors.password = t('auth.validation.password_required')
+        else if (formData.password.length < 8) newErrors.password = t('auth.validation.password_min')
 
-        if (formData.password !== formData.confirmPassword) newErrors.confirmPassword = 'كلمات المرور غير متطابقة'
-        if (!formData.firstName) newErrors.firstName = 'الاسم الأول مطلوب'
-        if (!formData.lastName) newErrors.lastName = 'اسم العائلة مطلوب'
-        if (!formData.acceptTerms) newErrors.acceptTerms = 'يجب الموافقة على الشروط'
-        if (!formData.acceptPrivacyPolicy) newErrors.acceptPrivacyPolicy = 'يجب الموافقة على السياسة'
+        if (formData.password !== formData.confirmPassword) newErrors.confirmPassword = t('auth.validation.password_mismatch')
+        if (!formData.firstName) newErrors.firstName = t('auth.validation.first_name_required')
+        if (!formData.lastName) newErrors.lastName = t('auth.validation.last_name_required')
+        if (!formData.acceptTerms) newErrors.acceptTerms = t('auth.validation.terms_required')
+        if (!formData.acceptPrivacyPolicy) newErrors.acceptPrivacyPolicy = t('auth.validation.privacy_required')
 
         setErrors(newErrors)
         return Object.keys(newErrors).length === 0
@@ -70,7 +73,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess, isModal =
                 } else {
                     navigate('/login', {
                         state: {
-                            message: 'تم إنشاء الحساب بنجاح! يرجى التحقق من بريدك الإلكتروني لتفعيل الحساب.',
+                            message: t('auth.success.check_email'),
                             requiresVerification: true,
                         },
                     })
@@ -79,7 +82,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess, isModal =
         } catch (err: unknown) {
             const error = err as { response?: { data?: { detail?: string } } }
             setErrors({
-                submit: error.response?.data?.detail || 'فشل إنشاء الحساب. يرجى المحاولة مرة أخرى.',
+                submit: error.response?.data?.detail || t('auth.unexpected_error'),
             })
         } finally {
             setIsLoading(false)
@@ -98,13 +101,13 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess, isModal =
 
     if (success) {
         return (
-            <div className="text-center py-8">
-                <CheckCircle2 className="w-16 h-16 text-green-600 mx-auto mb-4" />
-                <h2 className="text-2xl font-bold text-gray-900 mb-2">تم إنشاء الحساب بنجاح! ✅</h2>
-                <p className="text-sm text-gray-600 mb-4">يرجى التحقق من بريدك الإلكتروني لتفعيل الحساب.</p>
+            <div className={styles.successWrapper}>
+                <CheckCircle2 className={styles.successIcon} />
+                <h2 className={styles.successTitle}>{t('auth.success.account_created')}</h2>
+                <p className={styles.successMessage}>{t('auth.success.check_email')}</p>
                 {!isModal && (
-                    <Button variant="outline" onClick={() => navigate(ROUTES.VERIFY_EMAIL)} className="w-full">
-                        الانتقال إلى التحقق
+                    <Button variant="outline" onClick={() => navigate(ROUTES.VERIFY_EMAIL)} fullWidth>
+                        {t('auth.success.go_to_verify')}
                     </Button>
                 )}
             </div>
@@ -112,54 +115,53 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess, isModal =
     }
 
     return (
-        <div className={`space-y-6 ${!isModal ? 'w-full' : ''}`}>
+        <div className={!isModal ? styles.container : styles.form}>
             {errors.submit && (
-                <div className="p-3 bg-red-50 text-red-800 rounded-lg text-sm flex gap-2">
-                    <AlertCircle className="w-5 h-5" /> {errors.submit}
+                <div className={styles.error}>
+                    <AlertCircle size={20} /> {errors.submit}
                 </div>
             )}
 
-            <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="grid grid-cols-2 gap-4">
-                    <Input label="الاسم الأول" value={formData.firstName} onChange={(e: any) => handleChange('firstName', e.target.value)} error={errors.firstName} required disabled={isLoading} />
-                    <Input label="اسم العائلة" value={formData.lastName} onChange={(e: any) => handleChange('lastName', e.target.value)} error={errors.lastName} required disabled={isLoading} />
+            <form onSubmit={handleSubmit} className={styles.form}>
+                <div className={styles.grid}>
+                    <Input label={t('auth.first_name_label')} value={formData.firstName} onChange={(e: any) => handleChange('firstName', e.target.value)} error={errors.firstName} required disabled={isLoading} />
+                    <Input label={t('auth.last_name_label')} value={formData.lastName} onChange={(e: any) => handleChange('lastName', e.target.value)} error={errors.lastName} required disabled={isLoading} />
                 </div>
 
-                <Input label="البريد الإلكتروني" type="email" value={formData.email} onChange={(e: any) => handleChange('email', e.target.value)} error={errors.email} required disabled={isLoading} />
+                <Input label={t('auth.email_label')} type="email" value={formData.email} onChange={(e: any) => handleChange('email', e.target.value)} error={errors.email} required disabled={isLoading} />
 
-                <Input label="كلمة المرور" type="password" value={formData.password} onChange={(e: any) => handleChange('password', e.target.value)} error={errors.password} required disabled={isLoading} />
-                <Input label="تأكيد كلمة المرور" type="password" value={formData.confirmPassword} onChange={(e: any) => handleChange('confirmPassword', e.target.value)} error={errors.confirmPassword} required disabled={isLoading} />
+                <Input label={t('auth.password_label')} type="password" value={formData.password} onChange={(e: any) => handleChange('password', e.target.value)} error={errors.password} required disabled={isLoading} />
+                <Input label={t('auth.confirm_password_label')} type="password" value={formData.confirmPassword} onChange={(e: any) => handleChange('confirmPassword', e.target.value)} error={errors.confirmPassword} required disabled={isLoading} />
 
-                <div className="space-y-2 text-sm text-gray-600">
-                    <label className="flex items-center gap-2">
+                <div className={styles.checkboxGroup}>
+                    <label>
                         <input type="checkbox" checked={formData.acceptTerms} onChange={(e) => handleChange('acceptTerms', e.target.checked)} />
-                        <span>أوافق على الشروط والأحكام</span>
+                        <span>{t('auth.terms')}</span>
                     </label>
-                    <label className="flex items-center gap-2">
+                    <label>
                         <input type="checkbox" checked={formData.acceptPrivacyPolicy} onChange={(e) => handleChange('acceptPrivacyPolicy', e.target.checked)} />
-                        <span>أوافق على سياسة الخصوصية</span>
+                        <span>{t('auth.privacy')}</span>
                     </label>
                 </div>
-                {errors.acceptTerms && <p className="text-xs text-red-600">{errors.acceptTerms}</p>}
+                {errors.acceptTerms && <p className={styles.errorText}>{errors.acceptTerms}</p>}
 
                 <Button type="submit" variant="primary" size="lg" isLoading={isLoading} fullWidth>
-                    إنشاء حساب
+                    {t('auth.register_btn')}
                 </Button>
             </form>
 
-            <div className="mt-4">
+            <div className={styles.oauth}>
                 <OAuthButtons isLoading={isLoading} />
             </div>
 
             {!isModal && (
-                <p className="mt-6 text-center text-sm text-gray-600">
-                    لديك حساب بالفعل؟{' '}
+                <p className={styles.footer}>
+                    {t('auth.have_account')}{' '}
                     <button
                         type="button"
                         onClick={() => openModal('login')}
-                        className="text-primary-600 font-medium hover:underline"
                     >
-                        تسجيل الدخول
+                        {t('auth.sign_in')}
                     </button>
                 </p>
             )}

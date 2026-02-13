@@ -1,6 +1,6 @@
 /**
  * Profile Sub-domain Barrel - بوابة تصدير الملف الشخصي
- * 
+ *
  * @law Law-1 (Barrel Law)
  */
 

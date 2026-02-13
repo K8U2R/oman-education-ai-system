@@ -1,0 +1,49 @@
+/**
+ * HeaderControls - SCSS Module
+ * 
+ * تنسيق أزرار التحكم (القائمة الجانبية والموبايل)
+ * Fluid Design System Applied
+ */
+
+@import '../../styles/variables';
+@import '../../styles/mixins';
+
+.controls {
+    display: flex;
+    align-items: center;
+    gap: clamp(0.25rem, 0.5vw, 0.5rem);
+}
+
+.button {
+    @include icon-button;
+    color: var(--text-secondary);
+
+    &:hover {
+        color: var(--primary-600);
+        background: var(--bg-tertiary);
+    }
+
+    // Mobile Menu Button
+    &--mobile {
+        display: flex;
+
+        @include desktop {
+            display: none;
+        }
+    }
+
+    // Sidebar Toggle Button
+    &--sidebar {
+        display: none;
+
+        @include desktop {
+            display: flex;
+        }
+    }
+}
+
+.icon {
+    width: $icon-size;
+    height: $icon-size;
+    stroke-width: 2px;
+}

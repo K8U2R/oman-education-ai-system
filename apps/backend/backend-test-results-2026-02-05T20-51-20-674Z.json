@@ -1,0 +1,409 @@
+{
+  "timestamp": "2026-02-05T20:51:20.675Z",
+  "summary": {
+    "total": 45,
+    "successful": 0,
+    "failed": 45,
+    "avgResponseTime": 4.540222222222222
+  },
+  "categories": {
+    "Health": {
+      "total": 3,
+      "successful": 0,
+      "failed": 3,
+      "avgResponseTime": 20.64666666666667
+    },
+    "Documentation": {
+      "total": 2,
+      "successful": 0,
+      "failed": 2,
+      "avgResponseTime": 2.185
+    },
+    "Authentication": {
+      "total": 5,
+      "successful": 0,
+      "failed": 5,
+      "avgResponseTime": 2.7879999999999994
+    },
+    "Performance": {
+      "total": 20,
+      "successful": 0,
+      "failed": 20,
+      "avgResponseTime": 1.0984999999999998
+    },
+    "Concurrency": {
+      "total": 10,
+      "successful": 0,
+      "failed": 10,
+      "avgResponseTime": 9.786000000000001
+    },
+    "Additional": {
+      "total": 5,
+      "successful": 0,
+      "failed": 5,
+      "avgResponseTime": 0.8460000000000001
+    }
+  },
+  "results": [
+    {
+      "endpoint": "/health",
+      "method": "GET",
+      "status": 0,
+      "responseTime": 56.56,
+      "success": false,
+      "error": "fetch failed"
+    },
+    {
+      "endpoint": "/api/v1/health",
+      "method": "GET",
+      "status": 0,
+      "responseTime": 2.77,
+      "success": false,
+      "error": "fetch failed"
+    },
+    {
+      "endpoint": "/",
+      "method": "GET",
+      "status": 0,
+      "responseTime": 2.61,
+      "success": false,
+      "error": "fetch failed"
+    },
+    {
+      "endpoint": "/api-docs",
+      "method": "GET",
+      "status": 0,
+      "responseTime": 2.44,
+      "success": false,
+      "error": "fetch failed"
+    },
+    {
+      "endpoint": "/swagger.json",
+      "method": "GET",
+      "status": 0,
+      "responseTime": 1.93,
+      "success": false,
+      "error": "fetch failed"
+    },
+    {
+      "endpoint": "/api/v1/auth/login",
+      "method": "POST",
+      "status": 0,
+      "responseTime": 4.55,
+      "success": false,
+      "error": "fetch failed"
+    },
+    {
+      "endpoint": "/api/v1/auth/register",
+      "method": "POST",
+      "status": 0,
+      "responseTime": 1.71,
+      "success": false,
+      "error": "fetch failed"
+    },
+    {
+      "endpoint": "/api/v1/auth/password/reset/request",
+      "method": "POST",
+      "status": 0,
+      "responseTime": 3.55,
+      "success": false,
+      "error": "fetch failed"
+    },
+    {
+      "endpoint": "/api/v1/auth/me",
+      "method": "GET",
+      "status": 0,
+      "responseTime": 1.95,
+      "success": false,
+      "error": "fetch failed"
+    },
+    {
+      "endpoint": "/api/v1/auth/logout",
+      "method": "POST",
+      "status": 0,
+      "responseTime": 2.18,
+      "success": false,
+      "error": "fetch failed"
+    },
+    {
+      "endpoint": "/health",
+      "method": "GET",
+      "status": 0,
+      "responseTime": 1.71,
+      "success": false,
+      "error": "fetch failed"
+    },
+    {
+      "endpoint": "/health",
+      "method": "GET",
+      "status": 0,
+      "responseTime": 1.56,
+      "success": false,
+      "error": "fetch failed"
+    },
+    {
+      "endpoint": "/health",
+      "method": "GET",
+      "status": 0,
+      "responseTime": 1.52,
+      "success": false,
+      "error": "fetch failed"
+    },
+    {
+      "endpoint": "/health",
+      "method": "GET",
+      "status": 0,
+      "responseTime": 1.47,
+      "success": false,
+      "error": "fetch failed"
+    },
+    {
+      "endpoint": "/health",
+      "method": "GET",
+      "status": 0,
+      "responseTime": 1.38,
+      "success": false,
+      "error": "fetch failed"
+    },
+    {
+      "endpoint": "/health",
+      "method": "GET",
+      "status": 0,
+      "responseTime": 1.13,
+      "success": false,
+      "error": "fetch failed"
+    },
+    {
+      "endpoint": "/health",
+      "method": "GET",
+      "status": 0,
+      "responseTime": 1.12,
+      "success": false,
+      "error": "fetch failed"
+    },
+    {
+      "endpoint": "/health",
+      "method": "GET",
+      "status": 0,
+      "responseTime": 1.07,
+      "success": false,
+      "error": "fetch failed"
+    },
+    {
+      "endpoint": "/health",
+      "method": "GET",
+      "status": 0,
+      "responseTime": 1.4,
+      "success": false,
+      "error": "fetch failed"
+    },
+    {
+      "endpoint": "/health",
+      "method": "GET",
+      "status": 0,
+      "responseTime": 1.02,
+      "success": false,
+      "error": "fetch failed"
+    },
+    {
+      "endpoint": "/health",
+      "method": "GET",
+      "status": 0,
+      "responseTime": 1.07,
+      "success": false,
+      "error": "fetch failed"
+    },
+    {
+      "endpoint": "/health",
+      "method": "GET",
+      "status": 0,
+      "responseTime": 1.09,
+      "success": false,
+      "error": "fetch failed"
+    },
+    {
+      "endpoint": "/health",
+      "method": "GET",
+      "status": 0,
+      "responseTime": 0.85,
+      "success": false,
+      "error": "fetch failed"
+    },
+    {
+      "endpoint": "/health",
+      "method": "GET",
+      "status": 0,
+      "responseTime": 0.74,
+      "success": false,
+      "error": "fetch failed"
+    },
+    {
+      "endpoint": "/health",
+      "method": "GET",
+      "status": 0,
+      "responseTime": 0.75,
+      "success": false,
+      "error": "fetch failed"
+    },
+    {
+      "endpoint": "/health",
+      "method": "GET",
+      "status": 0,
+      "responseTime": 0.83,
+      "success": false,
+      "error": "fetch failed"
+    },
+    {
+      "endpoint": "/health",
+      "method": "GET",
+      "status": 0,
+      "responseTime": 0.72,
+      "success": false,
+      "error": "fetch failed"
+    },
+    {
+      "endpoint": "/health",
+      "method": "GET",
+      "status": 0,
+      "responseTime": 0.74,
+      "success": false,
+      "error": "fetch failed"
+    },
+    {
+      "endpoint": "/health",
+      "method": "GET",
+      "status": 0,
+      "responseTime": 0.85,
+      "success": false,
+      "error": "fetch failed"
+    },
+    {
+      "endpoint": "/health",
+      "method": "GET",
+      "status": 0,
+      "responseTime": 0.95,
+      "success": false,
+      "error": "fetch failed"
+    },
+    {
+      "endpoint": "/health",
+      "method": "GET",
+      "status": 0,
+      "responseTime": 10.65,
+      "success": false,
+      "error": "fetch failed"
+    },
+    {
+      "endpoint": "/health",
+      "method": "GET",
+      "status": 0,
+      "responseTime": 10.49,
+      "success": false,
+      "error": "fetch failed"
+    },
+    {
+      "endpoint": "/health",
+      "method": "GET",
+      "status": 0,
+      "responseTime": 10.23,
+      "success": false,
+      "error": "fetch failed"
+    },
+    {
+      "endpoint": "/health",
+      "method": "GET",
+      "status": 0,
+      "responseTime": 9.88,
+      "success": false,
+      "error": "fetch failed"
+    },
+    {
+      "endpoint": "/health",
+      "method": "GET",
+      "status": 0,
+      "responseTime": 9.62,
+      "success": false,
+      "error": "fetch failed"
+    },
+    {
+      "endpoint": "/health",
+      "method": "GET",
+      "status": 0,
+      "responseTime": 9.52,
+      "success": false,
+      "error": "fetch failed"
+    },
+    {
+      "endpoint": "/health",
+      "method": "GET",
+      "status": 0,
+      "responseTime": 9.48,
+      "success": false,
+      "error": "fetch failed"
+    },
+    {
+      "endpoint": "/health",
+      "method": "GET",
+      "status": 0,
+      "responseTime": 9.43,
+      "success": false,
+      "error": "fetch failed"
+    },
+    {
+      "endpoint": "/health",
+      "method": "GET",
+      "status": 0,
+      "responseTime": 9.33,
+      "success": false,
+      "error": "fetch failed"
+    },
+    {
+      "endpoint": "/health",
+      "method": "GET",
+      "status": 0,
+      "responseTime": 9.23,
+      "success": false,
+      "error": "fetch failed"
+    },
+    {
+      "endpoint": "/api/v1/chat",
+      "method": "POST",
+      "status": 0,
+      "responseTime": 1.23,
+      "success": false,
+      "error": "fetch failed"
+    },
+    {
+      "endpoint": "/api/v1/learning/subjects",
+      "method": "GET",
+      "status": 0,
+      "responseTime": 0.81,
+      "success": false,
+      "error": "fetch failed"
+    },
+    {
+      "endpoint": "/api/v1/projects",
+      "method": "GET",
+      "status": 0,
+      "responseTime": 0.75,
+      "success": false,
+      "error": "fetch failed"
+    },
+    {
+      "endpoint": "/api/v1/office/templates",
+      "method": "GET",
+      "status": 0,
+      "responseTime": 0.77,
+      "success": false,
+      "error": "fetch failed"
+    },
+    {
+      "endpoint": "/api/v1/storage/providers",
+      "method": "GET",
+      "status": 0,
+      "responseTime": 0.67,
+      "success": false,
+      "error": "fetch failed"
+    }
+  ]
+}

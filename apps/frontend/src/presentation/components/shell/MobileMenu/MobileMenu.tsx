@@ -25,6 +25,7 @@ import { useUIStore } from '@/application/shared/store'
 import { ROUTES } from '@/domain/constants/routes.constants'
 import { cn } from '@/presentation/components/ui/utils/classNames'
 import SearchBar from '@/presentation/components/layout/SearchBar/SearchBar'
+import styles from './MobileMenu.module.scss'
 
 interface MobileMenuProps {
   isOpen: boolean
@@ -162,35 +163,35 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
   return (
     <>
       {/* Overlay */}
-      {isOpen && <div className="mobile-menu__overlay" onClick={onClose} />}
+      {isOpen && <div className={styles.overlay} onClick={onClose} />}
 
       {/* Menu */}
-      <div className={cn('mobile-menu', isOpen && 'mobile-menu--open')}>
-        <div className="mobile-menu__header">
-          <div className="mobile-menu__header-content">
+      <div className={cn(styles.menu, isOpen && styles['menu--open'])}>
+        <div className={styles.header}>
+          <div className={styles['header-content']}>
             {isAuthenticated && user && (
-              <div className="mobile-menu__user">
-                <div className="mobile-menu__user-avatar">{user.initials}</div>
-                <div className="mobile-menu__user-info">
-                  <p className="mobile-menu__user-name">{user.fullName}</p>
-                  <p className="mobile-menu__user-email">{user.email}</p>
+              <div className={styles.user}>
+                <div className={styles['user-avatar']}>{user.initials}</div>
+                <div className={styles['user-info']}>
+                  <p className={styles['user-name']}>{user.fullName}</p>
+                  <p className={styles['user-email']}>{user.email}</p>
                 </div>
               </div>
             )}
           </div>
-          <button className="mobile-menu__close" onClick={onClose} aria-label="إغلاق القائمة">
+          <button className={styles.close} onClick={onClose} aria-label="إغلاق القائمة">
             <X className="w-6 h-6" />
           </button>
         </div>
 
         {/* Search Bar in Mobile Menu */}
         {isAuthenticated && (
-          <div className="mobile-menu__search">
+          <div className={styles.search}>
             <SearchBar />
           </div>
         )}
 
-        <nav className="mobile-menu__nav">
+        <nav className={styles.nav}>
           {navLinks.map(link => {
             const Icon = link.icon
             const isModalTrigger =
@@ -200,11 +201,11 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
               return (
                 <button
                   key={link.id}
-                  className="mobile-menu__link"
+                  className={styles.link}
                   onClick={() => handleLinkClick(link)}
                 >
-                  <Icon className="mobile-menu__link-icon" />
-                  <span className="mobile-menu__link-label">{link.label}</span>
+                  <Icon className={styles['link-icon']} />
+                  <span className={styles['link-label']}>{link.label}</span>
                 </button>
               )
             }
@@ -214,13 +215,13 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
                 key={link.id}
                 to={link.path}
                 className={cn(
-                  'mobile-menu__link',
-                  isActive(link.path) && 'mobile-menu__link--active'
+                  styles.link,
+                  isActive(link.path) && styles['link--active']
                 )}
                 onClick={() => handleLinkClick(link)}
               >
-                <Icon className="mobile-menu__link-icon" />
-                <span className="mobile-menu__link-label">{link.label}</span>
+                <Icon className={styles['link-icon']} />
+                <span className={styles['link-label']}>{link.label}</span>
               </Link>
             )
           })}

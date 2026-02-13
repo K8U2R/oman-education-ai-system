@@ -1,0 +1,127 @@
+@use '@/styles/abstracts/liquid-variables' as liquid;
+
+.card {
+    height: 100%;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: liquid.$spacing-fluid-6;
+}
+
+.titleWrapper {
+    display: flex;
+    align-items: center;
+    gap: liquid.$spacing-fluid-2;
+}
+
+.indicator {
+    position: relative;
+    display: flex;
+    width: 0.75rem;
+    height: 0.75rem;
+
+    &__ping {
+        position: absolute;
+        display: inline-flex;
+        height: 100%;
+        width: 100%;
+        border-radius: 9999px;
+        opacity: 0.75;
+        animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
+    }
+
+    &__dot {
+        position: relative;
+        display: inline-flex;
+        border-radius: 9999px;
+        height: 0.75rem;
+        width: 0.75rem;
+    }
+
+    // Status Colors - Reuse logic if possible, or define here
+    &--healthy .indicator__ping,
+    &--healthy .indicator__dot {
+        background-color: var(--success-500, #22c55e);
+    }
+
+    &--warning .indicator__ping,
+    &--warning .indicator__dot {
+        background-color: var(--warning-500, #eab308);
+    }
+
+    &--critical .indicator__ping,
+    &--critical .indicator__dot {
+        background-color: var(--error-500, #ef4444);
+    }
+}
+
+@keyframes ping {
+
+    75%,
+    100% {
+        transform: scale(2);
+        opacity: 0;
+    }
+}
+
+.title {
+    font-size: liquid.$font-fluid-lg;
+    font-weight: 700;
+    color: var(--text-primary, #111827);
+    margin: 0;
+}
+
+.lastUpdated {
+    font-size: liquid.$font-fluid-xs;
+    color: var(--text-tertiary, #9ca3af);
+    font-family: monospace;
+}
+
+.metrics {
+    display: flex;
+    flex-direction: column;
+    gap: liquid.$spacing-fluid-3;
+}
+
+.metricItem {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: liquid.$spacing-fluid-3;
+    border-radius: liquid.$radius-fluid-xl;
+    background-color: rgba(243, 244, 246, 0.5); // bg-tertiary/50
+    border: 1px solid transparent;
+    transition: border-color liquid.$transition-fast;
+
+    &:hover {
+        border-color: var(--border-primary, #e5e7eb);
+    }
+}
+
+.metricLabelWrapper {
+    display: flex;
+    align-items: center;
+    gap: liquid.$spacing-fluid-3;
+    color: var(--text-secondary, #6b7280);
+}
+
+.metricValue {
+    font-size: liquid.$font-fluid-sm;
+    font-weight: 700;
+    font-family: monospace;
+
+    &--healthy {
+        color: var(--success-500, #22c55e);
+    }
+
+    &--warning {
+        color: var(--warning-500, #eab308);
+    }
+
+    &--critical {
+        color: var(--error-500, #ef4444);
+    }
+}

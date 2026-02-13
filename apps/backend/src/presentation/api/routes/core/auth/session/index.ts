@@ -1,6 +1,6 @@
 /**
  * Session Domain Barrel - بوابة تصدير الجلسات
- * 
+ *
  * @law Law-1 (Barrel Law) - Encapsulation gateway
  */
 

@@ -21,7 +21,7 @@ export class RequestPasswordResetUseCase {
   constructor(
     private readonly authRepository: IAuthRepository,
     private readonly emailService: EmailService,
-  ) { }
+  ) {}
 
   /**
    * يطلب إعادة تعيين كلمة المرور للمستخدم.

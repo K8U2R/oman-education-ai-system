@@ -1,22 +1,18 @@
-﻿/**
- * NotificationPreferences Component - مكون تفضيلات الإشعارات
- *
- * مكون شامل لإدارة تفضيلات الإشعارات مع UI محسّن
- */
-
-import React, { useState, useEffect } from 'react'
+﻿import React, { useState, useEffect } from 'react'
 import { Bell, VolumeX, RotateCcw } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { Modal } from '../../common'
 import { Button } from '../../common'
 import { useNotificationPreferences } from './hooks/useNotificationPreferences'
 import { NotificationCategory } from './components/NotificationCategory'
 import { SaveButtonSection } from './components/SaveButtonSection'
 import { cn } from '../../common/utils/classNames'
+import styles from './NotificationPreferences.module.scss'
 
 interface NotificationPreferencesProps {
-  /** هل النافذة مفتوحة؟ */
+  /** Is the window open? */
   isOpen: boolean
-  /** دالة الإغلاق */
+  /** Close function */
   onClose: () => void
 }
 
@@ -24,6 +20,7 @@ export const NotificationPreferences: React.FC<NotificationPreferencesProps> = (
   isOpen,
   onClose,
 }) => {
+  const { t } = useTranslation('common')
   const {
     preferences,
     loading,
@@ -38,10 +35,10 @@ export const NotificationPreferences: React.FC<NotificationPreferencesProps> = (
     toggleGlobalMute,
     resetChanges,
   } = useNotificationPreferences({
-    autoFetch: false, // سنجلب البيانات يدوياً عند فتح النافذة
+    autoFetch: false,
     onSuccess: () => {
       setSuccess(true)
-      setTimeout(() => setSuccess(false), 3000) // إخفاء رسالة النجاح بعد 3 ثوان
+      setTimeout(() => setSuccess(false), 3000)
     },
     onError: error => {
       console.error('Notification preferences error:', error)
@@ -50,14 +47,12 @@ export const NotificationPreferences: React.FC<NotificationPreferencesProps> = (
 
   const [success, setSuccess] = useState(false)
 
-  // جلب البيانات عند فتح النافذة
   useEffect(() => {
     if (isOpen) {
       fetchPreferences()
     }
   }, [isOpen, fetchPreferences])
 
-  // إعادة تعيين حالة النجاح عند الإغلاق
   useEffect(() => {
     if (!isOpen) {
       setSuccess(false)
@@ -69,13 +64,13 @@ export const NotificationPreferences: React.FC<NotificationPreferencesProps> = (
     if (saved) {
       setTimeout(() => {
         onClose()
-      }, 1500) // إغلاق النافذة بعد 1.5 ثانية من النجاح
+      }, 1500)
     }
   }
 
   const handleCancel = () => {
     if (hasChanges) {
-      if (window.confirm('هل أنت متأكد من إلغاء التغييرات؟')) {
+      if (window.confirm(t('notifications.confirm.cancel'))) {
         resetChanges()
         onClose()
       }
@@ -89,7 +84,7 @@ export const NotificationPreferences: React.FC<NotificationPreferencesProps> = (
   }
 
   const handleResetToDefaults = () => {
-    if (window.confirm('هل أنت متأكد من إعادة تعيين جميع الإعدادات إلى الافتراضية؟')) {
+    if (window.confirm(t('notifications.confirm.reset_all'))) {
       resetToDefaults()
     }
   }
@@ -100,45 +95,49 @@ export const NotificationPreferences: React.FC<NotificationPreferencesProps> = (
     <Modal
       isOpen={isOpen}
       onClose={handleCancel}
-      title="تفضيلات الإشعارات"
-      description="تحكم في الإشعارات التي تصلك عبر القنوات المختلفة"
+      title={t('notifications.preferences.title')}
+      description={t('notifications.preferences.subtitle')}
       size="lg"
       showCloseButton={true}
     >
-      <div className="notification-preferences">
+      <div className={styles.container}>
         {/* Header Section */}
-        <div className="notification-preferences__header">
-          <div className="notification-preferences__header-content">
-            <Bell className="notification-preferences__header-icon" size={24} />
-            <div className="notification-preferences__header-text">
-              <h3 className="notification-preferences__header-title">إعدادات الإشعارات</h3>
-              <p className="notification-preferences__header-description">
-                اختر أنواع الإشعارات التي تريد تلقيها والقنوات المفضلة لديك
+        <div className={styles.header}>
+          <div className={styles.headerContent}>
+            <Bell className={styles.headerIcon} size={24} />
+            <div className={styles.headerText}>
+              <h3 className={styles.headerTitle}>{t('notifications.preferences.section_title')}</h3>
+              <p className={styles.headerDescription}>
+                {t('notifications.preferences.section_description')}
               </p>
             </div>
           </div>
         </div>
 
         {/* Quick Actions */}
-        <div className="notification-preferences__quick-actions">
+        <div className={styles.quickActions}>
           <Button
             variant="outline"
             size="sm"
             onClick={handleGlobalMute}
-            className={cn('notification-preferences__quick-action', {
-              'notification-preferences__quick-action--active': preferences?.globalMute,
-            })}
-            aria-label={preferences?.globalMute ? 'إلغاء كتم الإشعارات' : 'كتم جميع الإشعارات'}
+            className={cn(styles.quickActionsButton,
+              preferences?.globalMute && styles['quickActionsButton--active']
+            )}
+            aria-label={
+              preferences?.globalMute
+                ? t('notifications.actions.unmute')
+                : t('notifications.actions.mute_all')
+            }
           >
             {preferences?.globalMute ? (
               <>
                 <VolumeX size={16} />
-                إلغاء كتم الإشعارات
+                {t('notifications.actions.unmute')}
               </>
             ) : (
               <>
                 <VolumeX size={16} />
-                كتم جميع الإشعارات
+                {t('notifications.actions.mute_all')}
               </>
             )}
           </Button>
@@ -146,36 +145,36 @@ export const NotificationPreferences: React.FC<NotificationPreferencesProps> = (
             variant="ghost"
             size="sm"
             onClick={handleResetToDefaults}
-            className="notification-preferences__quick-action"
-            aria-label="إعادة تعيين للإعدادات الافتراضية"
+            className={styles.quickActionsButton}
+            aria-label={t('notifications.actions.reset_tooltip')}
           >
             <RotateCcw size={16} />
-            الإعدادات الافتراضية
+            {t('notifications.actions.default_settings')}
           </Button>
         </div>
 
         {/* Content */}
         {loading ? (
-          <div className="notification-preferences__loading">
-            <div className="notification-preferences__loading-spinner" />
-            <p className="notification-preferences__loading-text">جاري تحميل التفضيلات...</p>
+          <div className={styles.loading}>
+            <div className={styles.loadingSpinner} />
+            <p>{t('notifications.status.loading')}</p>
           </div>
         ) : error ? (
-          <div className="notification-preferences__error" role="alert">
-            <p className="notification-preferences__error-text">
-              {error.message || 'حدث خطأ أثناء تحميل التفضيلات'}
+          <div className={styles.error} role="alert">
+            <p>
+              {error.message || t('notifications.status.error')}
             </p>
             <Button variant="outline" size="sm" onClick={fetchPreferences}>
-              إعادة المحاولة
+              {t('notifications.actions.retry')}
             </Button>
           </div>
         ) : !preferences || preferences.categories.length === 0 ? (
-          <div className="notification-preferences__empty">
-            <Bell className="notification-preferences__empty-icon" size={48} />
-            <p className="notification-preferences__empty-text">لا توجد تفضيلات متاحة</p>
+          <div className={styles.empty}>
+            <Bell size={48} />
+            <p>{t('notifications.status.empty')}</p>
           </div>
         ) : (
-          <div className="notification-preferences__content">
+          <div className={styles.content}>
             {preferences.categories.map(category => (
               <NotificationCategory
                 key={category.id}

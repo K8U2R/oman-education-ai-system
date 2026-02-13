@@ -1,0 +1,207 @@
+@use '@/styles/abstracts/liquid-variables' as liquid;
+
+.generator {
+    width: 100%;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    gap: liquid.$spacing-fluid-4;
+    padding: liquid.$spacing-fluid-4;
+    margin-bottom: liquid.$spacing-fluid-4;
+}
+
+.header {
+    margin-block-end: liquid.$spacing-fluid-3;
+}
+
+.title {
+    display: flex;
+    align-items: center;
+    margin-block-end: liquid.$spacing-fluid-2;
+
+    h2 {
+        font-size: liquid.$font-fluid-xl;
+        font-weight: 700;
+        margin: 0;
+        color: var(--text-primary, #111827);
+    }
+}
+
+.icon {
+    width: clamp(1.5rem, 2.5vw, 2rem);
+    height: clamp(1.5rem, 2.5vw, 2rem);
+    color: var(--primary-600, #2563eb);
+}
+
+.subtitle {
+    color: var(--text-secondary, #6b7280);
+    font-size: liquid.$font-fluid-sm;
+    margin: 0;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: liquid.$spacing-fluid-6;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: liquid.$spacing-fluid-1;
+    width: 100%;
+
+    &--half {
+        flex: 1;
+    }
+}
+
+.label {
+    font-size: liquid.$font-fluid-sm;
+    font-weight: 500;
+    color: var(--text-primary, #374151);
+}
+
+.textarea,
+.select {
+    padding: liquid.$spacing-fluid-3;
+    border: 1px solid var(--border-primary, #d1d5db);
+    border-radius: liquid.$radius-fluid-md;
+    font-family: inherit;
+    font-size: liquid.$font-fluid-sm;
+    background-color: var(--bg-surface, #ffffff);
+    transition: border-color liquid.$transition-fast, box-shadow liquid.$transition-fast;
+
+    &:focus {
+        outline: none;
+        border-color: var(--primary-500, #3b82f6);
+        box-shadow: 0 0 0 3px var(--primary-100, #dbeafe);
+    }
+
+    &:disabled {
+        background-color: var(--bg-secondary, #f9fafb);
+        cursor: not-allowed;
+    }
+}
+
+.textarea {
+    resize: vertical;
+    min-height: 8rem;
+}
+
+.row {
+    display: flex;
+    flex-direction: column;
+    gap: liquid.$spacing-fluid-4;
+
+    @media (min-width: 640px) {
+        flex-direction: row;
+    }
+}
+
+.checkboxes {
+    display: flex;
+    flex-direction: column;
+    gap: liquid.$spacing-fluid-2;
+    justify-content: center;
+    height: 100%;
+
+    @media (min-width: 640px) {
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        gap: liquid.$spacing-fluid-6;
+        margin-block-start: liquid.$spacing-fluid-4; // Align with inputs
+    }
+}
+
+.checkbox {
+    display: flex;
+    align-items: center;
+    gap: liquid.$spacing-fluid-1;
+    cursor: pointer;
+    font-size: liquid.$font-fluid-sm;
+    color: var(--text-primary, #374151);
+    user-select: none;
+
+    input {
+        width: 1rem;
+        height: 1rem;
+        border-radius: liquid.$radius-fluid-sm;
+        border: 1px solid var(--border-primary, #d1d5db);
+        cursor: pointer;
+        accent-color: var(--primary-600, #2563eb);
+    }
+}
+
+.error {
+    padding: liquid.$spacing-fluid-3;
+    border-radius: liquid.$radius-fluid-md;
+    background-color: var(--error-50, #fef2f2);
+    color: var(--error-700, #b91c1c);
+    font-size: liquid.$font-fluid-sm;
+}
+
+.result {
+    margin-block-start: liquid.$spacing-fluid-8;
+    padding-block-start: liquid.$spacing-fluid-8;
+    border-block-start: 1px solid var(--border-secondary, #e5e7eb);
+    animation: fadeIn liquid.$transition-normal ease-out;
+
+    &-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-block-end: liquid.$spacing-fluid-4;
+        flex-wrap: wrap;
+        gap: liquid.$spacing-fluid-3;
+
+        h3 {
+            font-size: liquid.$font-fluid-lg;
+            font-weight: 600;
+            margin: 0;
+            color: var(--text-primary, #111827);
+        }
+    }
+}
+
+.actions {
+    display: flex;
+    gap: liquid.$spacing-fluid-3;
+}
+
+.explanation {
+    background-color: var(--bg-secondary, #f9fafb);
+    padding: liquid.$spacing-fluid-4;
+    border-radius: liquid.$radius-fluid-lg;
+    margin-block-end: liquid.$spacing-fluid-6;
+    border: 1px solid var(--border-secondary, #e5e7eb);
+
+    h4 {
+        margin: 0 0 liquid.$spacing-fluid-2;
+        font-size: liquid.$font-fluid-sm;
+        font-weight: 600;
+        color: var(--text-primary, #374151);
+    }
+
+    p {
+        margin: 0;
+        font-size: liquid.$font-fluid-sm;
+        color: var(--text-secondary, #4b5563);
+        line-height: 1.6;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

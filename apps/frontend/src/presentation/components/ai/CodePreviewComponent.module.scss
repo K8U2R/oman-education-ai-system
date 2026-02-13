@@ -1,0 +1,80 @@
+@use '@/styles/abstracts/liquid-variables' as liquid;
+
+.preview {
+    border: 1px solid var(--border-primary, #e5e7eb);
+    border-radius: liquid.$radius-fluid-lg;
+    overflow: hidden;
+    background-color: #1e1e1e; // Dark theme for code
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: liquid.$spacing-fluid-2;
+    padding: liquid.$spacing-fluid-4;
+    background-color: #2d2d2d;
+    border-block-end: 1px solid #404040;
+}
+
+.language {
+    color: #e5e7eb;
+    font-size: liquid.$font-fluid-xs;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.container {
+    display: flex;
+    background-color: #1e1e1e;
+    overflow-x: auto;
+
+    // Custom Scrollbar
+    &::-webkit-scrollbar {
+        height: 8px;
+        width: 8px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: #404040;
+        border-radius: 4px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background-color: #1e1e1e;
+    }
+}
+
+.lineNumbers {
+    padding: liquid.$spacing-fluid-4 liquid.$spacing-fluid-3;
+    background-color: #1e1e1e;
+    border-inline-end: 1px solid #404040;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    user-select: none;
+    min-width: 3rem;
+}
+
+.lineNumber {
+    font-family: 'Fira Code', 'Monaco', 'Consolas', monospace;
+    font-size: liquid.$font-fluid-sm;
+    line-height: 1.5;
+    color: #6b7280;
+}
+
+.code {
+    margin: 0;
+    padding: liquid.$spacing-fluid-4;
+    font-family: 'Fira Code', 'Monaco', 'Consolas', monospace;
+    font-size: liquid.$font-fluid-sm;
+    line-height: 1.5;
+    color: #d4d4d4;
+    tab-size: 2;
+    flex: 1;
+
+    code {
+        font-family: inherit;
+    }
+}

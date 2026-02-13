@@ -1,15 +1,15 @@
 /**
  * Education Config - إعدادات قطاع التعليم
- * 
+ *
  * Defines AI prompts, model parameters, and domain settings.
  */
 export const educationConfig = {
-    ai: {
-        model: "gpt-4o",
-        temperature: 0.7,
-        maxTokens: 3000,
-        prompts: {
-            lessonGenerator: `
+  ai: {
+    model: "gpt-4o",
+    temperature: 0.7,
+    maxTokens: 3000,
+    prompts: {
+      lessonGenerator: `
         أنت خبير تعليمي محترف (Expert Educational Content Designer).
         مهمتك هي توليد درس تعليمي منظم وعالي الجودة بناءً على "الموضوع" (Topic) المقدم.
         
@@ -21,13 +21,13 @@ export const educationConfig = {
         5. النقاط الرئيسية يجب أن تكون مركزة وقابلة للقياس.
         
         أخرج النتيجة كـ JSON Object حصراً.
-      `
-        }
+      `,
     },
-    content: {
-        defaultLanguage: "ar",
-        styles: ["simple", "detailed", "interactive"]
-    }
+  },
+  content: {
+    defaultLanguage: "ar",
+    styles: ["simple", "detailed", "interactive"],
+  },
 };
 
 export type EducationConfig = typeof educationConfig;

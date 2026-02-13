@@ -13,6 +13,8 @@ import { cn } from '../../../../common/utils/classNames'
 import Logo from '/logo.png'
 import FlagOfOman from '/Flag_of_Oman.svg.png'
 
+import styles from './HeaderBrand.module.scss'
+
 /**
  * HeaderBrand Component
  *
@@ -26,12 +28,12 @@ export const HeaderBrand: React.FC<HeaderBrandProps> = React.memo(
     // brandClasses removed as it was unused and referenced imports that were removed.
 
     return (
-      <Link to={ROUTES.HOME} className={cn('flex items-center gap-3', className)}>
-        <div className="relative">
+      <Link to={ROUTES.HOME} className={cn(styles.brand, className)}>
+        <div className={styles.logoWrapper}>
           <OptimizedImage
             src={Logo}
             alt="Oman Education AI Logo"
-            className="w-10 h-10 object-contain"
+            className={styles.logo}
             loading="eager"
             width={40}
             height={40}
@@ -40,18 +42,18 @@ export const HeaderBrand: React.FC<HeaderBrandProps> = React.memo(
         </div>
 
         {showText && (
-          <div className="flex flex-col">
-            <h1 className="text-lg font-bold text-text-primary leading-tight">Oman Education AI</h1>
-            <p className="text-xs text-text-secondary">نظام التعليم الذكي</p>
+          <div className={styles.textContainer}>
+            <h1 className={styles.title}>Oman Education AI</h1>
+            <p className={styles.subtitle}>نظام التعليم الذكي</p>
           </div>
         )}
 
         {showFlag && (
-          <div className="ml-2 pt-1" title="سلطنة عمان">
+          <div className={styles.flagWrapper} title="سلطنة عمان">
             <OptimizedImage
               src={FlagOfOman}
               alt="علم سلطنة عمان"
-              className="w-6 h-4 object-contain shadow-sm rounded-sm"
+              className={styles.flag}
               loading="lazy"
               width={24}
               height={16}

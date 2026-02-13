@@ -1,29 +1,32 @@
 /**
  * Projects Page - صفحة المشاريع
  *
- * صفحة عرض جميع المشاريع التعليمية
+ * صفحة عرض جميع المشاريع التعليمية (Refactored with TanStack Query)
  */
 
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { FolderKanban, Plus, Search, Filter } from 'lucide-react'
-import { useProjects } from '@/application'
+import { useProjects } from '@/application/features/projects'
+import { useProjectsUIStore } from '@/application/features/projects/store'
 import { PageHeader, LoadingState, ErrorState, EmptyState } from '../components'
-import type { ProjectType, ProjectStatus } from '@/features/project-management-dashboard'
-
+import type { ProjectType, ProjectStatus, Project } from '@/application/features/projects/services/project.service'
 
 const ProjectsPage: React.FC = () => {
   const navigate = useNavigate()
   const [searchQuery, setSearchQuery] = useState('')
-  const [typeFilter, setTypeFilter] = useState<ProjectType | 'all'>('all')
-  const [statusFilter, setStatusFilter] = useState<ProjectStatus | 'all'>('all')
 
-  const { projects, isLoading, error, loadProjects, page, totalPages, setPage } = useProjects({
-    type: typeFilter !== 'all' ? typeFilter : undefined,
-    status: statusFilter !== 'all' ? statusFilter : undefined,
-  })
+  // UI State from Zustand
+  const { filters, setFilters } = useProjectsUIStore()
 
-  const filteredProjects = projects.filter(project => {
+  // Server State from TanStack Query
+  const { data, isLoading, error, refetch } = useProjects(filters)
+
+  const projects = data?.projects || []
+  const totalPages = data?.total_pages || 0
+  const currentPage = data?.page || 1
+
+  const filteredProjects = projects.filter((project: Project) => {
     if (searchQuery) {
       return (
         project.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -62,7 +65,13 @@ const ProjectsPage: React.FC = () => {
   }
 
   if (error && projects.length === 0) {
-    return <ErrorState title="فشل تحميل المشاريع" message={error} onRetry={loadProjects} />
+    return (
+      <ErrorState
+        title="فشل تحميل المشاريع"
+        message={error instanceof Error ? error.message : String(error)}
+        onRetry={() => refetch()}
+      />
+    )
   }
 
   return (
@@ -87,14 +96,18 @@ const ProjectsPage: React.FC = () => {
             type="text"
             placeholder="ابحث عن مشروع..."
             value={searchQuery}
-            onChange={e => setSearchQuery(e.target.value)}
+            onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
         <div className="filter-group">
           <Filter />
           <select
-            value={typeFilter}
-            onChange={e => setTypeFilter(e.target.value as ProjectType | 'all')}
+            value={filters.type || 'all'}
+            onChange={(e) =>
+              setFilters({
+                type: e.target.value === 'all' ? undefined : (e.target.value as ProjectType),
+              })
+            }
           >
             <option value="all">جميع الأنواع</option>
             <option value="educational">تعليمي</option>
@@ -103,8 +116,12 @@ const ProjectsPage: React.FC = () => {
             <option value="presentation">عرض تقديمي</option>
           </select>
           <select
-            value={statusFilter}
-            onChange={e => setStatusFilter(e.target.value as ProjectStatus | 'all')}
+            value={filters.status || 'all'}
+            onChange={(e) =>
+              setFilters({
+                status: e.target.value === 'all' ? undefined : (e.target.value as ProjectStatus),
+              })
+            }
           >
             <option value="all">جميع الحالات</option>
             <option value="draft">مسودة</option>
@@ -121,7 +138,7 @@ const ProjectsPage: React.FC = () => {
           icon={<FolderKanban />}
           title="لا توجد مشاريع"
           description={
-            searchQuery || typeFilter !== 'all' || statusFilter !== 'all'
+            searchQuery || filters.type || filters.status
               ? 'لا توجد مشاريع تطابق معايير البحث'
               : 'لم يتم إنشاء أي مشاريع بعد'
           }
@@ -129,7 +146,7 @@ const ProjectsPage: React.FC = () => {
       ) : (
         <>
           <div className="projects-page__list">
-            {filteredProjects.map(project => (
+            {filteredProjects.map((project: Project) => (
               <div
                 key={project.id}
                 className="project-card"
@@ -156,7 +173,8 @@ const ProjectsPage: React.FC = () => {
                     {project.progress !== undefined && <span>{project.progress}% مكتمل</span>}
                     {project.due_date && (
                       <span>
-                        الموعد النهائي: {new Date(project.due_date).toLocaleDateString('ar-SA')}
+                        الموعد النهائي:{' '}
+                        {new Date(project.due_date).toLocaleDateString('ar-SA')}
                       </span>
                     )}
                   </div>
@@ -170,18 +188,18 @@ const ProjectsPage: React.FC = () => {
             <div className="projects-page__pagination">
               <button
                 className="btn btn-secondary"
-                disabled={page === 1}
-                onClick={() => setPage(page - 1)}
+                disabled={currentPage === 1}
+                onClick={() => setFilters({ ...filters, page: currentPage - 1 })}
               >
                 السابق
               </button>
               <span className="pagination-info">
-                صفحة {page} من {totalPages}
+                صفحة {currentPage} من {totalPages}
               </span>
               <button
                 className="btn btn-secondary"
-                disabled={page === totalPages}
-                onClick={() => setPage(page + 1)}
+                disabled={currentPage === totalPages}
+                onClick={() => setFilters({ ...filters, page: currentPage + 1 })}
               >
                 التالي
               </button>

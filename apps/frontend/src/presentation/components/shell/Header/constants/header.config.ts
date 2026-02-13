@@ -78,3 +78,31 @@ export const HEADER_SIZES = {
   MD: 'md',
   LG: 'lg',
 } as const
+
+import { Home, Info, Phone } from 'lucide-react'
+import { ROUTES } from '@/domain/constants/routes.constants'
+
+/**
+ * Unauthenticated Navigation Items
+ */
+export const UNAUTHENTICATED_NAV_ITEMS = [
+  {
+    id: 'home',
+    label: 'الرئيسية',
+    path: ROUTES.HOME,
+    icon: Home,
+  },
+  {
+    id: 'about',
+    label: 'عن النظام',
+    path: '/about',
+    icon: Info,
+  },
+  {
+    id: 'contact',
+    label: 'اتصل بنا',
+    path: '/contact',
+    icon: Phone,
+  },
+]
+

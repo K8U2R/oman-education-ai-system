@@ -1,0 +1,104 @@
+@use '@/styles/abstracts/liquid-variables' as liquid;
+
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: liquid.$spacing-fluid-4;
+    width: 100%;
+}
+
+.successWrapper {
+    text-align: center;
+    padding: liquid.$spacing-fluid-8 0;
+}
+
+.successIcon {
+    width: clamp(3rem, 5vw, 4rem);
+    height: clamp(3rem, 5vw, 4rem);
+    color: var(--success-600, #059669);
+    margin: 0 auto liquid.$spacing-fluid-4;
+}
+
+.successTitle {
+    font-size: liquid.$font-fluid-lg;
+    font-weight: 700;
+    color: var(--text-primary, #111827);
+    margin-block-end: liquid.$spacing-fluid-2;
+}
+
+.successMessage {
+    font-size: liquid.$font-fluid-sm;
+    color: var(--text-secondary, #6b7280);
+    margin-block-end: liquid.$spacing-fluid-4;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: liquid.$spacing-fluid-4;
+}
+
+.error {
+    padding: liquid.$spacing-fluid-3;
+    background-color: var(--error-50, #fef2f2);
+    color: var(--error-800, #991b1b);
+    border-radius: liquid.$radius-fluid-md;
+    font-size: liquid.$font-fluid-sm;
+    display: flex;
+    gap: liquid.$spacing-fluid-2;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: liquid.$spacing-fluid-4;
+
+    @media (max-width: 640px) {
+        grid-template-columns: 1fr;
+    }
+}
+
+.checkboxGroup {
+    display: flex;
+    flex-direction: column;
+    gap: liquid.$spacing-fluid-1;
+    font-size: liquid.$font-fluid-sm;
+    color: var(--text-secondary, #6b7280);
+
+    label {
+        display: flex;
+        align-items: center;
+        gap: liquid.$spacing-fluid-2;
+        cursor: pointer;
+    }
+}
+
+.errorText {
+    font-size: liquid.$font-fluid-xs;
+    color: var(--error-600, #dc2626);
+}
+
+.oauth {
+    margin-block-start: liquid.$spacing-fluid-4;
+}
+
+.footer {
+    margin-block-start: liquid.$spacing-fluid-6;
+    text-align: center;
+    font-size: liquid.$font-fluid-sm;
+    color: var(--text-secondary, #6b7280);
+
+    button {
+        color: var(--primary-600, #2563eb);
+        font-weight: 500;
+        text-decoration: none;
+        background: none;
+        border: none;
+        padding: 0;
+        cursor: pointer;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+}

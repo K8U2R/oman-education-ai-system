@@ -1,65 +1,73 @@
-﻿/**
- * Footer Component - مكون تذييل الصفحة
- *
- * مكون تذييل الصفحة الرئيسي
- */
+﻿import React from 'react';
+import { useLocation } from 'react-router-dom';
+import { ROUTES } from '@/domain/constants/routes.constants';
+import { FOOTER_COLUMNS } from './footer.constants';
+import { FooterBrand } from './components/Brand/FooterBrand';
+import { FooterSection } from './components/Section/FooterSection';
+import { FooterCopyright } from './components/Copyright/FooterCopyright';
+import './Footer.scss';
 
-import React from 'react'
-import { ROUTES } from '@/domain/constants/routes.constants'
+// Routes where the footer should NOT be displayed
+const HIDDEN_FOOTER_ROUTES: string[] = [
+  ROUTES.LOGIN || '/login',
+  ROUTES.REGISTER || '/register',
+  '/404',
+  '/500',
+  // Dashboard & Authenticated Routes
+  ROUTES.DASHBOARD || '/dashboard',
+  ROUTES.PROJECTS || '/projects',
+  ROUTES.LESSONS || '/lessons',
+  ROUTES.ASSESSMENTS || '/assessments',
+  ROUTES.STORAGE || '/storage',
+  ROUTES.LESSONS_MANAGEMENT || '/lessons/manage',
+  ROUTES.LEARNING_PATHS_MANAGEMENT || '/learning-paths/manage',
+  ROUTES.CODE_GENERATOR || '/tools/code-generator',
+  ROUTES.OFFICE_GENERATOR || '/tools/office-generator',
+  // Admin Routes
+  ROUTES.ADMIN_USERS || '/admin/users',
+  ROUTES.ADMIN_WHITELIST || '/admin/whitelist',
+  ROUTES.ADMIN_KNOWLEDGE || '/admin/knowledge',
+  // Database Core Routes
+  ROUTES.ADMIN_DATABASE_CORE_DASHBOARD || '/admin/database/core',
+];
 
 const Footer: React.FC = () => {
+  const location = useLocation();
+
+  // Check if current path is in hidden routes or starts with hidden prefixes
+  const shouldHideFooter = HIDDEN_FOOTER_ROUTES.some(route => {
+    if (!route) return false;
+    // Exact match
+    if (location.pathname === route) return true;
+    // Sub-route match (e.g., /dashboard/settings)
+    if (location.pathname.startsWith(route + '/')) return true;
+
+    // Broad sections that should never have a footer
+    const broadPrefixes = ['/dashboard', '/admin', '/tools', '/lessons', '/assessments', '/projects', '/storage'];
+    if (broadPrefixes.some(prefix => location.pathname.startsWith(prefix))) return true;
+
+    return false;
+  });
+
+  if (shouldHideFooter) {
+    return null;
+  }
+
   return (
-    <footer className="footer">
+    <footer className="footer sovereign-footer">
       <div className="footer__container">
-        <div className="footer__content">
-          {/* About */}
-          <div className="footer__section">
-            <h3 className="footer__section-title">Oman Education AI System</h3>
-            <p className="footer__section-text">
-              نظام تعليمي ذكي متكامل يعتمد على الذكاء الاصطناعي لتطوير المهارات التقنية
-            </p>
-          </div>
+        <div className="footer__grid">
+          <FooterBrand />
 
-          {/* Quick Links */}
-          <div className="footer__section">
-            <h3 className="footer__section-title">روابط سريعة</h3>
-            <ul className="footer__links">
-              <li>
-                <a href={ROUTES.HOME} className="footer__link">
-                  الرئيسية
-                </a>
-              </li>
-              <li>
-                <a href={ROUTES.DASHBOARD} className="footer__link">
-                  لوحة التحكم
-                </a>
-              </li>
-              <li>
-                <a href={ROUTES.LESSONS} className="footer__link">
-                  الدروس
-                </a>
-              </li>
-              <li>
-                <a href={ROUTES.STORAGE} className="footer__link">
-                  التخزين
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          {/* Contact */}
-          <div className="footer__section">
-            <h3 className="footer__section-title">تواصل معنا</h3>
-            <p className="footer__section-text">للمزيد من المعلومات أو الدعم الفني</p>
-          </div>
+          {FOOTER_COLUMNS.map((column, index) => (
+            <FooterSection key={index} column={column} />
+          ))}
         </div>
 
-        <div className="footer__bottom">
-          <p className="footer__copyright">© 2024 Oman Education AI System. جميع الحقوق محفوظة.</p>
-        </div>
+        <FooterCopyright />
       </div>
     </footer>
-  )
-}
+  );
+};
 
-export default Footer
+export default Footer;

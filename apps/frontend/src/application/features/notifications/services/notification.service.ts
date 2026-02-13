@@ -13,6 +13,7 @@ import {
 } from '@/domain/types/notification.types'
 import { SSEService } from '@/infrastructure/services'
 import type { SSEEvent } from '@/infrastructure/services'
+import { tokenManager } from '@/infrastructure/services/auth/token-manager.service'
 
 type NotificationCallback = (notification: NotificationData) => void
 
@@ -207,14 +208,13 @@ class NotificationService {
     }
 
     try {
-      const token =
-        localStorage.getItem('access_token') || localStorage.getItem('token') || undefined
-      // Use same base URL as API client, convert http to ws
-      // Extract base URL without /api/v1 suffix
+      const token = tokenManager.getAccessToken() || undefined
+      // Use same base URL as API client
       const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || '/api/v1'
 
-      // Force SSE - skip WebSocket as backend is configured for EventSource
-      const sseUrl = import.meta.env.VITE_SSE_URL || `${apiBaseUrl}/api/v1/notifications/stream`
+      // Force SSE
+      // Remove extra /api/v1 since apiBaseUrl likely includes it
+      const sseUrl = import.meta.env.VITE_SSE_URL || `${apiBaseUrl}/notifications/stream`
 
       try {
         this.sseService = new SSEService(sseUrl)
@@ -223,6 +223,17 @@ class NotificationService {
         const unsubscribe = this.sseService.on('notification', (event: SSEEvent) => {
           if (event.data) {
             this.handleNotification(event.data)
+          }
+        })
+
+        // Listen for errors to handle auto-unsubscribe
+        this.sseService.on('error', (event: SSEEvent) => {
+          const error = event.data as any
+          const isAuthError = error?.code === 401 || error?.error?.message?.includes('401') || error?.error?.code === 401
+
+          if (isAuthError) {
+            if (import.meta.env.DEV) console.warn('[NotificationService] Auth Error in SSE, unsubscribing...')
+            this.unsubscribe()
           }
         })
 

@@ -30,8 +30,12 @@ JSON SCHEMA:
 }
 `;
 
-export const constructUserPrompt = (topic: string, level: string, context?: string): string => {
-    return `
+export const constructUserPrompt = (
+  topic: string,
+  level: string,
+  context?: string,
+): string => {
+  return `
     Topic: ${topic}
     Education Level: ${level}
     Additional Context: ${context || "None"}

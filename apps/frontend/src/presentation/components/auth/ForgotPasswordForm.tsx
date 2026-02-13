@@ -4,6 +4,8 @@ import { authService } from '@/presentation/features/user-authentication-managem
 import { Button, Input } from '../common'
 import { useModalStore } from '@/stores/useModalStore'
 import { ValidationService } from '@/application'
+import { useTranslation } from 'react-i18next'
+import styles from './ForgotPasswordForm.module.scss'
 
 interface ForgotPasswordFormProps {
     onSuccess?: () => void
@@ -12,6 +14,7 @@ interface ForgotPasswordFormProps {
 }
 
 export const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({ onSuccess, isModal = false, onBackToLogin }) => {
+    const { t } = useTranslation()
     const openModal = useModalStore(state => state.open)
     const [email, setEmail] = useState('')
     const [isLoading, setIsLoading] = useState(false)
@@ -23,12 +26,12 @@ export const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({ onSucces
         setError('')
 
         if (!email) {
-            setError('البريد الإلكتروني مطلوب')
+            setError(t('auth.validation.email_required'))
             return
         }
 
         if (!ValidationService.validateEmail(email)) {
-            setError('البريد الإلكتروني غير صحيح')
+            setError(t('auth.validation.email_invalid'))
             return
         }
 
@@ -40,7 +43,7 @@ export const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({ onSucces
             if (onSuccess) onSuccess()
         } catch (err: unknown) {
             // Handle error gracefully
-            setError('فشل إرسال رابط إعادة التعيين. يرجى التحقق من البريد الإلكتروني والمحاولة مرة أخرى.')
+            setError(t('auth.errors.reset_failed'))
         } finally {
             setIsLoading(false)
         }
@@ -48,21 +51,21 @@ export const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({ onSucces
 
     if (success) {
         return (
-            <div className="text-center py-6">
-                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <CheckCircle2 className="w-8 h-8 text-green-600" />
+            <div className={styles.successWrapper}>
+                <div className={styles.successIconContainer}>
+                    <CheckCircle2 className={styles.successIcon} />
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">تم الإرسال بنجاح!</h3>
-                <p className="text-gray-600 mb-6">
-                    لقد أرسلنا تعليمات إعادة تعيين كلمة المرور إلى <strong>{email}</strong>
+                <h3 className={styles.successTitle}>{t('auth.success.reset_sent_title')}</h3>
+                <p className={styles.successMessage}>
+                    {t('auth.success.reset_sent_msg')} <strong>{email}</strong>
                 </p>
-                <div className="flex flex-col gap-3">
+                <div className={styles.successActions}>
                     <Button variant="outline" onClick={() => window.open('https://mail.google.com', '_blank')}>
-                        فتح البريد الإلكتروني
+                        {t('auth.success.open_email')}
                     </Button>
                     {onBackToLogin && (
-                        <button onClick={onBackToLogin} className="text-sm text-gray-500 hover:text-gray-900">
-                            العودة لتسجيل الدخول
+                        <button onClick={onBackToLogin} className={styles.backButton}>
+                            {t('auth.actions.back_to_login')}
                         </button>
                     )}
                 </div>
@@ -71,29 +74,29 @@ export const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({ onSucces
     }
 
     return (
-        <div className={!isModal ? "w-full max-w-md mx-auto" : ""}>
+        <div className={!isModal ? styles.container : ""}>
             {!isModal && (
-                <div className="text-center mb-8">
-                    <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <Mail className="w-8 h-8 text-blue-600" />
+                <div className={styles.headingWrapper}>
+                    <div className={styles.iconContainer}>
+                        <Mail className={styles.headingIcon} />
                     </div>
-                    <h1 className="text-2xl font-bold text-gray-900">نسيت كلمة المرور؟</h1>
-                    <p className="text-gray-600 mt-2">أدخل بريدك الإلكتروني وسنرسل لك رابطاً لاستعادة حسابك</p>
+                    <h1 className={styles.title}>{t('auth.forgot_password')}</h1>
+                    <p className={styles.subtitle}>{t('auth.forgot_password_subtitle')}</p>
                 </div>
             )}
 
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} className={styles.form}>
                 {error && (
-                    <div className="p-3 bg-red-50 text-red-700 rounded-lg flex items-start gap-2 text-sm">
+                    <div className={styles.error}>
                         <AlertCircle className="w-5 h-5 flex-shrink-0" />
                         <span>{error}</span>
                     </div>
                 )}
 
                 <Input
-                    label="البريد الإلكتروني"
+                    label={t('auth.email_label')}
                     type="email"
-                    placeholder="example@email.com"
+                    placeholder={t('auth.email_placeholder')}
                     value={email}
                     onChange={(e: any) => setEmail(e.target.value)}
                     required
@@ -102,23 +105,23 @@ export const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({ onSucces
                 />
 
                 <Button type="submit" variant="primary" size="lg" fullWidth isLoading={isLoading}>
-                    إرسال رابط إعادة التعيين
+                    {t('auth.actions.send_reset_link')}
                 </Button>
 
-                <div className="text-center">
+                <div className={styles.buttonWrapper}>
                     {onBackToLogin ? (
-                        <button type="button" onClick={onBackToLogin} className="text-sm text-gray-600 hover:text-primary-600 flex items-center justify-center gap-1 mx-auto">
-                            <ArrowRight className="w-4 h-4" />
-                            العودة لتسجيل الدخول
+                        <button type="button" onClick={onBackToLogin} className={styles.backButton}>
+                            <ArrowRight className="w-4 h-4 rtl:rotate-180" />
+                            {t('auth.actions.back_to_login')}
                         </button>
                     ) : (
                         <button
                             type="button"
                             onClick={() => openModal('login')}
-                            className="text-sm text-gray-600 hover:text-primary-600 flex items-center justify-center gap-1"
+                            className={styles.backButton}
                         >
-                            <ArrowRight className="w-4 h-4" />
-                            العودة لتسجيل الدخول
+                            <ArrowRight className="w-4 h-4 rtl:rotate-180" />
+                            {t('auth.actions.back_to_login')}
                         </button>
                     )}
                 </div>

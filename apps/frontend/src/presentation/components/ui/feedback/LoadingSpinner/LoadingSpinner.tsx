@@ -4,9 +4,9 @@
  * مكون دوار تحميل قابلة لإعادة الاستخدام
  */
 
-import React from 'react'
+import React, { useMemo } from 'react'
 import { Loader2 } from 'lucide-react'
-import { cn } from '../../utils/classNames'
+import styles from './LoadingSpinner.module.scss'
 
 interface LoadingSpinnerProps {
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
@@ -15,34 +15,26 @@ interface LoadingSpinnerProps {
   text?: string
 }
 
-const sizeClasses = {
-  xs: 'loading-spinner--xs',
-  sm: 'loading-spinner--sm',
-  md: 'loading-spinner--md',
-  lg: 'loading-spinner--lg',
-  xl: 'loading-spinner--xl',
-}
-
-const variantClasses = {
-  default: 'loading-spinner--default',
-  primary: 'loading-spinner--primary',
-  secondary: 'loading-spinner--secondary',
-  white: 'loading-spinner--white',
-}
-
 export const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
   size = 'md',
   variant = 'primary',
   className = '',
   text,
 }) => {
+  const spinnerClass = useMemo(() => {
+    return [
+      styles.spinner,
+      styles[`spinner--${size}`],
+      styles[`spinner--${variant}`]
+    ].filter(Boolean).join(' ')
+  }, [size, variant])
+
   return (
-    <div className={cn('loading-spinner-wrapper', className)}>
+    <div className={`${styles.wrapper} ${className}`}>
       <Loader2
-        className={cn('loading-spinner', sizeClasses[size], variantClasses[variant])}
-        aria-label="جاري التحميل"
+        className={spinnerClass}
       />
-      {text && <p className="loading-spinner__text">{text}</p>}
+      {text && <p className={styles.text}>{text}</p>}
     </div>
   )
 }

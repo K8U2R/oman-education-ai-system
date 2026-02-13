@@ -5,10 +5,12 @@
  */
 
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { X, Shield, Eye, Globe, Zap, AlertTriangle } from 'lucide-react';
 import { SentinelCore } from '../core/SentinelCore';
 import type { DiagnosticEvent } from '../core/SentinelCore';
 import styles from './SovereignHUD.module.scss';
+import { Trans } from 'react-i18next';
 
 interface HUDProps {
     sentinel: SentinelCore;
@@ -23,6 +25,7 @@ type TabType = 'visual' | 'network' | 'performance' | 'system';
  * Activated via Ctrl+Shift+S keyboard shortcut
  */
 export function SovereignHUD({ sentinel, alwaysVisible = false }: HUDProps) {
+    const { t } = useTranslation();
     const [visible, setVisible] = useState(alwaysVisible);
     const [collapsed, setCollapsed] = useState(!alwaysVisible);
     const [activeTab, setActiveTab] = useState<TabType>('visual');
@@ -103,7 +106,7 @@ export function SovereignHUD({ sentinel, alwaysVisible = false }: HUDProps) {
     }
 
     return (
-        <div className={styles.hudOverlay}>
+        <div className={styles.hudOverlay} dir="ltr">
             {collapsed ? (
                 // Mini Badge (Collapsed State)
                 <div
@@ -120,7 +123,7 @@ export function SovereignHUD({ sentinel, alwaysVisible = false }: HUDProps) {
                     <div className={styles.header}>
                         <div className={styles.title}>
                             <Shield size={20} />
-                            <span>Sovereign Sentinel</span>
+                            <span>{t('system.sentinel.hud.title')}</span>
                         </div>
                         <div className={styles.actions}>
                             <button
@@ -147,7 +150,7 @@ export function SovereignHUD({ sentinel, alwaysVisible = false }: HUDProps) {
                             onClick={() => setActiveTab('visual')}
                         >
                             <Eye size={16} />
-                            <span>Visual</span>
+                            <span>{t('system.sentinel.hud.tabs.visual')}</span>
                             {visualIssues > 0 && (
                                 <span className={styles.badge}>{visualIssues}</span>
                             )}
@@ -158,7 +161,7 @@ export function SovereignHUD({ sentinel, alwaysVisible = false }: HUDProps) {
                             onClick={() => setActiveTab('network')}
                         >
                             <Globe size={16} />
-                            <span>Network</span>
+                            <span>{t('system.sentinel.hud.tabs.network')}</span>
                             {networkIssues > 0 && (
                                 <span className={styles.badge}>{networkIssues}</span>
                             )}
@@ -169,7 +172,7 @@ export function SovereignHUD({ sentinel, alwaysVisible = false }: HUDProps) {
                             onClick={() => setActiveTab('performance')}
                         >
                             <Zap size={16} />
-                            <span>Performance</span>
+                            <span>{t('system.sentinel.hud.tabs.performance')}</span>
                             {performanceIssues > 0 && (
                                 <span className={styles.badge}>{performanceIssues}</span>
                             )}
@@ -180,17 +183,17 @@ export function SovereignHUD({ sentinel, alwaysVisible = false }: HUDProps) {
                     <div className={styles.content}>
                         {activeTab === 'visual' && (
                             <div className={styles.tabContent}>
-                                <h3>Visual Guardian Report</h3>
+                                <h3>{t('system.sentinel.hud.visual.title')}</h3>
 
                                 {visualIssues === 0 ? (
                                     <div className={styles.success}>
-                                        ✅ No Hex violations detected
+                                        {t('system.sentinel.hud.visual.no_violations')}
                                     </div>
                                 ) : (
                                     <div className={styles.violations}>
                                         <div className={styles.summary}>
                                             <AlertTriangle size={16} className={styles.warning} />
-                                            <span>{visualIssues} Hex color violations</span>
+                                            <span>{t('system.sentinel.hud.visual.violations_count', { count: visualIssues })}</span>
                                         </div>
 
                                         <div className={styles.violationList}>
@@ -208,7 +211,7 @@ export function SovereignHUD({ sentinel, alwaysVisible = false }: HUDProps) {
 
                                             {visualIssues > 5 && (
                                                 <div className={styles.more}>
-                                                    +{visualIssues - 5} more violations...
+                                                    {t('system.sentinel.hud.visual.more', { count: visualIssues - 5 })}
                                                 </div>
                                             )}
                                         </div>
@@ -219,18 +222,18 @@ export function SovereignHUD({ sentinel, alwaysVisible = false }: HUDProps) {
 
                         {activeTab === 'network' && (
                             <div className={styles.tabContent}>
-                                <h3>Network Interceptor</h3>
+                                <h3>{t('system.sentinel.hud.tabs.network')}</h3>
                                 <div className={styles.placeholder}>
-                                    🌐 Coming in Phase 2
+                                    🌐 {t('system.sentinel.hud.coming_soon')}
                                 </div>
                             </div>
                         )}
 
                         {activeTab === 'performance' && (
                             <div className={styles.tabContent}>
-                                <h3>Performance Vitals</h3>
+                                <h3>{t('system.sentinel.hud.tabs.performance')}</h3>
                                 <div className={styles.placeholder}>
-                                    ⚡ Coming in Phase 2
+                                    ⚡ {t('system.sentinel.hud.coming_soon')}
                                 </div>
                             </div>
                         )}
@@ -239,7 +242,7 @@ export function SovereignHUD({ sentinel, alwaysVisible = false }: HUDProps) {
                     {/* Footer */}
                     <div className={styles.footer}>
                         <div className={styles.hint}>
-                            Console: <kbd>sentinel.toggle()</kbd> للتبديل
+                            <Trans i18nKey="system.sentinel.hud.footer.console_hint" components={{ kbd: <kbd /> }} />
                         </div>
                     </div>
                 </div>

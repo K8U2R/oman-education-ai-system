@@ -255,14 +255,16 @@ Provide only the code without explanations unless specifically asked.`;
 
   async generateText(prompt: string): Promise<string> {
     const response = await this.chatCompletion({
-      messages: [{ role: 'user', content: prompt }],
-      model: this.defaultModel
+      messages: [{ role: "user", content: prompt }],
+      model: this.defaultModel,
     });
     return response.content;
   }
 
   async generateJson<T>(prompt: string, schema: object): Promise<T> {
-    const response = await this.generateText(prompt + "\n Return JSON matching: " + JSON.stringify(schema));
+    const response = await this.generateText(
+      prompt + "\n Return JSON matching: " + JSON.stringify(schema),
+    );
     try {
       return JSON.parse(response) as T;
     } catch {

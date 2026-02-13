@@ -1,0 +1,69 @@
+src/application/use-cases/auth/RequestPasswordResetUseCase.test.ts(8,30): error TS2307: Cannot find module '@/application/services/email' or its corresponding type declarations.
+src/bootstrap.ts(11,55): error TS2307: Cannot find module './infrastructure/config/ConfigManager.js' or its corresponding type declarations.
+src/domain/types/features/data/storage.types.ts(7,27): error TS6196: 'Metadata' is declared but never used.
+src/domain/types/features/education/assessment.types.ts(7,27): error TS6196: 'Metadata' is declared but never used.
+src/domain/types/features/project/project.types.ts(7,27): error TS6196: 'Metadata' is declared but never used.
+src/infrastructure/adapters/email/NodemailerAdapter.ts(11,29): error TS2339: Property 'SMTP_HOST' does not exist on type '{ NODE_ENV: "development" | "production" | "test"; APP_NAME: string; PORT: number; APP_URL: string; APP_VERSION: string; CORS_ORIGIN: string; FRONTEND_URL: string; JWT_SECRET: string; SESSION_SECRET: string; ... 22 more ...; OPENAI_API_KEY?: string | undefined; }'.
+src/infrastructure/adapters/email/NodemailerAdapter.ts(11,54): error TS2339: Property 'SMTP_USER' does not exist on type '{ NODE_ENV: "development" | "production" | "test"; APP_NAME: string; PORT: number; APP_URL: string; APP_VERSION: string; CORS_ORIGIN: string; FRONTEND_URL: string; JWT_SECRET: string; SESSION_SECRET: string; ... 22 more ...; OPENAI_API_KEY?: string | undefined; }'.
+src/infrastructure/adapters/email/NodemailerAdapter.ts(11,79): error TS2339: Property 'SMTP_PASS' does not exist on type '{ NODE_ENV: "development" | "production" | "test"; APP_NAME: string; PORT: number; APP_URL: string; APP_VERSION: string; CORS_ORIGIN: string; FRONTEND_URL: string; JWT_SECRET: string; SESSION_SECRET: string; ... 22 more ...; OPENAI_API_KEY?: string | undefined; }'.
+src/infrastructure/adapters/email/NodemailerAdapter.ts(17,30): error TS2339: Property 'SMTP_HOST' does not exist on type '{ NODE_ENV: "development" | "production" | "test"; APP_NAME: string; PORT: number; APP_URL: string; APP_VERSION: string; CORS_ORIGIN: string; FRONTEND_URL: string; JWT_SECRET: string; SESSION_SECRET: string; ... 22 more ...; OPENAI_API_KEY?: string | undefined; }'.
+src/infrastructure/adapters/email/NodemailerAdapter.ts(18,30): error TS2339: Property 'SMTP_PORT' does not exist on type '{ NODE_ENV: "development" | "production" | "test"; APP_NAME: string; PORT: number; APP_URL: string; APP_VERSION: string; CORS_ORIGIN: string; FRONTEND_URL: string; JWT_SECRET: string; SESSION_SECRET: string; ... 22 more ...; OPENAI_API_KEY?: string | undefined; }'.
+src/infrastructure/adapters/email/NodemailerAdapter.ts(19,32): error TS2339: Property 'SMTP_SECURE' does not exist on type '{ NODE_ENV: "development" | "production" | "test"; APP_NAME: string; PORT: number; APP_URL: string; APP_VERSION: string; CORS_ORIGIN: string; FRONTEND_URL: string; JWT_SECRET: string; SESSION_SECRET: string; ... 22 more ...; OPENAI_API_KEY?: string | undefined; }'.
+src/infrastructure/adapters/email/NodemailerAdapter.ts(21,34): error TS2339: Property 'SMTP_USER' does not exist on type '{ NODE_ENV: "development" | "production" | "test"; APP_NAME: string; PORT: number; APP_URL: string; APP_VERSION: string; CORS_ORIGIN: string; FRONTEND_URL: string; JWT_SECRET: string; SESSION_SECRET: string; ... 22 more ...; OPENAI_API_KEY?: string | undefined; }'.
+src/infrastructure/adapters/email/NodemailerAdapter.ts(22,34): error TS2339: Property 'SMTP_PASS' does not exist on type '{ NODE_ENV: "development" | "production" | "test"; APP_NAME: string; PORT: number; APP_URL: string; APP_VERSION: string; CORS_ORIGIN: string; FRONTEND_URL: string; JWT_SECRET: string; SESSION_SECRET: string; ... 22 more ...; OPENAI_API_KEY?: string | undefined; }'.
+src/infrastructure/adapters/email/NodemailerAdapter.ts(27,11): error TS2416: Property 'sendEmail' in type 'NodemailerAdapter' is not assignable to the same property in base type 'IEmailProvider'.
+  Type '(to: string, subject: string, htmlBody: string) => Promise<void>' is not assignable to type '(options: EmailOptions) => Promise<EmailResult>'.
+    Target signature provides too few arguments. Expected 3 or more, but got 1.
+src/infrastructure/auth/passport.config.ts(40,11): error TS2741: Property 'planTier' is missing in type '{ id: string; username: string; email: string; is_verified: true; is_active: true; role: "student"; permissions: Permission[]; created_at: string; updated_at: string; }' but required in type 'UserData'.
+src/infrastructure/auth/strategies/google.strategy.ts(60,15): error TS2741: Property 'planTier' is missing in type '{ id: string; email: string; username: string; avatar_url: string | undefined; is_verified: true; is_active: true; role: "student"; permissions: Permission[]; created_at: string; updated_at: string; }' but required in type 'UserData'.
+src/infrastructure/config/environment/index.ts(7,15): error TS2307: Cannot find module './schema.js' or its corresponding type declarations.
+src/infrastructure/config/index.ts(24,15): error TS2307: Cannot find module './environment/schema.js' or its corresponding type declarations.
+src/infrastructure/di/modules/communication.module.ts(5,37): error TS2307: Cannot find module '@/presentation/api/handlers/communication/NotificationHandler.js' or its corresponding type declarations.
+src/infrastructure/di/modules/education.module.ts(61,47): error TS2554: Expected 1 arguments, but got 3.
+src/infrastructure/di/modules/email.module.ts(14,64): error TS2339: Property 'SMTP_HOST' does not exist on type '{ NODE_ENV: "development" | "production" | "test"; APP_NAME: string; PORT: number; APP_URL: string; APP_VERSION: string; CORS_ORIGIN: string; FRONTEND_URL: string; JWT_SECRET: string; SESSION_SECRET: string; ... 22 more ...; OPENAI_API_KEY?: string | undefined; }'.
+src/infrastructure/repositories/GoogleOAuthRepository.ts(121,15): error TS2322: Type '{ email: string; password_hash: undefined; first_name: string; last_name: string; username: string; role: "student"; is_verified: boolean; is_active: true; permissions: never[]; avatar_url: string | undefined; google_id: string; google_email: string; oauth_provider: string; oauth_linked_at: string; }' is not assignable to type 'Omit<UserData, "id" | "created_at" | "updated_at"> & { google_id?: string | undefined; google_email?: string | undefined; oauth_provider?: string | undefined; oauth_linked_at?: string | undefined; }'.
+  Property 'planTier' is missing in type '{ email: string; password_hash: undefined; first_name: string; last_name: string; username: string; role: "student"; is_verified: boolean; is_active: true; permissions: never[]; avatar_url: string | undefined; google_id: string; google_email: string; oauth_provider: string; oauth_linked_at: string; }' but required in type 'Omit<UserData, "id" | "created_at" | "updated_at">'.
+src/infrastructure/repositories/OAuthStateRepositoryFactory.ts(19,34): error TS2339: Property 'OAUTH_STATE_STORAGE' does not exist on type '{ NODE_ENV: "development" | "production" | "test"; APP_NAME: string; PORT: number; APP_URL: string; APP_VERSION: string; CORS_ORIGIN: string; FRONTEND_URL: string; JWT_SECRET: string; SESSION_SECRET: string; ... 22 more ...; OPENAI_API_KEY?: string | undefined; }'.
+src/modules/ai/services/MockAIProvider.ts(18,40): error TS6133: 'options' is declared but its value is never read.
+src/modules/ai/services/MockAIProvider.ts(23,43): error TS6133: 'schema' is declared but its value is never read.
+src/modules/ai/services/MockAIProvider.ts(23,56): error TS6133: 'options' is declared but its value is never read.
+src/modules/ai/services/MockAIProvider.ts(50,26): error TS6133: 'request' is declared but its value is never read.
+src/modules/ai/services/MockAIProvider.ts(71,29): error TS6133: 'text' is declared but its value is never read.
+src/modules/education/interfaces/http/controllers/EducationController.ts(29,21): error TS2339: Property 'topic' does not exist on type 'ReadableStream<any> | null'.
+src/modules/education/interfaces/http/controllers/EducationController.ts(29,28): error TS2339: Property 'language' does not exist on type 'ReadableStream<any> | null'.
+src/modules/education/interfaces/http/controllers/EducationController.ts(29,38): error TS2339: Property 'level' does not exist on type 'ReadableStream<any> | null'.
+src/modules/education/interfaces/http/controllers/EducationController.ts(29,45): error TS2339: Property 'customInstructions' does not exist on type 'ReadableStream<any> | null'.
+src/modules/education/interfaces/http/controllers/EducationController.ts(32,34): error TS2345: Argument of type 'Response' is not assignable to parameter of type 'Response<any, Record<string, any>>'.
+  Type 'Response' is missing the following properties from type 'Response<any, Record<string, any>>': sendStatus, links, send, jsonp, and 86 more.
+src/modules/education/interfaces/http/controllers/EducationController.ts(38,30): error TS2339: Property 'user' does not exist on type 'Request'.
+src/modules/education/interfaces/http/controllers/EducationController.ts(41,35): error TS2345: Argument of type 'Response' is not assignable to parameter of type 'Response<any, Record<string, any>>'.
+  Type 'Response' is missing the following properties from type 'Response<any, Record<string, any>>': sendStatus, links, send, jsonp, and 86 more.
+src/modules/education/interfaces/http/controllers/EducationController.ts(59,50): error TS2554: Expected 3-4 arguments, but got 1.
+src/modules/education/interfaces/http/controllers/EducationController.ts(62,26): error TS2345: Argument of type 'Response' is not assignable to parameter of type 'Response<any, Record<string, any>>'.
+  Type 'Response' is missing the following properties from type 'Response<any, Record<string, any>>': sendStatus, links, send, jsonp, and 86 more.
+src/modules/education/interfaces/http/controllers/EducationController.ts(65,23): error TS2345: Argument of type 'Response' is not assignable to parameter of type 'Response<any, Record<string, any>>'.
+  Type 'Response' is missing the following properties from type 'Response<any, Record<string, any>>': sendStatus, links, send, jsonp, and 86 more.
+src/modules/education/interfaces/http/routes/education.routes.ts(18,5): error TS2769: No overload matches this call.
+  The last overload gave the following error.
+    Argument of type '(req: Request, res: Response) => Promise<void>' is not assignable to parameter of type 'RequestHandlerParams<ParamsDictionary, any, any, ParsedQs, Record<string, any>>'.
+      Type '(req: Request, res: Response) => Promise<void>' is not assignable to type 'RequestHandler<ParamsDictionary, any, any, ParsedQs, Record<string, any>>'.
+        Types of parameters 'req' and 'req' are incompatible.
+          Type 'Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>' is missing the following properties from type 'Request': cache, credentials, destination, integrity, and 14 more.
+src/modules/education/services/AssessmentService.test.ts(9,5): error TS2305: Module '"@/domain/types/shared"' has no exported member 'Assessment'.
+src/modules/education/services/AssessmentService.test.ts(10,5): error TS2305: Module '"@/domain/types/shared"' has no exported member 'CreateAssessmentRequest'.
+src/modules/education/services/AssessmentService.test.ts(11,5): error TS2305: Module '"@/domain/types/shared"' has no exported member 'UpdateAssessmentRequest'.
+src/modules/education/services/AssessmentService.test.ts(12,5): error TS2305: Module '"@/domain/types/shared"' has no exported member 'SubmitAssessmentRequest'.
+src/modules/education/services/AssessmentService.test.ts(13,5): error TS2305: Module '"@/domain/types/shared"' has no exported member 'AssessmentSubmission'.
+src/modules/education/services/AssessmentService.test.ts(65,51): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/modules/education/services/AssessmentService.test.ts(65,54): error TS7006: Parameter 'index' implicitly has an 'any' type.
+src/modules/learning/CourseService.ts(2,19): error TS6133: 'modules' is declared but its value is never read.
+src/modules/learning/CourseService.ts(2,28): error TS6133: 'lessons' is declared but its value is never read.
+src/modules/learning/LessonService.ts(17,26): error TS6133: 'userId' is declared but its value is never read.
+src/modules/learning/LessonService.ts(17,42): error TS6133: 'lessonId' is declared but its value is never read.
+src/modules/learning/learning.service.ts(69,17): error TS2322: Type '{ content: string; threadId: string; }' is not assignable to type 'string'.
+src/presentation/api/middleware/diagnostics/not-found.middleware.ts(97,5): error TS6133: 'req' is declared but its value is never read.
+src/presentation/api/middleware/security/DevWhitelistMiddleware.ts(25,34): error TS2339: Property 'DEV_WHITELIST' does not exist on type '{ NODE_ENV: "development" | "production" | "test"; APP_NAME: string; PORT: number; APP_URL: string; APP_VERSION: string; CORS_ORIGIN: string; FRONTEND_URL: string; JWT_SECRET: string; SESSION_SECRET: string; ... 22 more ...; OPENAI_API_KEY?: string | undefined; }'.
+src/presentation/api/middleware/subscription/usage-limit.middleware.ts(53,27): error TS6133: 'res' is declared but its value is never read.
+src/presentation/api/middleware/subscription/usage-limit.middleware.ts(71,13): error TS6133: 'req' is declared but its value is never read.
+src/presentation/api/middleware/subscription/usage-limit.middleware.ts(71,27): error TS6133: 'res' is declared but its value is never read.
+src/presentation/middleware/TierGuard.ts(10,12): error TS7030: Not all code paths return a value.

@@ -16,7 +16,7 @@ import { container } from "@/infrastructure/di/index";
 import { logger } from "@/shared/common";
 
 export class InitiateGoogleOAuthUseCase {
-  constructor(private readonly googleOAuthService: GoogleOAuthService) { }
+  constructor(private readonly googleOAuthService: GoogleOAuthService) {}
 
   /**
    * Execute use case
@@ -40,7 +40,8 @@ export class InitiateGoogleOAuthUseCase {
     logger.debug("Initiating Google OAuth", { redirectTo });
 
     // 1. Resolve OAuthStateService (Lazy resolution to avoid circle during refactor)
-    const oauthStateService = container.resolve<OAuthStateService>("OAuthStateService");
+    const oauthStateService =
+      container.resolve<OAuthStateService>("OAuthStateService");
 
     // 2. Generate secure state mapped to this specific user's redirect intent
     const state = await oauthStateService.generateState(redirectTo);

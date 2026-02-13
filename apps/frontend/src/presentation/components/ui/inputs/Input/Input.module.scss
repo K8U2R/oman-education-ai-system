@@ -1,0 +1,132 @@
+@use '@/styles/abstracts/liquid-variables' as liquid;
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: liquid.$spacing-fluid-1;
+
+    &--full-width {
+        width: 100%;
+    }
+}
+
+.label {
+    font-size: liquid.$font-fluid-sm;
+    font-weight: 500;
+    color: var(--text-primary, #374151);
+}
+
+.container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input {
+    width: 100%;
+    border-radius: liquid.$radius-fluid-md;
+    border: 1px solid var(--border-primary, #d1d5db);
+    background-color: var(--bg-surface, #ffffff);
+    color: var(--text-primary, #111827);
+    font-family: inherit;
+    transition: all liquid.$transition-fast;
+
+    &:focus {
+        outline: none;
+        border-color: var(--primary-500, #3b82f6);
+        box-shadow: 0 0 0 3px var(--primary-100, #dbeafe);
+    }
+
+    &:disabled {
+        background-color: var(--bg-secondary, #f9fafb);
+        color: var(--text-tertiary, #9ca3af);
+        cursor: not-allowed;
+    }
+
+    &--error {
+        border-color: var(--error-500, #ef4444);
+
+        &:focus {
+            box-shadow: 0 0 0 3px var(--error-100, #fee2e2);
+        }
+    }
+
+    // Sizes
+    &--sm {
+        height: 2rem;
+        padding: 0 liquid.$spacing-fluid-3;
+        font-size: liquid.$font-fluid-xs;
+    }
+
+    &--md {
+        height: 2.5rem;
+        padding: 0 liquid.$spacing-fluid-4;
+        font-size: liquid.$font-fluid-sm;
+    }
+
+    &--lg {
+        height: 3rem;
+        padding: 0 liquid.$spacing-fluid-6;
+        font-size: liquid.$font-fluid-md;
+    }
+
+    // Padding adjustment for icons
+    // We handle this via style prop or specific class if needed, or by padding the container
+    // But input needs actual padding.
+    // Let's assume standard padding works or overridden by JS logic if needed.
+    // For now simple structure.
+}
+
+.icon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-tertiary, #9ca3af);
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.5rem; // approx width for placement
+
+    &--left {
+        left: liquid.$spacing-fluid-3;
+
+        [dir="rtl"] & {
+            // Logic flip handled by CSS modules usually but we need rtl awareness
+            right: liquid.$spacing-fluid-3;
+            left: auto;
+        }
+    }
+
+    &--right {
+        right: liquid.$spacing-fluid-3;
+
+        [dir="rtl"] & {
+            left: liquid.$spacing-fluid-3;
+            right: auto;
+        }
+    }
+}
+
+// Adjust padding on input based on icons presence
+// This is tricky without JS or has() selector
+// We can use sibling selector if icon is before/after input
+.input:where([data-has-left-icon="true"]) {
+    padding-inline-start: 2.5rem;
+}
+
+.input:where([data-has-right-icon="true"]) {
+    padding-inline-end: 2.5rem;
+}
+
+.errorText {
+    font-size: liquid.$font-fluid-xs;
+    color: var(--error-600, #dc2626);
+    margin: 0;
+}
+
+.helperText {
+    font-size: liquid.$font-fluid-xs;
+    color: var(--text-secondary, #6b7280);
+    margin: 0;
+}

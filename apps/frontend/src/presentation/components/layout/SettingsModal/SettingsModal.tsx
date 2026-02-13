@@ -1,5 +1,6 @@
 ﻿import React, { useState } from 'react'
 import { User as UserIcon, Lock, Globe, Cloud, Palette, X } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { Modal } from '@/presentation/components/ui/layout/Modal/Modal'
 import { useRole } from '@/features/user-authentication-management'
 import GeneralSettings from '../../settings/GeneralSettings'
@@ -8,6 +9,7 @@ import LanguageSettings from '../../settings/LanguageSettings'
 import ThemeSelector from '../../settings/ThemeSelector'
 import IntegrationsSettings from '../../settings/IntegrationsSettings'
 import { cn } from '@/presentation/components/ui/utils/classNames'
+import styles from './SettingsModal.module.scss'
 
 interface SettingsModalProps {
   isOpen: boolean
@@ -21,6 +23,7 @@ export const SettingsContent: React.FC<{
   onClose?: () => void
   initialSection?: string
 }> = ({ onClose, initialSection = 'profile' }) => {
+  const { t } = useTranslation('common')
   const [activeSection, setActiveSection] = useState<SectionType>(initialSection as SectionType)
   const { userRole } = useRole()
   const canAccessIntegrations = userRole === 'admin' || userRole === 'developer'
@@ -28,94 +31,97 @@ export const SettingsContent: React.FC<{
   const sections = [
     {
       id: 'profile',
-      label: 'الملف الشخصي',
-      icon: <UserIcon size={20} />,
+      label: t('settings.sections.profile.label'),
+      icon: <UserIcon className={styles.navIcon} />,
       component: <GeneralSettings />,
-      description: 'إدارة معلوماتك الشخصية وبيانات الحساب',
+      description: t('settings.sections.profile.description'),
     },
     {
       id: 'security',
-      label: 'الأمان',
-      icon: <Lock size={20} />,
+      label: t('settings.sections.security.label'),
+      icon: <Lock className={styles.navIcon} />,
       component: <ChangePassword />,
-      description: 'حماية حسابك وتغيير كلمة المرور',
+      description: t('settings.sections.security.description'),
     },
     {
       id: 'appearance',
-      label: 'المظهر',
-      icon: <Palette size={20} />,
+      label: t('settings.sections.appearance.label'),
+      icon: <Palette className={styles.navIcon} />,
       component: (
         <div className="settings-appearance">
           <ThemeSelector />
         </div>
       ),
-      description: 'تخصيص مظهر النظام والألوان',
+      description: t('settings.sections.appearance.description'),
     },
     {
       id: 'language',
-      label: 'اللغة',
-      icon: <Globe size={20} />,
+      label: t('settings.sections.language.label'),
+      icon: <Globe className={styles.navIcon} />,
       component: <LanguageSettings />,
-      description: 'تغيير لغة النظام والمنطقة الزمنية',
+      description: t('settings.sections.language.description'),
     },
   ]
 
   if (canAccessIntegrations) {
     sections.splice(2, 0, {
       id: 'integrations',
-      label: 'التكامل',
-      icon: <Cloud size={20} />,
+      label: t('settings.sections.integrations.label'),
+      icon: <Cloud className={styles.navIcon} />,
       component: <IntegrationsSettings />,
-      description: 'ربط حسابك مع الخدمات السحابية والتطبيقات الخارجية',
+      description: t('settings.sections.integrations.description'),
     })
   }
 
   const activeSectionData = sections.find(s => s.id === activeSection) || sections[0]
 
   return (
-    <div className="settings-modal__wrapper h-full">
-      {/* Note: h-full added to ensure it fills modal */}
+    <div className={styles.wrapper}>
       {onClose && (
-        <button className="settings-modal__close" onClick={onClose} aria-label="إغلاق">
+        <button
+          className={styles.closeButton}
+          onClick={onClose}
+          aria-label={t('settings.actions.close')}
+        >
           <X size={20} />
         </button>
       )}
 
-      <div className="settings-modal__container h-full">
-        <aside className="settings-modal__sidebar">
-          <div className="settings-modal__sidebar-header">
-            <h2 className="settings-modal__title">الإعدادات</h2>
+      <div className={styles.container}>
+        <aside className={styles.sidebar}>
+          <div className={styles.sidebarHeader}>
+            <h2 className={styles.title}>{t('settings.title')}</h2>
           </div>
-          <div className="settings-modal__sidebar-nav">
+          <div className={styles.sidebarNav}>
             {sections.map(section => (
               <button
                 key={section.id}
                 className={cn(
-                  'settings-modal__sidebar-item',
-                  activeSection === section.id && 'settings-modal__sidebar-item--active'
+                  styles.navItem,
+                  activeSection === section.id && styles['navItem--active']
                 )}
                 onClick={() => setActiveSection(section.id as SectionType)}
               >
-                <span className="settings-modal__sidebar-icon">{section.icon}</span>
+                <span className={styles.navIconWrapper}>{section.icon}</span>
                 <span>{section.label}</span>
               </button>
             ))}
           </div>
         </aside>
 
-        <main className="settings-modal__content overflow-y-auto">
+        <main className={styles.content}>
           {activeSectionData ? (
             <>
-              <header className="mb-6">
-                <h3 className="settings-modal__section-title">{activeSectionData.label}</h3>
-                <p className="settings-modal__section-description">
+              <header className={styles.sectionHeader}>
+                <h3 className={styles.sectionTitle}>{activeSectionData.label}</h3>
+                <p className={styles.sectionDescription}>
                   {activeSectionData.description}
                 </p>
               </header>
-              <div className="settings-modal__section-body">{activeSectionData.component}</div>
+              <div className={styles.sectionBody}>{activeSectionData.component}</div>
             </>
           ) : (
-            <div className="p-8 text-center text-gray-500">القسم غير متوفر</div>
+            <div className={styles.unavailable}>{t('settings.status.section_unavailable')}</div>
           )}
         </main>
       </div>
@@ -134,7 +140,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
       onClose={onClose}
       size="xl"
       showCloseButton={false}
-      className="settings-modal"
+      className={styles.modal}
     >
       <SettingsContent onClose={onClose} initialSection={initialSection} />
     </Modal>

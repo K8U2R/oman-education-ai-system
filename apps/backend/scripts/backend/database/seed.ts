@@ -19,6 +19,15 @@ async function seed() {
             ON CONFLICT (email) DO NOTHING
         `, [adminEmail, 'admin']);
 
+        // 1.b Seed Free Student
+        const studentEmail = 'student@oman-edu.ai';
+        console.log(`Checking student user: ${studentEmail}`);
+        await client.query(`
+            INSERT INTO users (email, username, role, "planTier", first_name, last_name, is_verified, is_active)
+            VALUES ($1, $2, 'student', 'FREE', 'Ali', 'Al-Student', true, true)
+            ON CONFLICT (email) DO NOTHING
+        `, [studentEmail, 'student']);
+
         // 2. Seed Sample Course
         const courseSlug = 'introduction-to-ai';
         console.log(`Seeding course: ${courseSlug}`);

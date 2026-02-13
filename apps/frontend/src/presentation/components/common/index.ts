@@ -7,6 +7,7 @@ export { SkeletonLoader } from './SkeletonLoader'
 export { SkipLink } from './SkipLink'
 export { OptimizedImage } from './OptimizedImage/OptimizedImage'
 export { PWAInstallPrompt } from './PWAInstallPrompt'
+export { FeatureGate, UpgradePrompt } from './FeatureGate'
 
 // Inputs
 import { Button, Input, Checkbox, Switch, Dropdown } from '../ui'

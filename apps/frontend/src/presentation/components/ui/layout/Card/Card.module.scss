@@ -1,0 +1,61 @@
+@use '@/styles/abstracts/liquid-variables' as liquid;
+
+.card {
+    background-color: var(--bg-surface, #ffffff);
+    border: 1px solid var(--border-primary, #e5e7eb);
+    border-radius: liquid.$radius-fluid-xl;
+    transition: all liquid.$transition-fast;
+    overflow: hidden; // Ensure children don't overflow rounded corners
+
+    // Variants (basic for now, can expand)
+
+    // Padding
+    &--padding-none {
+        padding: 0;
+    }
+
+    &--padding-sm {
+        padding: liquid.$spacing-fluid-6;
+    }
+
+    &--padding-md {
+        padding: liquid.$spacing-fluid-8;
+    }
+
+    &--padding-lg {
+        padding: liquid.$spacing-fluid-10;
+    }
+
+    // Shadows
+    &--shadow-none {
+        box-shadow: none;
+    }
+
+    &--shadow-sm {
+        box-shadow: liquid.$shadow-fluid-sm;
+    }
+
+    &--shadow-md {
+        box-shadow: liquid.$shadow-fluid-md;
+    }
+
+    &--shadow-lg {
+        box-shadow: liquid.$shadow-fluid-lg;
+    }
+
+    // Interactive
+    &--clickable {
+        cursor: pointer;
+
+        &:active {
+            transform: scale(0.995);
+        }
+    }
+
+    &--hoverable {
+        &:hover {
+            box-shadow: liquid.$shadow-fluid-lg;
+            border-color: var(--primary-200, #bfdbfe);
+        }
+    }
+}

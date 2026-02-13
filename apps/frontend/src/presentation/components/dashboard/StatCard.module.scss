@@ -1,0 +1,103 @@
+@use '@/styles/abstracts/liquid-variables' as liquid;
+
+.card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    transition: all 0.3s ease;
+
+    &:hover {
+        transform: translateY(-0.25rem);
+        box-shadow: liquid.$shadow-fluid-md;
+    }
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-block-end: liquid.$spacing-fluid-4;
+}
+
+.title {
+    font-size: liquid.$font-fluid-sm;
+    font-weight: 500;
+    color: var(--text-secondary, #6b7280);
+    margin: 0;
+}
+
+.value {
+    margin-block-start: liquid.$spacing-fluid-1;
+    font-size: liquid.$font-fluid-xl;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    color: var(--text-primary, #111827);
+}
+
+.iconWrapper {
+    padding: liquid.$spacing-fluid-3;
+    border-radius: liquid.$radius-fluid-xl;
+    border: 1px solid transparent;
+    transition: background-color liquid.$transition-fast;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem; // Fixed size for icon container
+    height: 2.75rem;
+
+    // Variants
+    &--default {
+        color: var(--primary-600, #2563eb);
+        background-color: var(--primary-50, #eff6ff);
+        border-color: var(--primary-100, #dbeafe);
+    }
+
+    &--success {
+        color: var(--success-600, #16a34a);
+        background-color: var(--success-50, #f0fdf4);
+        border-color: var(--success-100, #dcfce7);
+    }
+
+    &--warning {
+        color: var(--warning-600, #d97706);
+        background-color: var(--warning-50, #fffbeb);
+        border-color: var(--warning-100, #fef3c7);
+    }
+
+    &--danger {
+        color: var(--error-600, #dc2626);
+        background-color: var(--error-50, #fef2f2);
+        border-color: var(--error-100, #fee2e2);
+    }
+
+    &--info {
+        color: var(--info-600, #0284c7);
+        background-color: var(--info-50, #f0f9ff);
+        border-color: var(--info-100, #e0f2fe);
+    }
+}
+
+.trend {
+    display: flex;
+    padding: liquid.$spacing-fluid-4;
+    gap: liquid.$spacing-fluid-2;
+    margin-bottom: liquid.$spacing-fluid-2;
+    font-weight: 500;
+}
+
+.trendValue {
+    font-weight: 500;
+
+    &--positive {
+        color: var(--success-600, #16a34a);
+    }
+
+    &--negative {
+        color: var(--error-600, #dc2626);
+    }
+}
+
+.trendLabel {
+    color: var(--text-tertiary, #9ca3af);
+}

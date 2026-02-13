@@ -1,0 +1,94 @@
+@use 'sass:map';
+@use 'sass:meta';
+@use '../abstracts/tokens' as t;
+
+// ============================================================================
+// SOVEREIGN STYLE ENGINE
+// Automatically generates :root and body CSS variables from Token Maps.
+// ============================================================================
+
+@mixin generate-root {
+    :root {
+
+        // 1. Generate Color Variables
+        // Output as UNWRAPPED values (H S L) to support Tailwind opacity.
+        // 1. Generate Color Variables (Default / Dark)
+        @each $key, $value in t.$palette-sovereign {
+            --#{$key}: #{$value};
+        }
+    }
+
+    // Light Mode Override
+    [data-theme='light'] {
+        @each $key, $value in t.$palette-sovereign-light {
+            --#{$key}: #{$value};
+        }
+    }
+
+    // Explicit Dark Mode (if needed to force)
+    [data-theme='dark'] {
+        @each $key, $value in t.$palette-sovereign {
+            --#{$key}: #{$value};
+        }
+
+        // 2. Generate Radius
+        --radius: #{map.get(t.$radius, 'lg')}; // Default radius
+
+        @each $key, $value in t.$radius {
+            --radius-#{$key}: #{$value};
+        }
+
+        // 3. Layout Variables
+        --header-height: 4rem;
+        --sidebar-width: 17.5rem;
+        --sidebar-collapsed-width: 5rem;
+        --container-max-width: 1400px;
+        --container-padding: 2rem;
+
+        // 4. Z-Index
+        --z-sticky: 100;
+        --z-overlay: 900;
+        --z-modal: 1000;
+        --z-popover: 1100;
+
+        // 5. Generate Spacing
+        @each $key, $value in t.$spacing {
+            --space-#{$key}: #{$value};
+        }
+
+        // 4. Manual Overrides
+        --glass-bg: 222 47% 11% / 0.7;
+        --glass-border: 217 33% 30% / 0.5;
+    }
+}
+
+// ============================================================================
+// SOVEREIGN TIER ENGINE
+// Injects premium styles based on user tier (Plan Sovereignty)
+// ============================================================================
+@mixin generate-tiers {
+
+    // Premium Tier (The "Gold Standard")
+    :global {
+        body.tier-premium {
+            // refined radius
+            --radius: 1rem;
+
+            // deeper shadows
+            --shadow-elevation: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+
+            // glassmorphism enabled
+            --glass-opacity: 0.7;
+            --glass-border-opacity: 0.5;
+
+            // Premium Accent (Gold/Royal) overrides
+            --primary: 263 80% 60%;
+            --ring: 45 90% 60%; // Gold ring
+        }
+
+        // Pro Tier (The "Professional Standard")
+        body.tier-pro {
+            --radius: 0.75rem;
+        }
+    }
+}

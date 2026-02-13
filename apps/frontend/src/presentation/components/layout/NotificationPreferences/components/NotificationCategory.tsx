@@ -1,11 +1,6 @@
-﻿/**
- * NotificationCategory Component - مكون فئة الإشعارات
- *
- * مكون لعرض فئة إشعارات مع إمكانية التوسيع/الطي
- */
-
-import React, { useState } from 'react'
+﻿import React, { useState } from 'react'
 import { ChevronDown, ChevronUp } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { cn } from '../../../common/utils/classNames'
 import type {
   NotificationCategory as NotificationCategoryType,
@@ -18,22 +13,23 @@ import {
   NOTIFICATION_TYPE_DESCRIPTIONS,
   NOTIFICATION_TYPE_ICONS,
 } from '../constants'
+import styles from './NotificationCategory.module.scss'
 
 interface NotificationCategoryProps {
-  /** بيانات الفئة */
+  /** Category data */
   category: NotificationCategoryType
-  /** دالة تحديث التفضيل */
+  /** Update preference function */
   onPreferenceChange: (preferenceType: string, updates: Partial<NotificationPreference>) => void
-  /** دالة تحديث القناة */
+  /** Update channel function */
   onChannelChange: (
     preferenceType: string,
     channel: 'in-app' | 'email' | 'push',
     enabled: boolean,
     sound?: boolean
   ) => void
-  /** هل معطل؟ */
+  /** Is disabled? */
   disabled?: boolean
-  /** Class name إضافي */
+  /** Additional class name */
   className?: string
 }
 
@@ -44,9 +40,10 @@ export const NotificationCategory: React.FC<NotificationCategoryProps> = ({
   disabled = false,
   className,
 }) => {
+  const { t } = useTranslation('common')
   const [isExpanded, setIsExpanded] = useState(category.defaultExpanded ?? false)
 
-  // استخدام أيقونة الفئة - نستخدم أيقونة أول تفضيل في الفئة
+  // Use the icon of the first preference as the category icon
   const CategoryIcon = category.preferences[0]
     ? NOTIFICATION_TYPE_ICONS[category.preferences[0].type]
     : null
@@ -59,57 +56,57 @@ export const NotificationCategory: React.FC<NotificationCategoryProps> = ({
 
   return (
     <div
-      className={cn('notification-category', className, {
-        'notification-category--expanded': isExpanded,
-        'notification-category--disabled': disabled,
-      })}
+      className={cn(styles.category, className,
+        isExpanded && styles['category--expanded'],
+        disabled && styles['category--disabled']
+      )}
     >
       {/* Header */}
       <button
-        className="notification-category__header"
+        className={styles.category__header}
         onClick={handleToggleExpand}
         disabled={disabled}
         aria-expanded={isExpanded}
-        aria-label={`${isExpanded ? 'طي' : 'توسيع'} ${category.title}`}
+        aria-label={`${isExpanded ? t('notifications.actions.collapse') : t('notifications.actions.expand')} ${category.title}`}
       >
-        <div className="notification-category__header-content">
-          {CategoryIcon && <CategoryIcon className="notification-category__icon" size={20} />}
-          <div className="notification-category__info">
-            <h3 className="notification-category__title">{category.title}</h3>
+        <div className={styles['category__header-content']}>
+          {CategoryIcon && <CategoryIcon className={styles.category__icon} size={20} />}
+          <div className={styles.category__info}>
+            <h3 className={styles.category__title}>{category.title}</h3>
             {category.description && (
-              <p className="notification-category__description">{category.description}</p>
+              <p className={styles.category__description}>{category.description}</p>
             )}
           </div>
         </div>
         {isExpanded ? (
-          <ChevronUp className="notification-category__chevron" size={20} />
+          <ChevronUp className={styles.category__chevron} size={20} />
         ) : (
-          <ChevronDown className="notification-category__chevron" size={20} />
+          <ChevronDown className={styles.category__chevron} size={20} />
         )}
       </button>
 
       {/* Content */}
       {isExpanded && (
-        <div className="notification-category__content">
+        <div className={styles.category__content}>
           {category.preferences.map(preference => {
             const PreferenceIcon = NOTIFICATION_TYPE_ICONS[preference.type]
             const label = NOTIFICATION_TYPE_LABELS[preference.type]
             const description = NOTIFICATION_TYPE_DESCRIPTIONS[preference.type]
 
             return (
-              <div key={preference.type} className="notification-category__preference">
-                <div className="notification-category__preference-header">
-                  <div className="notification-category__preference-info">
+              <div key={preference.type} className={styles.category__preference}>
+                <div className={styles['category__preference-header']}>
+                  <div className={styles['category__preference-info']}>
                     {PreferenceIcon && (
                       <PreferenceIcon
-                        className="notification-category__preference-icon"
+                        className={styles['category__preference-icon']}
                         size={18}
                       />
                     )}
-                    <div className="notification-category__preference-text">
-                      <h4 className="notification-category__preference-title">{label}</h4>
+                    <div className={styles['category__preference-text']}>
+                      <h4 className={styles['category__preference-title']}>{label}</h4>
                       {description && (
-                        <p className="notification-category__preference-description">
+                        <p className={styles['category__preference-description']}>
                           {description}
                         </p>
                       )}
@@ -119,12 +116,12 @@ export const NotificationCategory: React.FC<NotificationCategoryProps> = ({
                     enabled={preference.enabled}
                     onChange={enabled => onPreferenceChange(preference.type, { enabled })}
                     disabled={disabled}
-                    ariaLabel={`${preference.enabled ? 'تعطيل' : 'تفعيل'} ${label}`}
+                    ariaLabel={`${preference.enabled ? t('notifications.actions.disable') : t('notifications.actions.enable')} ${label}`}
                   />
                 </div>
 
                 {preference.enabled && (
-                  <div className="notification-category__channels">
+                  <div className={styles.category__channels}>
                     <ChannelToggle
                       channel="in-app"
                       enabled={preference.channels['in-app'].enabled}

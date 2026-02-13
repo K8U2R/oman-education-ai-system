@@ -8,23 +8,23 @@ import { GoogleOAuthAdapter } from "../../adapters/db/GoogleOAuthAdapter.js";
  * Handles registration of core adapters and shared providers.
  */
 export function registerInfrastructureModule(): void {
-    // Database Core Adapter
-    container.register(
-        "DatabaseAdapter",
-        () => new DatabaseCoreAdapter(),
-        "singleton",
-    );
+  // Database Core Adapter
+  container.register(
+    "DatabaseAdapter",
+    () => new DatabaseCoreAdapter(),
+    "singleton",
+  );
 
-    // Email Provider Adapter
-    container.register(
-        "EmailProvider",
-        () => new NodemailerAdapter(),
-        "singleton",
-    );
+  // Email Provider Adapter
+  container.register(
+    "EmailProvider",
+    () => new NodemailerAdapter(),
+    "singleton",
+  );
 
-    container.register(
-        "GoogleOAuthAdapter",
-        () => new GoogleOAuthAdapter(),
-        "singleton",
-    );
+  container.register(
+    "GoogleOAuthAdapter",
+    () => new GoogleOAuthAdapter(),
+    "singleton",
+  );
 }

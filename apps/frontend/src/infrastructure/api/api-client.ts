@@ -24,6 +24,7 @@ class ApiClient {
   private readonly MAX_REFRESH_ATTEMPTS = 3
   private lastRefreshTime = 0
   private readonly REFRESH_COOLDOWN = 1000 // 1 second cooldown between refreshes
+  private isTerminated = false // Circuit Breaker Flag
 
   constructor() {
     this.client = axios.create({
@@ -45,6 +46,11 @@ class ApiClient {
   private setupRequestInterceptor(): void {
     this.client.interceptors.request.use(
       (config: InternalAxiosRequestConfig) => {
+        // Circuit Breaker Check
+        if (this.isTerminated) {
+          return Promise.reject(new Error('EMERGENCY_STOP: System in Safe Mode'))
+        }
+
         // If Authorization header is already set (e.g., from retry after refresh), use it
         const existingAuth = config.headers?.Authorization || config.headers?.authorization
         if (
@@ -210,13 +216,31 @@ class ApiClient {
     // Check if we've exceeded max refresh attempts
     if (this.refreshAttempts >= this.MAX_REFRESH_ATTEMPTS) {
       if (import.meta.env.DEV) {
-        console.error('[API Client] Max refresh attempts reached, redirecting to login')
+        console.error('[API Client] Max refresh attempts reached, activating Circuit Breaker')
       }
+      this.isTerminated = true // Activate Circuit Breaker
       this.refreshAttempts = 0
       this.lastRefreshTime = 0
-      this.processQueue(null, new Error('Max refresh attempts exceeded'))
+      this.processQueue(null, new Error('EMERGENCY_STOP: Max refresh attempts exceeded'))
       this.redirectToLogin()
-      return Promise.reject(error)
+
+      // Notify ADS (Advanced Diagnostic System)
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('ADS:SYSTEM_HALT', {
+          detail: {
+            reason: 'Infinite Auth Loop Detected',
+            code: 'EMERGENCY_STOP',
+            timestamp: new Date().toISOString()
+          }
+        }))
+      }
+
+      return Promise.reject(new Error('EMERGENCY_STOP'))
+    }
+
+    // Check circuit breaker first
+    if (this.isTerminated) {
+      return Promise.reject(new Error('EMERGENCY_STOP'))
     }
 
     // Check cooldown period to prevent rapid refresh attempts

@@ -9,9 +9,11 @@ import AIStatusIndicator from '@/presentation/components/layout/AIStatusIndicato
 import Notifications from '@/presentation/components/layout/Notifications/Notifications'
 import ProfileMenu from '@/presentation/components/layout/ProfileMenu/ProfileMenu'
 import { QuickActionsMenu } from '../QuickActionsMenu'
+import { LanguageSwitcher } from '@/presentation/components/common/LanguageSwitcher';
 import { ThemeToggle } from '../ThemeToggle/ThemeToggle'
 import type { HeaderActionsProps } from '../../types'
 import { cn } from '@/presentation/components/ui/utils/classNames'
+import styles from './HeaderActions.module.scss'
 
 /**
  * HeaderActions Component
@@ -28,12 +30,11 @@ import { cn } from '@/presentation/components/ui/utils/classNames'
  */
 export const HeaderActions: React.FC<HeaderActionsProps> = React.memo(
   ({ showNotifications = true, showAIStatus = true, showProfile = true, className }) => {
-    const actionsClasses = React.useMemo(() => cn('header-actions', className), [className])
-
     return (
       <>
-        <div className={actionsClasses}>
+        <div className={cn(styles.actions, className)}>
           {showAIStatus && <AIStatusIndicator />}
+          <LanguageSwitcher />
           <ThemeToggle />
           {showNotifications && <Notifications />}
           {showProfile && <ProfileMenu />}

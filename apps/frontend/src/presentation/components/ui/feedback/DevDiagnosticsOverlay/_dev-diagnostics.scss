@@ -1,0 +1,169 @@
+@use '@/styles/abstracts/liquid-variables' as liquid;
+
+.dev-diagnostics-overlay {
+    position: relative;
+    z-index: 9999;
+    background: color-mix(in srgb, var(--color-bg-surface), transparent 5%);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--color-border);
+    border-radius: liquid.$radius-fluid-lg;
+    padding: liquid.$spacing-fluid-4;
+    max-width: 400px;
+    margin: liquid.$spacing-fluid-4 auto;
+    font-family: monospace;
+    box-shadow: 0 liquid.$shadow-fluid-offset-lg liquid.$shadow-fluid-blur-lg rgba(0, 0, 0, 0.2);
+
+    &__header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: liquid.$spacing-fluid-3;
+        padding-bottom: liquid.$spacing-fluid-2;
+        border-bottom: 1px solid var(--color-border);
+    }
+
+    &__title {
+        font-size: liquid.$font-fluid-sm;
+        font-weight: 700;
+        color: var(--color-primary);
+        display: flex;
+        align-items: center;
+        gap: liquid.$spacing-fluid-2;
+    }
+
+    &__badge {
+        font-size: liquid.$font-fluid-xs;
+        padding: 2px liquid.$spacing-fluid-2;
+        background: var(--color-accent);
+        color: var(--color-accent-foreground);
+        border-radius: liquid.$radius-fluid-sm;
+    }
+
+    &__section-title {
+        font-size: liquid.$font-fluid-xs;
+        color: var(--color-muted-foreground);
+        text-transform: uppercase;
+        margin-bottom: liquid.$spacing-fluid-2;
+        letter-spacing: 0.05em;
+    }
+
+    &__metrics {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: liquid.$gap-fluid-sm;
+        margin-bottom: liquid.$spacing-fluid-4;
+    }
+
+    &__metric-item {
+        background: var(--color-bg-subtle);
+        padding: liquid.$spacing-fluid-2;
+        border-radius: liquid.$radius-fluid-sm;
+        text-align: center;
+
+        &-label {
+            font-size: 10px;
+            color: var(--color-muted-foreground);
+            margin-bottom: 2px;
+        }
+
+        &-value {
+            font-size: liquid.$font-fluid-sm;
+            font-weight: 700;
+
+            &--success {
+                color: var(--color-success);
+            }
+
+            &--warning {
+                color: var(--color-warning);
+            }
+
+            &--error {
+                color: var(--color-error);
+            }
+        }
+    }
+
+    // Error Box Styles
+    &__error-box {
+        background: color-mix(in srgb, var(--color-error), transparent 90%);
+        border: 1px solid var(--color-error);
+        border-radius: liquid.$radius-fluid-md;
+        padding: liquid.$spacing-fluid-3;
+        margin-bottom: liquid.$spacing-fluid-3;
+
+        &-title {
+            color: var(--color-error);
+            font-weight: 700;
+            font-size: liquid.$font-fluid-sm;
+            margin-bottom: liquid.$spacing-fluid-1;
+        }
+
+        &-message {
+            color: var(--color-foreground);
+            font-size: liquid.$font-fluid-xs;
+            margin-bottom: liquid.$spacing-fluid-2;
+        }
+
+        &-hint {
+            font-size: 10px;
+            color: var(--color-muted-foreground);
+            font-style: italic;
+        }
+    }
+
+    // Success State
+    &__success-box {
+        background: color-mix(in srgb, var(--color-success), transparent 90%);
+        border: 1px solid var(--color-success);
+        border-radius: liquid.$radius-fluid-md;
+        padding: liquid.$spacing-fluid-3;
+        margin-bottom: liquid.$spacing-fluid-3;
+        color: var(--color-success);
+        font-size: liquid.$font-fluid-sm;
+        display: flex;
+        align-items: center;
+        gap: liquid.$spacing-fluid-2;
+    }
+
+    // Buttons
+    &__actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: liquid.$gap-fluid-sm;
+    }
+
+    &__btn {
+        padding: liquid.$spacing-fluid-2;
+        border: none;
+        border-radius: liquid.$radius-fluid-sm;
+        font-weight: 600;
+        font-size: liquid.$font-fluid-xs;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: liquid.$spacing-fluid-1;
+
+        &--danger {
+            background: var(--color-error);
+            color: white;
+            box-shadow: 0 2px 4px rgba(239, 68, 68, 0.3);
+
+            &:hover {
+                background: color-mix(in srgb, var(--color-error), black 10%);
+            }
+        }
+
+        &--secondary {
+            background: var(--color-secondary);
+            color: var(--color-secondary-foreground);
+            border: 1px solid var(--color-border);
+
+            &:hover {
+                background: color-mix(in srgb, var(--color-secondary), black 10%);
+            }
+        }
+    }
+}

@@ -32,6 +32,7 @@ const LessonDetailPage: React.FC = () => {
     loadMindMap,
     handleAssistantMessage,
     handleAssistantStream,
+    handleDeleteLesson,
     navigate,
   } = useLessonDetailLogic()
 
@@ -88,9 +89,7 @@ const LessonDetailPage: React.FC = () => {
         lesson={lesson}
         onBack={() => navigate('/lessons')}
         onEdit={() => navigate(ROUTES.LESSON_EDIT(lesson.id))}
-        onDelete={() => {
-          // TODO: Add delete logic/modal
-        }}
+        onDelete={handleDeleteLesson}
         onAssistantOpen={() => setIsAssistantOpen(true)}
       />
 

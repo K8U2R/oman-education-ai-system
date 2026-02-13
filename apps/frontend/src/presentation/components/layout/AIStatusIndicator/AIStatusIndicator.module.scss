@@ -1,0 +1,152 @@
+@use '@/styles/abstracts/liquid-variables' as liquid;
+
+.ai-status {
+    position: relative;
+    z-index: liquid.$z-index-modal + 10;
+
+    &__button {
+        position: relative;
+        padding: liquid.$spacing-fluid-2;
+        border-radius: 9999px; // Keep circular
+        transition: all liquid.$transition-normal;
+
+        &:hover {
+            background-color: var(--color-surface-hover);
+        }
+
+        &[aria-expanded="true"] {
+            background-color: var(--color-surface-active);
+        }
+    }
+
+    &__tooltip {
+        position: fixed;
+        z-index: liquid.$z-index-tooltip;
+        top: auto; // Calculated dynamically in React, but ensure base styles
+        right: auto;
+        width: clamp(12rem, 20vw, 16rem); // Fluid width
+
+        background-color: var(--color-surface);
+        border: 1px solid var(--color-border);
+        border-radius: liquid.$radius-fluid-lg;
+        box-shadow: liquid.$shadow-fluid-lg;
+        padding: liquid.$spacing-fluid-3;
+
+        // Animation via global classes or mixins if available, keeping local for scope
+        animation: fadeIn liquid.$transition-fast ease-out;
+    }
+
+    &__panel {
+        position: fixed;
+        z-index: liquid.$z-index-modal;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+
+        background-color: var(--color-surface);
+        border: 1px solid var(--color-border);
+        box-shadow: liquid.$shadow-fluid-2xl;
+
+        // Responsive sizing
+        width: clamp(20rem, 90vw, 24rem); // Mobile to Desktop constraint
+        max-width: 100vw;
+
+        // Desktop Border Radius
+        border-radius: liquid.$radius-fluid-xl;
+
+        // Mobile specific overrides
+        &--mobile {
+            inset: auto 0 0 0; // Bottom sheet
+            width: 100%;
+            border-radius: liquid.$radius-fluid-xl liquid.$radius-fluid-xl 0 0;
+            max-height: 85vh;
+            animation: slideUp liquid.$transition-normal;
+        }
+
+        &--desktop {
+            // Position calculated via JS, but base animation
+            animation: zoomIn liquid.$transition-fast;
+        }
+    }
+
+    &__header {
+        padding: liquid.$spacing-fluid-4;
+        border-bottom: 1px solid var(--color-border);
+        background-color: var(--color-surface-secondary);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        h3 {
+            font-size: liquid.$font-fluid-md;
+            font-weight: 700;
+            color: var(--color-text-primary);
+            display: flex;
+            align-items: center;
+            gap: liquid.$spacing-fluid-2;
+        }
+    }
+
+    &__body {
+        padding: liquid.$spacing-fluid-4;
+        display: flex;
+        flex-direction: column;
+        gap: liquid.$spacing-fluid-4;
+        overflow-y: auto;
+        max-height: 60vh; // Fallback constraint
+    }
+
+    &__stats {
+        background-color: var(--color-surface-secondary);
+        padding: liquid.$spacing-fluid-3;
+        border-radius: liquid.$radius-fluid-md;
+        border: 1px solid var(--color-border);
+
+        display: flex;
+        flex-direction: column;
+        gap: liquid.$spacing-fluid-3;
+    }
+
+    &__backdrop {
+        position: fixed;
+        inset: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: liquid.$z-index-modal - 1;
+        backdrop-filter: blur(4px);
+        animation: fadeIn liquid.$transition-normal ease-out;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes zoomIn {
+    from {
+        transform: scale(0.95);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}

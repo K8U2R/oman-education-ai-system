@@ -1,0 +1,74 @@
+/**
+ * Header Styles - Variables
+ * 
+ * متغيرات التصميم السائل للـ Header
+ * تطبيق Fluid Design System - لا بكسل ثابت
+ */
+
+// ==================== COLORS ====================
+// Mapping to Sovereign Engine Variables (hsl wrapped)
+$header-bg: hsl(var(--background));
+$header-bg-glass: hsla(var(--background), 0.8);
+$header-text: hsl(var(--foreground));
+$header-text-secondary: hsl(var(--muted-foreground));
+$header-border: hsl(var(--border) / 0.5);
+
+// Navigation Colors
+$nav-link-color: hsl(var(--muted-foreground));
+$nav-link-hover-bg: hsl(var(--accent));
+$nav-link-hover-color: hsl(var(--accent-foreground));
+$nav-link-active-bg: hsl(var(--secondary));
+$nav-link-active-color: hsl(var(--secondary-foreground));
+
+// Brand Colors
+$brand-primary: hsl(var(--primary));
+$brand-text: hsl(var(--foreground));
+
+// ==================== SPACING (FLUID) ====================
+// استخدام clamp() للتمدد التلقائي
+$header-height: clamp(3.5rem, 5vw, 4rem); // 56px - 64px
+$header-padding-x: clamp(1rem, 2vw, 2rem); // 16px - 32px
+$header-padding-y: clamp(0.75rem, 1.5vw, 1rem); // 12px - 16px
+
+$nav-gap: clamp(0.5rem, 1vw, 1rem); // 8px - 16px
+$nav-item-padding-x: clamp(0.75rem, 1.5vw, 1rem); // 12px - 16px
+$nav-item-padding-y: clamp(0.5rem, 1vw, 0.75rem); // 8px - 12px
+$nav-item-radius: clamp(0.375rem, 0.5vw, 0.5rem); // 6px - 8px
+
+$brand-gap: clamp(0.5rem, 1vw, 0.75rem); // 8px - 12px
+$actions-gap: clamp(0.75rem, 1.5vw, 1rem); // 12px - 16px
+
+// ==================== TYPOGRAPHY (FLUID) ====================
+$nav-font-size: clamp(0.875rem, 1vw, 1rem); // 14px - 16px
+$nav-font-weight: 500;
+$nav-line-height: 1.5;
+
+$brand-font-size: clamp(1.125rem, 1.5vw, 1.25rem); // 18px - 20px
+$brand-font-weight: 700;
+
+$icon-size: clamp(1.125rem, 1.5vw, 1.25rem); // 18px - 20px
+
+// ==================== TRANSITIONS ====================
+$transition-speed-fast: 150ms;
+$transition-speed: 200ms;
+$transition-speed-slow: 300ms;
+$transition-easing: cubic-bezier(0.4, 0, 0.2, 1);
+
+// ==================== Z-INDEX ====================
+$header-z-index: 1000;
+$dropdown-z-index: 1001;
+$modal-z-index: 2000;
+
+// ==================== BREAKPOINTS ====================
+$mobile: 768px;
+$tablet: 1024px;
+$desktop: 1280px;
+
+// ==================== SHADOWS ====================
+$header-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+$header-shadow-glass: 0 4px 12px rgba(0, 0, 0, 0.08);
+$dropdown-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+
+// ==================== EFFECTS ====================
+$backdrop-filter-blur: blur(12px);
+$backdrop-filter-saturate: saturate(180%);

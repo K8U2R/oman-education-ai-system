@@ -177,6 +177,7 @@ export const useLessonDetailLogic = () => {
       const reader = response.body.getReader();
       const decoder = new TextDecoder("utf-8");
 
+      // eslint-disable-next-line no-constant-condition
       while (true) {
         const { done, value } = await reader.read();
         if (done) break;
@@ -229,7 +230,27 @@ export const useLessonDetailLogic = () => {
     loadVideos,
     loadMindMap,
     handleAssistantMessage,
-    handleAssistantStream // Export new function
+    handleAssistantStream, // Export new function
+    handleDeleteLesson,
+  }
+
+  async function handleDeleteLesson() {
+    if (!lessonId) return
+
+    if (!window.confirm('هل أنت متأكد من رغبتك في حذف هذا الدرس؟ لا يمكن التراجع عن هذا الإجراء.')) {
+      return
+    }
+
+    try {
+      setLoading(true)
+      await apiClient.delete(`/content/lessons/${lessonId}`)
+      navigate('/lessons')
+    } catch (error) {
+      console.error('Failed to delete lesson:', error)
+      alert('فشل حذف الدرس. يرجى المحاولة مرة أخرى.')
+    } finally {
+      setLoading(false)
+    }
   }
 }
 

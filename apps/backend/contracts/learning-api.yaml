@@ -1,0 +1,125 @@
+openapi: 3.0.0
+info:
+  title: Oman Education AI - Learning API
+  version: 1.0.0
+  description: API for managing learning paths, content, and AI interactions.
+
+paths:
+  /api/v1/courses:
+    get:
+      summary: List all courses
+      tags: [Learning]
+      responses:
+        200:
+          description: List of courses
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Course'
+
+  /api/v1/courses/{slug}:
+    get:
+      summary: Get course details
+      tags: [Learning]
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Course details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Course'
+
+  /api/v1/chat:
+    post:
+      summary: Chat with AI Tutor
+      tags: [AI]
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  type: string
+                threadId:
+                  type: string
+      responses:
+        200:
+          description: AI Response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  content:
+                    type: string
+                  threadId:
+                    type: string
+        403:
+          description: Forbidden - Upgrade Required (Law 14)
+  /api/v1/assessments/{id}/submit:
+    post:
+      summary: Submit assessment answer
+      tags: [Assessment]
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                questionId:
+                  type: string
+                answer:
+                  type: string
+      responses:
+        200:
+          description: Grading Result
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  score:
+                    type: number
+                  feedback:
+                    type: string
+                  passed:
+                    type: boolean
+    Course:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        slug:
+          type: string
+        modules:
+          type: array
+          items:
+            type: object
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

@@ -5,4 +5,6 @@
  */
 
 export * from './useAdmin'
+export * from './useAdminStats'
+export * from './useAdminUsers'
 export { useAdmin } from './useAdmin'

@@ -1,6 +1,6 @@
 /**
  * User Discovery Routes (Public/Social) - مسارات الاكتشاف والعرض العام
- * 
+ *
  * @law Law-10 (Scalability) - Discovery Domain
  */
 
@@ -17,11 +17,8 @@ const router = RouteFactory.createFeatureRouter();
  *     tags: [User - Discovery]
  */
 router.get(
-    "/search",
-    ...RouteFactory.createRoute<UserController>(
-        "UserController",
-        "searchUsers"
-    )
+  "/search",
+  ...RouteFactory.createRoute<UserController>("UserController", "searchUsers"),
 );
 
 export default router;

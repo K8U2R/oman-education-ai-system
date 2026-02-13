@@ -6,6 +6,7 @@
 
 import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import {
   Activity,
   RefreshCw,
@@ -23,8 +24,11 @@ import { ROUTES } from '@/domain/constants/routes.constants'
 import { PageHeader, LoadingState } from '../../components'
 
 
+
+
 const SecurityMonitoringPage: React.FC = () => {
   const navigate = useNavigate()
+  const { t } = useTranslation()
   const { user, isLoading: authLoading, isAuthenticated } = useAuth()
   const { isDeveloper } = useRole()
   const {
@@ -50,35 +54,26 @@ const SecurityMonitoringPage: React.FC = () => {
 
   const getHealthVariant = (status: string): 'success' | 'warning' | 'error' => {
     switch (status) {
-      case 'healthy':
-        return 'success'
-      case 'warning':
-        return 'warning'
+      case 'healthy': return 'success'
+      case 'warning': return 'warning'
       case 'error':
-      case 'critical':
-        return 'error'
-      default:
-        return 'success'
+      case 'critical': return 'error'
+      default: return 'success'
     }
   }
 
   const getHealthLabel = (status: string): string => {
     switch (status) {
-      case 'healthy':
-        return 'سليم'
-      case 'warning':
-        return 'تحذير'
-      case 'error':
-        return 'خطأ'
-      case 'critical':
-        return 'حرج'
-      default:
-        return 'غير معروف'
+      case 'healthy': return t('admin.dashboard.stats.healthy')
+      case 'warning': return t('admin.dashboard.stats.warning')
+      case 'error': return t('admin.dashboard.stats.error')
+      case 'critical': return t('system.security.monitoring.metrics.critical')
+      default: return t('admin.dashboard.stats.unknown') || status
     }
   }
 
   if (authLoading || loading) {
-    return <LoadingState fullScreen message="جاري تحميل مراقبة الأمان..." />
+    return <LoadingState fullScreen message={t('system.security.monitoring.loading_title') || "Loading Security Monitoring..."} />
   }
 
   if (!user || !isDeveloper) {
@@ -88,9 +83,9 @@ const SecurityMonitoringPage: React.FC = () => {
   return (
     <div className="security-monitoring-page">
       <PageHeader
-        title="مراقبة الأمان"
-        description="مراقبة النظام في الوقت الفعلي"
-        icon={<Activity className="security-monitoring-page__header-icon" />}
+        title={t('system.security.monitoring.title')}
+        description={t('system.security.monitoring.description')}
+        icon={<Activity className="w-6 h-6 text-primary" />}
         actions={
           <div className="security-monitoring-page__header-actions">
             <div className="security-monitoring-page__auto-refresh">
@@ -100,7 +95,7 @@ const SecurityMonitoringPage: React.FC = () => {
                   checked={autoRefresh}
                   onChange={e => setAutoRefresh(e.target.checked)}
                 />
-                <span>تحديث تلقائي</span>
+                <span>{t('system.security.monitoring.auto_refresh')}</span>
               </label>
               {autoRefresh && (
                 <select
@@ -108,10 +103,10 @@ const SecurityMonitoringPage: React.FC = () => {
                   onChange={e => setRefreshInterval(parseInt(e.target.value, 10))}
                   className="security-monitoring-page__interval-select"
                 >
-                  <option value={5}>كل 5 ثوان</option>
-                  <option value={10}>كل 10 ثوان</option>
-                  <option value={30}>كل 30 ثانية</option>
-                  <option value={60}>كل دقيقة</option>
+                  <option value={5}>{t('system.security.monitoring.refresh_interval.5s')}</option>
+                  <option value={10}>{t('system.security.monitoring.refresh_interval.10s')}</option>
+                  <option value={30}>{t('system.security.monitoring.refresh_interval.30s')}</option>
+                  <option value={60}>{t('system.security.monitoring.refresh_interval.1m')}</option>
                 </select>
               )}
             </div>
@@ -122,7 +117,7 @@ const SecurityMonitoringPage: React.FC = () => {
               leftIcon={<RefreshCw />}
               disabled={loading}
             >
-              تحديث
+              {t('admin.whitelist.actions.refresh')}
             </Button>
           </div>
         }
@@ -140,14 +135,12 @@ const SecurityMonitoringPage: React.FC = () => {
         <Card className="security-monitoring-page__health-card">
           <div className="security-monitoring-page__health-header">
             <div>
-              <h3 className="security-monitoring-page__health-title">صحة النظام</h3>
-              <p className="security-monitoring-page__health-description">حالة المكونات الأساسية</p>
+              <h3 className="security-monitoring-page__health-title">{t('system.security.monitoring.health.title')}</h3>
+              <p className="security-monitoring-page__health-description">{t('system.security.monitoring.health.desc')}</p>
             </div>
             <div className="security-monitoring-page__health-score">
-              <div className="security-monitoring-page__health-score-value">
-                {systemHealth.score}
-              </div>
-              <div className="security-monitoring-page__health-score-label">من 100</div>
+              <div className="security-monitoring-page__health-score-value">{systemHealth.score}</div>
+              <div className="security-monitoring-page__health-score-label">{t('system.security.monitoring.health.score_label')}</div>
             </div>
           </div>
           <div className="security-monitoring-page__health-status">
@@ -160,22 +153,12 @@ const SecurityMonitoringPage: React.FC = () => {
               <div key={key} className="security-monitoring-page__component">
                 <div className="security-monitoring-page__component-header">
                   <div className="security-monitoring-page__component-name">
-                    {key === 'authentication' && (
-                      <Shield className="security-monitoring-page__component-icon" />
-                    )}
-                    {key === 'sessions' && (
-                      <Activity className="security-monitoring-page__component-icon" />
-                    )}
-                    {key === 'database' && (
-                      <Database className="security-monitoring-page__component-icon" />
-                    )}
-                    {key === 'cache' && (
-                      <Server className="security-monitoring-page__component-icon" />
-                    )}
+                    {key === 'authentication' && <Shield className="security-monitoring-page__component-icon" />}
+                    {key === 'sessions' && <Activity className="security-monitoring-page__component-icon" />}
+                    {key === 'database' && <Database className="security-monitoring-page__component-icon" />}
+                    {key === 'cache' && <Server className="security-monitoring-page__component-icon" />}
                     {key === 'api' && <Wifi className="security-monitoring-page__component-icon" />}
-                    {key === 'websocket' && (
-                      <Wifi className="security-monitoring-page__component-icon" />
-                    )}
+                    {key === 'websocket' && <Wifi className="security-monitoring-page__component-icon" />}
                     <span>{key}</span>
                   </div>
                   <Badge variant={getHealthVariant(component.status)} size="sm">
@@ -185,7 +168,7 @@ const SecurityMonitoringPage: React.FC = () => {
                 <div className="security-monitoring-page__component-metrics">
                   <div className="security-monitoring-page__component-metric">
                     <span className="security-monitoring-page__component-metric-label">
-                      Uptime:
+                      {t('system.security.monitoring.health.uptime')}:
                     </span>
                     <span className="security-monitoring-page__component-metric-value">
                       {Math.floor(component.uptime / 3600)}h{' '}
@@ -194,7 +177,7 @@ const SecurityMonitoringPage: React.FC = () => {
                   </div>
                   <div className="security-monitoring-page__component-metric">
                     <span className="security-monitoring-page__component-metric-label">
-                      Response Time:
+                      {t('system.security.monitoring.health.response_time')}:
                     </span>
                     <span className="security-monitoring-page__component-metric-value">
                       {component.responseTime}ms
@@ -202,7 +185,7 @@ const SecurityMonitoringPage: React.FC = () => {
                   </div>
                   <div className="security-monitoring-page__component-metric">
                     <span className="security-monitoring-page__component-metric-label">
-                      Error Rate:
+                      {t('system.security.monitoring.health.error_rate')}:
                     </span>
                     <span className="security-monitoring-page__component-metric-value">
                       {component.errorRate.toFixed(2)}%
@@ -211,7 +194,7 @@ const SecurityMonitoringPage: React.FC = () => {
                 </div>
                 {component.lastError && (
                   <div className="security-monitoring-page__component-error">
-                    <AlertTriangle className="security-monitoring-page__component-error-icon" />
+                    <AlertTriangle className="w-4 h-4 text-destructive" />
                     <span>{component.lastError}</span>
                   </div>
                 )}
@@ -226,11 +209,9 @@ const SecurityMonitoringPage: React.FC = () => {
         <div className="security-monitoring-page__metrics">
           <Card className="security-monitoring-page__metric-card">
             <Activity className="security-monitoring-page__metric-icon" />
-            <div>
-              <div className="security-monitoring-page__metric-label">الجلسات النشطة</div>
-              <div className="security-monitoring-page__metric-value">
-                {realTimeMetrics.activeSessions}
-              </div>
+            <div className="security-monitoring-page__metric-content">
+              <div className="security-monitoring-page__metric-label">{t('system.security.monitoring.metrics.active_sessions')}</div>
+              <div className="security-monitoring-page__metric-value">{realTimeMetrics.activeSessions}</div>
               <div className="security-monitoring-page__metric-change">
                 {realTimeMetrics.activeSessionsChange > 0 ? '+' : ''}
                 {realTimeMetrics.activeSessionsChange}
@@ -239,39 +220,31 @@ const SecurityMonitoringPage: React.FC = () => {
           </Card>
           <Card className="security-monitoring-page__metric-card">
             <Shield className="security-monitoring-page__metric-icon" />
-            <div>
-              <div className="security-monitoring-page__metric-label">
-                تسجيلات الدخول (آخر دقيقة)
-              </div>
-              <div className="security-monitoring-page__metric-value">
-                {realTimeMetrics.loginsLastMinute}
-              </div>
+            <div className="security-monitoring-page__metric-content">
+              <div className="security-monitoring-page__metric-label">{t('system.security.monitoring.metrics.logins')}</div>
+              <div className="security-monitoring-page__metric-value">{realTimeMetrics.loginsLastMinute}</div>
               <div className="security-monitoring-page__metric-change">
-                نجاح: {realTimeMetrics.loginSuccessRate.toFixed(1)}%
+                {t('system.security.monitoring.metrics.success_rate')}: {realTimeMetrics.loginSuccessRate.toFixed(1)}%
               </div>
             </div>
           </Card>
           <Card className="security-monitoring-page__metric-card">
             <AlertTriangle className="security-monitoring-page__metric-icon" />
-            <div>
-              <div className="security-monitoring-page__metric-label">الأحداث (آخر دقيقة)</div>
-              <div className="security-monitoring-page__metric-value">
-                {realTimeMetrics.eventsLastMinute}
-              </div>
+            <div className="security-monitoring-page__metric-content">
+              <div className="security-monitoring-page__metric-label">{t('system.security.monitoring.metrics.events')}</div>
+              <div className="security-monitoring-page__metric-value">{realTimeMetrics.eventsLastMinute}</div>
               <div className="security-monitoring-page__metric-change">
-                حرجة: {realTimeMetrics.criticalEventsLastMinute}
+                {t('system.security.monitoring.metrics.critical')}: {realTimeMetrics.criticalEventsLastMinute}
               </div>
             </div>
           </Card>
           <Card className="security-monitoring-page__metric-card">
             <Server className="security-monitoring-page__metric-icon" />
-            <div>
-              <div className="security-monitoring-page__metric-label">الطلبات (آخر دقيقة)</div>
-              <div className="security-monitoring-page__metric-value">
-                {realTimeMetrics.requestsLastMinute}
-              </div>
+            <div className="security-monitoring-page__metric-content">
+              <div className="security-monitoring-page__metric-label">{t('system.security.monitoring.metrics.requests')}</div>
+              <div className="security-monitoring-page__metric-value">{realTimeMetrics.requestsLastMinute}</div>
               <div className="security-monitoring-page__metric-change">
-                متوسط: {realTimeMetrics.averageResponseTime}ms
+                {t('system.security.monitoring.metrics.avg_time')}: {realTimeMetrics.averageResponseTime}ms
               </div>
             </div>
           </Card>
@@ -282,9 +255,9 @@ const SecurityMonitoringPage: React.FC = () => {
       <Card className="security-monitoring-page__thresholds-card">
         <div className="security-monitoring-page__thresholds-header">
           <div>
-            <h3 className="security-monitoring-page__thresholds-title">عتبات التنبيه</h3>
+            <h3 className="security-monitoring-page__thresholds-title">{t('system.security.monitoring.thresholds.title')}</h3>
             <p className="security-monitoring-page__thresholds-description">
-              إدارة عتبات التنبيه الأمنية
+              {t('system.security.monitoring.thresholds.desc')}
             </p>
           </div>
           <Button
@@ -295,12 +268,12 @@ const SecurityMonitoringPage: React.FC = () => {
             }}
             leftIcon={<Settings />}
           >
-            إدارة العتبات
+            {t('system.security.monitoring.thresholds.manage')}
           </Button>
         </div>
         <div className="security-monitoring-page__thresholds-list">
           {alertThresholds.length === 0 ? (
-            <p className="security-monitoring-page__empty">لا توجد عتبات تنبيه</p>
+            <p className="security-monitoring-page__empty">{t('system.security.monitoring.thresholds.empty')}</p>
           ) : (
             alertThresholds.map(threshold => (
               <div key={threshold.id} className="security-monitoring-page__threshold-item">
@@ -312,7 +285,7 @@ const SecurityMonitoringPage: React.FC = () => {
                 </div>
                 <div className="security-monitoring-page__threshold-status">
                   <Badge variant={threshold.enabled ? 'success' : 'default'} size="sm">
-                    {threshold.enabled ? 'مفعل' : 'معطل'}
+                    {threshold.enabled ? t('admin.users.status.active') : t('admin.users.status.inactive')}
                   </Badge>
                   <Badge
                     variant={
@@ -325,10 +298,10 @@ const SecurityMonitoringPage: React.FC = () => {
                     size="sm"
                   >
                     {threshold.severity === 'critical'
-                      ? 'حرج'
+                      ? t('system.security.monitoring.metrics.critical')
                       : threshold.severity === 'warning'
-                        ? 'تحذير'
-                        : 'معلومة'}
+                        ? t('admin.dashboard.stats.warning')
+                        : 'Info'}
                   </Badge>
                 </div>
               </div>

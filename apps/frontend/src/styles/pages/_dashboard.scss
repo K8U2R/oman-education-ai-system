@@ -1,6 +1,4 @@
-// ===================================
-// Dashboard Page Styles - Gold Standard
-// ===================================
+@use '@/styles/abstracts/liquid-variables' as liquid;
 
 .dashboard-page {
     padding-bottom: var(--space-xl);
@@ -15,6 +13,13 @@
     @media (max-width: 768px) {
         gap: var(--space-md);
     }
+}
+
+// Fluid Grid for Quick Actions (Sovereign Design)
+.quick-actions-grid {
+    display: grid;
+    gap: liquid.$spacing-fluid-4;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
 }
 
 // 2. Stats Grid Section

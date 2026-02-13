@@ -1,9 +1,9 @@
 /**
  * Shared Types Cluster - الأنواع المشتركة
- * 
+ *
  * CLEANED: Feature-specific types moved to @/domain/types/features/
  * This now contains ONLY cross-cutting concerns.
- * 
+ *
  * @compliance LAW_05 - No feature dumping
  */
 
@@ -30,16 +30,16 @@ export { BuiltInValidators, ValidationHelper } from "./validation.types.js";
 
 // Type Guards
 export {
-    isLearningLesson,
-    isContentLesson,
-    isBaseLog,
-    isLogLevel,
-    isHealthStatus,
-    isStatus,
-    isMetadata,
-    isNonEmptyString,
-    isNonEmptyArray,
-    isObject,
-    isID,
-    isEmail,
+  isLearningLesson,
+  isContentLesson,
+  isBaseLog,
+  isLogLevel,
+  isHealthStatus,
+  isStatus,
+  isMetadata,
+  isNonEmptyString,
+  isNonEmptyArray,
+  isObject,
+  isID,
+  isEmail,
 } from "./type-guards.js";

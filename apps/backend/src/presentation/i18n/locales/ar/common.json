@@ -1,0 +1,43 @@
+{
+  "validation": {
+    "required": "هذا الحقل مطلوب",
+    "email": "البريد الإلكتروني غير صحيح",
+    "minLength": "يجب أن يكون {{min}} أحرف على الأقل",
+    "maxLength": "يجب أن لا يتجاوز {{max}} حرفاً",
+    "invalid_input": "بيانات الدخل غير صالحة",
+    "invalid_email": "البريد الإلكتروني غير صالح",
+    "password_required": "كلمة المرور مطلوبة",
+    "field_required": "هذا الحقل مطلوب",
+    "password_min_length": "كلمة المرور يجب أن تكون 8 أحرف على الأقل",
+    "refresh_token_required": "Refresh Token مطلوب",
+    "invalid_token": "Token غير صالح"
+  },
+  "auth": {
+    "login_failed": "فشل تسجيل الدخول",
+    "user_not_found": "المستخدم غير موجود",
+    "password_invalid": "كلمة المرور غير صحيحة",
+    "unauthorized": "وصول غير مصرح به",
+    "forbidden": "ممنوع الوصول",
+    "login_success": "تم تسجيل الدخول بنجاح",
+    "logout_success": "تم تسجيل الخروج بنجاح",
+    "token_refresh_success": "تم تحديث Token بنجاح",
+    "token_refresh_failed": "فشل تحديث Token",
+    "logout_failed": "فشل تسجيل الخروج",
+    "registration_success": "تم التسجيل بنجاح",
+    "registration_failed": "فشل التسجيل",
+    "verification_email_sent": "تم إرسال بريد التحقق بنجاح",
+    "verification_email_failed": "فشل إرسال بريد التحقق",
+    "email_verified": "تم التحقق من البريد الإلكتروني بنجاح",
+    "email_verification_failed": "فشل التحقق من البريد الإلكتروني",
+    "password_updated": "تم تحديث كلمة المرور بنجاح",
+    "password_update_failed": "فشل تحديث كلمة المرور",
+    "password_reset_sent": "تم إرسال رابط إعادة تعيين كلمة المرور",
+    "password_reset_request_failed": "فشل طلب إعادة تعيين كلمة المرور",
+    "password_reset_success": "تم إعادة تعيين كلمة المرور بنجاح",
+    "password_reset_failed": "فشل إعادة تعيين كلمة المرور"
+  },
+  "server": {
+    "internal_error": "خطأ داخلي في الخادم",
+    "timeout": "انتهت مهلة الطلب"
+  }
+}

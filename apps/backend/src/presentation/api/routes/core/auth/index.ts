@@ -1,6 +1,6 @@
 /**
  * Auth Aggregator (The Sovereign Gateway) - بوابة المصادقة السيادية
- * 
+ *
  * @law Law-1 (Barrel Law) - Main Aggregator
  * @law Law-2 (Isolation) - Domain separation
  */

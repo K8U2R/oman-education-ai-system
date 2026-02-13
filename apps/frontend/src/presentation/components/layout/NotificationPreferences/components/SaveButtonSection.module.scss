@@ -1,0 +1,58 @@
+@use '@/styles/abstracts/liquid-variables' as liquid;
+@use '@/styles/abstracts/variables' as *;
+@use '@/styles/abstracts/mixins' as *;
+
+.section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: liquid.$spacing-fluid-4;
+    border-top: 1px solid var(--color-border);
+    margin-top: auto;
+    gap: liquid.$spacing-fluid-4;
+
+    @include mobile {
+        flex-direction: column-reverse;
+        align-items: stretch;
+    }
+}
+
+.success {
+    display: flex;
+    align-items: center;
+    gap: liquid.$spacing-fluid-3;
+    color: var(--color-success);
+    @include typography-body-sm;
+    font-weight: $font-weight-medium;
+    animation: fadeIn liquid.$transition-fast ease-out;
+
+    &Icon {
+        color: var(--color-success);
+    }
+}
+
+.actions {
+    display: flex;
+    align-items: center;
+    gap: liquid.$spacing-fluid-3;
+    margin-inline-start: auto;
+
+    @include mobile {
+        margin-inline-start: 0;
+        justify-content: stretch;
+
+        &>* {
+            flex: 1;
+        }
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}

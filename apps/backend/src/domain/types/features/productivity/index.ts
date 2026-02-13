@@ -3,5 +3,5 @@
  * @compliance LAW_05 - Functional organization by domain
  */
 
-export * from './code-generation.types.js';
-export * from './office.types.js';
+export * from "./code-generation.types.js";
+export * from "./office.types.js";

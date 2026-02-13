@@ -1,0 +1,2 @@
+src/infrastructure/di/modules/communication.module.ts(5,37): error TS2307: Cannot find module '../../../../presentation/api/handlers/communication/index.js' or its corresponding type declarations.
+src/presentation/middleware/TierGuard.ts(13,14): error TS2448: Block-scoped variable 'user' used before its declaration.

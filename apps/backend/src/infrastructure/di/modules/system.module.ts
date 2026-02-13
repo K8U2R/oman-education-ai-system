@@ -7,17 +7,17 @@ import { ChangelogHandler } from "../../../presentation/api/handlers/system/chan
  * Handles core platform features, changelogs, and monitoring.
  */
 export function registerSystemModule(): void {
-    // Services
-    container.register(
-        "ChangelogService",
-        (c) => new ChangelogService(c.resolve("db")),
-        "singleton",
-    );
+  // Services
+  container.register(
+    "ChangelogService",
+    (c) => new ChangelogService(c.resolve("db")),
+    "singleton",
+  );
 
-    // Handlers
-    container.register(
-        "ChangelogHandler",
-        (c) => new ChangelogHandler(c.resolve("ChangelogService")),
-        "singleton",
-    );
+  // Handlers
+  container.register(
+    "ChangelogHandler",
+    (c) => new ChangelogHandler(c.resolve("ChangelogService")),
+    "singleton",
+  );
 }

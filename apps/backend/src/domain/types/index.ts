@@ -1,13 +1,13 @@
 /**
  * Domain Types - Main Export Point
- * 
+ *
  * Organized by bounded contexts:
  * - auth: Authentication & authorization
  * - user: User management
  * - communication: Email, notifications, websockets
  * - features: Business features (education, productivity, data, analytics, project)
  * - shared: Cross-cutting infrastructure types
- * 
+ *
  * @compliance LAW_05 - Functional organization
  * @compliance LAW_14 - Package sovereignty for SaaS tiers
  */

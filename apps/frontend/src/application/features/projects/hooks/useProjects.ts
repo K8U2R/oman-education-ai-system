@@ -1,173 +1,111 @@
 /**
- * useProjects Hook
- * Hook لإدارة المشاريع التعليمية
+ * Projects Hooks - Hooks إدارة المشاريع
+ *
+ * @description
+ * Custom Hooks لإدارة المشاريع التعليمية باستخدام TanStack Query
  */
 
-import { useState, useEffect, useCallback } from 'react'
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { projectService } from '../services/project.service'
+import { queryKeys } from '@/application/shared/api'
 import type {
-  Project,
-  ProjectProgress,
-  CreateProjectRequest,
-  UpdateProjectRequest,
   ProjectType,
   ProjectStatus,
-} from '../services/project.service'
+  CreateProjectRequest,
+  UpdateProjectRequest,
+} from '../types/project.types'
 
+/**
+ * Hook لجلب قائمة المشاريع
+ */
 export const useProjects = (filters?: {
   type?: ProjectType
   status?: ProjectStatus
   subject?: string
 }) => {
-  const [projects, setProjects] = useState<Project[]>([])
-  const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
-  const [total, setTotal] = useState(0)
-  const [page, setPage] = useState(1)
-  const [perPage, setPerPage] = useState(20)
-  const [totalPages, setTotalPages] = useState(0)
-
-  const loadProjects = useCallback(async () => {
-    try {
-      setIsLoading(true)
-      setError(null)
-      const response = await projectService.getProjects({
-        ...filters,
-        page,
-        per_page: perPage,
-      })
-      setProjects(response.projects)
-      setTotal(response.total)
-      setPage(response.page)
-      setPerPage(response.per_page)
-      setTotalPages(response.total_pages)
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'فشل تحميل المشاريع')
-    } finally {
-      setIsLoading(false)
-    }
-  }, [filters, page, perPage])
-
-  useEffect(() => {
-    loadProjects()
-  }, [loadProjects])
-
-  const createProject = useCallback(
-    async (request: CreateProjectRequest): Promise<Project> => {
-      try {
-        setIsLoading(true)
-        setError(null)
-        const project = await projectService.createProject(request)
-        await loadProjects()
-        return project
-      } catch (err) {
-        const errorMessage = err instanceof Error ? err.message : 'فشل إنشاء المشروع'
-        setError(errorMessage)
-        throw new Error(errorMessage)
-      } finally {
-        setIsLoading(false)
-      }
-    },
-    [loadProjects]
-  )
-
-  const updateProject = useCallback(
-    async (projectId: string, request: UpdateProjectRequest): Promise<Project> => {
-      try {
-        setIsLoading(true)
-        setError(null)
-        const project = await projectService.updateProject(projectId, request)
-        await loadProjects()
-        return project
-      } catch (err) {
-        const errorMessage = err instanceof Error ? err.message : 'فشل تحديث المشروع'
-        setError(errorMessage)
-        throw new Error(errorMessage)
-      } finally {
-        setIsLoading(false)
-      }
-    },
-    [loadProjects]
-  )
-
-  const deleteProject = useCallback(
-    async (projectId: string): Promise<void> => {
-      try {
-        setIsLoading(true)
-        setError(null)
-        await projectService.deleteProject(projectId)
-        await loadProjects()
-      } catch (err) {
-        const errorMessage = err instanceof Error ? err.message : 'فشل حذف المشروع'
-        setError(errorMessage)
-        throw new Error(errorMessage)
-      } finally {
-        setIsLoading(false)
-      }
-    },
-    [loadProjects]
-  )
-
-  return {
-    projects,
-    isLoading,
-    error,
-    total,
-    page,
-    perPage,
-    totalPages,
-    loadProjects,
-    createProject,
-    updateProject,
-    deleteProject,
-    setPage,
-    setPerPage,
-  }
+  return useQuery({
+    queryKey: queryKeys.projects.list(filters),
+    queryFn: () => projectService.getProjects(filters),
+    staleTime: 1000 * 30, // 30 seconds
+  })
 }
 
-export const useProject = (projectId: string | null) => {
-  const [project, setProject] = useState<Project | null>(null)
-  const [progress, setProgress] = useState<ProjectProgress | null>(null)
-  const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
+/**
+ * Hook لجلب تفاصيل مشروع محدد
+ */
+export const useProject = (projectId: string) => {
+  return useQuery({
+    queryKey: queryKeys.projects.detail(projectId),
+    queryFn: () => projectService.getProject(projectId),
+    enabled: !!projectId, // only fetch if projectId exists
+    staleTime: 1000 * 60, // 1 minute
+  })
+}
 
-  const loadProject = useCallback(async () => {
-    if (!projectId) return
+/**
+ * Hook لجلب تقدم المشروع
+ */
+export const useProjectProgress = (projectId: string) => {
+  return useQuery({
+    queryKey: queryKeys.projects.progress(projectId),
+    queryFn: () => projectService.getProjectProgress(projectId),
+    enabled: !!projectId,
+    staleTime: 1000 * 15, // 15 seconds (more frequent updates)
+  })
+}
 
-    try {
-      setIsLoading(true)
-      setError(null)
-      const data = await projectService.getProject(projectId)
-      setProject(data)
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'فشل تحميل المشروع')
-    } finally {
-      setIsLoading(false)
-    }
-  }, [projectId])
+/**
+ * Hook لإنشاء مشروع جديد
+ */
+export const useCreateProject = () => {
+  const queryClient = useQueryClient()
 
-  const loadProgress = useCallback(async () => {
-    if (!projectId) return
+  return useMutation({
+    mutationFn: (data: CreateProjectRequest) => projectService.createProject(data),
+    onSuccess: () => {
+      // إبطال قائمة المشاريع لإعادة جلبها
+      queryClient.invalidateQueries({ queryKey: queryKeys.projects.all })
+    },
+  })
+}
 
-    try {
-      const data = await projectService.getProjectProgress(projectId)
-      setProgress(data)
-    } catch (err) {
-      console.error('Failed to load project progress:', err)
-    }
-  }, [projectId])
+/**
+ * Hook لتحديث مشروع
+ */
+export const useUpdateProject = () => {
+  const queryClient = useQueryClient()
 
-  useEffect(() => {
-    loadProject()
-    loadProgress()
-  }, [loadProject, loadProgress])
+  return useMutation({
+    mutationFn: ({
+      projectId,
+      data,
+    }: {
+      projectId: string
+      data: UpdateProjectRequest
+    }) => projectService.updateProject(projectId, data),
+    onSuccess: (updatedProject, variables) => {
+      // تحديث تفاصيل المشروع المحدد (Optimistic Update)
+      queryClient.setQueryData(
+        queryKeys.projects.detail(variables.projectId),
+        updatedProject
+      )
+      // إبطال قائمة المشاريع
+      queryClient.invalidateQueries({ queryKey: queryKeys.projects.all })
+    },
+  })
+}
 
-  return {
-    project,
-    progress,
-    isLoading,
-    error,
-    loadProject,
-    loadProgress,
-  }
+/**
+ * Hook لحذف مشروع
+ */
+export const useDeleteProject = () => {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: (projectId: string) => projectService.deleteProject(projectId),
+    onSuccess: () => {
+      // إبطال قائمة المشاريع
+      queryClient.invalidateQueries({ queryKey: queryKeys.projects.all })
+    },
+  })
 }

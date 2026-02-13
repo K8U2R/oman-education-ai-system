@@ -1,4 +1,6 @@
 import { useRoutes } from 'react-router-dom'
+import { QueryClientProvider } from '@tanstack/react-query'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { allRoutes } from '@/presentation/routing'
 import { useRouteGuard } from '@/presentation/routing/hooks/useRouteGuard'
 import { RouteErrorBoundary } from '@/presentation/components/ui/feedback/RouteErrorBoundary/RouteErrorBoundary'
@@ -8,11 +10,12 @@ import { createRouteObjects } from '@/presentation/routing/core/route-utils'
 import { ProfessionalErrorPanel } from '@/presentation/features/diagnostic-system-ads/components/ProfessionalErrorPanel/ProfessionalErrorPanel'
 import { useAuthStore } from '@/features/user-authentication-management'
 import { useUserTier } from '@/presentation/hooks/useUserTier'
+import { queryClient } from '@/application/shared/api'
 
 import { useThemeStore } from '@/stores/useThemeStore'
 import { useEffect } from 'react'
 
-function App() {
+function AppContent() {
   // Apply route guard
   useRouteGuard()
   // Initialize theme
@@ -68,6 +71,21 @@ function App() {
         <ModalManager />
       </RouteErrorBoundary>
     </>
+  )
+}
+
+/**
+ * App Component - التطبيق الرئيسي
+ *
+ * يوفر سياق TanStack Query للتطبيق بأكمله
+ */
+function App() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <AppContent />
+      {/* React Query DevTools - أدوات التطوير */}
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
   )
 }
 

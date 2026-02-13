@@ -4,7 +4,7 @@
  * أنواع موحدة للتحليلات والإحصائيات
  */
 
-import type { BaseEntity, Metadata } from "./common.types";
+import type { BaseEntity, Metadata } from "../../shared/common.types.js";
 
 /**
  * Analytics Metric Type - نوع مقياس التحليلات

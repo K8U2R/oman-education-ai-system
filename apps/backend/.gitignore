@@ -10,6 +10,12 @@ build/
 .env.local
 .env.development.local
 .env.production.local
+env/*
+!env/.env.defaults
+!env/.env.example
+!env/schema.ts
+!env/loader.ts
+!env/index.ts
 
 # Keep templates only
 !.env.example

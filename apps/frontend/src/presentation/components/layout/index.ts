@@ -2,10 +2,11 @@
  * Layout Components Export
  */
 
-// Migrated to Shell
-export { default as Header } from '../shell/Header'
+// Core Layout Components
+export * from './Breadcrumbs'
+export { Header } from '../shell/Header'
 export { default as Footer } from '../shell/Footer'
-export { Sidebar } from '../shell/Sidebar'
+export { Sidebar } from '../shell/Sidebar/Sidebar.index'
 export { MobileMenu } from '../shell/MobileMenu'
 export { default as ThemeToggle } from '../shell/ThemeToggle'
 

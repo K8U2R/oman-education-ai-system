@@ -4,7 +4,7 @@
  * TypeScript types لنظام التقييمات
  */
 
-import type { BaseEntity } from "./common.types";
+import type { BaseEntity } from "../../shared/common.types.js";
 
 /**
  * نوع التقييم

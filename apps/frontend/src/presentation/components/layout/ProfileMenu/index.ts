@@ -7,7 +7,7 @@ export { ProfileMenu } from './ProfileMenu'
 export type { ProfileMenuProps } from './types'
 
 // Export constants
-export { PROFILE_MENU_GROUPS } from './constants'
+export * from './constants'
 
 // Export types
 export type { ProfileMenuItem, ProfileMenuGroup } from './types'

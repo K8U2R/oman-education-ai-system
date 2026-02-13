@@ -1,36 +1,21 @@
 ﻿/**
- * Header Component - مكون رأس الصفحة
+ * Header Component - مكون الهيدر الرئيسي
  *
- * مكون رأس الصفحة الرئيسي مع التنقل والمصادقة
- * تم إعادة هيكلته بالكامل لتحسين التنظيم والوظائف
+ * يربط جميع مكونات الهيدر (Brand, Nav, Search, Actions, Controls)
  */
 
 import React from 'react'
-import { Home } from 'lucide-react'
-import { ROUTES } from '@/domain/constants/routes.constants'
 import { MobileMenu } from '../MobileMenu'
-import { useHeader } from './hooks'
-import {
-  HeaderBrand,
-  HeaderNavigation,
-  HeaderSearch,
-  HeaderActions,
-  HeaderControls,
-} from './components'
-import type { HeaderProps, NavigationItem } from './types'
-import { cn } from '../../common/utils/classNames'
-
-/**
- * عناصر التنقل للمستخدمين غير المسجلين
- */
-const UNAUTHENTICATED_NAV_ITEMS: NavigationItem[] = [
-  {
-    id: 'home',
-    label: 'الرئيسية',
-    path: ROUTES.HOME,
-    icon: Home,
-  },
-]
+import { HeaderNavigation } from './components/HeaderNavigation/HeaderNavigation'
+import { HeaderBrand } from './components/HeaderBrand/HeaderBrand'
+import { HeaderActions } from './components/HeaderActions/HeaderActions'
+import { HeaderSearch } from './components/HeaderSearch/HeaderSearch'
+import { HeaderControls } from './components/HeaderControls/HeaderControls'
+import { useHeader } from './hooks/useHeader'
+import type { HeaderProps } from './types'
+import { UNAUTHENTICATED_NAV_ITEMS } from './constants'
+import { cn } from '@/presentation/components/ui/utils/classNames'
+import styles from './Header.module.scss'
 
 /**
  * Header Component
@@ -39,7 +24,8 @@ const UNAUTHENTICATED_NAV_ITEMS: NavigationItem[] = [
  * ```tsx
  * <Header
  *   onSidebarToggle={handleToggle}
- *   isSidebarCollapsed={isCollapsed}
+ *   isSidebarCollapsed={false}
+ *   variant="default"
  * />
  * ```
  */
@@ -55,15 +41,15 @@ export const Header: React.FC<HeaderProps> = React.memo(
     return (
       <>
         <header className={cn(
-          'header',
-          variant && `header--${variant}`,
+          styles.header,
+          variant && styles[`header--${variant}`],
           className
         )}>
-          <div className="header__container">
-            <div className="header__content">
+          <div className={styles.container}>
+            <div className={styles.content}>
               {/* Controls (Mobile Menu + Sidebar Toggle) - Shown only if showControls is true */}
               {showControls && (
-                <div className="header__controls">
+                <div className={styles.controls}>
                   <HeaderControls
                     onSidebarToggle={handleSidebarToggle}
                     isSidebarCollapsed={isSidebarCollapsed}
@@ -73,7 +59,7 @@ export const Header: React.FC<HeaderProps> = React.memo(
               )}
 
               {/* Brand (Logo + Text + Flag) */}
-              <div className="header__brand">
+              <div className={styles.brand}>
                 <HeaderBrand
                   showText={variant !== 'minimal'}
                   showFlag={variant !== 'minimal'}
@@ -82,36 +68,45 @@ export const Header: React.FC<HeaderProps> = React.memo(
               </div>
 
               {/* Navigation */}
-              <nav className="header__nav">
+              <nav className={styles.nav}>
                 {isAuthenticated ? (
                   <>
                     {/* Search Bar */}
-                    <div className="header__search hidden md:block">
+                    <div className={cn(styles.search, 'hidden md:block')}>
                       <HeaderSearch />
                     </div>
 
                     {/* Actions (AIStatusIndicator, Notifications, ProfileMenu) */}
-                    <div className="header__actions">
+                    <div className={styles.actions}>
                       <HeaderActions />
                     </div>
                   </>
                 ) : (
-                  <HeaderNavigation items={UNAUTHENTICATED_NAV_ITEMS} isAuthenticated={false} className="hidden md:flex" />
+                  <>
+                    <HeaderNavigation
+                      items={UNAUTHENTICATED_NAV_ITEMS}
+                      isAuthenticated={false}
+                      className="hidden md:flex"
+                    />
+                    <div className={styles.actions}>
+                      <HeaderActions showNotifications={false} showAIStatus={false} showProfile={false} />
+                    </div>
+                  </>
                 )}
               </nav>
             </div>
           </div>
-        </header>
+        </header >
 
         {/* Mobile Menu - Only render if controls are enabled */}
-        {showControls && (
-          <MobileMenu isOpen={isMobileMenuOpen} onClose={handleMobileMenuToggle} />
-        )}
+        {
+          showControls && (
+            <MobileMenu isOpen={isMobileMenuOpen} onClose={handleMobileMenuToggle} />
+          )
+        }
       </>
     )
   }
 )
 
 Header.displayName = 'Header'
-
-export default Header

@@ -1,0 +1,316 @@
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
+.security-monitoring-page {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding: 2rem;
+    animation: fadeIn 0.5s ease-out;
+
+    &__header-actions {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    &__auto-refresh {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 0.5rem 1rem;
+        background: hsl(var(--background-card));
+        border: 1px solid hsl(var(--border-color));
+        border-radius: var(--radius-md);
+
+        &-label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: hsl(var(--text-secondary));
+            font-size: 0.875rem;
+            cursor: pointer;
+
+            input {
+                accent-color: hsl(var(--primary));
+            }
+        }
+    }
+
+    &__interval-select {
+        background: transparent;
+        border: none;
+        color: hsl(var(--primary));
+        font-weight: 500;
+        font-size: 0.875rem;
+        cursor: pointer;
+        outline: none;
+
+        &:hover {
+            color: hsl(var(--primary-hover));
+        }
+    }
+
+    &__error {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 1rem;
+        background: hsl(var(--destructive) / 0.1);
+        border: 1px solid hsl(var(--destructive) / 0.2);
+        border-radius: var(--radius-md);
+        color: hsl(var(--destructive));
+
+        &-icon {
+            width: 1.25rem;
+            height: 1.25rem;
+        }
+    }
+
+    &__health-card {
+        @include glass-panel;
+        padding: 2rem;
+    }
+
+    &__health-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 2rem;
+    }
+
+    &__health-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: hsl(var(--text-primary));
+        margin-bottom: 0.5rem;
+    }
+
+    &__health-description {
+        color: hsl(var(--text-secondary));
+        font-size: 0.875rem;
+    }
+
+    &__health-score {
+        text-align: center;
+
+        &-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: hsl(var(--primary));
+            line-height: 1;
+            margin-bottom: 0.25rem;
+        }
+
+        &-label {
+            font-size: 0.75rem;
+            color: hsl(var(--text-secondary));
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+    }
+
+    &__health-status {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 2rem;
+    }
+
+    &__components {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+    }
+
+    &__component {
+        background: hsl(var(--background-subtle));
+        border: 1px solid hsl(var(--border-color));
+        border-radius: var(--radius-md);
+        padding: 1.25rem;
+        transition: all 0.2s ease;
+
+        &:hover {
+            border-color: hsl(var(--primary) / 0.5);
+            background: hsl(var(--background-card-hover));
+        }
+
+        &-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        &-name {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 500;
+            color: hsl(var(--text-primary));
+            text-transform: capitalize;
+
+            svg {
+                width: 1rem;
+                height: 1rem;
+                color: hsl(var(--primary));
+            }
+        }
+
+        &-metrics {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        &-metric {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.875rem;
+
+            &-label {
+                color: hsl(var(--text-secondary));
+            }
+
+            &-value {
+                color: hsl(var(--text-primary));
+                font-family: var(--font-mono);
+            }
+        }
+    }
+
+    &__metrics {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.5rem;
+    }
+
+    &__metric-card {
+        @include glass-panel;
+        padding: 1.5rem;
+        display: flex;
+        align-items: flex-start;
+        gap: 1rem;
+
+        &:hover {
+            transform: translateY(-2px);
+            border-color: hsl(var(--primary) / 0.3);
+        }
+
+        .lucide {
+            width: 2.5rem;
+            height: 2.5rem;
+            padding: 0.5rem;
+            background: hsl(var(--primary) / 0.1);
+            color: hsl(var(--primary));
+            border-radius: var(--radius-md);
+        }
+    }
+
+    &__metric-content {
+        flex: 1;
+    }
+
+    &__metric-label {
+        color: hsl(var(--text-secondary));
+        font-size: 0.875rem;
+        margin-bottom: 0.25rem;
+    }
+
+    &__metric-value {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: hsl(var(--text-primary));
+        margin-bottom: 0.25rem;
+    }
+
+    &__metric-change {
+        font-size: 0.75rem;
+        color: hsl(var(--muted-foreground));
+    }
+
+    &__thresholds-card {
+        @include glass-panel;
+        padding: 2rem;
+    }
+
+    &__thresholds-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        margin-bottom: 1.5rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid hsl(var(--border-color));
+    }
+
+    &__thresholds-title {
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: hsl(var(--text-primary));
+        margin-bottom: 0.25rem;
+    }
+
+    &__thresholds-description {
+        color: hsl(var(--text-secondary));
+        font-size: 0.875rem;
+    }
+
+    &__thresholds-list {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    &__threshold-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem;
+        background: hsl(var(--background-subtle));
+        border-radius: var(--radius-md);
+        border: 1px solid hsl(var(--border-color));
+
+        &:hover {
+            background: hsl(var(--background-card-hover));
+        }
+    }
+
+    &__threshold-info {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+
+    &__threshold-name {
+        font-weight: 500;
+        color: hsl(var(--text-primary));
+    }
+
+    &__threshold-metric {
+        font-size: 0.875rem;
+        color: hsl(var(--text-secondary));
+        font-family: var(--font-mono);
+    }
+
+    &__threshold-status {
+        display: flex;
+        gap: 0.5rem;
+    }
+
+    &__empty {
+        text-align: center;
+        padding: 3rem;
+        color: hsl(var(--text-secondary));
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

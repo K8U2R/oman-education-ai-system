@@ -17,6 +17,7 @@ import {
   Permission,
   ROLE_PERMISSIONS,
   PermissionSource,
+  PlanTier,
 } from "../types/auth/index.js";
 import { Email } from "../value-objects/Email";
 
@@ -39,7 +40,7 @@ export class User {
     public readonly simulationActive: boolean = false,
     public readonly createdAt: Date = new Date(),
     public readonly updatedAt: Date = new Date(),
-  ) { }
+  ) {}
 
   /**
    * الحصول على الاسم الكامل
@@ -263,7 +264,6 @@ export class User {
       data.is_verified ?? false,
       data.avatar_url,
       data.role ?? "student",
-      // @ts-ignore - Validated by DB constraint
       data.planTier ?? "FREE",
       data.permissions ?? [],
       data.permission_source ?? "default",

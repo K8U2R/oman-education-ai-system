@@ -1,6 +1,6 @@
 /**
  * Management Sub-domain Barrel - بوابة تصدير الإدارة
- * 
+ *
  * @law Law-1 (Barrel Law)
  */
 

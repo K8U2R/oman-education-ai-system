@@ -76,5 +76,15 @@ export interface LessonMindMap {
 
 /**
  * LessonType - نوع الدرس (alias for Lesson for backward compatibility)
+ * 
+ * @deprecated استخدم Lesson مباشرة بدلاً من LessonType
+ * سيتم حذف هذا الـ type في v2.0.0
+ * 
+ * @example
+ * // ❌ القديم (Deprecated)
+ * const lesson: LessonType = {...}
+ * 
+ * // ✅ الجديد (Recommended)
+ * const lesson: Lesson = {...}
  */
 export type LessonType = Lesson

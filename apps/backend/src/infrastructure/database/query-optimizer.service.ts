@@ -9,7 +9,7 @@
  * - Slow query detection
  */
 
-import { logger } from "@/shared/utils/logger.js";
+import { logger } from "../../shared/utils/logger.js";
 
 export interface QueryMetrics {
   query: string;
@@ -315,7 +315,7 @@ class QueryOptimizerService {
     }
 
     let cleared = 0;
-    for (const [key] of this.queryCache) {
+    for (const [key] of Array.from(this.queryCache.entries())) {
       if (key.includes(pattern)) {
         this.queryCache.delete(key);
         cleared++;
@@ -332,7 +332,7 @@ class QueryOptimizerService {
     let cleaned = 0;
     const now = Date.now();
 
-    for (const [key, entry] of this.queryCache) {
+    for (const [key, entry] of Array.from(this.queryCache.entries())) {
       if (now - entry.timestamp > entry.ttl) {
         this.queryCache.delete(key);
         cleaned++;

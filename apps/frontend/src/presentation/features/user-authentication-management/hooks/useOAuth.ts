@@ -31,19 +31,31 @@ export const useOAuth = (): UseOAuthReturn => {
    */
   const initiateOAuth = useCallback((provider: OAuthProvider, redirectTo?: string) => {
     try {
+      // Prevent multiple simultaneous initiations
+      if (isLoading) {
+        console.log('🚫 [useOAuth] OAuth already in progress, ignoring duplicate call')
+        return
+      }
+
       setError(null)
+      setIsLoading(true)
+
       const redirectUrl = redirectTo || `${window.location.origin}${ROUTES.OAUTH_CALLBACK}`
       const oauthUrl = authService.getOAuthUrl(provider, redirectUrl)
 
       // 🔍 DIAGNOSTIC LOG
       console.log('🚀 [useOAuth] Initiating OAuth:', { provider, redirectUrl, oauthUrl })
 
-      window.location.href = oauthUrl
+      // Add small delay to ensure state is updated before navigation
+      setTimeout(() => {
+        window.location.href = oauthUrl
+      }, 100)
     } catch (err) {
       console.error('Failed to initiate OAuth:', err)
       setError('فشل بدء عملية تسجيل الدخول')
+      setIsLoading(false)
     }
-  }, [])
+  }, [isLoading])
 
   /**
    * معالجة OAuth Callback

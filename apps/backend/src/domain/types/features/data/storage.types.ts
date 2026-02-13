@@ -4,7 +4,7 @@
  * أنواع موحدة للتخزين السحابي (Google Drive, OneDrive)
  */
 
-import type { BaseEntity } from "./common.types";
+import type { BaseEntity } from "../../shared/common.types.js";
 
 /**
  * Storage Provider Type - نوع مزود التخزين

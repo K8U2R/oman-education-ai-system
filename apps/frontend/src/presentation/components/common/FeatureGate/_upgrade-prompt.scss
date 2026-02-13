@@ -1,0 +1,110 @@
+@use '@/styles/abstracts/liquid-variables' as liquid;
+
+.upgrade-prompt {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: liquid.$spacing-fluid-6;
+    background: color-mix(in srgb, var(--color-warning), transparent 95%);
+    border: 1px solid color-mix(in srgb, var(--color-warning), transparent 80%);
+    border-radius: liquid.$radius-fluid-lg;
+    position: relative;
+    overflow: hidden;
+
+    &__icon {
+        position: relative;
+        width: liquid.$spacing-fluid-12;
+        height: liquid.$spacing-fluid-12;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: color-mix(in srgb, var(--color-warning), transparent 85%);
+        border-radius: 50%;
+        color: var(--color-warning);
+        margin-bottom: liquid.$spacing-fluid-4;
+
+        svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        &-sparkle {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            width: 16px;
+            height: 16px;
+            color: var(--color-primary);
+            animation: pulse-glow 2s infinite;
+        }
+    }
+
+    &__title {
+        font-size: liquid.$font-fluid-lg;
+        font-weight: 700;
+        color: var(--color-warning);
+        margin-bottom: liquid.$spacing-fluid-2;
+    }
+
+    &__description {
+        font-size: liquid.$font-fluid-base;
+        color: var(--color-muted-foreground);
+        max-width: 400px;
+        margin-bottom: liquid.$spacing-fluid-4;
+        line-height: liquid.$line-height-fluid-relaxed;
+    }
+
+    &__details {
+        display: flex;
+        align-items: center;
+        gap: liquid.$spacing-fluid-2;
+        font-size: liquid.$font-fluid-xs;
+        color: var(--color-muted-foreground);
+        background: var(--color-bg-surface);
+        padding: liquid.$spacing-fluid-2 liquid.$spacing-fluid-3;
+        border-radius: liquid.$radius-fluid-md;
+        margin-bottom: liquid.$spacing-fluid-4;
+        border: 1px solid var(--color-border);
+
+        &-code {
+            font-family: monospace;
+            color: var(--color-primary);
+            background: color-mix(in srgb, var(--color-primary), transparent 90%);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+    }
+
+    &__button {
+        background: var(--color-primary);
+        color: var(--color-primary-foreground);
+        border: none;
+        padding: liquid.$spacing-fluid-2 liquid.$spacing-fluid-6;
+        border-radius: liquid.$radius-fluid-md;
+        font-weight: 600;
+        font-size: liquid.$font-fluid-sm;
+        cursor: pointer;
+        transition: all 0.2s ease;
+
+        &:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+    }
+}
+
+@keyframes pulse-glow {
+
+    0%,
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.5;
+        transform: scale(0.9);
+    }
+}

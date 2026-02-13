@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
     Database,
     Table,
@@ -14,6 +15,7 @@ import {
 import { EducationService, EducationalTrack, EducationalLesson } from '@/infrastructure/services/education.service';
 
 const DatabasePage: React.FC = () => {
+    const { t } = useTranslation();
     const [tracks, setTracks] = useState<EducationalTrack[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [expandedTracks, setExpandedTracks] = useState<Set<string>>(new Set());
@@ -23,19 +25,6 @@ const DatabasePage: React.FC = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                // Mock Data for UI Development (Remove when API is active)
-                // const mockData = [
-                //     {
-                //         id: '1', title: 'Grade 10 Physics', subject: 'Physics', level: 'GRADE_10', units: [
-                //             { id: 'u1', title: 'Mechanics', orderIndex: 1, lessons: [
-                //                 { id: 'l1', title: 'Newton Laws', orderIndex: 1, aiMetadata: { model: 'gpt-4', prompt: 'Explain Newton laws...' } },
-                //                 { id: 'l2', title: 'Kinematics', orderIndex: 2 }
-                //             ]}
-                //         ]
-                //     }
-                // ];
-                // setTracks(mockData);
-
                 const data = await EducationService.getTracks();
                 setTracks(data);
             } catch (err) {
@@ -78,79 +67,79 @@ const DatabasePage: React.FC = () => {
     const totalUnits = tracks.reduce((acc, t) => acc + t.units.length, 0);
 
     return (
-        <div className="space-y-6 relative h-full flex flex-col">
+        <div className="space-y-6 relative h-full flex flex-col p-6">
             {/* Header */}
             <div className="flex items-center gap-3 mb-4">
-                <div className="p-3 bg-blue-500/10 rounded-xl border border-blue-500/20">
-                    <Database className="w-6 h-6 text-blue-400" />
+                <div className="p-3 bg-primary/10 rounded-xl border border-primary/20">
+                    <Database className="w-6 h-6 text-primary" />
                 </div>
                 <div>
-                    <h1 className="text-2xl font-bold text-white">Database Inspector</h1>
-                    <p className="text-slate-400">Raw educational data explorer.</p>
+                    <h1 className="text-2xl font-bold text-foreground">{t('system.database.title')}</h1>
+                    <p className="text-muted-foreground">{t('system.database.description')}</p>
                 </div>
             </div>
 
             {/* Stats */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <StatCard label="Total Tracks" value={tracks.length} icon={Layers} color="text-indigo-400" />
-                <StatCard label="Total Units" value={totalUnits} icon={Box} color="text-pink-400" />
-                <StatCard label="Total Lessons" value={totalLessons} icon={FileText} color="text-emerald-400" />
+                <StatCard label={t('system.database.stats.tracks')} value={tracks.length} icon={Layers} color="text-primary" />
+                <StatCard label={t('system.database.stats.units')} value={totalUnits} icon={Box} color="text-secondary-foreground" />
+                <StatCard label={t('system.database.stats.lessons')} value={totalLessons} icon={FileText} color="text-accent-foreground" />
             </div>
 
             {/* Data Tree */}
-            <div className="flex-1 bg-slate-900/50 border border-slate-800 rounded-2xl overflow-hidden flex flex-col">
-                <div className="p-4 border-b border-slate-800 bg-slate-900/80 font-semibold text-slate-300 flex items-center gap-2">
+            <div className="flex-1 bg-card/50 border border-border rounded-2xl overflow-hidden flex flex-col">
+                <div className="p-4 border-b border-border bg-card/80 font-semibold text-card-foreground flex items-center gap-2">
                     <Table size={18} />
-                    Educational Graph Hierarchy
+                    {t('system.database.hierarchy')}
                 </div>
 
-                <div className="flex-1 overflow-auto p-4 space-y-2">
+                <div className="flex-1 overflow-auto p-4 space-y-2 custom-scrollbar">
                     {isLoading ? (
-                        <div className="text-slate-500 text-center py-10">Loading Data Schema...</div>
+                        <div className="text-muted-foreground text-center py-10">{t('system.database.loading_schema')}</div>
                     ) : (
                         tracks.map(track => (
-                            <div key={track.id} className="border border-slate-800 rounded-lg overflow-hidden bg-slate-950/30">
+                            <div key={track.id} className="border border-border rounded-lg overflow-hidden bg-card/30">
                                 <div
                                     onClick={() => toggleTrack(track.id)}
-                                    className="p-3 flex items-center justify-between cursor-pointer hover:bg-slate-800/50 transition-colors"
+                                    className="p-3 flex items-center justify-between cursor-pointer hover:bg-muted/50 transition-colors"
                                 >
                                     <div className="flex items-center gap-2">
-                                        {expandedTracks.has(track.id) ? <ChevronDown size={16} className="text-slate-500" /> : <ChevronRight size={16} className="text-slate-500" />}
-                                        <span className="font-semibold text-white">{track.title}</span>
-                                        <span className="text-xs text-slate-500 px-2 py-0.5 bg-slate-900 rounded border border-slate-800">{track.subject}</span>
+                                        {expandedTracks.has(track.id) ? <ChevronDown size={16} className="text-muted-foreground" /> : <ChevronRight size={16} className="text-muted-foreground" />}
+                                        <span className="font-semibold text-foreground">{track.title}</span>
+                                        <span className="text-xs text-muted-foreground px-2 py-0.5 bg-muted rounded border border-border">{track.subject}</span>
                                     </div>
-                                    <span className="text-xs text-slate-500">{track.units?.length || 0} Units</span>
+                                    <span className="text-xs text-muted-foreground">{t('system.database.units_count', { count: track.units?.length || 0 })}</span>
                                 </div>
 
                                 {expandedTracks.has(track.id) && (
-                                    <div className="border-t border-slate-800 ml-4 pl-4 border-l border-b-0 space-y-1 py-1">
+                                    <div className="border-t border-border ms-4 ps-4 border-s border-b-0 space-y-1 py-1">
                                         {track.units?.map(unit => (
                                             <div key={unit.id} className="mt-1">
                                                 <div
                                                     onClick={() => toggleUnit(unit.id)}
-                                                    className="p-2 flex items-center justify-between cursor-pointer hover:bg-slate-800/30 rounded text-sm"
+                                                    className="p-2 flex items-center justify-between cursor-pointer hover:bg-muted/30 rounded text-sm"
                                                 >
                                                     <div className="flex items-center gap-2">
-                                                        {expandedUnits.has(unit.id) ? <ChevronDown size={14} className="text-slate-600" /> : <ChevronRight size={14} className="text-slate-600" />}
-                                                        <span className="text-slate-300">{unit.title}</span>
+                                                        {expandedUnits.has(unit.id) ? <ChevronDown size={14} className="text-muted-foreground" /> : <ChevronRight size={14} className="text-muted-foreground" />}
+                                                        <span className="text-foreground">{unit.title}</span>
                                                     </div>
-                                                    <span className="text-[10px] text-slate-600">{unit.lessons?.length || 0} Lessons</span>
+                                                    <span className="text-[10px] text-muted-foreground">{t('system.database.lessons_count', { count: unit.lessons?.length || 0 })}</span>
                                                 </div>
 
                                                 {expandedUnits.has(unit.id) && (
-                                                    <div className="ml-6 pl-4 border-l border-slate-800/50 space-y-1 py-1">
+                                                    <div className="ms-6 ps-4 border-s border-border/50 space-y-1 py-1">
                                                         {unit.lessons?.map(lesson => (
-                                                            <div key={lesson.id} className="p-2 flex items-center justify-between text-xs hover:bg-slate-800/50 rounded group">
-                                                                <div className="flex items-center gap-2 text-slate-400 group-hover:text-slate-200">
+                                                            <div key={lesson.id} className="p-2 flex items-center justify-between text-xs hover:bg-muted/50 rounded group">
+                                                                <div className="flex items-center gap-2 text-muted-foreground group-hover:text-foreground">
                                                                     <FileText size={12} />
                                                                     <span>{lesson.title}</span>
                                                                 </div>
                                                                 <button
                                                                     onClick={() => setSelectedLesson(lesson)}
-                                                                    className="flex items-center gap-1 px-2 py-1 bg-indigo-500/10 text-indigo-400 rounded hover:bg-indigo-500/20 border border-indigo-500/20"
+                                                                    className="flex items-center gap-1 px-2 py-1 bg-primary/10 text-primary rounded hover:bg-primary/20 border border-primary/20"
                                                                 >
                                                                     <Code size={12} />
-                                                                    <span>Inspect</span>
+                                                                    <span>{t('system.database.inspect')}</span>
                                                                 </button>
                                                             </div>
                                                         ))}
@@ -168,25 +157,25 @@ const DatabasePage: React.FC = () => {
 
             {/* X-Ray Modal */}
             {selectedLesson && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-                    <div className="bg-slate-900 border border-slate-700 w-full max-w-4xl h-[80vh] rounded-2xl flex flex-col shadow-2xl overflow-hidden">
-                        <div className="p-4 border-b border-slate-700 flex items-center justify-between bg-slate-950">
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-background/80 backdrop-blur-sm">
+                    <div className="bg-card border border-border w-full max-w-4xl h-[80vh] rounded-2xl flex flex-col shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-200">
+                        <div className="p-4 border-b border-border flex items-center justify-between bg-card/50">
                             <div className="flex items-center gap-3">
-                                <Eye className="text-cyan-400" />
-                                <h2 className="text-lg font-bold text-white">X-Ray Inspection: <span className="text-cyan-400">{selectedLesson.title}</span></h2>
+                                <Eye className="text-primary" />
+                                <h2 className="text-lg font-bold text-foreground">{t('system.database.xray')}: <span className="text-primary">{selectedLesson.title}</span></h2>
                             </div>
-                            <button onClick={() => setSelectedLesson(null)} className="p-2 hover:bg-white/10 rounded-lg text-slate-400 hover:text-white transition-colors">
+                            <button onClick={() => setSelectedLesson(null)} className="p-2 hover:bg-muted rounded-lg text-muted-foreground hover:text-foreground transition-colors">
                                 <X size={20} />
                             </button>
                         </div>
-                        <div className="flex-1 overflow-auto p-0 bg-[#0d1117] custom-scrollbar">
-                            <pre className="p-6 text-sm font-mono text-emerald-400 whitespace-pre-wrap">
+                        <div className="flex-1 overflow-auto p-0 bg-black/90 custom-scrollbar">
+                            <pre className="p-6 text-sm font-mono text-green-400 whitespace-pre-wrap">
                                 {JSON.stringify(selectedLesson, null, 2)}
                             </pre>
                         </div>
-                        <div className="p-3 border-t border-slate-700 bg-slate-950 text-xs text-slate-500 flex justify-between">
+                        <div className="p-3 border-t border-border bg-card/50 text-xs text-muted-foreground flex justify-between">
                             <span>ID: {selectedLesson.id}</span>
-                            <span>DATABASE: PUBLIC</span>
+                            <span>{t('system.database.db_public')}</span>
                         </div>
                     </div>
                 </div>
@@ -196,15 +185,16 @@ const DatabasePage: React.FC = () => {
 };
 
 const StatCard = ({ label, value, icon: Icon, color }: any) => (
-    <div className="bg-slate-900/50 border border-slate-800 p-4 rounded-xl flex items-center justify-between">
+    <div className="bg-card/50 border border-border p-4 rounded-xl flex items-center justify-between shadow-sm">
         <div>
-            <p className="text-slate-500 text-xs uppercase font-semibold">{label}</p>
-            <p className="text-2xl font-bold text-white mt-1">{value}</p>
+            <p className="text-muted-foreground text-xs uppercase font-semibold">{label}</p>
+            <p className="text-2xl font-bold text-foreground mt-1">{value}</p>
         </div>
-        <div className={`p-3 rounded-lg bg-white/5 ${color}`}>
+        <div className={`p-3 rounded-lg bg-background/50 ${color}`}>
             <Icon size={20} />
         </div>
     </div>
 );
 
 export default DatabasePage;
+

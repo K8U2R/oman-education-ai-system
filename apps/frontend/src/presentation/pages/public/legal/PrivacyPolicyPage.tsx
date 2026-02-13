@@ -4,18 +4,21 @@
  */
 
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { LegalDocumentPage } from './LegalDocumentPage'
 
 const PrivacyPolicyPage: React.FC = () => {
+  const { t } = useTranslation('common')
+
   return (
     <LegalDocumentPage
       type="privacy"
-      title="سياسة الخصوصية"
+      title={t('public.legal.privacy.title')}
       apiEndpoint="/api/v1/legal/privacy/current"
       acceptEndpoint="/api/v1/legal/privacy/accept"
-      loadingMessage="جارٍ تحميل سياسة الخصوصية..."
-      errorMessage="فشل تحميل سياسة الخصوصية"
-      acceptButtonText="أوافق على سياسة الخصوصية"
+      loadingMessage={t('public.legal.privacy.loading')}
+      errorMessage={t('public.legal.privacy.error')}
+      acceptButtonText={t('public.legal.privacy.accept')}
     />
   )
 }

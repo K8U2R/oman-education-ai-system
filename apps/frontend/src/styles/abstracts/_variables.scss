@@ -101,20 +101,22 @@ $background-tertiary: var(--color-bg-tertiary);
 // =================================================
 // Color Fallbacks (Legacy Compatibility)
 // These map old SASS variables to new CSS custom properties
+// IMPORTANT: The CSS vars contain UNWRAPPED channels (H S L).
+// We must wrap them in hsl() to be valid colors in SASS usage.
 // =================================================
-$primary-50: var(--color-primary-light);
-$primary-500: var(--color-primary);
-$primary-600: var(--color-primary);
-$primary-700: var(--color-primary-dark);
+$primary-50: hsl(var(--primary)); // Fallback to main primary for now
+$primary-500: hsl(var(--primary));
+$primary-600: hsl(var(--primary));
+$primary-700: hsl(var(--primary));
 
-$gray-200: var(--color-border-primary);
-$gray-300: var(--color-border-secondary);
-$gray-400: var(--color-text-secondary);
-$gray-500: var(--color-text-secondary);
-$gray-600: var(--color-text-main);
-$gray-700: var(--color-text-main);
-$gray-900: var(--color-text-main);
+$gray-200: hsl(var(--border));
+$gray-300: hsl(var(--input));
+$gray-400: hsl(var(--muted-foreground));
+$gray-500: hsl(var(--muted-foreground));
+$gray-600: hsl(var(--foreground));
+$gray-700: hsl(var(--foreground));
+$gray-900: hsl(var(--foreground));
 
-$error-500: var(--color-error);
-$error-600: var(--color-error);
-$error-700: var(--color-error-dark);
+$error-500: hsl(var(--destructive));
+$error-600: hsl(var(--destructive));
+$error-700: hsl(var(--destructive));

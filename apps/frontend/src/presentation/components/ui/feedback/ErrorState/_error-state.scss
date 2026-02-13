@@ -1,0 +1,57 @@
+@use '@/styles/abstracts/liquid-variables' as liquid;
+
+/**
+ * Error State Component Styles
+ * @law Law-6 (Visual Sovereign)
+ * @law Law-14 (Package Sovereignty)
+ */
+
+.error-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: liquid.$spacing-fluid-6;
+    text-align: center;
+    gap: liquid.$spacing-fluid-4;
+
+    // Style Variant: Professional & Serious
+    background: color-mix(in srgb, var(--color-error), transparent 97%);
+    border: 1px solid color-mix(in srgb, var(--color-error), transparent 80%);
+    border-radius: liquid.$radius-fluid-lg;
+
+    &__icon {
+        width: liquid.$spacing-fluid-10;
+        height: liquid.$spacing-fluid-10;
+        color: var(--color-error);
+        opacity: 0.9;
+        margin-bottom: liquid.$spacing-fluid-2;
+    }
+
+    &__content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: liquid.$spacing-fluid-3;
+        width: 100%;
+        max-width: 480px;
+    }
+
+    &__title {
+        font-size: liquid.$font-fluid-lg;
+        font-weight: 700;
+        color: var(--color-error);
+        margin: 0;
+    }
+
+    &__message {
+        font-size: liquid.$font-fluid-base;
+        color: var(--color-muted-foreground);
+        line-height: liquid.$line-height-fluid-relaxed;
+        margin: 0;
+    }
+
+    &__actions {
+        margin-top: liquid.$spacing-fluid-2;
+    }
+}

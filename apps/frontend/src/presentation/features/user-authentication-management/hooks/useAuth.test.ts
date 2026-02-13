@@ -29,6 +29,7 @@ describe('useAuth', () => {
     first_name: 'Test',
     last_name: 'User',
     role: 'student',
+    planTier: 'FREE',
     permissions: [],
   })
 
@@ -46,6 +47,7 @@ describe('useAuth', () => {
       first_name: 'Test',
       last_name: 'User',
       role: 'student',
+      planTier: 'FREE',
       permissions: [],
     },
     tokens: mockTokens,

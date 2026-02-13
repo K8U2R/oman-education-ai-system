@@ -1,6 +1,6 @@
 /**
  * Logout Routes - مسارات تسجيل الخروج
- * 
+ *
  * @law Law-1 (Modularity) - Domain Encapsulation
  */
 
@@ -24,12 +24,12 @@ const router = RouteFactory.createFeatureRouter();
  *         description: تم تسجيل الخروج بنجاح
  */
 router.post(
-    "/logout",
-    ...RouteFactory.createAuthenticatedRoute<LoginHandler>(
-        "LoginHandler",
-        "logout",
-        authMiddleware.authenticate,
-    ),
+  "/logout",
+  ...RouteFactory.createAuthenticatedRoute<LoginHandler>(
+    "LoginHandler",
+    "logout",
+    authMiddleware.authenticate,
+  ),
 );
 
 /**

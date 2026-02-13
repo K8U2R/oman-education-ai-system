@@ -1,6 +1,6 @@
 /**
  * Account Domain Barrel - بوابة تصدير الحساب
- * 
+ *
  * @law Law-1 (Barrel Law) - Encapsulation gateway
  */
 

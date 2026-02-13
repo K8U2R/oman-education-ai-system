@@ -7,6 +7,8 @@
 import React, { useState } from 'react'
 import { Copy, Check } from 'lucide-react'
 import { Button } from '../common'
+import { useTranslation } from 'react-i18next'
+import styles from './CodePreviewComponent.module.scss'
 
 interface CodePreviewComponentProps {
   code: string
@@ -19,6 +21,7 @@ export const CodePreviewComponent: React.FC<CodePreviewComponentProps> = ({
   language = 'javascript',
   showLineNumbers = true,
 }) => {
+  const { t } = useTranslation()
   const [copied, setCopied] = useState(false)
 
   const handleCopy = async () => {
@@ -31,33 +34,33 @@ export const CodePreviewComponent: React.FC<CodePreviewComponentProps> = ({
     }
   }
 
-  // بسيط: تقسيم الكود إلى أسطر لعرض أرقام الأسطر
+  // Split code into lines for line number display
   const lines = code.split('\n')
 
   return (
-    <div className="code-preview">
-      <div className="code-preview__header">
-        <span className="code-preview__language">{language}</span>
+    <div className={styles.preview}>
+      <div className={styles.header}>
+        <span className={styles.language}>{language}</span>
         <Button
           variant="secondary"
           size="sm"
           onClick={handleCopy}
           leftIcon={copied ? <Check /> : <Copy />}
         >
-          {copied ? 'تم النسخ' : 'نسخ'}
+          {copied ? t('ai.generator.copied') : t('ai.generator.copy')}
         </Button>
       </div>
-      <div className="code-preview__container">
+      <div className={styles.container}>
         {showLineNumbers && (
-          <div className="code-preview__line-numbers">
+          <div className={styles.lineNumbers}>
             {lines.map((_, index) => (
-              <span key={index} className="code-preview__line-number">
+              <span key={index} className={styles.lineNumber}>
                 {index + 1}
               </span>
             ))}
           </div>
         )}
-        <pre className="code-preview__code">
+        <pre className={styles.code}>
           <code className={`language-${language}`}>{code}</code>
         </pre>
       </div>

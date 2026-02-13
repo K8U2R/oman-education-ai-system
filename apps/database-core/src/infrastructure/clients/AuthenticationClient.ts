@@ -32,7 +32,7 @@ export class AuthenticationClient implements IAuthenticationClient {
 
   constructor(config: AuthenticationClientConfig = {}) {
     this.config = {
-      baseUrl: config.baseUrl || process.env.AUTH_SERVICE_URL || 'http://localhost:3000',
+      baseUrl: config.baseUrl || process.env.AUTH_SERVICE_URL || '',
       apiKey: config.apiKey || process.env.AUTH_SERVICE_API_KEY || '',
       timeout: config.timeout || 5000,
       cacheEnabled: config.cacheEnabled ?? true,

@@ -185,15 +185,15 @@ export const Examples: Story = {
           <div style={{ position: 'relative', display: 'inline-block' }}>
             <button
               style={{
-                padding: '0.5rem 1rem',
-                border: '1px solid #d1d5db',
-                borderRadius: '0.375rem',
-                background: 'white',
+                padding: 'var(--spacing-fluid-3, 0.5rem) var(--spacing-fluid-4, 1rem)',
+                border: '1px solid var(--color-border)',
+                borderRadius: 'var(--radius-fluid-md, 0.375rem)',
+                background: 'var(--color-bg-surface)',
               }}
             >
               الرسائل
             </button>
-            <div style={{ position: 'absolute', top: '-8px', right: '-8px' }}>
+            <div style={{ position: 'absolute', top: 'calc(-1 * var(--spacing-fluid-2, -0.5rem))', right: 'calc(-1 * var(--spacing-fluid-2, -0.5rem))' }}>
               <Badge variant="error" size="sm">
                 5
               </Badge>
@@ -202,15 +202,15 @@ export const Examples: Story = {
           <div style={{ position: 'relative', display: 'inline-block' }}>
             <button
               style={{
-                padding: '0.5rem 1rem',
-                border: '1px solid #d1d5db',
-                borderRadius: '0.375rem',
-                background: 'white',
+                padding: 'var(--spacing-fluid-3, 0.5rem) var(--spacing-fluid-4, 1rem)',
+                border: '1px solid var(--color-border)',
+                borderRadius: 'var(--radius-fluid-md, 0.375rem)',
+                background: 'var(--color-bg-surface)',
               }}
             >
               الإشعارات
             </button>
-            <div style={{ position: 'absolute', top: '-8px', right: '-8px' }}>
+            <div style={{ position: 'absolute', top: 'calc(-1 * var(--spacing-fluid-2, -0.5rem))', right: 'calc(-1 * var(--spacing-fluid-2, -0.5rem))' }}>
               <Badge variant="primary" size="sm">
                 12
               </Badge>
@@ -225,10 +225,10 @@ export const Examples: Story = {
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
             <div
               style={{
-                width: '40px',
-                height: '40px',
+                width: '2.5rem',
+                height: '2.5rem',
                 borderRadius: '50%',
-                background: '#e5e7eb',
+                background: 'var(--color-muted)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -243,10 +243,10 @@ export const Examples: Story = {
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
             <div
               style={{
-                width: '40px',
-                height: '40px',
+                width: '2.5rem',
+                height: '2.5rem',
                 borderRadius: '50%',
-                background: '#e5e7eb',
+                background: 'var(--color-muted)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -261,10 +261,10 @@ export const Examples: Story = {
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
             <div
               style={{
-                width: '40px',
-                height: '40px',
+                width: '2.5rem',
+                height: '2.5rem',
                 borderRadius: '50%',
-                background: '#e5e7eb',
+                background: 'var(--color-muted)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',

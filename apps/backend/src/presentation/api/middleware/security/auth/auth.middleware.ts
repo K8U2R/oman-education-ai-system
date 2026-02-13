@@ -95,7 +95,7 @@ export class AuthMiddleware {
       }
 
       // Add user info to request
-      req.userId = payload.userId;
+      (req as any).userId = payload.userId;
 
       req.user = {
         id: payload.userId,
@@ -174,7 +174,7 @@ export class AuthMiddleware {
         const payload = this.tokenService.verifyToken(token);
 
         if (payload && payload.type === "access") {
-          req.userId = payload.userId;
+          (req as any).userId = payload.userId;
         }
       }
     } catch {

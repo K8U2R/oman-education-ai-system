@@ -44,7 +44,7 @@ export interface RouteMetadata {
   icon?: React.ComponentType<{ className?: string }>
 
   /** نوع التخطيط (Layout) المستخدم للصفحة */
-  layout?: 'main' | 'auth' | 'minimal'
+  layout?: 'main' | 'auth' | 'minimal' | 'docs'
 
   /** هل يتم عرض المسار في شريط التنقل أو القوائم الرئيسية؟ */
   showInNav?: boolean

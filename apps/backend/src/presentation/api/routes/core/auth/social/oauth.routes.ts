@@ -1,6 +1,6 @@
 /**
  * OAuth Routes - مسارات المصادقة الخارجية
- * 
+ *
  * @law Law-1 (Modularity) - Domain Encapsulation
  * @law Law-4 (Dynamic Documentation) - Flexible provider description
  */
@@ -35,13 +35,13 @@ const router = RouteFactory.createFeatureRouter();
  *         description: توجيه إلى صفحة تسجيل الدخول
  */
 router.get(
-    "/oauth/:provider",
-    ...RouteFactory.createRoute<OAuthHandler>("OAuthHandler", "initiateOAuth"),
+  "/oauth/:provider",
+  ...RouteFactory.createRoute<OAuthHandler>("OAuthHandler", "initiateOAuth"),
 );
 
 router.get(
-    "/:provider",
-    ...RouteFactory.createRoute<OAuthHandler>("OAuthHandler", "initiateOAuth"),
+  "/:provider",
+  ...RouteFactory.createRoute<OAuthHandler>("OAuthHandler", "initiateOAuth"),
 );
 
 /**
@@ -63,19 +63,19 @@ router.get(
  *         description: توجيه إلى Frontend مع tokens
  */
 router.get(
-    "/oauth/:provider/callback",
-    ...RouteFactory.createRoute<OAuthHandler>(
-        "OAuthHandler",
-        "handleOAuthCallback",
-    ),
+  "/oauth/:provider/callback",
+  ...RouteFactory.createRoute<OAuthHandler>(
+    "OAuthHandler",
+    "handleOAuthCallback",
+  ),
 );
 
 router.get(
-    "/:provider/callback",
-    ...RouteFactory.createRoute<OAuthHandler>(
-        "OAuthHandler",
-        "handleOAuthCallback",
-    ),
+  "/:provider/callback",
+  ...RouteFactory.createRoute<OAuthHandler>(
+    "OAuthHandler",
+    "handleOAuthCallback",
+  ),
 );
 
 /**
@@ -107,11 +107,11 @@ router.get(
  *         description: تبادل ناجح - إرجاع tokens
  */
 router.post(
-    "/oauth/exchange-code",
-    ...RouteFactory.createRoute<OAuthHandler>(
-        "OAuthHandler",
-        "exchangeOAuthCode",
-    ),
+  "/oauth/exchange-code",
+  ...RouteFactory.createRoute<OAuthHandler>(
+    "OAuthHandler",
+    "exchangeOAuthCode",
+  ),
 );
 
 export default router;

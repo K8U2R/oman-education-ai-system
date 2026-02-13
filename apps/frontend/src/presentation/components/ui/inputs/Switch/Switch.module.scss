@@ -1,0 +1,115 @@
+@use '@/styles/abstracts/liquid-variables' as liquid;
+
+.wrapper {
+    display: inline-flex;
+    align-items: center;
+    gap: liquid.$spacing-fluid-4;
+}
+
+.label {
+    font-size: liquid.$font-fluid-sm;
+    color: var(--text-primary, #374151);
+    cursor: pointer;
+    user-select: none;
+}
+
+.switch {
+    position: relative;
+    display: inline-flex;
+    flex-shrink: 0;
+    height: 1.5rem;
+    width: 2.75rem;
+    border: 2px solid transparent;
+    border-radius: 9999px;
+    cursor: pointer;
+    transition: background-color liquid.$transition-fast;
+    background-color: var(--bg-tertiary, #e5e7eb); // Off state
+
+    &:focus-visible {
+        outline: 2px solid var(--primary-500, #3b82f6);
+        outline-offset: 2px;
+    }
+
+    &--checked {
+        background-color: var(--primary-600, #2563eb);
+    }
+
+    &--disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
+    // Sizes (adjust scale if needed, for now standard)
+    &--sm {
+        height: 1.25rem;
+        width: 2.25rem;
+    }
+
+    &--lg {
+        height: 2rem;
+        width: 3.5rem;
+    }
+}
+
+.thumb {
+    pointer-events: none;
+    display: inline-block;
+    height: 100%;
+    width: 50%; // rough calc, better to use fixed height minus padding
+    height: calc(100% - 4px); // minus border/padding
+    width: calc(1.5rem - 4px); // square aspect ratioish based on height
+
+    // Actually simpler:
+    height: 1.25rem;
+    width: 1.25rem;
+    background-color: #ffffff;
+    border-radius: 50%;
+    box-shadow: liquid.$shadow-fluid-sm;
+    transform: translate(0, 0); // Start position
+    transition: transform liquid.$transition-fast;
+
+    // Centering in track
+    position: absolute;
+    top: 50%;
+    left: 2px;
+    transform: translateY(-50%);
+
+    [dir="rtl"] & {
+        left: auto;
+        right: 2px;
+    }
+}
+
+.switch--sm .thumb {
+    height: 1rem;
+    width: 1rem;
+}
+
+.switch--lg .thumb {
+    height: 1.75rem;
+    width: 1.75rem;
+}
+
+.switch--checked .thumb {
+    transform: translate(1.25rem, -50%); // Move right
+
+    [dir="rtl"] & {
+        transform: translate(-1.25rem, -50%); // Move left
+    }
+}
+
+.switch--sm.switch--checked .thumb {
+    transform: translate(1rem, -50%);
+
+    [dir="rtl"] & {
+        transform: translate(-1rem, -50%);
+    }
+}
+
+.switch--lg.switch--checked .thumb {
+    transform: translate(1.5rem, -50%);
+
+    [dir="rtl"] & {
+        transform: translate(-1.5rem, -50%);
+    }
+}

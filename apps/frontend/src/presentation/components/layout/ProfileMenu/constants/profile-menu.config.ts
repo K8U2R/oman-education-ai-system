@@ -1,17 +1,23 @@
 /**
- * ProfileMenu Configuration - تكوين ProfileMenu
+ * ProfileMenu Dynamic Configuration - تكوين القائمة الديناميكي
  *
- * جميع مجموعات وعناصر ProfileMenu منظمة حسب الفئات
+ * ✅ LAW 08 (Secure Closure): Routes encrypted at runtime
+ * ✅ LAW 14 (Package Sovereignty): No static exports
+ * 
+ * Dynamic menu generation with role-based filtering and route encryption
  */
 
 import { User as UserIcon, Settings, Shield, CreditCard, Code, Lock } from 'lucide-react'
 import { ROUTES } from '@/domain/constants/routes.constants'
-import type { ProfileMenuGroup } from '../types'
+import { encryptRoute, isSensitiveRoute } from '@/domain/security/route-encryption'
+import type { ProfileMenuGroup, ProfileMenuItem } from '../types'
+import type { User } from '@/domain/entities/User'
 
 /**
- * جميع مجموعات ProfileMenu
+ * Base menu configuration (PRIVATE - not exported)
+ * Only used internally for menu generation
  */
-export const PROFILE_MENU_GROUPS: ProfileMenuGroup[] = [
+const BASE_MENU_GROUPS: ProfileMenuGroup[] = [
   // 📋 الحساب الشخصي
   {
     id: 'personal',
@@ -96,3 +102,77 @@ export const PROFILE_MENU_GROUPS: ProfileMenuGroup[] = [
     ],
   },
 ]
+
+/**
+ * Check if user has required role
+ */
+function hasRequiredRole(user: User | null, requiredRole?: string): boolean {
+  if (!requiredRole) return true
+  if (!user) return false
+
+  // Check user roles - admin is the highest role
+  return user.role === requiredRole || user.role === 'admin'
+}
+
+/**
+ * Encrypt menu item path if sensitive
+ */
+function encryptMenuItem(item: ProfileMenuItem): ProfileMenuItem {
+  if (isSensitiveRoute(item.path)) {
+    return {
+      ...item,
+      path: encryptRoute(item.path),
+    }
+  }
+  return item
+}
+
+/**
+ * ✅ PUBLIC API - Get dynamic profile menu items with encryption
+ * 
+ * This function:
+ * 1. Filters menu items by user role
+ * 2. Encrypts sensitive routes (admin/developer)
+ * 3. Returns runtime-generated menu structure
+ * 
+ * @param user - Current authenticated user
+ * @returns Filtered and encrypted menu groups
+ * 
+ * @example
+ * ```typescript
+ * // Admin user sees encrypted admin routes
+ * const menuItems = getProfileMenuItems(adminUser)
+ * // menuItems contains: path: '/p/a3b8d1c4f8e9' (encrypted /admin)
+ * 
+ * // Regular user doesn't see admin routes at all
+ * const menuItems = getProfileMenuItems(regularUser)
+ * // menuItems contains only: profile, settings, privacy
+ * ```
+ */
+export function getProfileMenuItems(user: User | null): ProfileMenuGroup[] {
+  return BASE_MENU_GROUPS
+    .map(group => {
+      // Filter group by role
+      if (group.requiredRole && !hasRequiredRole(user, group.requiredRole)) {
+        return null
+      }
+
+      // Filter and encrypt items
+      const filteredItems = group.items
+        .filter(item => hasRequiredRole(user, item.requiredRole))
+        .map(item => encryptMenuItem(item))
+
+      // Skip empty groups
+      if (filteredItems.length === 0) {
+        return null
+      }
+
+      return {
+        ...group,
+        items: filteredItems,
+      }
+    })
+    .filter((group): group is ProfileMenuGroup => group !== null)
+}
+
+

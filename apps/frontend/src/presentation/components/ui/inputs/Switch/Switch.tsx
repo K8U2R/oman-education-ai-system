@@ -4,8 +4,8 @@
  * مكون مفتاح تبديل قابل لإعادة الاستخدام
  */
 
-import React from 'react'
-import { cn } from '../../utils/classNames'
+import React, { useMemo } from 'react'
+import styles from './Switch.module.scss'
 
 export interface SwitchProps {
   checked: boolean
@@ -30,10 +30,19 @@ export const Switch: React.FC<SwitchProps> = ({
     }
   }
 
+  const switchClass = useMemo(() => {
+    return [
+      styles.switch,
+      styles[`switch--${size}`],
+      checked ? styles['switch--checked'] : '',
+      disabled ? styles['switch--disabled'] : ''
+    ].filter(Boolean).join(' ')
+  }, [size, checked, disabled])
+
   return (
-    <div className={cn('switch-wrapper', className)}>
+    <div className={`${styles.wrapper} ${className || ''}`}>
       {label && (
-        <label className="switch-wrapper__label" onClick={handleToggle}>
+        <label className={styles.label} onClick={handleToggle}>
           {label}
         </label>
       )}
@@ -41,16 +50,11 @@ export const Switch: React.FC<SwitchProps> = ({
         type="button"
         role="switch"
         aria-checked={checked}
-        className={cn(
-          'switch',
-          `switch--${size}`,
-          checked && 'switch--checked',
-          disabled && 'switch--disabled'
-        )}
+        className={switchClass}
         onClick={handleToggle}
         disabled={disabled}
       >
-        <span className="switch__thumb" />
+        <span className={styles.thumb} />
       </button>
     </div>
   )

@@ -2,25 +2,28 @@
  * System Services - الخدمات النظامية
  */
 
-export { cacheService } from './cache.service'
-export type { CacheOptions, CacheEntry } from './cache.service'
+// Persistence
+export { enhancedCacheService } from './persistence/enhanced-cache.service'
+export type { EnhancedCacheOptions, EnhancedCacheEntry } from './persistence/enhanced-cache.service'
 
-export { offlineService } from './offline.service'
-export type { OfflineRequest } from './offline.service'
+// Network
+export { offlineService } from './network/offline.service'
+export type { OfflineRequest } from './network/offline.service'
 
-export { backgroundSyncService } from './background-sync.service'
-export type { SyncTask } from './background-sync.service'
+export { backgroundSyncService } from './network/background-sync.service'
+export type { SyncTask } from './network/background-sync.service'
 
-export { ErrorBoundaryService } from './error-boundary.service'
-export type { ErrorBoundaryInfo } from './error-boundary.service'
+// Observability
+export { ErrorBoundaryService } from './observability/error-boundary.service'
+export type { ErrorBoundaryInfo } from './observability/error-boundary.service'
 
-export * from './error-handling.service'
+export * from './observability/error-handling.service'
 
-export { analyticsService } from './analytics.service'
-export type { AnalyticsEvent, PageView } from './analytics.service'
+export { analyticsService } from './observability/analytics.service'
+export type { AnalyticsEvent, PageView } from './observability/analytics.service'
 
-export { performanceService } from './performance.service'
+export { performanceService } from './observability/performance.service'
 export type {
   PerformanceMetric as SystemPerformanceMetric,
   ResourceTiming,
-} from './performance.service'
+} from './observability/performance.service'

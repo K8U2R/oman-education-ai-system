@@ -105,8 +105,8 @@ export const useStyleScanner = () => {
                 // Check for Hex violations
                 if (HEX_COLOR_PATTERN.test(value)) {
                     // Real source detection (no more hardcoded paths)
-                    let sourceHint = 'تحقق من ملفات SCSS للمصدر الفعلي';
-                    let fixRecommendation = 'استبدل القيمة بـ OKLCH في الملف المصدر';
+                    const sourceHint = 'تحقق من ملفات SCSS للمصدر الفعلي';
+                    const fixRecommendation = 'استبدل القيمة بـ OKLCH في الملف المصدر';
 
                     // Only provide specific hints if we can verify the source
                     const hexValue = value.match(HEX_COLOR_PATTERN)?.[0] || value;

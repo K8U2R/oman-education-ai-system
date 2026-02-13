@@ -69,6 +69,7 @@ export class GoogleOAuthRepository
           google_id?: string;
           google_email?: string;
           oauth_provider?: string;
+          planTier: "FREE";
         }
       >("users", {
         google_id: googleId,
@@ -123,6 +124,7 @@ export class GoogleOAuthRepository
           google_email?: string;
           oauth_provider?: string;
           oauth_linked_at?: string;
+          planTier: "FREE";
         } = {
           email: googleUserInfo.email.toLowerCase(),
           password_hash: undefined, // No password for OAuth users
@@ -142,6 +144,7 @@ export class GoogleOAuthRepository
           google_email: googleUserInfo.email,
           oauth_provider: "google",
           oauth_linked_at: new Date().toISOString(),
+          planTier: "FREE",
         };
 
         const inserted = await this.insert<
@@ -150,6 +153,7 @@ export class GoogleOAuthRepository
             google_email?: string;
             oauth_provider?: string;
             oauth_linked_at?: string;
+            planTier: "FREE";
           }
         >("users", {
           ...userData,

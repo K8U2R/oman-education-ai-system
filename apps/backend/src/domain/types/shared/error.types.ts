@@ -197,7 +197,7 @@ export const ErrorHandlerHelper = {
       return {
         message: error.message,
         code: (error as { code?: APIErrorCode }).code || defaultCode,
-        details: error.cause,
+        details: (error as any).cause,
       };
     }
 

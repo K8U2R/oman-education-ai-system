@@ -3,4 +3,4 @@
  * @compliance LAW_05 - Functional organization by domain
  */
 
-export * from './analytics.types.js';
+export * from "./analytics.types.js";

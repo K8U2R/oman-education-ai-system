@@ -1,5 +1,6 @@
 import React from 'react'
 import { User as UserIcon, Calendar } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { Card } from '@/presentation/components/common'
 
 interface PersonalInfoProps {
@@ -18,9 +19,11 @@ export const PersonalInfo: React.FC<PersonalInfoProps> = ({
   username,
   formattedCreatedAt,
 }) => {
+  const { t } = useTranslation()
+
   return (
     <Card className="profile-page__card">
-      <h3 className="profile-page__card-title">المعلومات الشخصية</h3>
+      <h3 className="profile-page__card-title">{t('profile.personal_info')}</h3>
       <div className="profile-page__info-grid">
         {firstName && (
           <div className="profile-page__info-item">
@@ -28,7 +31,7 @@ export const PersonalInfo: React.FC<PersonalInfoProps> = ({
               <UserIcon className="w-5 h-5" />
             </div>
             <div className="profile-page__info-content">
-              <label className="profile-page__info-label">الاسم الأول</label>
+              <label className="profile-page__info-label">{t('auth.first_name_label')}</label>
               <p className="profile-page__info-value">{firstName}</p>
             </div>
           </div>
@@ -40,7 +43,7 @@ export const PersonalInfo: React.FC<PersonalInfoProps> = ({
               <UserIcon className="w-5 h-5" />
             </div>
             <div className="profile-page__info-content">
-              <label className="profile-page__info-label">اسم العائلة</label>
+              <label className="profile-page__info-label">{t('auth.last_name_label')}</label>
               <p className="profile-page__info-value">{lastName}</p>
             </div>
           </div>
@@ -52,7 +55,7 @@ export const PersonalInfo: React.FC<PersonalInfoProps> = ({
               <UserIcon className="w-5 h-5" />
             </div>
             <div className="profile-page__info-content">
-              <label className="profile-page__info-label">اسم المستخدم</label>
+              <label className="profile-page__info-label">{t('auth.username_label')}</label>
               <p className="profile-page__info-value">{username}</p>
             </div>
           </div>
@@ -63,7 +66,7 @@ export const PersonalInfo: React.FC<PersonalInfoProps> = ({
             <Calendar className="w-5 h-5" />
           </div>
           <div className="profile-page__info-content">
-            <label className="profile-page__info-label">تاريخ الإنشاء</label>
+            <label className="profile-page__info-label">{t('profile.member_since')}</label>
             <p className="profile-page__info-value">{formattedCreatedAt}</p>
           </div>
         </div>

@@ -4,7 +4,7 @@
  * TypeScript types لنظام المشاريع التعليمية
  */
 
-import type { BaseEntity } from "./common.types";
+import type { BaseEntity } from "../../shared/common.types.js";
 
 /**
  * نوع المشروع

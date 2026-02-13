@@ -6,7 +6,7 @@
 
 import React, { useMemo } from 'react'
 import { InputProps } from '../types'
-import { cn, variantClass, sizeClass } from '../../utils/classNames'
+import styles from './Input.module.scss'
 
 const Input: React.FC<InputProps> = React.memo(
   ({
@@ -22,44 +22,47 @@ const Input: React.FC<InputProps> = React.memo(
     ...props
   }) => {
     const inputClasses = useMemo(() => {
-      const baseClass = 'input'
-      const variantClassName = variantClass(baseClass, variant)
-      const sizeClassName = sizeClass(baseClass, size)
-      const hasIcon = Boolean(leftIcon || rightIcon)
+      // Maps variants if needed, for now mainly 'default' or 'error' state
+      const sizeClass = styles[`input--${size}`] || styles['input--md']
 
-      return cn(
-        baseClass,
-        variantClassName,
-        sizeClassName,
-        error && `${baseClass}--error`,
-        hasIcon && `${baseClass}--has-icon`,
-        fullWidth && `${baseClass}--full-width`,
+      return [
+        styles.input,
+        sizeClass,
+        error ? styles['input--error'] : '',
         className
-      )
-    }, [variant, size, error, leftIcon, rightIcon, fullWidth, className])
+      ].filter(Boolean).join(' ')
+    }, [size, error, className])
 
     const wrapperClasses = useMemo(
-      () => cn('input-wrapper', fullWidth && 'input-wrapper--full-width'),
+      () => [
+        styles.wrapper,
+        fullWidth ? styles['wrapper--full-width'] : ''
+      ].filter(Boolean).join(' '),
       [fullWidth]
     )
 
     return (
       <div className={wrapperClasses}>
-        {label && <label className="input-wrapper__label">{label}</label>}
+        {label && <label className={styles.label}>{label}</label>}
 
-        <div className="input-wrapper__container">
+        <div className={styles.container}>
           {leftIcon && (
-            <div className="input-wrapper__icon input-wrapper__icon--left">{leftIcon}</div>
+            <div className={`${styles.icon} ${styles['icon--left']}`}>{leftIcon}</div>
           )}
-          <input className={inputClasses} {...props} />
+          <input
+            className={inputClasses}
+            {...props}
+            data-has-left-icon={!!leftIcon}
+            data-has-right-icon={!!rightIcon}
+          />
           {rightIcon && (
-            <div className="input-wrapper__icon input-wrapper__icon--right">{rightIcon}</div>
+            <div className={`${styles.icon} ${styles['icon--right']}`}>{rightIcon}</div>
           )}
         </div>
 
-        {error && <p className="input-wrapper__error">{error}</p>}
+        {error && <p className={styles.errorText}>{error}</p>}
 
-        {helperText && !error && <p className="input-wrapper__helper">{helperText}</p>}
+        {helperText && !error && <p className={styles.helperText}>{helperText}</p>}
       </div>
     )
   }

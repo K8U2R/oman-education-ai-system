@@ -1,0 +1,49 @@
+@use '@/styles/abstracts/liquid-variables' as liquid;
+
+.label {
+    display: inline-flex;
+    align-items: center;
+    gap: liquid.$spacing-fluid-3;
+    cursor: pointer;
+    user-select: none;
+
+    &--disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+}
+
+.input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+
+    &:focus+.checkmark {
+        box-shadow: 0 0 0 2px var(--primary-100, #dbeafe);
+        border-color: var(--primary-500, #3b82f6);
+    }
+}
+
+.checkmark {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.25rem;
+    height: 1.25rem;
+    border: 1px solid var(--border-primary, #d1d5db);
+    border-radius: liquid.$radius-fluid-md;
+    background-color: var(--bg-surface, #ffffff);
+    transition: all liquid.$transition-fast;
+    color: #ffffff;
+
+    &--checked {
+        background-color: var(--primary-600, #2563eb);
+        border-color: var(--primary-600, #2563eb);
+    }
+}
+
+.labelText {
+    font-size: liquid.$font-fluid-sm;
+    color: var(--text-primary, #374151);
+}

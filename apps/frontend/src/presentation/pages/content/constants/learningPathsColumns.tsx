@@ -6,6 +6,7 @@
 
 import React from 'react'
 import { Edit, Trash2, Eye } from 'lucide-react'
+import { TFunction } from 'i18next'
 import { Button } from '../../../components/common'
 import type { DataTableColumn } from '../../../components/data'
 import { ProtectedButton } from '../../../components/auth'
@@ -31,6 +32,11 @@ export interface CreateLearningPathsColumnsOptions {
    * دالة فتح modal الحذف
    */
   onDelete: (path: LearningPath) => void
+
+  /**
+   * Translation function
+   */
+  t: TFunction
 }
 
 /**
@@ -42,50 +48,50 @@ export interface CreateLearningPathsColumnsOptions {
 export function createLearningPathsColumns(
   options: CreateLearningPathsColumnsOptions
 ): DataTableColumn<LearningPath>[] {
-  const { getSubjectName, getGradeLevelName, navigate, onDelete } = options
+  const { getSubjectName, getGradeLevelName, navigate, onDelete, t } = options
 
   return [
     {
       key: 'name',
-      label: 'الاسم',
+      label: t('content_management.learning_paths.table.name', 'الاسم'),
       sortable: true,
       render: (value, row): React.ReactNode => (
         <div className="learning-paths-management-page__name-cell">
           <strong>{value as string}</strong>
           {!row.is_published && (
-            <span className="learning-paths-management-page__draft-badge">مسودة</span>
+            <span className="learning-paths-management-page__draft-badge">{t('content_management.common.draft', 'مسودة')}</span>
           )}
         </div>
       ),
     },
     {
       key: 'description',
-      label: 'الوصف',
+      label: t('content_management.learning_paths.table.description', 'الوصف'),
       render: (value): React.ReactNode => (value as string) || '-',
     },
     {
       key: 'subject_id',
-      label: 'المادة',
+      label: t('content_management.learning_paths.table.subject', 'المادة'),
       render: (value): React.ReactNode => getSubjectName(value as string),
     },
     {
       key: 'grade_level_id',
-      label: 'المستوى',
+      label: t('content_management.learning_paths.table.grade', 'المستوى'),
       render: (value): React.ReactNode => getGradeLevelName(value as string),
     },
     {
       key: 'lessons',
-      label: 'عدد الدروس',
+      label: t('content_management.learning_paths.table.lessons_count', 'عدد الدروس'),
       render: value => (Array.isArray(value) ? value.length : 0),
     },
     {
       key: 'order',
-      label: 'الترتيب',
+      label: t('content_management.learning_paths.table.order', 'الترتيب'),
       sortable: true,
     },
     {
       key: 'actions',
-      label: 'الإجراءات',
+      label: t('content_management.common.actions', 'الإجراءات'),
       render: (_, row) => (
         <div className="learning-paths-management-page__actions">
           <Button
@@ -94,7 +100,7 @@ export function createLearningPathsColumns(
             onClick={() => navigate(`/content/learning-paths/${row.id}`)}
             leftIcon={<Eye />}
           >
-            عرض
+            {t('common.view', 'عرض')}
           </Button>
           <ProtectedButton
             variant="ghost"
@@ -103,7 +109,7 @@ export function createLearningPathsColumns(
             leftIcon={<Edit />}
             requiredPermissions={['lessons.update', 'lessons.manage']}
           >
-            تعديل
+            {t('common.edit', 'تعديل')}
           </ProtectedButton>
           <ProtectedButton
             variant="ghost"
@@ -112,7 +118,7 @@ export function createLearningPathsColumns(
             leftIcon={<Trash2 />}
             requiredPermissions={['lessons.delete', 'lessons.manage']}
           >
-            حذف
+            {t('common.delete', 'حذف')}
           </ProtectedButton>
         </div>
       ),
