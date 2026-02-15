@@ -25,12 +25,37 @@
   - وإلغاء استيراد `profile` من `src/styles/main.scss`.
 
 #### Frontend — TypeScript Cleanup (جاري)
+
+**آخر تحديث:** 2026-02-15 23:53 (Asia/Calcutta)
+
 - ✅ إصلاح imports المكسورة في صفحات Tools:
   - `CodeGenerator.tsx` و `OfficeGenerator.tsx` صاروا يستوردون `PageHeader` من `@/presentation/pages/components`.
-- ✅ إصلاح جزء من أخطاء LessonDetailPage:
-  - تصحيح `useLessonDetail` ليشير إلى `useLessonDetailLogic`.
-  - إصلاح/تطبيع بعض types في Tabs (Videos/MindMap/Examples/Explanation).
+
+- ✅ إصلاحات Learning/LessonDetailPage (دفعة 1):
+  - تصحيح الاستيراد إلى `useLessonDetailLogic` بدل `useLessonDetail`.
+  - إصلاح/تطبيع types في Tabs (Videos/MindMap/Examples/Explanation) وإزالة implicit any.
   - إصلاح export المكسور في `LessonVideoPlayer.index.ts`.
+
+- ✅ إصلاحات Learning/Assessments (دفعة 2):
+  - `Learning.index.ts`: تصحيح barrel exports لاستخدام `default as ...` للصفحات.
+  - `useAssessmentsPageLogic`: ضبط أنواع الفلاتر `typeFilter/statusFilter` لتتوافق مع `AssessmentType/AssessmentStatus`.
+  - `useAssessmentTakeLogic`: إسكات متغيرات غير مستخدمة (مثل setters).
+
+- ✅ إصلاحات Learning/AssessmentForm & Results (دفعة 3):
+  - `AssessmentFormPage/hooks/useAssessmentFormLogic.ts`: تحويله إلى re-export من `core/useAssessmentForm` مع تصدير `AssessmentFormData`.
+  - `AssessmentResultsPage/hooks/useAssessmentResultsLogic.ts`: إضافة type `SubmissionAnswer` وضبط شكل `answers`.
+
+- ✅ إصلاحات Learning/AssessmentDetail (دفعة 4):
+  - `useAssessmentDetailLogic`: استبدال placeholder types بـ types الرسمية + إضافة helpers:
+    `getTypeLabel/getStatusLabel/formatTimeLimit/formatQuestionType`.
+
+- ✅ إصلاحات Auth (دفعة 5 - جزئية):
+  - إضافة placeholder exports في `Login/OAuthCallback/Register` hooks (لتصبح Modules صالحة).
+  - إصلاح مسارات barrel exports:
+    - `auth/shared/index.ts` → AuthLayout path صحيح
+    - `auth/verification/components/index.ts` → paths صحيحة
+  - إصلاح import path في `OAuthCallbackHandler` إلى `AuthDiagnosticViews/AuthDiagnosticViews`.
+  - إزالة متغيرات ترجمة غير مستخدمة (t) في بعض الملفات.
 
 ### 🟡 ملاحظات (مهم)
 - `npm run type-check` في `apps/frontend` ما زال يفشل بسبب أخطاء TypeScript قديمة في صفحات التعلم (Assessments وغيرها).
