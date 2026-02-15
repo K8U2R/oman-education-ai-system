@@ -3,6 +3,8 @@ import { User as UserIcon, Calendar } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { Card } from '@/presentation/components/common'
 
+import styles from './PersonalInfo.module.scss'
+
 interface PersonalInfoProps {
   firstName?: string
   lastName?: string
@@ -22,52 +24,52 @@ export const PersonalInfo: React.FC<PersonalInfoProps> = ({
   const { t } = useTranslation()
 
   return (
-    <Card className="profile-page__card">
-      <h3 className="profile-page__card-title">{t('profile.personal_info')}</h3>
-      <div className="profile-page__info-grid">
+    <Card className={styles.card}>
+      <h3 className={styles.title}>{t('profile.personal_info')}</h3>
+      <div className={styles.grid}>
         {firstName && (
-          <div className="profile-page__info-item">
-            <div className="profile-page__info-icon">
+          <div className={styles.item}>
+            <div className={styles.icon}>
               <UserIcon className="w-5 h-5" />
             </div>
-            <div className="profile-page__info-content">
-              <label className="profile-page__info-label">{t('auth.first_name_label')}</label>
-              <p className="profile-page__info-value">{firstName}</p>
+            <div className={styles.content}>
+              <label className={styles.label}>{t('auth.first_name_label')}</label>
+              <p className={styles.value}>{firstName}</p>
             </div>
           </div>
         )}
 
         {lastName && (
-          <div className="profile-page__info-item">
-            <div className="profile-page__info-icon">
+          <div className={styles.item}>
+            <div className={styles.icon}>
               <UserIcon className="w-5 h-5" />
             </div>
-            <div className="profile-page__info-content">
-              <label className="profile-page__info-label">{t('auth.last_name_label')}</label>
-              <p className="profile-page__info-value">{lastName}</p>
+            <div className={styles.content}>
+              <label className={styles.label}>{t('auth.last_name_label')}</label>
+              <p className={styles.value}>{lastName}</p>
             </div>
           </div>
         )}
 
         {username && (
-          <div className="profile-page__info-item">
-            <div className="profile-page__info-icon">
+          <div className={styles.item}>
+            <div className={styles.icon}>
               <UserIcon className="w-5 h-5" />
             </div>
-            <div className="profile-page__info-content">
-              <label className="profile-page__info-label">{t('auth.username_label')}</label>
-              <p className="profile-page__info-value">{username}</p>
+            <div className={styles.content}>
+              <label className={styles.label}>{t('auth.username_label')}</label>
+              <p className={styles.value}>{username}</p>
             </div>
           </div>
         )}
 
-        <div className="profile-page__info-item">
-          <div className="profile-page__info-icon">
+        <div className={styles.item}>
+          <div className={styles.icon}>
             <Calendar className="w-5 h-5" />
           </div>
-          <div className="profile-page__info-content">
-            <label className="profile-page__info-label">{t('profile.member_since')}</label>
-            <p className="profile-page__info-value">{formattedCreatedAt}</p>
+          <div className={styles.content}>
+            <label className={styles.label}>{t('profile.member_since')}</label>
+            <p className={styles.value}>{formattedCreatedAt}</p>
           </div>
         </div>
       </div>

@@ -3,6 +3,8 @@ import { Mail, Shield as ShieldIcon, User as UserIcon } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { Card } from '@/presentation/components/common'
 
+import styles from './AccountInfo.module.scss'
+
 interface AccountInfoProps {
   email: string
   role: string
@@ -40,38 +42,47 @@ export const AccountInfo: React.FC<AccountInfoProps> = ({ email, role, isActive,
   }
 
   return (
-    <Card className="profile-page__card">
-      <h3 className="profile-page__card-title">{t('profile.account_info')}</h3>
-      <div className="profile-page__info-grid">
-        <div className="profile-page__info-item">
-          <div className="profile-page__info-icon">
+    <Card className={styles.card}>
+      <h3 className={styles.title}>{t('profile.account_info')}</h3>
+      <div className={styles.grid}>
+        <div className={styles.item}>
+          <div className={styles.icon}>
             <Mail className="w-5 h-5" />
           </div>
-          <div className="profile-page__info-content">
-            <label className="profile-page__info-label">{t('profile.email')}</label>
-            <p className="profile-page__info-value">{email}</p>
+          <div className={styles.content}>
+            <label className={styles.label}>{t('profile.email')}</label>
+            <p className={styles.value}>{email}</p>
           </div>
         </div>
 
-        <div className="profile-page__info-item">
-          <div className="profile-page__info-icon">
+        <div className={styles.item}>
+          <div className={styles.icon}>
             <ShieldIcon className="w-5 h-5" />
           </div>
-          <div className="profile-page__info-content">
-            <label className="profile-page__info-label">{t('profile.role')}</label>
-            <p className="profile-page__info-value">{getRoleLabel(role)}</p>
+          <div className={styles.content}>
+            <label className={styles.label}>{t('profile.role')}</label>
+            <p className={styles.value}>{getRoleLabel(role)}</p>
           </div>
         </div>
 
-        <div className="profile-page__info-item">
-          <div className="profile-page__info-icon">
+        <div className={styles.item}>
+          <div className={styles.icon}>
             <UserIcon className="w-5 h-5" />
           </div>
-          <div className="profile-page__info-content">
-            <label className="profile-page__info-label">{t('profile.status')}</label>
-            <p className="profile-page__info-value">
-              {isActive ? t('profile.active') : t('profile.inactive')}
-              {isVerified ? ` • ${t('profile.verified')}` : ` • ${t('profile.not_verified')}`}
+          <div className={styles.content}>
+            <label className={styles.label}>{t('profile.status')}</label>
+            <p className={styles.value}>
+              <span
+                className={`${styles.statusBadge} ${isActive ? styles.statusActive : styles.statusInactive}`}
+              >
+                {isActive ? t('profile.active') : t('profile.inactive')}
+              </span>
+              <span> • </span>
+              <span
+                className={`${styles.statusBadge} ${isVerified ? styles.statusActive : styles.statusInactive}`}
+              >
+                {isVerified ? t('profile.verified') : t('profile.not_verified')}
+              </span>
             </p>
           </div>
         </div>

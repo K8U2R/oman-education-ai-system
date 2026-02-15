@@ -1,0 +1,75 @@
+@use '@/styles/abstracts/liquid-variables' as liquid;
+@use '@/styles/abstracts/mixins' as *;
+
+.card {
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-block-end: var(--space-6);
+  padding-block-end: var(--space-3);
+  border-bottom: 1px solid hsl(var(--border) / 0.5);
+  font-size: 1.125rem;
+  font-weight: var(--font-weight-semibold);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15.625rem, 1fr)); /* 250px */
+  gap: var(--space-6);
+}
+
+.item {
+  display: flex;
+  gap: var(--space-3);
+  align-items: flex-start;
+}
+
+.icon {
+  color: hsl(var(--primary));
+  margin-block-start: 0.125rem;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.label {
+  font-size: 0.875rem;
+  color: hsl(var(--muted-foreground));
+}
+
+.value {
+  font-size: 1rem;
+  font-weight: var(--font-weight-medium);
+  color: hsl(var(--foreground));
+}
+
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-full);
+  font-size: 0.75rem;
+  font-weight: var(--font-weight-bold);
+}
+
+.statusActive {
+  background: hsl(var(--color-success) / 0.1);
+  color: hsl(var(--color-success));
+  border: 1px solid hsl(var(--color-success) / 0.2);
+}
+
+.statusInactive {
+  background: hsl(var(--color-error) / 0.1);
+  color: hsl(var(--color-error));
+  border: 1px solid hsl(var(--color-error) / 0.2);
+}

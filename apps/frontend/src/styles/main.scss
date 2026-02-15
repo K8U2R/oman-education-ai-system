@@ -42,7 +42,7 @@
 // @use './pages/dashboard'; // Migrated to StudentDashboard.module.scss
 @use './pages/assessments';
 @use './pages/lessons';
-@use './pages/profile';
+// @use './pages/profile'; // Migrated to profile component modules
 @use './pages/content_management';
 // @use './pages/admin'; // Migrated to AdminDashboardPage.module.scss, etc.
 @use './pages/system';

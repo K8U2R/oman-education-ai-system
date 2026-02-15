@@ -1,6 +1,8 @@
 import React from 'react'
 import { Card, OptimizedImage } from '@/presentation/components/common'
 
+import styles from './ProfileAvatar.module.scss'
+
 interface ProfileAvatarProps {
   avatarUrl?: string
   displayName: string
@@ -18,25 +20,28 @@ export const ProfileAvatar: React.FC<ProfileAvatarProps> = ({
   email,
 }) => {
   return (
-    <Card className="profile-page__card profile-page__card--avatar">
-      <div className="profile-page__avatar-section">
-        {avatarUrl ? (
-          <OptimizedImage
-            src={avatarUrl}
-            alt={displayName}
-            className="profile-page__avatar"
-            loading="lazy"
-            width={120}
-            height={120}
-            objectFit="cover"
-            fallback="/logo.png"
-          />
-        ) : (
-          <div className="profile-page__avatar-placeholder">{initials}</div>
-        )}
-        <div className="profile-page__avatar-info">
-          <h2 className="profile-page__avatar-name">{displayName}</h2>
-          <p className="profile-page__avatar-email">{email}</p>
+    <Card className={styles.card}>
+      <div className={styles.avatarSection}>
+        <div className={styles.imageWrapper}>
+          {avatarUrl ? (
+            <OptimizedImage
+              src={avatarUrl}
+              alt={displayName}
+              className={styles.avatar}
+              loading="lazy"
+              width={120}
+              height={120}
+              objectFit="cover"
+              fallback="/logo.png"
+            />
+          ) : (
+            <div className={styles.avatarPlaceholder}>{initials}</div>
+          )}
+        </div>
+
+        <div className={styles.info}>
+          <h2 className={styles.name}>{displayName}</h2>
+          <p className={styles.email}>{email}</p>
         </div>
       </div>
     </Card>
