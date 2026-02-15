@@ -48,7 +48,7 @@
 @use './pages/system';
 @use './pages/security_monitoring';
 @use './pages/security_analytics';
-@use './pages/error-pages';
+// @use './pages/error-pages'; // Migrated to BaseErrorPage.module.scss
 
 // 3. Engine (Sovereign Style System)
 @use './engine/generator';

@@ -14,6 +14,10 @@ import { useAuth } from '@/features/user-authentication-management'
 import { ENV as envConfig } from '@/config/env'
 import { loggingService } from '@/infrastructure/services'
 
+import styles from './BaseErrorPage.module.scss'
+
+const cx = (...classes: Array<string | false | null | undefined>) =>
+  classes.filter(Boolean).join(' ')
 
 export interface BaseErrorPageProps {
   /** نوع الخطأ */
@@ -121,57 +125,52 @@ export const BaseErrorPage: React.FC<BaseErrorPageProps> = ({
   const getIconColorClass = () => {
     switch (iconColor) {
       case 'warning':
-        return 'base-error-page__icon-circle--warning'
+        return styles.iconCircleWarning
       case 'info':
-        return 'base-error-page__icon-circle--info'
+        return styles.iconCircleInfo
       default:
-        return 'base-error-page__icon-circle--error'
+        return styles.iconCircleError
     }
   }
 
   return (
-    <div className={`base-error-page base-error-page--${type}`}>
-      <div className="base-error-page__container">
-        <div className="base-error-page__content">
+    <div className={styles.baseErrorPage} data-error-type={type}>
+      <div className={styles.container}>
+        <div className={styles.content}>
           {/* Icon */}
-          <div className="base-error-page__icon-wrapper">
-            <div className={`base-error-page__icon-circle ${getIconColorClass()}`}>
-              <Icon className="base-error-page__icon" />
+          <div className={styles.iconWrapper}>
+            <div className={cx(styles.iconCircle, getIconColorClass())}>
+              <Icon className={styles.icon} />
             </div>
           </div>
 
           {/* Title */}
-          <h1 className="base-error-page__title">{title}</h1>
+          <h1 className={styles.title}>{title}</h1>
 
           {/* Message */}
-          <div className="base-error-page__message-wrapper">
-            <p className="base-error-page__message">{message}</p>
-            {secondaryMessage && (
-              <p className="base-error-page__message-secondary">{secondaryMessage}</p>
-            )}
+          <div className={styles.messageWrapper}>
+            <p className={styles.message}>{message}</p>
+            {secondaryMessage && <p className={styles.messageSecondary}>{secondaryMessage}</p>}
             {attemptedPath && attemptedPath !== location.pathname && (
-              <div className="base-error-page__attempted-path">
+              <div className={styles.attemptedPath}>
                 <span>المسار المطلوب: {attemptedPath}</span>
               </div>
             )}
           </div>
 
           {/* Development Details */}
-          {/* عرض معلومات التطوير فقط إذا كان مسموحاً عبر إعدادات البيئة */}
           {showErrorDetails && isDevelopment && showDevDetails && devDetailsContent && (
-            <div className="base-error-page__dev-details">{devDetailsContent}</div>
+            <div className={styles.devDetails}>{devDetailsContent}</div>
           )}
 
           {/* Actions */}
-          <div className="base-error-page__actions">
+          <div className={styles.actions}>
             {isAuthenticated && showRefreshButton ? (
               <>
                 <Button
                   variant="primary"
                   onClick={handleRefreshUser}
-                  leftIcon={
-                    <RefreshCw className={`w-5 h-5 ${isRefreshing ? 'animate-spin' : ''}`} />
-                  }
+                  leftIcon={<RefreshCw className={cx('w-5 h-5', isRefreshing && 'animate-spin')} />}
                   size="lg"
                   disabled={isRefreshing}
                 >
