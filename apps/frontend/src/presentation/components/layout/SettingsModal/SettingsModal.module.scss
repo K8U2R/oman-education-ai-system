@@ -1,6 +1,5 @@
 @use '@/styles/abstracts/liquid-variables' as liquid;
-@use '@/styles/abstracts/variables' as *;
-@use '@/styles/abstracts/mixins' as *;
+@use '@/styles/abstracts/engine-helpers' as *;
 
 .wrapper {
     display: flex;
@@ -105,7 +104,8 @@
     &--active {
         background-color: var(--color-primary-50);
         color: var(--color-primary);
-        font-weight: $font-weight-medium;
+        color: var(--color-primary);
+        font-weight: liquid.$font-weight-medium;
 
         .navIcon {
             color: var(--color-primary);

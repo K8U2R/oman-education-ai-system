@@ -1,0 +1,77 @@
+@use '@/styles/abstracts/liquid-variables' as liquid;
+@use '@/styles/abstracts/mixins' as *;
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: liquid.$color-background;
+    padding: liquid.$spacing-fluid-md;
+}
+
+.content {
+    margin-block-start: liquid.$spacing-fluid-xl;
+    text-align: center;
+    max-width: 28rem;
+}
+
+.message {
+    font-size: liquid.$font-size-lg;
+    font-weight: 500;
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+
+    @keyframes pulse {
+
+        0%,
+        100% {
+            opacity: 1;
+        }
+
+        50% {
+            opacity: .5;
+        }
+    }
+}
+
+.debugInfo {
+    margin-block-start: liquid.$spacing-fluid-xl;
+    padding: liquid.$spacing-fluid-sm;
+    background-color: liquid.$color-surface-variant;
+    border-radius: liquid.$radius-md;
+    border: 1px solid liquid.$color-border;
+    text-align: start;
+    max-height: 16rem;
+    overflow: auto;
+}
+
+.debugTitle {
+    font-size: liquid.$font-size-xs;
+    font-weight: 700;
+    color: liquid.$color-error;
+    margin-block-end: liquid.$spacing-fluid-xs;
+    text-transform: uppercase;
+}
+
+.debugPre {
+    font-size: 10px;
+    white-space: pre-wrap;
+    word-break: break-all;
+}
+
+.retryButton {
+    margin-block-start: liquid.$spacing-fluid-md;
+    width: 100%;
+    padding-block: liquid.$spacing-fluid-sm;
+    background-color: liquid.$color-primary;
+    color: liquid.$color-text-on-primary;
+    border-radius: liquid.$radius-sm;
+    font-size: liquid.$font-size-sm;
+    transition: all 0.2s;
+    box-shadow: liquid.$shadow-md;
+
+    &:hover {
+        background-color: liquid.$color-primary-dark;
+    }
+}

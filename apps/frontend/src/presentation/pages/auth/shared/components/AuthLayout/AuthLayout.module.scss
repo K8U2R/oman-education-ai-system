@@ -1,0 +1,67 @@
+@use '@/styles/abstracts/liquid-variables' as liquid;
+
+.container {
+    display: flex;
+    min-height: 100vh;
+    align-items: center;
+    justify-content: center;
+    background-color: liquid.$color-background;
+}
+
+.error-banner {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: liquid.$spacing-fluid-sm;
+    padding: liquid.$spacing-fluid-md;
+    margin-block-end: liquid.$spacing-fluid-lg;
+    border: 1px solid liquid.$color-error;
+    background-color: color-mix(in srgb, liquid.$color-error, transparent 95%);
+    border-radius: liquid.$radius-md;
+    color: liquid.$color-text-primary;
+    direction: ltr;
+    transition: all 0.3s ease;
+    box-shadow: liquid.$shadow-sm;
+
+    &__icon-wrapper {
+        padding: liquid.$spacing-fluid-xs;
+        border-radius: liquid.$radius-full;
+        background-color: color-mix(in srgb, liquid.$color-error, transparent 90%);
+    }
+
+    &__icon {
+        width: 20px;
+        height: 20px;
+        color: liquid.$color-error;
+    }
+
+    &__content {
+        flex: 1;
+    }
+
+    &__title {
+        font-size: liquid.$font-size-sm;
+        font-weight: liquid.$font-weight-bold;
+        color: darken(liquid.$color-error, 20%);
+        margin: 0;
+    }
+
+    &__message {
+        font-size: liquid.$font-size-xs;
+        margin-block-start: liquid.$spacing-fluid-2xs;
+        color: liquid.$color-text-secondary;
+    }
+
+    &__code {
+        display: block;
+        margin-block-start: liquid.$spacing-fluid-xs;
+        font-size: 10px;
+        padding: 2px 6px;
+        border-radius: liquid.$radius-sm;
+        font-family: monospace;
+        border: 1px solid color-mix(in srgb, liquid.$color-error, transparent 90%);
+        background-color: color-mix(in srgb, liquid.$color-error, transparent 95%);
+        color: liquid.$color-error;
+        width: fit-content;
+    }
+}

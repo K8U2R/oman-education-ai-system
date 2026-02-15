@@ -1,0 +1,181 @@
+@use '@/styles/abstracts/engine-fluid-metrics' as *;
+
+/**
+ * RecommendedLessons Component - SCSS
+ * 
+ * ✅ Liquid SCSS system compliant
+ * ✅ CSS custom properties for theming
+ */
+
+.recommended-lessons {
+    margin-top: $spacing-fluid-10;
+
+    &__header {
+        display: flex;
+        align-items: center;
+        gap: $gap-fluid-sm;
+        margin-bottom: $spacing-fluid-6;
+
+        svg {
+            width: $spacing-fluid-6;
+            height: $spacing-fluid-6;
+            color: hsl(var(--primary));
+        }
+    }
+
+    &__title {
+        font-size: $font-fluid-xl;
+        font-weight: 600;
+        color: hsl(var(--foreground));
+        margin: 0;
+    }
+
+    &__grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr));
+        gap: $gap-fluid-lg;
+    }
+
+    &__loading,
+    &__error,
+    &__empty {
+        padding: $spacing-fluid-10;
+        text-align: center;
+    }
+
+    &__loading {
+        svg {
+            width: $spacing-fluid-10;
+            height: $spacing-fluid-10;
+            margin: 0 auto;
+            color: hsl(var(--primary));
+        }
+
+        p {
+            margin-top: $spacing-fluid-5;
+            color: hsl(var(--muted-foreground));
+        }
+    }
+
+    &__error {
+        padding: $spacing-fluid-8;
+        background: hsl(var(--destructive) / 0.1);
+        border: 1px solid hsl(var(--destructive));
+        border-radius: $radius-fluid-md;
+        color: hsl(var(--destructive-foreground));
+    }
+
+    &__empty {
+        background: hsl(var(--muted));
+        border-radius: $radius-fluid-md;
+        border: 1px dashed hsl(var(--border));
+
+        svg {
+            width: clamp(2.5rem, 6vw, 3rem);
+            height: clamp(2.5rem, 6vw, 3rem);
+            margin: 0 auto;
+            color: hsl(var(--muted-foreground));
+        }
+
+        p {
+            margin-top: $spacing-fluid-5;
+            color: hsl(var(--muted-foreground));
+
+            &:last-child {
+                font-size: $font-fluid-sm;
+                color: hsl(var(--muted-foreground) / 0.7);
+                margin-top: $spacing-fluid-3;
+            }
+        }
+    }
+}
+
+.recommendation-card {
+    background: hsl(var(--card));
+    border: 1px solid hsl(var(--border));
+    border-radius: $radius-fluid-xl;
+    padding: $spacing-fluid-6;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 $shadow-fluid-offset-sm $shadow-fluid-blur-sm rgba(0, 0, 0, 0.1);
+
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 $shadow-fluid-offset-md $shadow-fluid-blur-lg rgba(0, 0, 0, 0.15);
+        border-color: hsl(var(--primary));
+    }
+
+    &__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: $spacing-fluid-4;
+    }
+
+    &__badge {
+        display: flex;
+        align-items: center;
+        gap: $gap-fluid-xs;
+        padding: $spacing-fluid-2 $spacing-fluid-4;
+        border-radius: $radius-fluid-xl;
+        font-size: $font-fluid-xs;
+        font-weight: 600;
+
+        &--high {
+            background: hsl(var(--success) / 0.1);
+            color: hsl(var(--success));
+        }
+
+        &--medium {
+            background: hsl(var(--info) / 0.1);
+            color: hsl(var(--info));
+        }
+
+        svg {
+            width: $spacing-fluid-3;
+            height: $spacing-fluid-3;
+        }
+    }
+
+    &__duration {
+        display: flex;
+        align-items: center;
+        gap: $gap-fluid-xs;
+        color: hsl(var(--muted-foreground));
+        font-size: $font-fluid-xs;
+
+        svg {
+            width: $spacing-fluid-3;
+            height: $spacing-fluid-3;
+        }
+    }
+
+    &__title {
+        font-size: $font-fluid-base;
+        font-weight: 600;
+        color: hsl(var(--foreground));
+        margin-bottom: $spacing-fluid-3;
+        line-height: $line-height-fluid-tight;
+    }
+
+    &__description {
+        font-size: $font-fluid-sm;
+        color: hsl(var(--muted-foreground));
+        line-height: $line-height-fluid-normal;
+        margin-bottom: $spacing-fluid-4;
+    }
+
+    &__metadata {
+        display: flex;
+        gap: $gap-fluid-sm;
+        flex-wrap: wrap;
+    }
+
+    &__tag {
+        padding: $spacing-fluid-2 $spacing-fluid-4;
+        background: hsl(var(--muted));
+        color: hsl(var(--muted-foreground));
+        border-radius: $radius-fluid-sm;
+        font-size: $font-fluid-xs;
+    }
+}

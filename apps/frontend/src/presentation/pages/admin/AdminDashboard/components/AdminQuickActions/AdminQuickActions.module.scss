@@ -1,0 +1,46 @@
+@use '@/styles/abstracts/engine-fluid-metrics' as liquid;
+@use '@/styles/abstracts/foundation-colors' as *;
+
+.admin-quick-actions {
+    margin-bottom: var(--space-2xl);
+
+    &__title {
+        font-size: 1.25rem;
+        font-weight: var(--font-weight-bold);
+        margin-bottom: var(--space-lg);
+        color: hsl(var(--foreground));
+    }
+
+    &__grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: var(--space-lg);
+    }
+
+    &__card {
+        padding: var(--space-lg);
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-sm);
+        height: 100%;
+    }
+
+    &__icon {
+        width: 2rem;
+        height: 2rem;
+        color: hsl(var(--primary));
+        margin-bottom: var(--space-xs);
+    }
+
+    &__card-title {
+        font-size: 1.125rem;
+        font-weight: var(--font-weight-semibold);
+    }
+
+    &__description {
+        font-size: 0.875rem;
+        color: hsl(var(--muted-foreground));
+        line-height: 1.5;
+    }
+}

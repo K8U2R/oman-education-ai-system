@@ -1,0 +1,76 @@
+@use '@/styles/abstracts/engine-fluid-metrics' as liquid;
+@use '@/styles/abstracts/foundation-colors' as *;
+
+.admin-system-health {
+    margin-bottom: var(--space-2xl);
+
+    &__title {
+        font-size: 1.25rem;
+        font-weight: var(--font-weight-bold);
+        margin-bottom: var(--space-lg);
+        color: hsl(var(--foreground));
+    }
+
+    &__card {
+        padding: var(--space-lg);
+    }
+
+    &__status {
+        display: flex;
+        align-items: center;
+        gap: var(--space-sm);
+        margin-bottom: var(--space-lg);
+        padding-bottom: var(--space-md);
+        border-bottom: 1px solid hsl(var(--border));
+    }
+
+    &__indicator {
+        width: 0.75rem;
+        height: 0.75rem;
+        border-radius: 50%;
+        background: hsl(var(--muted));
+
+        &--healthy {
+            background: hsl(var(--color-success));
+            box-shadow: 0 0 0 4px hsl(var(--color-success) / 0.2);
+        }
+
+        &--warning {
+            background: hsl(var(--color-warning));
+        }
+
+        &--error {
+            background: hsl(var(--color-error));
+        }
+    }
+
+    &__text {
+        font-weight: var(--font-weight-medium);
+    }
+
+    &__details {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: var(--space-md);
+    }
+
+    &__item {
+        display: flex;
+        justify-content: space-between;
+        padding: var(--space-sm);
+        background: hsl(var(--muted) / 0.3);
+        border-radius: var(--radius-md);
+    }
+
+    &__label {
+        color: hsl(var(--muted-foreground));
+    }
+
+    &__value {
+        font-weight: var(--font-weight-semibold);
+
+        &--healthy {
+            color: hsl(var(--color-success));
+        }
+    }
+}

@@ -472,6 +472,43 @@
             "account_created": "Account created successfully! ✅",
             "check_email": "Please check your email to verify your account.",
             "go_to_verify": "Go to Verification"
+        },
+        "success_page": {
+            "session_verified": "Session verified successfully",
+            "session_missing": "No access token or active session found.",
+            "login_success": "Logged in successfully",
+            "login_failed_generic": "Failed to complete login process",
+            "initializing": "Initializing session and entering platform...",
+            "debug_info": "Debug Information (Technical):",
+            "back_to_home": "Back to Home and Login"
+        },
+        "verify": {
+            "page_title": "Verify Email",
+            "already_verified_title": "Email Already Verified",
+            "already_verified_message": "Your email ({{email}}) is already verified. You can now access all system features.",
+            "go_to_dashboard": "Go to Dashboard",
+            "success_title": "Verified Successfully! ✅",
+            "success_message": "Your email has been verified successfully. Redirecting to dashboard...",
+            "failed_title": "Verification Failed",
+            "resend_prompt": "Didn't receive the verification email?",
+            "resend_prompt_with_email": "Didn't receive the verification email at <strong>{{email}}</strong>?",
+            "resend_button": "Resend Verification Email",
+            "resend_button_timer": "Resend ({{seconds}}s)",
+            "resend_success": "✓ Verification email sent successfully. Please check your inbox.",
+            "manual_prompt": "Or enter verification code manually:",
+            "token_placeholder": "Enter verification code",
+            "verify_button": "Verify",
+            "back_to_login": "Back to Login",
+            "verifying_title": "Verifying Email...",
+            "verifying_message": "Please wait while we verify your code",
+            "default_title": "Verify Email",
+            "default_message": "Please check your email and click on the link provided.",
+            "status_verified": "Email Verified",
+            "status_unverified": "Email Not Verified"
+        },
+        "oauth_callback": {
+            "timeout_error": "Security synchronization timeout (10s)",
+            "verifying_identity": "Verifying identity sovereignly..."
         }
     },
     "diagnostics": {
@@ -586,108 +623,172 @@
                 "connected": "Connected",
                 "active": "Active"
             }
-        },
-        "users": {
-            "title": "User Management",
-            "description": "Manage users, roles and permissions",
-            "search_placeholder": "Search users...",
-            "empty": "No users found",
-            "table": {
-                "email": "Email",
-                "name": "Name",
-                "role": "Role",
-                "status": "Status",
-                "actions": "Actions"
+        }
+    },
+    "database": {
+        "cache": {
+            "title": "Cache Management",
+            "description": "Monitor and manage Cache",
+            "actions": {
+                "refresh": "Refresh",
+                "clean_expired": "Clean Expired",
+                "clear_all": "Clear All"
             },
-            "status": {
+            "metrics": {
+                "size": "Cache Size",
+                "hit_rate": "Hit Rate",
+                "miss_rate": "Miss Rate",
+                "total_requests": "Total Requests"
+            },
+            "confirm": {
+                "clear_title": "Confirm Clear Cache",
+                "clear_message": "Are you sure you want to clear all Cache? This action cannot be undone.",
+                "confirm_btn": "Clear All"
+            },
+            "notifications": {
+                "cleaned": "Cleaned {{count}} expired items"
+            },
+            "loading": "Loading Cache data...",
+            "chart": {
+                "title": "Cache Statistics"
+            }
+        }
+    },
+    "users": {
+        "title": "User Management",
+        "description": "Manage users, roles and permissions",
+        "search_placeholder": "Search users...",
+        "empty": "No users found",
+        "table": {
+            "email": "Email",
+            "name": "Name",
+            "role": "Role",
+            "status": "Status",
+            "actions": "Actions"
+        },
+        "status": {
+            "active": "Active",
+            "inactive": "Inactive",
+            "verified": "Verified",
+            "unverified": "Unverified"
+        },
+        "modal": {
+            "edit_title": "Edit User",
+            "delete_title": "Delete User",
+            "role_label": "Role",
+            "permissions_label": "Permissions",
+            "grant_all": "Grant All",
+            "from_role": "Inherited from Role"
+        },
+        "roles": {
+            "student": "Student",
+            "teacher": "Teacher",
+            "admin": "Admin",
+            "developer": "Developer",
+            "parent": "Parent",
+            "moderator": "Moderator"
+        },
+        "developer": {
+            "dashboard": {
+                "title": "Recommendation Engine Dashboard",
+                "description": "Real-time monitoring of AI recommendation system performance",
+                "loading": "Loading dashboard...",
+                "no_stats": "No stats available",
+                "status": {
+                    "active": "Active",
+                    "training": "Training",
+                    "offline": "Offline",
+                    "error": "Error"
+                },
+                "stats": {
+                    "total_recommendations": "Total Recommendations",
+                    "today": "today",
+                    "avg_accuracy": "Average Accuracy",
+                    "performance": "Model performance",
+                    "user_satisfaction": "User Satisfaction",
+                    "feedback_score": "Feedback score",
+                    "cache_hit_rate": "Cache Hit Rate",
+                    "optimization": "Performance optimization"
+                },
+                "charts": {
+                    "recommendations_by_type": "Recommendations by Type",
+                    "model_info": {
+                        "title": "Model Information",
+                        "active_models": "Active Models",
+                        "training_data": "Training Data Size",
+                        "inference_time": "Avg Inference Time",
+                        "last_training": "Last Training",
+                        "next_training": "Next Training"
+                    }
+                }
+            }
+        },
+        "whitelist": {
+            "title": "Whitelist Management",
+            "description": "Manage advanced permissions for authorized users",
+            "filters": {
+                "all": "All",
                 "active": "Active",
                 "inactive": "Inactive",
-                "verified": "Verified",
-                "unverified": "Unverified"
+                "expired": "Expired"
             },
-            "modal": {
-                "edit_title": "Edit User",
-                "delete_title": "Delete User",
-                "role_label": "Role",
+            "actions": {
+                "refresh": "Refresh",
+                "add_new": "Add New",
+                "clear_error": "Dismiss",
+                "edit": "Edit",
+                "delete": "Delete",
+                "activate": "Activate",
+                "deactivate": "Deactivate"
+            },
+            "table": {
+                "email": "Email",
+                "level": "Permission Level",
+                "permissions_count": "Permissions Count",
+                "expires_at": "Expires At",
+                "status": "Status",
+                "actions": "Actions",
+                "permanent": "Permanent",
+                "never_expires": "Never Expires",
+                "permission_unit": "permission(s)"
+            },
+            "form": {
+                "create_title": "Add New Entry",
+                "edit_title": "Edit Whitelist Entry",
+                "email_label": "Email",
+                "email_placeholder": "example@domain.com",
+                "level_label": "Permission Level",
                 "permissions_label": "Permissions",
-                "grant_all": "Grant All",
-                "from_role": "Inherited from Role"
+                "expires_at_label": "Expires At (Optional)",
+                "permanent_label": "Permanent Permissions (Cannot be removed)",
+                "notes_label": "Notes (Optional)",
+                "notes_placeholder": "Additional notes...",
+                "cancel": "Cancel",
+                "save": "Save",
+                "create": "Create",
+                "update": "Update"
             },
-            "roles": {
-                "student": "Student",
-                "teacher": "Teacher",
-                "admin": "Admin",
+            "messages": {
+                "delete_title": "Delete Confirmation",
+                "delete_confirm": "Are you sure you want to delete the entry for",
+                "permanent_warning": "This is a permanent entry and cannot be deleted",
+                "load_success": "{{count}} entries loaded successfully",
+                "error_title": "Whitelist Error",
+                "delete_fail": "Failed to delete whitelist entry",
+                "activate_fail": "Failed to activate whitelist entry",
+                "deactivate_fail": "Failed to deactivate whitelist entry",
+                "save_fail": "Failed to save whitelist entry"
+            },
+            "levels": {
                 "developer": "Developer",
-                "parent": "Parent",
-                "moderator": "Moderator"
+                "admin": "Admin",
+                "super_admin": "Super Admin"
             },
-            "whitelist": {
-                "title": "Whitelist Management",
-                "description": "Manage advanced permissions for authorized users",
-                "filters": {
-                    "all": "All",
-                    "active": "Active",
-                    "inactive": "Inactive",
-                    "expired": "Expired"
-                },
-                "actions": {
-                    "refresh": "Refresh",
-                    "add_new": "Add New",
-                    "clear_error": "Dismiss",
-                    "edit": "Edit",
-                    "delete": "Delete",
-                    "activate": "Activate",
-                    "deactivate": "Deactivate"
-                },
-                "table": {
-                    "email": "Email",
-                    "level": "Permission Level",
-                    "permissions_count": "Permissions Count",
-                    "expires_at": "Expires At",
-                    "status": "Status",
-                    "actions": "Actions",
-                    "permanent": "Permanent",
-                    "never_expires": "Never Expires",
-                    "permission_unit": "permission(s)"
-                },
-                "form": {
-                    "create_title": "Add New Entry",
-                    "edit_title": "Edit Whitelist Entry",
-                    "email_label": "Email",
-                    "email_placeholder": "example@domain.com",
-                    "level_label": "Permission Level",
-                    "permissions_label": "Permissions",
-                    "expires_at_label": "Expires At (Optional)",
-                    "permanent_label": "Permanent Permissions (Cannot be removed)",
-                    "notes_label": "Notes (Optional)",
-                    "notes_placeholder": "Additional notes...",
-                    "cancel": "Cancel",
-                    "save": "Save",
-                    "create": "Create",
-                    "update": "Update"
-                },
-                "messages": {
-                    "delete_title": "Delete Confirmation",
-                    "delete_confirm": "Are you sure you want to delete the entry for",
-                    "permanent_warning": "This is a permanent entry and cannot be deleted",
-                    "load_success": "{{count}} entries loaded successfully",
-                    "error_title": "Whitelist Error",
-                    "delete_fail": "Failed to delete whitelist entry",
-                    "activate_fail": "Failed to activate whitelist entry",
-                    "deactivate_fail": "Failed to deactivate whitelist entry",
-                    "save_fail": "Failed to save whitelist entry"
-                },
-                "levels": {
-                    "developer": "Developer",
-                    "admin": "Admin",
-                    "super_admin": "Super Admin"
-                },
-                "validation": {
-                    "email_required": "Email is required",
-                    "email_invalid": "Invalid email address",
-                    "permissions_required": "At least one permission must be selected",
-                    "future_date": "Expiration date must be in the future"
-                }
+            "validation": {
+                "email_required": "Email is required",
+                "email_invalid": "Invalid email address",
+                "permissions_required": "At least one permission must be selected",
+                "future_date": "Expiration date must be in the future"
             }
         }
     },
@@ -806,41 +907,54 @@
                     }
                 }
             }
+        },
+        "footer": {
+            "brand": {
+                "title": "Oman Education AI",
+                "description": "An integrated smart educational system powered by AI to develop technical skills and build the future of education in Oman."
+            },
+            "columns": {
+                "product": {
+                    "title": "Product",
+                    "links": {
+                        "home": "Home",
+                        "features": "Features",
+                        "pricing": "Pricing",
+                        "roadmap": "Roadmap"
+                    }
+                },
+                "resources": {
+                    "title": "Resources",
+                    "links": {
+                        "docs": "Docs",
+                        "blog": "Blog",
+                        "community": "Community",
+                        "help": "Help Center"
+                    }
+                },
+                "legal": {
+                    "title": "Legal",
+                    "links": {
+                        "privacy": "Privacy",
+                        "terms": "Terms",
+                        "security": "Security"
+                    }
+                }
+            },
+            "copyright": "© {{year}} Oman Education AI System. All rights reserved."
+        },
+        "lesson": {
+            "tabs": {
+                "explanation": "Explanation",
+                "examples": "Examples",
+                "videos": "Videos",
+                "mindmap": "Mind Map"
+            },
+            "videos": {
+                "searching": "Searching for videos...",
+                "load_prompt": "Click on \"Videos\" to load content",
+                "watch": "Watch Video"
+            },
+            "view_lesson": "View Lesson"
         }
-    },
-    "footer": {
-        "brand": {
-            "title": "Oman Education AI",
-            "description": "An integrated smart educational system powered by AI to develop technical skills and build the future of education in Oman."
-        },
-        "columns": {
-            "product": {
-                "title": "Product",
-                "links": {
-                    "home": "Home",
-                    "features": "Features",
-                    "pricing": "Pricing",
-                    "roadmap": "Roadmap"
-                }
-            },
-            "resources": {
-                "title": "Resources",
-                "links": {
-                    "docs": "Docs",
-                    "blog": "Blog",
-                    "community": "Community",
-                    "help": "Help Center"
-                }
-            },
-            "legal": {
-                "title": "Legal",
-                "links": {
-                    "privacy": "Privacy",
-                    "terms": "Terms",
-                    "security": "Security"
-                }
-            }
-        },
-        "copyright": "© {{year}} Oman Education AI System. All rights reserved."
-    }
-}
+    }}

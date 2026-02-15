@@ -19,32 +19,32 @@
 // @use './tiers/premium';
 
 // 6. Components
-@use './components/auth';
-@use './components/container';
+// @use './components/auth'; // Migrated to OAuthButtons.module.scss / AuthLayout.module.scss
+// @use './components/container'; // Check usage
 // @use './components/error-panel'; // DEPRECATED: Moved to feedback/ErrorState
-@use './components/home-page';
+// @use './components/home-page'; // Unused
 // @use './components/loading-overlay'; // DEPRECATED: Moved to feedback/LoadingState
-// @use './components/modal';
+// @use './components/modal'; // Check usage
 // @use './components/toast'; // DEPRECATED: Moved to feedback/Toast
-// @use './components/card';
-@use './components/input';
+// @use './components/card'; // Check usage
+// @use './components/input'; // Migrated to Input.module.scss
 // @use './components/upgrade-prompt'; // DEPRECATED: Moved to common/FeatureGate
-@use './components/recommended-lessons';
-@use './components/developer-dashboard';
+// @use './components/recommended-lessons'; // Migrated to RecommendedLessons.module.scss
+// @use './components/developer-dashboard'; // Migrated to DeveloperDashboard.module.scss
 
 // 3. Layouts (Shell Components)
 // @use './layouts/header'; // DEPRECATED: Moved to components/layout/Header
 // @use './layouts/sidebar'; // DEPRECATED: Moved to components/layout/Sidebar
 // @use './layouts/app-shell'; // DEPRECATED: Moved to components/shell/AppShell
-@use './layouts/docs-layout';
+@use './layouts/docs-layout'; // Check usage
 
 // 7. Pages
-@use './pages/dashboard';
+// @use './pages/dashboard'; // Migrated to StudentDashboard.module.scss
 @use './pages/assessments';
 @use './pages/lessons';
 @use './pages/profile';
 @use './pages/content_management';
-@use './pages/admin';
+// @use './pages/admin'; // Migrated to AdminDashboardPage.module.scss, etc.
 @use './pages/system';
 @use './pages/security_monitoring';
 @use './pages/security_analytics';

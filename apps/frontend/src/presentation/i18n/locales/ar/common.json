@@ -474,6 +474,43 @@
             "account_created": "تم إنشاء الحساب بنجاح! ✅",
             "check_email": "يرجى التحقق من بريدك الإلكتروني لتفعيل الحساب.",
             "go_to_verify": "الانتقال إلى التحقق"
+        },
+        "success_page": {
+            "session_verified": "تم التحقق من الجلسة بنجاح",
+            "session_missing": "لم يتم العثور على رمز الدخول أو جلسة نشطة.",
+            "login_success": "تم تسجيل الدخول بنجاح",
+            "login_failed_generic": "فشل استكمال عملية تسجيل الدخول",
+            "initializing": "جاري تهيئة الجلسة والدخول للمنصة...",
+            "debug_info": "معلومات التصحيح (تقنية):",
+            "back_to_home": "العودة للصفحة الرئيسية وتسجيل الدخول"
+        },
+        "verify": {
+            "page_title": "التحقق من البريد الإلكتروني",
+            "already_verified_title": "البريد الإلكتروني موثق بالفعل",
+            "already_verified_message": "بريدك الإلكتروني ({{email}}) موثق بالفعل. يمكنك الآن استخدام جميع ميزات النظام.",
+            "go_to_dashboard": "الانتقال إلى لوحة التحكم",
+            "success_title": "تم التحقق بنجاح! ✅",
+            "success_message": "تم التحقق من بريدك الإلكتروني بنجاح. سيتم توجيهك إلى لوحة التحكم...",
+            "failed_title": "فشل التحقق",
+            "resend_prompt": "لم تستلم بريد التحقق؟ يمكنك طلب إعادة الإرسال",
+            "resend_prompt_with_email": "لم تستلم بريد التحقق؟ يمكنك طلب إعادة الإرسال إلى: <strong>{{email}}</strong>",
+            "resend_button": "إعادة إرسال بريد التحقق",
+            "resend_button_timer": "إعادة الإرسال ({{seconds}}ث)",
+            "resend_success": "✓ تم إرسال بريد التحقق بنجاح. يرجى التحقق من بريدك الإلكتروني",
+            "manual_prompt": "أو أدخل رمز التحقق يدوياً:",
+            "token_placeholder": "أدخل رمز التحقق",
+            "verify_button": "التحقق",
+            "back_to_login": "العودة إلى تسجيل الدخول",
+            "verifying_title": "جاري التحقق من البريد الإلكتروني...",
+            "verifying_message": "يرجى الانتظار بينما نتحقق من رمز التحقق",
+            "default_title": "التحقق من البريد الإلكتروني",
+            "default_message": "يرجى التحقق من بريدك الإلكتروني والنقر على الرابط الموجود في الرسالة.",
+            "status_verified": "البريد الإلكتروني موثق",
+            "status_unverified": "البريد الإلكتروني غير موثق"
+        },
+        "oauth_callback": {
+            "timeout_error": "انتهت مهلة المزامنة الأمنية (10 ثوانٍ)",
+            "verifying_identity": "جارٍ التحقق من الهوية سيادياً..."
         }
     },
     "diagnostics": {
@@ -588,108 +625,137 @@
                 "connected": "متصل",
                 "active": "نشط"
             }
+        }
+    },
+    "database": {
+        "cache": {
+            "title": "إدارة Cache",
+            "description": "مراقبة وإدارة Cache",
+            "actions": {
+                "refresh": "تحديث",
+                "clean_expired": "تنظيف منتهي الصلاحية",
+                "clear_all": "مسح الكل"
+            },
+            "metrics": {
+                "size": "حجم Cache",
+                "hit_rate": "معدل الإصابة",
+                "miss_rate": "معدل الفقد",
+                "total_requests": "إجمالي الطلبات"
+            },
+            "confirm": {
+                "clear_title": "تأكيد مسح Cache",
+                "clear_message": "هل أنت متأكد من مسح جميع Cache؟ لا يمكن التراجع عن هذا الإجراء.",
+                "confirm_btn": "مسح الكل"
+            },
+            "notifications": {
+                "cleaned": "تم تنظيف {{count}} عنصر منتهي الصلاحية"
+            },
+            "loading": "جاري تحميل بيانات Cache...",
+            "chart": {
+                "title": "إحصائيات Cache"
+            }
+        }
+    },
+    "users": {
+        "title": "إدارة المستخدمين",
+        "description": "إدارة المستخدمين والأدوار والصلاحيات",
+        "search_placeholder": "بحث في المستخدمين...",
+        "empty": "لا يوجد مستخدمين",
+        "table": {
+            "email": "البريد الإلكتروني",
+            "name": "الاسم",
+            "role": "الدور",
+            "status": "الحالة",
+            "actions": "الإجراءات"
         },
-        "users": {
-            "title": "إدارة المستخدمين",
-            "description": "إدارة المستخدمين والأدوار والصلاحيات",
-            "search_placeholder": "بحث في المستخدمين...",
-            "empty": "لا يوجد مستخدمين",
+        "status": {
+            "active": "نشط",
+            "inactive": "غير نشط",
+            "verified": "موثق",
+            "unverified": "غير موثق"
+        },
+        "modal": {
+            "edit_title": "تعديل المستخدم",
+            "delete_title": "حذف مستخدم",
+            "role_label": "الدور",
+            "permissions_label": "الصلاحيات",
+            "grant_all": "منح جميع الصلاحيات",
+            "from_role": "موروث من الدور"
+        },
+        "roles": {
+            "student": "طالب",
+            "teacher": "معلم",
+            "admin": "مسؤول",
+            "developer": "مطور",
+            "parent": "ولي أمر",
+            "moderator": "مشرف"
+        },
+        "whitelist": {
+            "title": "إدارة القائمة البيضاء",
+            "description": "إدارة الصلاحيات المتقدمة للمستخدمين المصرح لهم",
+            "filters": {
+                "all": "الكل",
+                "active": "نشط",
+                "inactive": "معطل",
+                "expired": "منتهي"
+            },
+            "actions": {
+                "refresh": "تحديث",
+                "add_new": "إضافة جديد",
+                "clear_error": "إخفاء",
+                "edit": "تعديل",
+                "delete": "حذف",
+                "activate": "تفعيل",
+                "deactivate": "تعطيل"
+            },
             "table": {
                 "email": "البريد الإلكتروني",
-                "name": "الاسم",
-                "role": "الدور",
+                "level": "مستوى الصلاحية",
+                "permissions_count": "عدد الصلاحيات",
+                "expires_at": "تاريخ الانتهاء",
                 "status": "الحالة",
-                "actions": "الإجراءات"
+                "actions": "الإجراءات",
+                "permanent": "دائم",
+                "never_expires": "لا ينتهي",
+                "permission_unit": "صلاحية"
             },
-            "status": {
-                "active": "نشط",
-                "inactive": "غير نشط",
-                "verified": "موثق",
-                "unverified": "غير موثق"
-            },
-            "modal": {
-                "edit_title": "تعديل المستخدم",
-                "delete_title": "حذف مستخدم",
-                "role_label": "الدور",
+            "form": {
+                "create_title": "إضافة إدخال جديد",
+                "edit_title": "تعديل إدخال القائمة البيضاء",
+                "email_label": "البريد الإلكتروني",
+                "email_placeholder": "example@domain.com",
+                "level_label": "مستوى الصلاحية",
                 "permissions_label": "الصلاحيات",
-                "grant_all": "منح جميع الصلاحيات",
-                "from_role": "موروث من الدور"
+                "expires_at_label": "تاريخ الانتهاء (اختياري)",
+                "permanent_label": "صلاحيات دائمة (لا يمكن إزالتها)",
+                "notes_label": "ملاحظات (اختياري)",
+                "notes_placeholder": "ملاحظات إضافية...",
+                "cancel": "إلغاء",
+                "save": "حفظ",
+                "create": "إنشاء",
+                "update": "تحديث"
             },
-            "roles": {
-                "student": "طالب",
-                "teacher": "معلم",
-                "admin": "مسؤول",
+            "messages": {
+                "delete_title": "تأكيد الحذف",
+                "delete_confirm": "هل أنت متأكد من حذف الإدخال",
+                "permanent_warning": "هذا إدخال دائم ولا يمكن حذفه",
+                "load_success": "تم تحميل {{count}} إدخال بنجاح",
+                "error_title": "خطأ في القائمة البيضاء",
+                "delete_fail": "فشل حذف إدخال القائمة البيضاء",
+                "activate_fail": "فشل تفعيل إدخال القائمة البيضاء",
+                "deactivate_fail": "فشل تعطيل إدخال القائمة البيضاء",
+                "save_fail": "فشل حفظ إدخال القائمة البيضاء"
+            },
+            "levels": {
                 "developer": "مطور",
-                "parent": "ولي أمر",
-                "moderator": "مشرف"
+                "admin": "مسؤول",
+                "super_admin": "مسؤول رئيسي"
             },
-            "whitelist": {
-                "title": "إدارة القائمة البيضاء",
-                "description": "إدارة الصلاحيات المتقدمة للمستخدمين المصرح لهم",
-                "filters": {
-                    "all": "الكل",
-                    "active": "نشط",
-                    "inactive": "معطل",
-                    "expired": "منتهي"
-                },
-                "actions": {
-                    "refresh": "تحديث",
-                    "add_new": "إضافة جديد",
-                    "clear_error": "إخفاء",
-                    "edit": "تعديل",
-                    "delete": "حذف",
-                    "activate": "تفعيل",
-                    "deactivate": "تعطيل"
-                },
-                "table": {
-                    "email": "البريد الإلكتروني",
-                    "level": "مستوى الصلاحية",
-                    "permissions_count": "عدد الصلاحيات",
-                    "expires_at": "تاريخ الانتهاء",
-                    "status": "الحالة",
-                    "actions": "الإجراءات",
-                    "permanent": "دائم",
-                    "never_expires": "لا ينتهي",
-                    "permission_unit": "صلاحية"
-                },
-                "form": {
-                    "create_title": "إضافة إدخال جديد",
-                    "edit_title": "تعديل إدخال القائمة البيضاء",
-                    "email_label": "البريد الإلكتروني",
-                    "email_placeholder": "example@domain.com",
-                    "level_label": "مستوى الصلاحية",
-                    "permissions_label": "الصلاحيات",
-                    "expires_at_label": "تاريخ الانتهاء (اختياري)",
-                    "permanent_label": "صلاحيات دائمة (لا يمكن إزالتها)",
-                    "notes_label": "ملاحظات (اختياري)",
-                    "notes_placeholder": "ملاحظات إضافية...",
-                    "cancel": "إلغاء",
-                    "save": "حفظ",
-                    "create": "إنشاء",
-                    "update": "تحديث"
-                },
-                "messages": {
-                    "delete_title": "تأكيد الحذف",
-                    "delete_confirm": "هل أنت متأكد من حذف الإدخال",
-                    "permanent_warning": "هذا إدخال دائم ولا يمكن حذفه",
-                    "load_success": "تم تحميل {{count}} إدخال بنجاح",
-                    "error_title": "خطأ في القائمة البيضاء",
-                    "delete_fail": "فشل حذف إدخال القائمة البيضاء",
-                    "activate_fail": "فشل تفعيل إدخال القائمة البيضاء",
-                    "deactivate_fail": "فشل تعطيل إدخال القائمة البيضاء",
-                    "save_fail": "فشل حفظ إدخال القائمة البيضاء"
-                },
-                "levels": {
-                    "developer": "مطور",
-                    "admin": "مسؤول",
-                    "super_admin": "مسؤول رئيسي"
-                },
-                "validation": {
-                    "email_required": "البريد الإلكتروني مطلوب",
-                    "email_invalid": "البريد الإلكتروني غير صحيح",
-                    "permissions_required": "يجب تحديد صلاحية واحدة على الأقل",
-                    "future_date": "تاريخ الانتهاء يجب أن يكون في المستقبل"
-                }
+            "validation": {
+                "email_required": "البريد الإلكتروني مطلوب",
+                "email_invalid": "البريد الإلكتروني غير صحيح",
+                "permissions_required": "يجب تحديد صلاحية واحدة على الأقل",
+                "future_date": "تاريخ الانتهاء يجب أن يكون في المستقبل"
             }
         }
     },
@@ -808,48 +874,61 @@
                     }
                 }
             }
-        }
-    },
-    "footer": {
-        "brand": {
-            "title": "Oman Education AI",
-            "description": "نظام تعليمي ذكي متكامل يعتمد على الذكاء الاصطناعي لتطوير المهارات التقنية وبناء مستقبل التعليم في سلطنة عمان."
         },
-        "columns": {
-            "product": {
-                "title": "المنتج",
-                "links": {
-                    "home": "الرئيسية",
-                    "features": "المميزات",
-                    "pricing": "الأسعار",
-                    "roadmap": "خارطة الطريق"
-                }
+        "footer": {
+            "brand": {
+                "title": "Oman Education AI",
+                "description": "نظام تعليمي ذكي متكامل يعتمد على الذكاء الاصطناعي لتطوير المهارات التقنية وبناء مستقبل التعليم في سلطنة عمان."
             },
-            "resources": {
-                "title": "المصادر",
-                "links": {
-                    "docs": "الوثائق",
-                    "blog": "المدونة",
-                    "community": "المجتمع",
-                    "help": "مركز المساعدة"
+            "columns": {
+                "product": {
+                    "title": "المنتج",
+                    "links": {
+                        "home": "الرئيسية",
+                        "features": "المميزات",
+                        "pricing": "الأسعار",
+                        "roadmap": "خارطة الطريق"
+                    }
+                },
+                "resources": {
+                    "title": "المصادر",
+                    "links": {
+                        "docs": "الوثائق",
+                        "blog": "المدونة",
+                        "community": "المجتمع",
+                        "help": "مركز المساعدة"
+                    }
+                },
+                "legal": {
+                    "title": "قانوني",
+                    "links": {
+                        "privacy": "الخصوصية",
+                        "terms": "الشروط",
+                        "security": "الأمان"
+                    }
                 }
             },
             "legal": {
-                "title": "قانوني",
-                "links": {
-                    "privacy": "الخصوصية",
-                    "terms": "الشروط",
-                    "security": "الأمان"
-                }
-            }
+                "aria_label": "قائمة قانونية",
+                "privacy": "سياسة الخصوصية",
+                "terms": "شروط الخدمة",
+                "cookies": "إعدادات الكوكيز",
+                "security": "الأمن الرقمي"
+            },
+            "copyright": "© {{year}} نظام عمان للتعليم الذكي. جميع الحقوق محفوظة."
         },
-        "legal": {
-            "aria_label": "قائمة قانونية",
-            "privacy": "سياسة الخصوصية",
-            "terms": "شروط الخدمة",
-            "cookies": "إعدادات الكوكيز",
-            "security": "الأمن الرقمي"
-        },
-        "copyright": "© {{year}} نظام عمان للتعليم الذكي. جميع الحقوق محفوظة."
-    }
-}
+        "lesson": {
+            "tabs": {
+                "explanation": "الشرح",
+                "examples": "الأمثلة",
+                "videos": "الفيديوهات",
+                "mindmap": "الخريطة الذهنية"
+            },
+            "videos": {
+                "searching": "جارٍ البحث عن الفيديوهات...",
+                "load_prompt": "اضغط على \"الفيديوهات\" لتحميل المحتوى",
+                "watch": "مشاهدة الفيديو"
+            },
+            "view_lesson": "عرض الدرس"
+        }
+    }}

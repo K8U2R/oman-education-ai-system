@@ -1,0 +1,10 @@
+// ============================================================================
+// Liquid Design System Variables
+// Aggregator for Fluid & Foundation Tokens
+// ============================================================================
+
+// Forward Fluid Metrics (Spacing, Typography, Radius, Shadows, Z-Index)
+@forward 'engine-fluid-metrics';
+
+// Forward Foundation Metrics (Font Weights, Static Spacing)
+@forward 'foundation-typography' hide $transition-base, $transition-slow;

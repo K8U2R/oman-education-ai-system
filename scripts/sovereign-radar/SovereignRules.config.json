@@ -1,0 +1,116 @@
+{
+    "rules": [
+        {
+            "id": "Rule-7",
+            "name": "Design Token Sovereignty",
+            "target": ".tsx",
+            "severity": "CRITICAL",
+            "fix_suggestion": "Move design token to .module.scss and use CSS variable or class.",
+            "patterns": [
+                {
+                    "regex": "style\\s*=\\s*\\{\\{",
+                    "message": "Direct inline style detected. Violates separation of concerns."
+                },
+                {
+                    "regex": "#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})\\b",
+                    "message": "Hardcoded Hex color detected. Use design tokens from variables.scss."
+                },
+                {
+                    "regex": ":\\s*['\"]?\\d+px['\"]?",
+                    "message": "Hardcoded pixel value detected. Use 'rem' units or fluid spacing variables."
+                }
+            ]
+        },
+        {
+            "id": "Rule-CSS-Physical",
+            "name": "Logical Properties Enforcement",
+            "target": ".scss",
+            "severity": "CRITICAL",
+            "fix_suggestion": "Use logical properties (e.g., margin-inline-start instead of margin-left).",
+            "patterns": [
+                {
+                    "regex": "\\b(left|right|top|bottom)\\s*:",
+                    "message": "Physical direction property detected. Use logical properties (inset, inline-start, block-end, etc.) for RTL support."
+                },
+                {
+                    "regex": "\\b(margin|padding)-(left|right|top|bottom)\\s*:",
+                    "message": "Physical spacing property detected. Use logical spacing (margin-inline, padding-block)."
+                }
+            ]
+        },
+        {
+            "id": "Rule-BUILD",
+            "name": "Build Safety",
+            "targets": [
+                ".tsx",
+                ".ts",
+                ".json"
+            ],
+            "severity": "CRITICAL",
+            "fix_suggestion": "Fix syntax errors before running npm run build"
+        }
+    ],
+    "ghostHunter": {
+        "excludedFolderNames": [
+            "shared",
+            "components",
+            "hooks",
+            "utils",
+            "core",
+            "auth",
+            "src",
+            "application",
+            "infrastructure",
+            "domain",
+            "public",
+            "scripts",
+            "tests",
+            "test",
+            "e2e",
+            "integration",
+            "api",
+            "env",
+            "assets",
+            "fonts",
+            "icons",
+            "images",
+            "styles",
+            "abstracts",
+            "base",
+            "engine",
+            "themes",
+            "tiers",
+            "pages",
+            "types",
+            "interceptors",
+            "orchestrator",
+            "providers",
+            "services",
+            "store",
+            "context",
+            "config",
+            "presentation",
+            "features",
+            "layouts",
+            "i18n",
+            "locales",
+            "ar",
+            "en"
+        ],
+        "excludedPathSegments": [
+            "/shared/",
+            "/components/",
+            "/.ai_governance/",
+            "/tests/",
+            "/test/",
+            "/e2e/",
+            "/public/",
+            "/scripts/",
+            "/styles/",
+            "/assets/"
+        ]
+    },
+    "accumulationDetector": {
+        "maxLines": 100
+    }
+}

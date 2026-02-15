@@ -3,8 +3,10 @@ import { User as UserIcon } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { LoadingState } from '@/presentation/pages/components'
 import { PageHeader } from '../../components'
-import { useProfile } from './hooks/useProfile'
-import { ProfileAvatar, PersonalInfo, AccountInfo } from './components'
+import { useProfile } from './core/useProfile'
+import { ProfileAvatar } from './components/ProfileAvatar/ProfileAvatar'
+import { PersonalInfo } from './components/PersonalInfo/PersonalInfo'
+import { AccountInfo } from './components/AccountInfo/AccountInfo'
 
 
 import styles from './ProfilePage.module.scss'

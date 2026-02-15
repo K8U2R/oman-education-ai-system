@@ -10,9 +10,12 @@
 import React, { useEffect, useState } from 'react'
 import { recommendationService } from '@/application/features/recommendations'
 import type { RecommendationEngineStats } from '@/domain/types/developer.types'
+import { useTranslation } from 'react-i18next'
 import { Activity, TrendingUp, Users, Zap, Database, Clock } from 'lucide-react'
+import styles from './DeveloperDashboard.module.scss'
 
 export const DeveloperDashboard: React.FC = () => {
+    const { t } = useTranslation()
     const [stats, setStats] = useState<RecommendationEngineStats | null>(null)
     const [isLoading, setIsLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
@@ -42,10 +45,10 @@ export const DeveloperDashboard: React.FC = () => {
 
     if (isLoading) {
         return (
-            <div className="developer-dashboard__loading">
+            <div className={styles['developer-dashboard__loading']}>
                 <div className="animate-pulse">
                     <Activity />
-                    <p>Loading dashboard...</p>
+                    <p>{t('admin.developer.dashboard.loading')}</p>
                 </div>
             </div>
         )
@@ -53,55 +56,59 @@ export const DeveloperDashboard: React.FC = () => {
 
     if (error || !stats) {
         return (
-            <div className="developer-dashboard__error">
-                <p>{error || 'No stats available'}</p>
+            <div className={styles['developer-dashboard__error']}>
+                <p>{error || t('admin.developer.dashboard.no_stats')}</p>
             </div>
         )
     }
 
     return (
-        <div className="developer-dashboard">
+        <div className={styles['developer-dashboard']}>
             {/* Header */}
-            <div className="developer-dashboard__header">
-                <h1>Recommendation Engine Dashboard</h1>
-                <p>Real-time monitoring of AI recommendation system performance</p>
+            {/* Header */}
+            <div className={styles['developer-dashboard__header']}>
+                <h1>{t('admin.developer.dashboard.title')}</h1>
+                <p>{t('admin.developer.dashboard.description')}</p>
             </div>
 
             {/* Engine Status Badge */}
-            <div className="developer-dashboard__status">
+            {/* Engine Status Badge */}
+            <div className={styles['developer-dashboard__status']}>
                 <StatusBadge status={stats.engine_status} />
             </div>
 
             {/* Stats Grid */}
-            <div className="developer-dashboard__stats-grid">
+            {/* Stats Grid */}
+            <div className={styles['developer-dashboard__stats-grid']}>
                 <StatsCard
-                    title="Total Recommendations"
+                    title={t('admin.developer.dashboard.stats.total_recommendations')}
                     value={stats.total_recommendations_generated.toLocaleString()}
                     icon={<Database />}
-                    trend={`+${stats.recommendations_today} today`}
+                    trend={`+${stats.recommendations_today} ${t('admin.developer.dashboard.stats.today')}`}
                 />
                 <StatsCard
-                    title="Average Accuracy"
+                    title={t('admin.developer.dashboard.stats.avg_accuracy')}
                     value={`${(stats.average_accuracy * 100).toFixed(1)}%`}
                     icon={<TrendingUp />}
-                    trend="Model performance"
+                    trend={t('admin.developer.dashboard.stats.performance')}
                 />
                 <StatsCard
-                    title="User Satisfaction"
+                    title={t('admin.developer.dashboard.stats.user_satisfaction')}
                     value={`${(stats.user_satisfaction_rate * 100).toFixed(1)}%`}
                     icon={<Users />}
-                    trend="Feedback score"
+                    trend={t('admin.developer.dashboard.stats.feedback_score')}
                 />
                 <StatsCard
-                    title="Cache Hit Rate"
+                    title={t('admin.developer.dashboard.stats.cache_hit_rate')}
                     value={`${(stats.cache_hit_rate * 100).toFixed(1)}%`}
                     icon={<Zap />}
-                    trend="Performance optimization"
+                    trend={t('admin.developer.dashboard.stats.optimization')}
                 />
             </div>
 
             {/* Charts Section */}
-            <div className="developer-dashboard__charts-grid">
+            {/* Charts Section */}
+            <div className={styles['developer-dashboard__charts-grid']}>
                 <RecommendationsByTypeChart data={stats.recommendations_by_type} />
                 <ModelInfoPanel stats={stats} />
             </div>
@@ -113,37 +120,40 @@ export const DeveloperDashboard: React.FC = () => {
  * Engine Status Badge
  */
 const StatusBadge: React.FC<{ status: string }> = ({ status }) => {
+    const { t } = useTranslation()
     const getStatusClass = () => {
         switch (status) {
             case 'active':
-                return 'status-badge--active'
+                return styles['status-badge--active']
             case 'training':
-                return 'status-badge--training'
+                return styles['status-badge--training']
             case 'offline':
-                return 'status-badge--offline'
+                return styles['status-badge--offline']
             case 'error':
-                return 'status-badge--error'
+                return styles['status-badge--error']
             default:
-                return 'status-badge--offline'
+                return styles['status-badge--offline']
         }
     }
+
+
 
     const getStatusText = () => {
         switch (status) {
             case 'active':
-                return '✅ Active'
+                return `✅ ${t('admin.developer.dashboard.status.active')}`
             case 'training':
-                return '🔄 Training'
+                return `🔄 ${t('admin.developer.dashboard.status.training')}`
             case 'offline':
-                return '⏸️ Offline'
+                return `⏸️ ${t('admin.developer.dashboard.status.offline')}`
             case 'error':
-                return '❌ Error'
+                return `❌ ${t('admin.developer.dashboard.status.error')}`
             default:
                 return status
         }
     }
 
-    return <div className={`status-badge ${getStatusClass()}`}>{getStatusText()}</div>
+    return <div className={`${styles['status-badge']} ${getStatusClass()}`}>{getStatusText()}</div>
 }
 
 /**
@@ -158,15 +168,15 @@ interface StatsCardProps {
 
 const StatsCard: React.FC<StatsCardProps> = ({ title, value, icon, trend }) => {
     return (
-        <div className="stats-card">
-            <div className="stats-card__header">
-                <div className="stats-card__header-title">{title}</div>
-                <div className="stats-card__header-icon">{icon}</div>
+        <div className={styles['stats-card']}>
+            <div className={styles['stats-card__header']}>
+                <div className={styles['stats-card__header-title']}>{title}</div>
+                <div className={styles['stats-card__header-icon']}>{icon}</div>
             </div>
 
-            <div className="stats-card__value">{value}</div>
+            <div className={styles['stats-card__value']}>{value}</div>
 
-            <div className="stats-card__trend">{trend}</div>
+            <div className={styles['stats-card__trend']}>{trend}</div>
         </div>
     )
 }
@@ -175,29 +185,30 @@ const StatsCard: React.FC<StatsCardProps> = ({ title, value, icon, trend }) => {
  * Recommendations by Type Chart
  */
 const RecommendationsByTypeChart: React.FC<{ data: Record<string, number> }> = ({ data }) => {
+    const { t } = useTranslation()
     const total = Object.values(data).reduce((sum, val) => sum + val, 0)
 
     return (
-        <div className="recommendations-chart">
-            <h3 className="recommendations-chart__title">Recommendations by Type</h3>
+        <div className={styles['recommendations-chart']}>
+            <h3 className={styles['recommendations-chart__title']}>{t('admin.developer.dashboard.charts.recommendations_by_type')}</h3>
 
-            <div className="recommendations-chart__items">
+            <div className={styles['recommendations-chart__items']}>
                 {Object.entries(data).map(([type, count]) => {
                     const percentage = total > 0 ? (count / total) * 100 : 0
 
                     return (
                         <div key={type}>
-                            <div className="recommendations-chart__item-header">
-                                <span className="recommendations-chart__item-header-label">{type}</span>
-                                <span className="recommendations-chart__item-header-value">
+                            <div className={styles['recommendations-chart__item-header']}>
+                                <span className={styles['recommendations-chart__item-header-label']}>{type}</span>
+                                <span className={styles['recommendations-chart__item-header-value']}>
                                     {count.toLocaleString()} ({percentage.toFixed(1)}%)
                                 </span>
                             </div>
 
                             {/* Progress Bar */}
-                            <div className="recommendations-chart__progress">
+                            <div className={styles['recommendations-chart__progress']}>
                                 <div
-                                    className={`recommendations-chart__progress-bar recommendations-chart__progress-bar--${type}`}
+                                    className={`${styles['recommendations-chart__progress-bar']} ${styles[`recommendations-chart__progress-bar--${type}`]}`}
                                     style={{ width: `${percentage}%` }}
                                 />
                             </div>
@@ -213,51 +224,52 @@ const RecommendationsByTypeChart: React.FC<{ data: Record<string, number> }> = (
  * Model Info Panel
  */
 const ModelInfoPanel: React.FC<{ stats: RecommendationEngineStats }> = ({ stats }) => {
+    const { t } = useTranslation()
     return (
-        <div className="model-info-panel">
-            <h3 className="model-info-panel__title">Model Information</h3>
+        <div className={styles['model-info-panel']}>
+            <h3 className={styles['model-info-panel__title']}>{t('admin.developer.dashboard.charts.model_info.title')}</h3>
 
-            <div className="model-info-panel__items">
-                <div className="model-info-panel__row">
-                    <div className="model-info-panel__row-label-group">
-                        <span>Active Models</span>
+            <div className={styles['model-info-panel__items']}>
+                <div className={styles['model-info-panel__row']}>
+                    <div className={styles['model-info-panel__row-label-group']}>
+                        <span>{t('admin.developer.dashboard.charts.model_info.active_models')}</span>
                     </div>
-                    <span className="model-info-panel__row-value">{stats.active_models_count.toString()}</span>
+                    <span className={styles['model-info-panel__row-value']}>{stats.active_models_count.toString()}</span>
                 </div>
 
-                <div className="model-info-panel__row">
-                    <div className="model-info-panel__row-label-group">
-                        <span>Training Data Size</span>
+                <div className={styles['model-info-panel__row']}>
+                    <div className={styles['model-info-panel__row-label-group']}>
+                        <span>{t('admin.developer.dashboard.charts.model_info.training_data')}</span>
                     </div>
-                    <span className="model-info-panel__row-value">{stats.training_data_size.toLocaleString()}</span>
+                    <span className={styles['model-info-panel__row-value']}>{stats.training_data_size.toLocaleString()}</span>
                 </div>
 
-                <div className="model-info-panel__row">
-                    <div className="model-info-panel__row-label-group">
-                        <span>Avg Inference Time</span>
+                <div className={styles['model-info-panel__row']}>
+                    <div className={styles['model-info-panel__row-label-group']}>
+                        <span>{t('admin.developer.dashboard.charts.model_info.inference_time')}</span>
                     </div>
-                    <span className="model-info-panel__row-value">{stats.inference_avg_time_ms}ms</span>
+                    <span className={styles['model-info-panel__row-value']}>{stats.inference_avg_time_ms}ms</span>
                 </div>
 
                 {stats.last_training_date && (
-                    <div className="model-info-panel__row">
-                        <div className="model-info-panel__row-label-group">
+                    <div className={styles['model-info-panel__row']}>
+                        <div className={styles['model-info-panel__row-label-group']}>
                             <Clock />
-                            <span>Last Training</span>
+                            <span>{t('admin.developer.dashboard.charts.model_info.last_training')}</span>
                         </div>
-                        <span className="model-info-panel__row-value">
+                        <span className={styles['model-info-panel__row-value']}>
                             {new Date(stats.last_training_date).toLocaleDateString('ar-SA')}
                         </span>
                     </div>
                 )}
 
                 {stats.next_training_date && (
-                    <div className="model-info-panel__row">
-                        <div className="model-info-panel__row-label-group">
+                    <div className={styles['model-info-panel__row']}>
+                        <div className={styles['model-info-panel__row-label-group']}>
                             <Clock />
-                            <span>Next Training</span>
+                            <span>{t('admin.developer.dashboard.charts.model_info.next_training')}</span>
                         </div>
-                        <span className="model-info-panel__row-value">
+                        <span className={styles['model-info-panel__row-value']}>
                             {new Date(stats.next_training_date).toLocaleDateString('ar-SA')}
                         </span>
                     </div>

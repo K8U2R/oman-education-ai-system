@@ -12,6 +12,7 @@ import { recommendationService, Recommendation } from '@/application/features/re
 import { useAuth } from '@/features/user-authentication-management'
 import { Sparkles, TrendingUp, Clock, BookOpen } from 'lucide-react'
 import { LoadingState, ErrorState, EmptyState } from '@/presentation/components/ui/feedback'
+import styles from './RecommendedLessons.module.scss'
 
 interface RecommendedLessonsProps {
     /**
@@ -54,7 +55,7 @@ export const RecommendedLessons: React.FC<RecommendedLessonsProps> = ({ count = 
 
     if (isLoading) {
         return (
-            <div className="recommended-lessons__loading">
+            <div className={styles['recommended-lessons__loading']}>
                 <LoadingState
                     message="جاري تحليل اهتماماتك التعليمية واقتراح الأنسب لك..."
                 />
@@ -64,7 +65,7 @@ export const RecommendedLessons: React.FC<RecommendedLessonsProps> = ({ count = 
 
     if (error) {
         return (
-            <div className="recommended-lessons__error">
+            <div className={styles['recommended-lessons__error']}>
                 <ErrorState
                     title="عذراً، لم نتمكن من جلب التوصيات"
                     message={error}
@@ -76,7 +77,7 @@ export const RecommendedLessons: React.FC<RecommendedLessonsProps> = ({ count = 
 
     if (recommendations.length === 0) {
         return (
-            <div className="recommended-lessons__empty">
+            <div className={styles['recommended-lessons__empty']}>
                 <EmptyState
                     icon={<Sparkles className="w-12 h-12 text-primary" />}
                     title="ابدأ رحلتك التعليمية"
@@ -92,15 +93,15 @@ export const RecommendedLessons: React.FC<RecommendedLessonsProps> = ({ count = 
     }
 
     return (
-        <div className="recommended-lessons">
+        <div className={styles['recommended-lessons']}>
             {/* Header */}
-            <div className="recommended-lessons__header">
+            <div className={styles['recommended-lessons__header']}>
                 <Sparkles className="text-warning" />
-                <h3 className="recommended-lessons__title">دروس مقترحة لك</h3>
+                <h3 className={styles['recommended-lessons__title']}>دروس مقترحة لك</h3>
             </div>
 
             {/* Recommendations Grid */}
-            <div className="recommended-lessons__grid">
+            <div className={styles['recommended-lessons__grid']}>
                 {recommendations.map((rec) => (
                     <RecommendationCard key={rec.id} recommendation={rec} />
                 ))}
@@ -117,16 +118,16 @@ const RecommendationCard: React.FC<{ recommendation: Recommendation }> = ({ reco
     const badgeClass = confidencePercentage >= 90 ? 'recommendation-card__badge--high' : 'recommendation-card__badge--medium'
 
     return (
-        <div className="recommendation-card">
+        <div className={styles['recommendation-card']}>
             {/* Confidence Badge */}
-            <div className="recommendation-card__header">
-                <div className={`recommendation-card__badge ${badgeClass}`}>
+            <div className={styles['recommendation-card__header']}>
+                <div className={`${styles['recommendation-card__badge']} ${badgeClass === 'recommendation-card__badge--high' ? styles['recommendation-card__badge--high'] : styles['recommendation-card__badge--medium']}`}>
                     <TrendingUp />
                     <span>{confidencePercentage}% مطابقة</span>
                 </div>
 
                 {recommendation.metadata?.duration_minutes && (
-                    <div className="recommendation-card__duration">
+                    <div className={styles['recommendation-card__duration']}>
                         <Clock />
                         <span>{String(recommendation.metadata.duration_minutes)} دقيقة</span>
                     </div>
@@ -134,17 +135,17 @@ const RecommendationCard: React.FC<{ recommendation: Recommendation }> = ({ reco
             </div>
 
             {/* Title */}
-            <h4 className="recommendation-card__title">
+            <h4 className={styles['recommendation-card__title']}>
                 <span>{String(recommendation.title)}</span>
             </h4>
 
             {/* Description */}
-            <p className="recommendation-card__description">{recommendation.description}</p>
+            <p className={styles['recommendation-card__description']}>{recommendation.description}</p>
 
             {/* Metadata */}
             {recommendation.metadata?.difficulty && (
-                <div className="recommendation-card__metadata">
-                    <span className="recommendation-card__tag">
+                <div className={styles['recommendation-card__metadata']}>
+                    <span className={styles['recommendation-card__tag']}>
                         {String(recommendation.metadata.difficulty) === 'beginner' && 'مبتدئ'}
                         {String(recommendation.metadata.difficulty) === 'intermediate' && 'متوسط'}
                         {String(recommendation.metadata.difficulty) === 'advanced' && 'متقدم'}

@@ -16,12 +16,12 @@ import { DefaultRouteLoader } from '../../../components/common'
 // Feature Imports (Sovereign Architecture)
 // Feature Imports (Sovereign Architecture)
 
-import LoginPage from '@/presentation/pages/auth/login/LoginPage'
-import RegisterPage from '@/presentation/pages/auth/register/RegisterPage'
-import VerifyEmailPage from '@/presentation/pages/auth/verification/VerifyEmailPage'
-import AuthSuccessPage from '@/presentation/pages/auth/verification/AuthSuccessPage'
-import ForgotPasswordPage from '@/presentation/pages/auth/forgot-password/ForgotPasswordPage'
-import OAuthCallback from '@/presentation/pages/auth/callback/OAuthCallbackPage'
+import { Login } from '@/presentation/pages/auth/Login/Login.index'
+import { Register } from '@/presentation/pages/auth/Register/Register.index'
+import { ForgotPassword } from '@/presentation/pages/auth/ForgotPassword/ForgotPassword.index'
+import { VerifyEmail } from '@/presentation/pages/auth/VerifyEmail/VerifyEmail.index'
+import { AuthSuccess } from '@/presentation/pages/auth/AuthSuccess/AuthSuccess.index'
+import { OAuthCallback } from '@/presentation/pages/auth/OAuthCallback/OAuthCallback.index'
 
 import { PublicLayout } from '@/presentation/layouts/PublicLayout'
 
@@ -32,7 +32,7 @@ export const authRoutes: RouteConfig[] = [
       <PublicRoute>
         <PublicLayout>
           <React.Suspense fallback={<DefaultRouteLoader />}>
-            <AuthSuccessPage />
+            <AuthSuccess />
           </React.Suspense>
         </PublicLayout>
       </PublicRoute>
@@ -69,7 +69,7 @@ export const authRoutes: RouteConfig[] = [
         <PublicLayout>
           <AuthLayout>
             <React.Suspense fallback={<DefaultRouteLoader />}>
-              <LoginPage />
+              <Login />
             </React.Suspense>
           </AuthLayout>
         </PublicLayout>
@@ -84,7 +84,7 @@ export const authRoutes: RouteConfig[] = [
         <PublicLayout>
           <AuthLayout>
             <React.Suspense fallback={<DefaultRouteLoader />}>
-              <ForgotPasswordPage />
+              <ForgotPassword />
             </React.Suspense>
           </AuthLayout>
         </PublicLayout>
@@ -105,7 +105,7 @@ export const authRoutes: RouteConfig[] = [
         <PublicLayout>
           <AuthLayout>
             <React.Suspense fallback={<DefaultRouteLoader />}>
-              <RegisterPage />
+              <Register />
             </React.Suspense>
           </AuthLayout>
         </PublicLayout>
@@ -120,7 +120,7 @@ export const authRoutes: RouteConfig[] = [
         <PublicLayout>
           <AuthLayout>
             <React.Suspense fallback={<DefaultRouteLoader />}>
-              <VerifyEmailPage />
+              <VerifyEmail />
             </React.Suspense>
           </AuthLayout>
         </PublicLayout>

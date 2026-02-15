@@ -3,13 +3,13 @@ import { Loader2 } from 'lucide-react'
 import { Card, Button } from '@/presentation/components/common'
 import { AIAssistantPanel } from '@/presentation/components/ai'
 import { ROUTES } from '@/domain/constants'
-import { useLessonDetailLogic, ActiveTab } from './hooks/useLessonDetailLogic'
-import { LessonHeader } from './components/LessonHeader'
-import { LessonTabs } from './components/LessonTabs'
-import { LessonExplanationTab } from './components/LessonExplanationTab'
-import { LessonExamplesTab } from './components/LessonExamplesTab'
-import { LessonVideosTab } from './components/LessonVideosTab'
-import { LessonMindMapTab } from './components/LessonMindMapTab'
+import { useLessonDetail, ActiveTab } from './core/useLessonDetail'
+import { LessonHeader } from './components/LessonHeader/LessonHeader'
+import { LessonTabs } from './components/LessonTabs/LessonTabs'
+import { LessonExplanationTab } from './components/LessonContent/LessonExplanationTab'
+import { LessonExamplesTab } from './components/LessonContent/LessonExamplesTab'
+import { LessonVideosTab } from './components/LessonVideoPlayer/LessonVideosTab'
+import { LessonMindMapTab } from './components/LessonContent/LessonMindMapTab'
 
 const LessonDetailPage: React.FC = () => {
   const {
@@ -34,54 +34,21 @@ const LessonDetailPage: React.FC = () => {
     handleAssistantStream,
     handleDeleteLesson,
     navigate,
-  } = useLessonDetailLogic()
+    setActiveTab,
+  } = useLessonDetail()
 
   const handleTabChange = (tab: ActiveTab) => {
+    setActiveTab(tab)
     switch (tab) {
-      case 'explanation':
-        loadExplanation()
-        break
-      case 'examples':
-        loadExamples()
-        break
-      case 'videos':
-        loadVideos()
-        break
-      case 'mindmap':
-        loadMindMap()
-        break
+      case 'explanation': loadExplanation(); break;
+      case 'examples': loadExamples(); break;
+      case 'videos': loadVideos(); break;
+      case 'mindmap': loadMindMap(); break;
     }
   }
 
-  if (loading) {
-    return (
-      <div className="lesson-detail-page__loading">
-        <div className="lesson-detail-page__loading-content">
-          <Loader2 className="lesson-detail-page__loading-spinner" />
-          <p className="lesson-detail-page__loading-text">جارٍ تحميل الدرس...</p>
-        </div>
-      </div>
-    )
-  }
-
-  if (!lesson) {
-    return (
-      <div className="lesson-detail-page">
-        <Card>
-          <div className="lesson-detail-page__not-found">
-            <p className="lesson-detail-page__not-found-text">الدرس غير موجود</p>
-            <Button
-              variant="primary"
-              className="lesson-detail-page__not-found-button"
-              onClick={() => navigate('/lessons')}
-            >
-              العودة إلى الدروس
-            </Button>
-          </div>
-        </Card>
-      </div>
-    )
-  }
+  if (loading) return <LoadingState />
+  if (!lesson) return <NotFoundState navigate={navigate} />
 
   return (
     <div className="lesson-detail-page">
@@ -96,12 +63,8 @@ const LessonDetailPage: React.FC = () => {
       <LessonTabs activeTab={activeTab} onTabChange={handleTabChange} />
 
       <Card>
-        {activeTab === 'explanation' && (
-          <LessonExplanationTab loading={loadingExplanation} explanation={explanation} />
-        )}
-        {activeTab === 'examples' && (
-          <LessonExamplesTab loading={loadingExamples} examples={examples} />
-        )}
+        {activeTab === 'explanation' && <LessonExplanationTab loading={loadingExplanation} explanation={explanation} />}
+        {activeTab === 'examples' && <LessonExamplesTab loading={loadingExamples} examples={examples} />}
         {activeTab === 'videos' && <LessonVideosTab loading={loadingVideos} videos={videos} />}
         {activeTab === 'mindmap' && <LessonMindMapTab loading={loadingMindMap} mindMap={mindMap} />}
       </Card>
@@ -115,5 +78,27 @@ const LessonDetailPage: React.FC = () => {
     </div>
   )
 }
+
+const LoadingState = () => (
+  <div className="lesson-detail-page__loading">
+    <div className="lesson-detail-page__loading-content">
+      <Loader2 className="lesson-detail-page__loading-spinner" />
+      <p className="lesson-detail-page__loading-text">جارٍ تحميل الدرس...</p>
+    </div>
+  </div>
+)
+
+const NotFoundState = ({ navigate }: { navigate: any }) => (
+  <div className="lesson-detail-page">
+    <Card>
+      <div className="lesson-detail-page__not-found">
+        <p className="lesson-detail-page__not-found-text">الدرس غير موجود</p>
+        <Button variant="primary" onClick={() => navigate('/lessons')}>
+          العودة إلى الدروس
+        </Button>
+      </div>
+    </Card>
+  </div>
+)
 
 export default LessonDetailPage

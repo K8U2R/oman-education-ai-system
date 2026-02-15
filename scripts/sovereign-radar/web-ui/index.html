@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sovereign Radar - كاشف الأخطاء</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1>🎯 Sovereign Radar</h1>
+            <p>كاشف الأخطاء المخفي</p>
+            <button id="scanBtn" class="btn btn-primary">🔄 تشغيل المسح</button>
+            <button id="exportBtn" class="btn btn-secondary">📥 تصدير التقرير</button>
+        </header>
+
+        <!-- Stats Dashboard -->
+        <div class="stats-grid" id="stats">
+            <div class="stat-card critical">
+                <h3>🔴 حرجة</h3>
+                <span id="criticalCount">0</span>
+            </div>
+            <div class="stat-card warning">
+                <h3>🟡 تحذيرات</h3>
+                <span id="warningCount">0</span>
+            </div>
+            <div class="stat-card total">
+                <h3>📊 المجموع</h3>
+                <span id="totalCount">0</span>
+            </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="filters">
+            <input type="text" id="searchInput" placeholder="🔍 ابحث عن ملف أو خطأ..." class="search-input">
+            <select id="severityFilter" class="filter-select">
+                <option value="all">جميع الأولويات</option>
+                <option value="CRITICAL">🔴 حرجة فقط</option>
+                <option value="WARNING">🟡 تحذيرات فقط</option>
+            </select>
+            <select id="ruleFilter" class="filter-select">
+                <option value="all">جميع القواعد</option>
+                <!-- سيتم ملؤها ديناميكياً -->
+            </select>
+        </div>
+
+        <!-- Results Table -->
+        <div class="results-container">
+            <table id="resultsTable">
+                <thead>
+                    <tr>
+                        <th>الملف</th>
+                        <th>القاعدة</th>
+                        <th>الأولوية</th>
+                        <th>الرسالة</th>
+                        <th>الاقتراح</th>
+                    </tr>
+                </thead>
+                <tbody id="resultsBody">
+                    <!-- سيتم ملؤها ديناميكياً -->
+                </tbody>
+            </table>
+            <div id="noResults" class="no-results">
+                <p>لا توجد أخطاء مطابقة</p>
+            </div>
+        </div>
+
+        <!-- Loading Spinner -->
+        <div id="loading" class="loading-overlay">
+            <div class="spinner"></div>
+            <p>جاري المسح... قد يستغرق بضع دقائق</p>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>

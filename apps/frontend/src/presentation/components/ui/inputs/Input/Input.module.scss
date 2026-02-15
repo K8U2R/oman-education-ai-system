@@ -1,9 +1,9 @@
-@use '@/styles/abstracts/liquid-variables' as liquid;
+@use '@/styles/abstracts/engine-fluid-metrics' as *;
 
 .wrapper {
     display: flex;
     flex-direction: column;
-    gap: liquid.$spacing-fluid-1;
+    gap: $spacing-fluid-1;
 
     &--full-width {
         width: 100%;
@@ -11,7 +11,7 @@
 }
 
 .label {
-    font-size: liquid.$font-fluid-sm;
+    font-size: $font-fluid-sm;
     font-weight: 500;
     color: var(--text-primary, #374151);
 }
@@ -24,12 +24,12 @@
 
 .input {
     width: 100%;
-    border-radius: liquid.$radius-fluid-md;
+    border-radius: $radius-fluid-md;
     border: 1px solid var(--border-primary, #d1d5db);
     background-color: var(--bg-surface, #ffffff);
     color: var(--text-primary, #111827);
     font-family: inherit;
-    transition: all liquid.$transition-fast;
+    transition: all $transition-fast;
 
     &:focus {
         outline: none;
@@ -54,20 +54,20 @@
     // Sizes
     &--sm {
         height: 2rem;
-        padding: 0 liquid.$spacing-fluid-3;
-        font-size: liquid.$font-fluid-xs;
+        padding: 0 $spacing-fluid-3;
+        font-size: $font-fluid-xs;
     }
 
     &--md {
         height: 2.5rem;
-        padding: 0 liquid.$spacing-fluid-4;
-        font-size: liquid.$font-fluid-sm;
+        padding: 0 $spacing-fluid-4;
+        font-size: $font-fluid-sm;
     }
 
     &--lg {
         height: 3rem;
-        padding: 0 liquid.$spacing-fluid-6;
-        font-size: liquid.$font-fluid-md;
+        padding: 0 $spacing-fluid-6;
+        font-size: $font-fluid-md;
     }
 
     // Padding adjustment for icons
@@ -89,20 +89,20 @@
     width: 1.5rem; // approx width for placement
 
     &--left {
-        left: liquid.$spacing-fluid-3;
+        left: $spacing-fluid-3;
 
         [dir="rtl"] & {
             // Logic flip handled by CSS modules usually but we need rtl awareness
-            right: liquid.$spacing-fluid-3;
+            right: $spacing-fluid-3;
             left: auto;
         }
     }
 
     &--right {
-        right: liquid.$spacing-fluid-3;
+        right: $spacing-fluid-3;
 
         [dir="rtl"] & {
-            left: liquid.$spacing-fluid-3;
+            left: $spacing-fluid-3;
             right: auto;
         }
     }
@@ -120,13 +120,13 @@
 }
 
 .errorText {
-    font-size: liquid.$font-fluid-xs;
+    font-size: $font-fluid-xs;
     color: var(--error-600, #dc2626);
     margin: 0;
 }
 
 .helperText {
-    font-size: liquid.$font-fluid-xs;
+    font-size: $font-fluid-xs;
     color: var(--text-secondary, #6b7280);
     margin: 0;
 }

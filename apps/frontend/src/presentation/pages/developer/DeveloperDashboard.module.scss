@@ -1,0 +1,254 @@
+@use '@/styles/abstracts/engine-fluid-metrics' as *;
+
+/**
+ * DeveloperDashboard Component - SCSS
+ * 
+ * ✅ Liquid SCSS system compliant
+ * ✅ CSS custom properties for theming
+ */
+
+.developer-dashboard {
+    padding: $spacing-fluid-10;
+    max-width: $content-fluid-max;
+    margin: 0 auto;
+
+    &__header {
+        margin-bottom: $spacing-fluid-10;
+
+        h1 {
+            font-size: $font-fluid-4xl;
+            font-weight: 700;
+            color: hsl(var(--foreground));
+            margin-bottom: $spacing-fluid-3;
+        }
+
+        p {
+            color: hsl(var(--muted-foreground));
+            font-size: $font-fluid-base;
+        }
+    }
+
+    &__status {
+        margin-bottom: $spacing-fluid-10;
+    }
+
+    &__stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+        gap: $gap-fluid-xl;
+        margin-bottom: $spacing-fluid-10;
+    }
+
+    &__charts-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(min(400px, 100%), 1fr));
+        gap: $gap-fluid-xl;
+    }
+
+    &__loading,
+    &__error {
+        padding: $spacing-fluid-16;
+        text-align: center;
+    }
+
+    &__loading svg {
+        width: clamp(2.5rem, 6vw, 3rem);
+        height: clamp(2.5rem, 6vw, 3rem);
+        margin: 0 auto;
+        color: hsl(var(--primary));
+    }
+
+    &__error {
+        padding: $spacing-fluid-10;
+        background: hsl(var(--destructive) / 0.1);
+        border: 1px solid hsl(var(--destructive));
+        border-radius: $radius-fluid-xl;
+        color: hsl(var(--destructive-foreground));
+    }
+}
+
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: $spacing-fluid-3 $spacing-fluid-5;
+    border-radius: $radius-fluid-xl;
+    font-weight: 600;
+    font-size: $font-fluid-sm;
+
+    &--active {
+        background: hsl(var(--success) / 0.1);
+        color: hsl(var(--success));
+    }
+
+    &--training {
+        background: hsl(var(--info) / 0.1);
+        color: hsl(var(--info));
+    }
+
+    &--offline {
+        background: hsl(var(--muted));
+        color: hsl(var(--muted-foreground));
+    }
+
+    &--error {
+        background: hsl(var(--destructive) / 0.1);
+        color: hsl(var(--destructive));
+    }
+}
+
+.stats-card {
+    background: hsl(var(--card));
+    border: 1px solid hsl(var(--border));
+    border-radius: $radius-fluid-xl;
+    padding: $spacing-fluid-8;
+    box-shadow: 0 $shadow-fluid-offset-sm $shadow-fluid-blur-sm rgba(0, 0, 0, 0.1);
+
+    &__header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: $spacing-fluid-5;
+
+        &-title {
+            color: hsl(var(--muted-foreground));
+            font-size: $font-fluid-sm;
+            font-weight: 500;
+        }
+
+        &-icon {
+            opacity: 0.8;
+        }
+    }
+
+    &__value {
+        font-size: $font-fluid-4xl;
+        font-weight: 700;
+        color: hsl(var(--foreground));
+        margin-bottom: $spacing-fluid-3;
+    }
+
+    &__trend {
+        font-size: $font-fluid-xs;
+        color: hsl(var(--muted-foreground));
+    }
+}
+
+.recommendations-chart {
+    background: hsl(var(--card));
+    border: 1px solid hsl(var(--border));
+    border-radius: $radius-fluid-xl;
+    padding: $spacing-fluid-8;
+    box-shadow: 0 $shadow-fluid-offset-sm $shadow-fluid-blur-sm rgba(0, 0, 0, 0.1);
+
+    &__title {
+        font-size: $font-fluid-lg;
+        font-weight: 600;
+        color: hsl(var(--foreground));
+        margin-bottom: $spacing-fluid-8;
+    }
+
+    &__items {
+        display: flex;
+        flex-direction: column;
+        gap: $gap-fluid-lg;
+    }
+
+    &__item-header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: $spacing-fluid-3;
+
+        &-label {
+            font-size: $font-fluid-sm;
+            font-weight: 500;
+            color: hsl(var(--muted-foreground));
+            text-transform: capitalize;
+        }
+
+        &-value {
+            font-size: $font-fluid-sm;
+            color: hsl(var(--muted-foreground));
+        }
+    }
+
+    &__progress {
+        background: hsl(var(--muted));
+        border-radius: $radius-fluid-sm;
+        height: clamp(6px, 1vw, 8px);
+        overflow: hidden;
+
+        &-bar {
+            height: 100%;
+            transition: width 0.3s ease;
+
+            &--lesson {
+                background: hsl(var(--primary));
+            }
+
+            &--content {
+                background: hsl(var(--success));
+            }
+
+            &--path {
+                background: hsl(var(--warning));
+            }
+
+            &--resource {
+                background: hsl(var(--accent));
+            }
+
+            &--activity {
+                background: hsl(var(--destructive));
+            }
+        }
+    }
+}
+
+.model-info-panel {
+    background: hsl(var(--card));
+    border: 1px solid hsl(var(--border));
+    border-radius: $radius-fluid-xl;
+    padding: $spacing-fluid-8;
+    box-shadow: 0 $shadow-fluid-offset-sm $shadow-fluid-blur-sm rgba(0, 0, 0, 0.1);
+
+    &__title {
+        font-size: $font-fluid-lg;
+        font-weight: 600;
+        color: hsl(var(--foreground));
+        margin-bottom: $spacing-fluid-8;
+    }
+
+    &__items {
+        display: flex;
+        flex-direction: column;
+        gap: $gap-fluid-lg;
+    }
+
+    &__row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        &-label-group {
+            display: flex;
+            align-items: center;
+            gap: $gap-fluid-sm;
+
+            svg {
+                width: $spacing-fluid-4;
+                height: $spacing-fluid-4;
+                color: hsl(var(--muted-foreground));
+            }
+
+            span {
+                font-size: $font-fluid-sm;
+                color: hsl(var(--muted-foreground));
+            }
+        }
+
+        &-value {
+            font-size: $font-fluid-sm;
+            font-weight: 600;
+            color: hsl(var(--foreground));
+        }
+    }
+}

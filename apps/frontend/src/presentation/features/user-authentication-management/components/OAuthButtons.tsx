@@ -9,6 +9,7 @@ import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useOAuth } from '../hooks/useOAuth';
 import { RefreshCw, AlertCircle, XCircle } from 'lucide-react';
+import styles from './OAuthButtons.module.scss';
 
 interface OAuthButtonsProps {
   isLoading?: boolean;
@@ -58,7 +59,7 @@ export const OAuthButtons: React.FC<OAuthButtonsProps> = ({ isLoading: externalL
           type="button"
           onClick={() => handleLogin('google')}
           disabled={isLoading}
-          className={`login-page__social-button ${oauthLoading ? 'opacity-70' : ''} w-full`}
+          className={`${styles['social-button']} ${oauthLoading ? 'opacity-70' : ''}`}
         >
           {oauthLoading ? (
             <RefreshCw className="w-5 h-5 animate-spin text-primary" />
@@ -68,7 +69,7 @@ export const OAuthButtons: React.FC<OAuthButtonsProps> = ({ isLoading: externalL
           <span>{oauthLoading ? 'جاري التوصيل...' : 'متابعة باستخدام Google'}</span>
         </button>
       </div>
-    </div>
+    </div >
   );
 };
 

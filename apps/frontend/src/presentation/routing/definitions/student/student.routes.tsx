@@ -15,18 +15,18 @@ import { DefaultRouteLoader } from '@/presentation/components/common'
 // Lazy load pages
 const DashboardPage = lazy(() => import('@/presentation/pages/user/dashboard/DashboardPage'))
 import { AICanvasPage } from '@/features/interactive-learning-canvas'
-const LessonsPage = lazy(() => import('@/presentation/pages/learning/LessonsPage'))
-const LessonDetailPage = lazy(() => import('@/presentation/pages/learning/LessonDetailPage'))
-const AssessmentsPage = lazy(() => import('@/presentation/pages/learning/AssessmentsPage'))
-const AssessmentDetailPage = lazy(() => import('@/presentation/pages/learning/AssessmentDetailPage'))
-const AssessmentTakePage = lazy(() => import('@/presentation/pages/learning/AssessmentTakePage'))
-const AssessmentResultsPage = lazy(() => import('@/presentation/pages/learning/AssessmentResultsPage'))
-const AssessmentFormPage = lazy(() => import('@/presentation/pages/learning/AssessmentFormPage'))
+const LessonsPage = lazy(() => import('@/presentation/pages/learning/LessonsPage/LessonsPage'))
+const LessonDetailPage = lazy(() => import('@/presentation/pages/learning/LessonDetailPage/LessonDetailPage'))
+const AssessmentsPage = lazy(() => import('@/presentation/pages/learning/AssessmentsPage/AssessmentsPage'))
+const AssessmentDetailPage = lazy(() => import('@/presentation/pages/learning/AssessmentDetailPage/AssessmentDetailPage'))
+const AssessmentTakePage = lazy(() => import('@/presentation/pages/learning/AssessmentTakePage/AssessmentTakePage'))
+const AssessmentResultsPage = lazy(() => import('@/presentation/pages/learning/AssessmentResultsPage/AssessmentResultsPage'))
+const AssessmentFormPage = lazy(() => import('@/presentation/pages/learning/AssessmentFormPage/AssessmentFormPage'))
 const ProjectsPage = lazy(() => import('@/presentation/pages/projects/ProjectsPage'))
 const ProjectDetailPage = lazy(() => import('@/presentation/pages/projects/ProjectDetailPage'))
 const ProjectFormPage = lazy(() => import('@/presentation/pages/projects/ProjectFormPage'))
-const StoragePage = lazy(() => import('@/presentation/pages/tools/StoragePage'))
-const StorageBrowserPage = lazy(() => import('@/presentation/pages/tools/StorageBrowserPage'))
+const StoragePage = lazy(() => import('@/presentation/pages/tools/Storage/Storage'))
+const StorageBrowserPage = lazy(() => import('@/presentation/pages/tools/StorageBrowser/StorageBrowser'))
 
 export const studentRoutes: RouteConfig[] = [
   {

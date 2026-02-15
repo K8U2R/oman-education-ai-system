@@ -1,5 +1,6 @@
 import React from 'react'
 import { BookOpen } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { Card, Button } from '@/presentation/components/common'
 import { type Lesson } from '@/presentation/features/interactive-learning-canvas'
 
@@ -9,6 +10,8 @@ interface LessonCardProps {
 }
 
 export const LessonCard: React.FC<LessonCardProps> = ({ lesson, onClick }) => {
+  const { t } = useTranslation()
+
   return (
     <Card onClick={onClick}>
       <div className="lesson-card">
@@ -37,7 +40,7 @@ export const LessonCard: React.FC<LessonCardProps> = ({ lesson, onClick }) => {
               onClick()
             }}
           >
-            عرض الدرس
+            {t('lesson.view_lesson')}
           </Button>
         </div>
       </div>

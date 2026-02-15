@@ -1,0 +1,10 @@
+@use '@/styles/abstracts/liquid-variables' as liquid;
+@use '@/styles/abstracts/mixins' as *;
+
+.status {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: liquid.$spacing-fluid-xl;
+}

@@ -1,0 +1,5 @@
+@use '@/styles/abstracts/liquid-variables' as liquid;
+
+.timer {
+    color: liquid.$color-text-secondary;
+}

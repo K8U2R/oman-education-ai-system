@@ -1,0 +1,73 @@
+@use '@/styles/abstracts/engine-fluid-metrics' as liquid;
+@use '@/styles/abstracts/foundation-colors' as *;
+
+.admin-stats-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: var(--space-lg);
+    margin-bottom: var(--space-2xl);
+
+    &__card {
+        display: flex;
+        align-items: center;
+        gap: var(--space-md);
+        padding: var(--space-lg);
+        background: hsl(var(--card));
+        border: 1px solid hsl(var(--border));
+        border-radius: var(--radius-lg);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+        &:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+    }
+
+    &__icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 3rem;
+        height: 3rem;
+        border-radius: var(--radius-md);
+        background: hsl(var(--primary) / 0.1);
+        color: hsl(var(--primary));
+
+        &--users {
+            background: hsl(var(--color-info) / 0.1);
+            color: hsl(var(--color-info));
+        }
+
+        &--active {
+            background: hsl(var(--color-success) / 0.1);
+            color: hsl(var(--color-success));
+        }
+
+        &--lessons {
+            background: hsl(var(--color-warning) / 0.1);
+            color: hsl(var(--color-warning));
+        }
+
+        &--health {
+            background: hsl(var(--color-error) / 0.1);
+            color: hsl(var(--color-error));
+        }
+    }
+
+    &__content {
+        flex: 1;
+    }
+
+    &__label {
+        font-size: 0.875rem;
+        color: hsl(var(--muted-foreground));
+        margin-bottom: var(--space-2xs);
+    }
+
+    &__value {
+        font-size: 1.5rem;
+        font-weight: var(--font-weight-bold);
+        color: hsl(var(--foreground));
+        line-height: 1;
+    }
+}

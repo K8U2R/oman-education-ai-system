@@ -1,0 +1,17 @@
+{
+    "name": "sovereign-radar",
+    "version": "1.0.0",
+    "description": "Sovereign Governance Protocol Enforcement Tool",
+    "type": "module",
+    "main": "SovereignRadar.index.js",
+    "scripts": {
+        "scan": "node SovereignRadar.index.js"
+    },
+    "keywords": [
+        "governance",
+        "audit",
+        "sovereignty"
+    ],
+    "author": "Oman Education AI System",
+    "license": "PROPRIETARY"
+}

@@ -18,8 +18,8 @@ const LessonFormPage = lazy(() => import('@/presentation/pages/content/LessonFor
 const LearningPathsManagementPage = lazy(
   () => import('@/presentation/pages/content/LearningPathsManagementPage')
 )
-const CodeGeneratorPage = lazy(() => import('@/presentation/pages/tools/CodeGeneratorPage'))
-const OfficeGeneratorPage = lazy(() => import('@/presentation/pages/tools/OfficeGeneratorPage'))
+const CodeGeneratorPage = lazy(() => import('@/presentation/pages/tools/CodeGenerator/CodeGenerator'))
+const OfficeGeneratorPage = lazy(() => import('@/presentation/pages/tools/OfficeGenerator/OfficeGenerator'))
 const LessonGeneratorPage = lazy(() => import('@/presentation/features/ai/pages/LessonGeneratorPage').then(module => ({ default: module.LessonGeneratorPage })))
 
 export const teacherRoutes: RouteConfig[] = [

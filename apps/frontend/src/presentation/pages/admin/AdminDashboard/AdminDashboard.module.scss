@@ -1,0 +1,23 @@
+@use '@/styles/abstracts/engine-fluid-metrics' as liquid;
+@use '@/styles/abstracts/foundation-colors' as *;
+
+.admin-dashboard-page {
+    padding-bottom: var(--space-xl);
+
+    &__refresh-btn {
+        margin-inline-start: auto;
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        background-color: hsl(var(--primary) / 0.1);
+        color: hsl(var(--primary));
+        border: none;
+        cursor: pointer;
+        font-size: 0.875rem;
+        font-weight: 500;
+        transition: background-color 0.2s ease;
+
+        &:hover {
+            background-color: hsl(var(--primary) / 0.2);
+        }
+    }
+}

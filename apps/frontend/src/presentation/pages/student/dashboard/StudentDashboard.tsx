@@ -13,6 +13,7 @@ import { useTranslation } from 'react-i18next'
 import { useAuth } from '@/features/user-authentication-management'
 import { Button } from '@/presentation/components/common'
 import { educationApiService } from '@/infrastructure/services/api/EducationApiService'
+import styles from './StudentDashboard.module.scss'
 
 /**
  * StudentDashboard - لوحة تحكم الطالب (Gold Standard)
@@ -67,7 +68,7 @@ export const StudentDashboard: React.FC = () => {
     }
 
     return (
-        <div className="dashboard-page fade-in">
+        <div className={`${styles['dashboard-page']} fade-in`}>
             {/* 1. Welcome Section */}
             <section className="mb-10">
                 <h1 className="text-3xl md:text-4xl font-bold mb-2">
@@ -79,23 +80,23 @@ export const StudentDashboard: React.FC = () => {
             </section>
 
             {/* 2. Stats Grid */}
-            <div className="stats-grid">
+            <div className={styles['stats-grid']}>
                 {stats.map((stat, index) => (
                     <motion.div
                         key={index}
-                        className="stat-card"
+                        className={styles['stat-card']}
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: index * 0.1 }}
                     >
-                        <div className="stat-card__header">
-                            <div className="stat-card__icon">
+                        <div className={styles['stat-card__header']}>
+                            <div className={styles['stat-card__icon']}>
                                 <stat.icon size={20} />
                             </div>
-                            <span className="stat-card__title">{stat.label}</span>
+                            <span className={styles['stat-card__title']}>{stat.label}</span>
                         </div>
-                        <div className="stat-card__value">{stat.value}</div>
-                        <div className={`stat-card__trend stat-card__trend--${stat.trendDir}`}>
+                        <div className={styles['stat-card__value']}>{stat.value}</div>
+                        <div className={`${styles['stat-card__trend']} ${styles[`stat-card__trend--${stat.trendDir}`]}`}>
                             {stat.trend}
                         </div>
                     </motion.div>
@@ -103,7 +104,7 @@ export const StudentDashboard: React.FC = () => {
             </div>
 
             {/* 3. Main Content Area */}
-            <div className="dashboard-grid">
+            <div className={styles['dashboard-grid']}>
 
                 {/* Right Column: Actions & Active Course */}
                 <div className="col-span-12 lg:col-span-8 space-y-8">
@@ -152,22 +153,22 @@ export const StudentDashboard: React.FC = () => {
                     {/* Quick Actions Grid */}
                     <div>
                         <h3 className="text-xl font-bold mb-4">{t('dashboard.actions.title')}</h3>
-                        <div className="quick-actions-grid">
+                        <div className={styles['quick-actions-grid']}>
                             {quickActions.map((action, index) => (
                                 <motion.div
                                     key={index}
-                                    className="action-card"
+                                    className={styles['action-card']}
                                     onClick={action.action}
                                     whileHover={{ y: -5 }}
                                     initial={{ opacity: 0, y: 20 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ delay: 0.2 + (index * 0.1) }}
                                 >
-                                    <div className="action-card__icon">
+                                    <div className={styles['action-card__icon']}>
                                         <action.icon />
                                     </div>
-                                    <h4 className="action-card__title">{action.title}</h4>
-                                    <p className="action-card__desc">{action.desc}</p>
+                                    <h4 className={styles['action-card__title']}>{action.title}</h4>
+                                    <p className={styles['action-card__desc']}>{action.desc}</p>
                                 </motion.div>
                             ))}
                         </div>
